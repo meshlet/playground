@@ -37,7 +37,7 @@ public class Stack<T> {
 		if (m_top == -1) {
 			throw new IndexOutOfBoundsException();
 		}
-		
+
 		// Otherwise return the top of the stack
 		return m_stack_array[m_top];
 	}
