@@ -15,7 +15,7 @@ public class StackTest {
 	 */
 	@Test
 	public void newStackHasCorrectEmptyAndFullFlags() {
-		Stack s = new Stack(10);
+		Stack<Integer> s = new Stack<>(10, Integer.class);
 		assertTrue(s.isEmpty());
 		assertFalse(s.isFull());
 	}
@@ -26,7 +26,7 @@ public class StackTest {
 	 */
 	@Test
 	public void nonEmptyNonFullStackHasCorrectEmptyAndFullFlags() {
-		Stack s = new Stack(10);
+		Stack<Integer> s = new Stack<>(10, Integer.class);
 		s.push(34);
 		assertFalse(s.isEmpty());
 		assertFalse(s.isFull());
@@ -37,7 +37,7 @@ public class StackTest {
 	 */
 	@Test
 	public void fullStackHasCorrectEmptyAndFullFlags() {
-		Stack s = new Stack(5);
+		Stack<Integer> s = new Stack<>(5, Integer.class);
 		s.push(5);
 		s.push(-12);
 		s.push(0);
@@ -53,7 +53,7 @@ public class StackTest {
 	 */
 	@Test
 	public void emptyAndFullFlagsAreCorectAfterStackBecomesEmpty() {
-		Stack s = new Stack(5);
+		Stack<Integer> s = new Stack<>(5, Integer.class);
 		s.push(7);
 		s.pop();
 		assertTrue(s.isEmpty());
@@ -65,7 +65,7 @@ public class StackTest {
 	 */
 	@Test(expected = IndexOutOfBoundsException.class)
 	public void exceptionThrownOnPushToFullStack() {
-		Stack s = new Stack(5);
+		Stack<Integer> s = new Stack<>(5, Integer.class);
 		s.push(0);
 		s.push(-12);
 		s.push(56);
@@ -82,7 +82,7 @@ public class StackTest {
 	 */
 	@Test(expected = IndexOutOfBoundsException.class)
 	public void exceptionThrownOnPopFromEmptyStack() {
-		Stack s = new Stack(5);
+		Stack<Integer> s = new Stack<>(5, Integer.class);
 		s.pop();
 	}
 	
@@ -91,7 +91,7 @@ public class StackTest {
 	 */
 	@Test(expected = IndexOutOfBoundsException.class)
 	public void exceptionThrownOnPeakOnEmptyStack() {
-		Stack s = new Stack(5);
+		Stack<Integer> s = new Stack<>(5, Integer.class);
 		s.peak();
 	}
 	
@@ -100,15 +100,36 @@ public class StackTest {
 	 */
 	@Test
 	public void exercisePushPopPeak() {
-		Stack s = new Stack(10);
+		Stack<Integer> s = new Stack<>(10, Integer.class);
 		s.push(5);
-		assertEquals(s.peak(), 5);
+		assertEquals(s.peak().intValue(), 5);
 		s.push(45);
 		s.push(-34);
-		assertEquals(s.peak(), -34);
-		assertEquals(s.pop(), -34);
-		assertEquals(s.peak(), 45);
-		assertEquals(s.pop(), 45);
-		assertEquals(s.peak(), 5);
+		assertEquals(s.peak().intValue(), -34);
+		assertEquals(s.pop().intValue(), -34);
+		assertEquals(s.peak().intValue(), 45);
+		assertEquals(s.pop().intValue(), 45);
+		assertEquals(s.peak().intValue(), 5);
+	}
+
+	/**
+	 * Reverses a string using a stack.
+	 */
+	@Test
+	public void reverseStringUsingStack() {
+		String str = "abcdefghijklmn";
+		Stack<Character> stack = new Stack<>(str.length(), Character.class);
+
+		for (int i = 0; i < str.length(); ++i) {
+			stack.push(str.charAt(i));
+		}
+
+		String reversed_string = new String();
+		for (int i = 0; i < str.length(); ++i) {
+			reversed_string += stack.pop();
+		}
+
+		assertEquals(reversed_string, "nmlkjihgfedcba");
+		System.out.println(reversed_string);
 	}
 }
