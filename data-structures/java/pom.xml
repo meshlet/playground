@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.toptalprep</groupId>
-  <artifactId>data-structs-algorithms-java</artifactId>
+  <artifactId>data-structures</artifactId>
   <version>1.0</version>
 
-  <name>data-structs-algorithms-java</name>
+  <name>data-structures</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

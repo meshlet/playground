@@ -130,6 +130,5 @@ public class StackTest {
 		}
 
 		assertEquals(reversed_string, "nmlkjihgfedcba");
-		System.out.println(reversed_string);
 	}
 }
