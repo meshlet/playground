@@ -102,14 +102,14 @@ public class StackTest {
 	public void exercisePushPopPeak() {
 		Stack<Integer> s = new Stack<>(10, Integer.class);
 		s.push(5);
-		assertEquals(s.peak().intValue(), 5);
+		assertEquals(5, s.peak().intValue());
 		s.push(45);
 		s.push(-34);
-		assertEquals(s.peak().intValue(), -34);
-		assertEquals(s.pop().intValue(), -34);
-		assertEquals(s.peak().intValue(), 45);
-		assertEquals(s.pop().intValue(), 45);
-		assertEquals(s.peak().intValue(), 5);
+		assertEquals(-34, s.peak().intValue());
+		assertEquals(-34, s.pop().intValue());
+		assertEquals(45, s.peak().intValue());
+		assertEquals(45, s.pop().intValue());
+		assertEquals(5, s.peak().intValue());
 	}
 
 	/**
@@ -129,6 +129,6 @@ public class StackTest {
 			reversed_string += stack.pop();
 		}
 
-		assertEquals(reversed_string, "nmlkjihgfedcba");
+		assertEquals("nmlkjihgfedcba", reversed_string);
 	}
 }

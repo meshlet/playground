@@ -108,49 +108,49 @@ public class QueueTest {
         queue.enqueue(-1);
         queue.enqueue(2);
 
-        assertEquals(queue.size(), 3);
-        assertEquals(queue.peak().intValue(), 4);
-        assertEquals(queue.dequeue().intValue(), 4);
-        assertEquals(queue.peak().intValue(), -1);
-        assertEquals(queue.size(), 2);
+        assertEquals(3, queue.size());
+        assertEquals(4, queue.peak().intValue());
+        assertEquals(4, queue.dequeue().intValue());
+        assertEquals(-1, queue.peak().intValue());
+        assertEquals(2, queue.size());
 
         queue.enqueue(2);
         queue.enqueue(0);
         queue.enqueue(-9);
 
-        assertEquals(queue.size(), 5);
-        assertEquals(queue.dequeue().intValue(), -1);
-        assertEquals(queue.peak().intValue(), 2);
-        assertEquals(queue.dequeue().intValue(), 2);
-        assertEquals(queue.peak().intValue(), 2);
-        assertEquals(queue.dequeue().intValue(), 2);
-        assertEquals(queue.peak().intValue(), 0);
-        assertEquals(queue.dequeue().intValue(), 0);
-        assertEquals(queue.peak().intValue(), -9);
-        assertEquals(queue.dequeue().intValue(), -9);
+        assertEquals(5, queue.size());
+        assertEquals(-1, queue.dequeue().intValue());
+        assertEquals(2, queue.peak().intValue());
+        assertEquals(2, queue.dequeue().intValue());
+        assertEquals(2, queue.peak().intValue());
+        assertEquals(2, queue.dequeue().intValue());
+        assertEquals(0, queue.peak().intValue());
+        assertEquals(0, queue.dequeue().intValue());
+        assertEquals(-9, queue.peak().intValue());
+        assertEquals(-9, queue.dequeue().intValue());
         assertTrue(queue.isEmpty());
-        assertEquals(queue.size(), 0);
+        assertEquals(0, queue.size());
 
         queue.enqueue(0);
         queue.enqueue(-5);
         queue.enqueue(8);
 
-        assertEquals(queue.size(), 3);
-        assertEquals(queue.peak().intValue(), 0);
+        assertEquals(3, queue.size());
+        assertEquals(0, queue.peak().intValue());
 
         queue.enqueue(-3);
         queue.enqueue(10);
 
-        assertEquals(queue.size(), 5);
-        assertEquals(queue.dequeue().intValue(), 0);
-        assertEquals(queue.peak().intValue(), -5);
-        assertEquals(queue.dequeue().intValue(), -5);
-        assertEquals(queue.peak().intValue(), 8);
-        assertEquals(queue.dequeue().intValue(), 8);
-        assertEquals(queue.peak().intValue(), -3);
-        assertEquals(queue.dequeue().intValue(), -3);
-        assertEquals(queue.peak().intValue(), 10);
-        assertEquals(queue.size(), 1);
+        assertEquals(5, queue.size());
+        assertEquals(0, queue.dequeue().intValue());
+        assertEquals(-5, queue.peak().intValue());
+        assertEquals(-5, queue.dequeue().intValue());
+        assertEquals(8, queue.peak().intValue());
+        assertEquals(8, queue.dequeue().intValue());
+        assertEquals(-3, queue.peak().intValue());
+        assertEquals(-3, queue.dequeue().intValue());
+        assertEquals(10, queue.peak().intValue());
+        assertEquals(1, queue.size());
 
         queue.enqueue(-1);
         queue.enqueue(1);
@@ -163,6 +163,6 @@ public class QueueTest {
         queue.enqueue(11);
 
         assertTrue(queue.isFull());
-        assertEquals(queue.size(), 10);
+        assertEquals(10, queue.size());
     }
 }
