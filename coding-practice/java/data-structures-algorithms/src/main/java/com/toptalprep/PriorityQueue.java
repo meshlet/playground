@@ -3,6 +3,16 @@ package com.toptalprep;
 import java.lang.reflect.Array;
 
 /**
+ * @TODO Re-implement this class. As elements are sorted in the
+ * queue, there's no need to have HEAD and TAIL pointers. If
+ * the smallest elements is always kept at SIZE-1, then dequeue
+ * operation is simply --SIZE. The enqueue operation will find
+ * the place for the new value by shifting all bigger values to
+ * the right. The new HEAD (the smallest value) will again be at
+ * SIZE-1.
+ */
+
+/**
  * Implements the priority queue via a circular (ring) buffer.
  *
  * The items are kept sorted in the queue in ascending order. The
