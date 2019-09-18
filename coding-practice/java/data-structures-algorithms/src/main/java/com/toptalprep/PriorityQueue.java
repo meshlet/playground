@@ -3,30 +3,23 @@ package com.toptalprep;
 import java.lang.reflect.Array;
 
 /**
- * @TODO Re-implement this class. As elements are sorted in the
- * queue, there's no need to have HEAD and TAIL pointers. If
- * the smallest elements is always kept at SIZE-1, then dequeue
- * operation is simply --SIZE. The enqueue operation will find
- * the place for the new value by shifting all bigger values to
- * the right. The new HEAD (the smallest value) will again be at
- * SIZE-1.
- */
-
-/**
- * Implements the priority queue via a circular (ring) buffer.
+ * Implements the priority queue using an array.
  *
- * The items are kept sorted in the queue in ascending order. The
- * user must make sure that type T implements the java.lang.Comparable
- * interface.
+ * The items are kept sorted in the queue in the descending order, and
+ * the HEAD is always assumed to be at index SIZE-1 (if queue is not empty),
+ * while the TAIL is always at index 0. The enqueue operation will search
+ * through the array and insert the value at an appropriate place, shifting
+ * all smaller values to the right. If value is already present in the queue
+ * it won't be inserted. The dequeue operation will simply return the value
+ * at SIZE-1 and decrement SIZE. The user must make sure that type T implements
+ * the java.lang.Comparable interface.
  */
 public class PriorityQueue<T extends Comparable<T>> {
-	int m_head;
-	int m_tail;
 	int m_size;
 	T[] m_queue_array;
 	
 	public PriorityQueue(int capacity, Class<T> cls) {
-		m_head = m_tail = m_size = 0;
+		m_size = 0;
 		m_queue_array = (T[]) Array.newInstance(cls, capacity);
 	}
 	
@@ -35,37 +28,31 @@ public class PriorityQueue<T extends Comparable<T>> {
 			throw new IndexOutOfBoundsException();
 		}
 
-		// Handle the special case of an empty queue
-		if (m_size == 0) {
-			m_queue_array[m_tail] = value;
-			m_tail = (m_tail + 1) % m_queue_array.length;
-			m_size = 1;
-			return;
-		}
 
-		// index will point to the array entry right before the place where
-		// insertion needs to happen
-		int index = (m_tail == 0) ? m_queue_array.length - 1 : m_tail - 1;
-		for (int i = 0; i < m_size; ++i) {
+		// Variable 'index' will store index of an array entry after which the
+		// new value should be inserted, or Integer.MAX_VALUE if value is already
+		// in the queue
+		int index = m_size - 1;
+		for (; index >= 0; --index) {
 			if (value.compareTo(m_queue_array[index]) == 0) {
 				// Value already in the queue
-				index = -1;
+				index = Integer.MAX_VALUE;
 				break;
 			}
 			else if (value.compareTo(m_queue_array[index]) < 0) {
-				// Move current element one place to the right (and wrap if needed)
-				m_queue_array[(index + 1) % m_queue_array.length] = m_queue_array[index];
-				index = (index == 0) ? m_queue_array.length - 1 : index - 1;
-			}
-			else {
 				// Found the entry after which the insertion needs to happen
 				break;
 			}
 		}
 
-		if (index != -1) {
-			m_queue_array[(index + 1) % m_queue_array.length] = value;
-			m_tail = (m_tail + 1) % m_queue_array.length;
+		if (index != Integer.MAX_VALUE) {
+			// Shift all values smaller than the new value one place to the right
+			for (int i = m_size - 1; i >= index + 1; --i) {
+				m_queue_array[i + 1] = m_queue_array[i];
+			}
+
+			// Assign the new value to its entry and increment queue size
+			m_queue_array[index + 1] = value;
 			++m_size;
 		}
 	}
@@ -75,8 +62,7 @@ public class PriorityQueue<T extends Comparable<T>> {
 			throw new IndexOutOfBoundsException();
 		}
 
-		T value = m_queue_array[m_head];
-		m_head = (m_head + 1) % m_queue_array.length;
+		T value = m_queue_array[m_size - 1];
 		--m_size;
 		return value;
 	}
@@ -86,7 +72,7 @@ public class PriorityQueue<T extends Comparable<T>> {
 			throw new IndexOutOfBoundsException();
 		}
 
-		return m_queue_array[m_head];
+		return m_queue_array[m_size - 1];
 	}
 
 	public boolean isEmpty() { return m_size == 0; }

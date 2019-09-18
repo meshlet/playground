@@ -135,6 +135,15 @@ public class PriorityQueueTest {
         queue.enqueue(120);
         queue.enqueue(150);
 
+        // Try inserting values already in the queue (the size and
+        // content of the queue should be unaffected
+        queue.enqueue(-20);
+        assertEquals(8, queue.size());
+        queue.enqueue(105);
+        assertEquals(8, queue.size());
+        queue.enqueue(150);
+        assertEquals(8, queue.size());
+
         assertEquals(8, queue.size());
         assertEquals(-20, queue.peak().intValue());
         assertEquals(-20, queue.dequeue().intValue());
