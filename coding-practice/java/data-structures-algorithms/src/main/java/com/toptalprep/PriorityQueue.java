@@ -9,10 +9,9 @@ import java.lang.reflect.Array;
  * the HEAD is always assumed to be at index SIZE-1 (if queue is not empty),
  * while the TAIL is always at index 0. The enqueue operation will search
  * through the array and insert the value at an appropriate place, shifting
- * all smaller values to the right. If value is already present in the queue
- * it won't be inserted. The dequeue operation will simply return the value
- * at SIZE-1 and decrement SIZE. The user must make sure that type T implements
- * the java.lang.Comparable interface.
+ * all smaller values to the right. The dequeue operation will simply return
+ * the value at SIZE-1 and decrement SIZE. The user must make sure that type
+ * T implements the java.lang.Comparable interface.
  */
 public class PriorityQueue<T extends Comparable<T>> {
 	int m_size;
@@ -28,30 +27,25 @@ public class PriorityQueue<T extends Comparable<T>> {
 			throw new IndexOutOfBoundsException();
 		}
 
-
-		// Variable 'index' will store index of an array entry after which the
-		// new value should be inserted, or Integer.MAX_VALUE if value is already
-		// in the queue
-		int index = m_size - 1;
-		for (; index >= 0; --index) {
-			if (value.compareTo(m_queue_array[index]) == 0) {
-				// Value already in the queue
-				index = Integer.MAX_VALUE;
-				break;
-			}
-			else if (value.compareTo(m_queue_array[index]) < 0) {
-				// Found the entry after which the insertion needs to happen
-				break;
-			}
+		if (m_size == 0) {
+			// If queue is empty insert the value at index 0
+			m_queue_array[m_size++] = value;
 		}
-
-		if (index != Integer.MAX_VALUE) {
-			// Shift all values smaller than the new value one place to the right
-			for (int i = m_size - 1; i >= index + 1; --i) {
-				m_queue_array[i + 1] = m_queue_array[i];
+		else {
+			// Otherwise, shift all values smaller than the new value one
+			// place to the right
+			int index = m_size - 1;
+			for (; index >= 0; --index) {
+				if (value.compareTo(m_queue_array[index]) > 0) {
+					m_queue_array[index + 1] = m_queue_array[index];
+				}
+				else {
+					// Found entry after which the new value should be inserted
+					break;
+				}
 			}
 
-			// Assign the new value to its entry and increment queue size
+			// Insert the new value into the queue and increment the size
 			m_queue_array[index + 1] = value;
 			++m_size;
 		}

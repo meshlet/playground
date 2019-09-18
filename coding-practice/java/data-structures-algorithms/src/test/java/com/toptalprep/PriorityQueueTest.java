@@ -135,15 +135,6 @@ public class PriorityQueueTest {
         queue.enqueue(120);
         queue.enqueue(150);
 
-        // Try inserting values already in the queue (the size and
-        // content of the queue should be unaffected
-        queue.enqueue(-20);
-        assertEquals(8, queue.size());
-        queue.enqueue(105);
-        assertEquals(8, queue.size());
-        queue.enqueue(150);
-        assertEquals(8, queue.size());
-
         assertEquals(8, queue.size());
         assertEquals(-20, queue.peak().intValue());
         assertEquals(-20, queue.dequeue().intValue());
@@ -153,14 +144,14 @@ public class PriorityQueueTest {
         assertEquals(6, queue.size());
         assertEquals(15, queue.peak().intValue());
 
-        queue.enqueue(130);
+        queue.enqueue(105);
 
         assertEquals(7, queue.size());
         assertEquals(15, queue.peak().intValue());
 
         queue.enqueue(0);
-        queue.enqueue(101);
-        queue.enqueue(50);
+        queue.enqueue(120);
+        queue.enqueue(15);
 
         assertEquals(10, queue.size());
         assertTrue(queue.isFull());
@@ -170,8 +161,8 @@ public class PriorityQueueTest {
         assertEquals(15, queue.peak().intValue());
         assertEquals(15, queue.dequeue().intValue());
         assertEquals(8, queue.size());
-        assertEquals(50, queue.peak().intValue());
-        assertEquals(50, queue.dequeue().intValue());
+        assertEquals(15, queue.peak().intValue());
+        assertEquals(15, queue.dequeue().intValue());
         assertEquals(7, queue.size());
         assertEquals(80, queue.peak().intValue());
         assertEquals(80, queue.dequeue().intValue());
@@ -179,8 +170,8 @@ public class PriorityQueueTest {
         assertEquals(100, queue.peak().intValue());
         assertEquals(100, queue.dequeue().intValue());
         assertEquals(5, queue.size());
-        assertEquals(101, queue.peak().intValue());
-        assertEquals(101, queue.dequeue().intValue());
+        assertEquals(105, queue.peak().intValue());
+        assertEquals(105, queue.dequeue().intValue());
         assertEquals(4, queue.size());
         assertEquals(105, queue.peak().intValue());
         assertEquals(105, queue.dequeue().intValue());
@@ -188,8 +179,8 @@ public class PriorityQueueTest {
         assertEquals(120, queue.peak().intValue());
         assertEquals(120, queue.dequeue().intValue());
         assertEquals(2, queue.size());
-        assertEquals(130, queue.peak().intValue());
-        assertEquals(130, queue.dequeue().intValue());
+        assertEquals(120, queue.peak().intValue());
+        assertEquals(120, queue.dequeue().intValue());
         assertEquals(1, queue.size());
         assertEquals(150, queue.peak().intValue());
         assertEquals(150, queue.dequeue().intValue());
