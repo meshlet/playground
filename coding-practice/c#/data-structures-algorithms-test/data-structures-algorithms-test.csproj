@@ -37,5 +37,11 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\data-structures-algorithms\data-structures-algorithms.csproj">
+      <Project>{99386E61-2ECD-449E-9C3E-EED9EC52C522}</Project>
+      <Name>data-structures-algorithms</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

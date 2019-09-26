@@ -21,11 +21,17 @@ namespace datastructuresalgorithms
             public T Data { get; set; }
         }
 
-        Link head;
+        private Link head;
+
+        /**
+         * The number of items in the list.
+         */
+        public int Size { get; private set; }
 
         public SinglyLinkedList()
         {
             head = null;
+            Size = 0;
         }
 
         /**
@@ -33,6 +39,7 @@ namespace datastructuresalgorithms
          */
         public void PushFront(T value)
         {
+            ++Size;
             if (head == null)
             {
                 head = new Link(value);
@@ -49,6 +56,7 @@ namespace datastructuresalgorithms
          */
         public void PushBack(T value)
         {
+            ++Size;
             if (head == null)
             {
                 head = new Link(value);
@@ -67,20 +75,23 @@ namespace datastructuresalgorithms
         /**
          * Pops the link from the front of the list.
          */
-        public void PopFront()
+        public T PopFront()
         {
             if (head == null)
             {
                 throw new IndexOutOfRangeException("List is empty");
             }
 
+            --Size;
+            T retval = head.Data;
             head = head.Next;
+            return retval;
         }
 
         /**
          * Pops the link from the back of the list.
          */
-        public void PopBack()
+        public T PopBack()
         {
             if (head == null)
             {
@@ -88,13 +99,16 @@ namespace datastructuresalgorithms
             }
 
             Link previous = null;
-            Link current = null;
+            Link current = head;
 
             while (current.Next != null)
             {
                 previous = current;
                 current = current.Next;
             }
+
+            // Save the data from the link to be removed
+            T retval = current.Data;
 
             if (previous == null)
             {
@@ -105,6 +119,9 @@ namespace datastructuresalgorithms
             {
                 previous.Next = current.Next;
             }
+
+            --Size;
+            return retval;
         }
 
         /**
@@ -112,11 +129,6 @@ namespace datastructuresalgorithms
          */
         public void Remove(T value)
         {
-            if (head == null)
-            {
-                throw new IndexOutOfRangeException("List is empty");
-            }
-
             Link previous = null;
             Link current = head;
 
@@ -124,6 +136,7 @@ namespace datastructuresalgorithms
             {
                 if (current.Data.CompareTo(value) == 0)
                 {
+                    --Size;
                     if (current == head)
                     {
                         // Move the head to the next link
@@ -140,6 +153,14 @@ namespace datastructuresalgorithms
                     current = current.Next;
                 }
             }
+        }
+
+        /**
+         * Clears the list.
+         */
+        public void Clear()
+        {
+            head = null;
         }
 
         /**
