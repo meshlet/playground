@@ -4,34 +4,29 @@ using System.Collections.Generic;
 
 namespace datastructuresalgorithms
 {
-    /**
-     * A singly linked list implementation.
-     */
-    public class SinglyLinkedList<T> : IEnumerable<T> where T : IComparable<T>
+    public class DoubleEndedLinkedList<T> : IEnumerable<T> where T : IComparable<T>
     {
         private class Link
         {
             public Link(T value)
             {
-                Next = null;
                 Data = value;
+                Next = null;
             }
 
-            public Link Next { get; set; }
             public T Data { get; set; }
+            public Link Next { get; set; }
         }
 
-        private Link head;
+        Link head;
+        Link tail;
 
-        /**
-         * The number of items in the list.
-         */
-        public int Size { get; private set; }
+        public UInt32 Size { get; private set; }
 
-        public SinglyLinkedList()
+        public DoubleEndedLinkedList()
         {
             head = null;
-            Size = 0;
+            tail = null;
         }
 
         /**
@@ -40,9 +35,11 @@ namespace datastructuresalgorithms
         public void PushFront(T value)
         {
             ++Size;
+
             if (head == null)
             {
-                head = new Link(value);
+                // Set head and tail to the newly created link
+                head = tail = new Link(value);
                 return;
             }
 
@@ -57,23 +54,21 @@ namespace datastructuresalgorithms
         public void PushBack(T value)
         {
             ++Size;
+
             if (head == null)
             {
-                head = new Link(value);
+                // Set head and tail to the newly created link
+                head = tail = new Link(value);
                 return;
             }
 
-            Link link = head;
-            while (link.Next != null)
-            {
-                link = link.Next;
-            }
-
-            link.Next = new Link(value);
+            Link new_tail = new Link(value);
+            tail.Next = new_tail;
+            tail = new_tail;
         }
 
         /**
-         * Pops the link from the front of the list.
+         * Pops value from the beginning of the list.
          */
         public T PopFront()
         {
@@ -82,14 +77,22 @@ namespace datastructuresalgorithms
                 throw new IndexOutOfRangeException("List is empty");
             }
 
+            T value = head.Data;
+            if (head == tail)
+            {
+                head = tail = null;
+            }
+            else
+            {
+                head = head.Next;
+            }
+
             --Size;
-            T retval = head.Data;
-            head = head.Next;
-            return retval;
+            return value;
         }
 
         /**
-         * Pops the link from the back of the list.
+         * Pops value from the back of the list.
          */
         public T PopBack()
         {
@@ -98,30 +101,56 @@ namespace datastructuresalgorithms
                 throw new IndexOutOfRangeException("List is empty");
             }
 
-            Link previous = null;
-            Link current = head;
-
-            while (current.Next != null)
+            T value;
+            if (head == tail)
             {
-                previous = current;
-                current = current.Next;
-            }
-
-            // Save the data from the link to be removed
-            T retval = current.Data;
-
-            if (previous == null)
-            {
-                // The head is the only link in the list
-                head = null;
+                value = head.Data;
+                head = tail = null;
             }
             else
             {
-                previous.Next = current.Next;
+                Link previous = head;
+                Link current = head.Next;
+
+                while (current.Next != null)
+                {
+                    previous = current;
+                    current = current.Next;
+                }
+
+                value = current.Data;
+                previous.Next = null;
+                tail = previous;
             }
 
             --Size;
-            return retval;
+            return value;
+        }
+
+        /**
+         * Returns the value stored in the head of the list without removing it.
+         */
+        public T PeakFront()
+        {
+            if (head == null)
+            {
+                throw new IndexOutOfRangeException("List is empty");
+            }
+
+            return head.Data;
+        }
+
+        /**
+         * Returns the value stored in the tail of the list without removing it.
+         */
+        public T PeakBack()
+        {
+            if (head == null)
+            {
+                throw new IndexOutOfRangeException("List is empty");
+            }
+
+            return tail.Data;
         }
 
         /**
@@ -140,18 +169,34 @@ namespace datastructuresalgorithms
                     if (current == head)
                     {
                         // Move the head to the next link
-                        current = head = current.Next;
+                        head = current.Next;
+                    }
+                    else if (current == tail)
+                    {
+                        // Set tail to the previous link
+                        tail = previous;
+                        tail.Next = null;
                     }
                     else
                     {
-                        previous.Next = current = current.Next;
+                        previous.Next = current.Next;
                     }
+
+                    // Proceed to the next link
+                    current = current.Next;
                 }
                 else
                 {
                     previous = current;
                     current = current.Next;
                 }
+            }
+
+            if (head == null)
+            {
+                // This handles the situation where the list contained a single
+                // item which as removed
+                tail = null;
             }
         }
 

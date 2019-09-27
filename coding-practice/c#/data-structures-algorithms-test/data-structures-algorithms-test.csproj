@@ -33,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Tests/SinglyLinkedListTest.cs" />
+    <Compile Include="Tests\DoubleEndedLinkedListTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
