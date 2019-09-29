@@ -103,6 +103,17 @@ namespace datastructuresalgorithmstest
         }
 
         /**
+         * Asserts that exception is thrown if PeakFront is called on
+         * an empty list
+         */
+        [Test()]
+        public void PeakFrontThrowsIfCalledOnEmptyList()
+        {
+            var list = new SinglyLinkedList<int>();
+            Assert.Throws<IndexOutOfRangeException>(() => list.PeakFront());
+        }
+
+        /**
          * Tests the PopFront method.
          */
         [Test()]

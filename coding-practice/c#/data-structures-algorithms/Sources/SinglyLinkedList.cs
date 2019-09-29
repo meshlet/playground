@@ -26,7 +26,7 @@ namespace datastructuresalgorithms
         /**
          * The number of items in the list.
          */
-        public int Size { get; private set; }
+        public uint Size { get; private set; }
 
         public SinglyLinkedList()
         {
@@ -153,6 +153,19 @@ namespace datastructuresalgorithms
                     current = current.Next;
                 }
             }
+        }
+
+        /**
+         * Returns the value stored in the head of the list without removing it.
+         */
+        public T PeakFront()
+        {
+            if (head == null)
+            {
+                throw new IndexOutOfRangeException("List is empty");
+            }
+
+            return head.Data;
         }
 
         /**

@@ -33,6 +33,8 @@
     <Compile Include="Sources\SinglyLinkedList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sources\DoubleEndedLinkedList.cs" />
+    <Compile Include="Sources\StackViaLinkedList.cs" />
+    <Compile Include="Sources\QueueViaLinkedList.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
