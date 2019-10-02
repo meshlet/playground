@@ -35,6 +35,7 @@
     <Compile Include="Sources\DoubleEndedLinkedList.cs" />
     <Compile Include="Sources\StackViaLinkedList.cs" />
     <Compile Include="Sources\QueueViaLinkedList.cs" />
+    <Compile Include="Sources\SortedLinkedList.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
