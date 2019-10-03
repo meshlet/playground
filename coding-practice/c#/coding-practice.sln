@@ -5,6 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "data-structures-algorithms"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "data-structures-algorithms-test", "data-structures-algorithms-test\data-structures-algorithms-test.csproj", "{5EC1C915-7F61-4446-A09A-1F1307780486}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "programming-challenges", "programming-challenges\programming-challenges.csproj", "{9B809A93-A14E-4026-8809-3001AA988B65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "programming-challenges-test", "programming-challenges-test\programming-challenges-test.csproj", "{52338145-2DBE-4BB3-A62A-46F729CB6E43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,5 +27,13 @@ Global
 		{5EC1C915-7F61-4446-A09A-1F1307780486}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EC1C915-7F61-4446-A09A-1F1307780486}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EC1C915-7F61-4446-A09A-1F1307780486}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B809A93-A14E-4026-8809-3001AA988B65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B809A93-A14E-4026-8809-3001AA988B65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B809A93-A14E-4026-8809-3001AA988B65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B809A93-A14E-4026-8809-3001AA988B65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52338145-2DBE-4BB3-A62A-46F729CB6E43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52338145-2DBE-4BB3-A62A-46F729CB6E43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52338145-2DBE-4BB3-A62A-46F729CB6E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52338145-2DBE-4BB3-A62A-46F729CB6E43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
