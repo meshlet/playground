@@ -37,6 +37,7 @@
     <Compile Include="Tests\StackViaLinkedListTest.cs" />
     <Compile Include="Tests\QueueViaLinkedListTest.cs" />
     <Compile Include="Tests\SortedLinkedListTest.cs" />
+    <Compile Include="Tests\DoublyLinkedListTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
