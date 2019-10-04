@@ -37,6 +37,8 @@
     <Compile Include="Sources\QueueViaLinkedList.cs" />
     <Compile Include="Sources\SortedLinkedList.cs" />
     <Compile Include="Sources\DoublyLinkedList.cs" />
+    <Compile Include="Sources\RecursiveBinarySearch.cs" />
+    <Compile Include="Sources\MergeSort.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

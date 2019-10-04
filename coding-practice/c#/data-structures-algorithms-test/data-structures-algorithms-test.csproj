@@ -38,6 +38,8 @@
     <Compile Include="Tests\QueueViaLinkedListTest.cs" />
     <Compile Include="Tests\SortedLinkedListTest.cs" />
     <Compile Include="Tests\DoublyLinkedListTest.cs" />
+    <Compile Include="Tests\RecursiveBinarySearchTest.cs" />
+    <Compile Include="Tests\MergeSortTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
