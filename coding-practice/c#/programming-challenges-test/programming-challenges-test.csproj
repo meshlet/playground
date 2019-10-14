@@ -33,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Tests\AnagramTest.cs" />
+    <Compile Include="Tests\PowerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
