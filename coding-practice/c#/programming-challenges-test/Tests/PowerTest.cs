@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Linq;
 using programmingchallenges;
 
 namespace programmingchallengestest
@@ -27,6 +26,7 @@ namespace programmingchallengestest
                 new Tuple<uint, uint, uint>(13, 1, 13),
                 new Tuple<uint, uint, uint>(17, 7, 410338673)
             };
+
 
             foreach (var test_vector in test_vectors)
             {
