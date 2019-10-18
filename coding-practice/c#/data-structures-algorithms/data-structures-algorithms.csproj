@@ -39,6 +39,7 @@
     <Compile Include="Sources\DoublyLinkedList.cs" />
     <Compile Include="Sources\RecursiveBinarySearch.cs" />
     <Compile Include="Sources\MergeSort.cs" />
+    <Compile Include="Sources\InsertionSort.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

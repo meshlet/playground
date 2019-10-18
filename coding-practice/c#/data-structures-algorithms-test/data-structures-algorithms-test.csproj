@@ -40,6 +40,7 @@
     <Compile Include="Tests\DoublyLinkedListTest.cs" />
     <Compile Include="Tests\RecursiveBinarySearchTest.cs" />
     <Compile Include="Tests\MergeSortTest.cs" />
+    <Compile Include="Tests\InsertionSortTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
