@@ -7,9 +7,9 @@ namespace datastructuresalgorithms
      *
      * The array is sorted in ascending order.
      */
-    public class MergeSort<T> where T : IComparable<T>
+    public class MergeSort
     {
-        public static void Sort(T[] inarray)
+        public static void Sort<T>(T[] inarray) where T : IComparable<T>
         {
             // For empty or single-element arrays return right away
             if (inarray.Length <= 1)
@@ -30,7 +30,7 @@ namespace datastructuresalgorithms
          * After splitting is done the method calls the Merge method to merge the
          * left and right arrays into a single sorted array.
          */        
-        private static void Split(T[] inarray, T[] tmp_array, int start_index, int end_index)
+        private static void Split<T>(T[] inarray, T[] tmp_array, int start_index, int end_index) where T : IComparable<T>
         {
             if (start_index == end_index)
             {
@@ -56,9 +56,9 @@ namespace datastructuresalgorithms
          * Note that sorting is done directly to the tmp_array to a region
          * specified by the left and right array indices.
          */        
-        private static void Merge(
+        private static void Merge<T>(
             T[] inarray, T[] tmp_array, int left_array_start_index, int left_array_end_index,
-            int right_array_end_index)
+            int right_array_end_index) where T : IComparable<T>
         {
             int tmp_array_index = left_array_start_index;
             int left_array_index = left_array_start_index;

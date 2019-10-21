@@ -32,8 +32,8 @@ namespace datastructuresalgorithmstest
                 // Sort the tmp_array using in-built sort method
                 Array.Sort(tmp_array);
 
-                // Sort the test_array using custom MergeSort implementation
-                InsertionSort<int>.Sort(test_array);
+                // Sort the test_array using custom InsertionSort implementation
+                InsertionSort.Sort(test_array);
                 Assert.True(Enumerable.SequenceEqual(tmp_array, test_array));
             }
         }

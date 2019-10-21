@@ -6,13 +6,13 @@ using datastructuresalgorithms;
 namespace datastructuresalgorithmstest
 {
     /**
-     * Unit tests for the MergeSort class.
+     * Unit tests for the ShellSort class.
      */
     [TestFixture()]
-    public class MergeSortTest
+    public class ShellSortTest
     {
         [Test()]
-        public void TestMergeSort()
+        public void TestShellSort()
         {
             int[][] test_arrays =
             {
@@ -20,7 +20,8 @@ namespace datastructuresalgorithmstest
                 new int[] { 3 },
                 new int[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -1 },
                 new int[] { 2, 5, 6, 8, 10, 99, -56 },
-                new int[] { -1, 5, -5, -3, 5, 9, 3, 0, -34, 19, 87, 13 }
+                new int[] { -1, 5, -5, -3, 5, 9, 3, 0, -34, 19, 87, 13 },
+                new int[] { 10, 2, 5, 11, 3, 10, 7, -5, -2, 4, 17, -7 }
             };
 
             foreach (var test_array in test_arrays)
@@ -31,8 +32,8 @@ namespace datastructuresalgorithmstest
                 // Sort the tmp_array using in-built sort method
                 Array.Sort(tmp_array);
 
-                // Sort the test_array using custom MergeSort implementation
-                MergeSort.Sort(test_array);
+                // Sort the test_array using custom ShellSort implementation
+                ShellSort.Sort(test_array);
                 Assert.True(Enumerable.SequenceEqual(tmp_array, test_array));
             }
         }

@@ -5,9 +5,9 @@ namespace datastructuresalgorithms
     /**
      * Implements the InsertionSort algorithm.
      */
-    public class InsertionSort<T> where T : IComparable<T>
+    public class InsertionSort
     {
-        public static void Sort(T[] array)
+        public static void Sort<T>(T[] array) where T : IComparable<T>
         {
             for (int i = 0; i < array.Length; ++i)
             {

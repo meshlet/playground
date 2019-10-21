@@ -41,6 +41,7 @@
     <Compile Include="Tests\RecursiveBinarySearchTest.cs" />
     <Compile Include="Tests\MergeSortTest.cs" />
     <Compile Include="Tests\InsertionSortTest.cs" />
+    <Compile Include="Tests\ShellSortTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
