@@ -35,6 +35,7 @@
     <Compile Include="Sources\Power.cs" />
     <Compile Include="Sources\Knapsack.cs" />
     <Compile Include="Sources\CombinationGenerator.cs" />
+    <Compile Include="Sources\ArrayPartitioner.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

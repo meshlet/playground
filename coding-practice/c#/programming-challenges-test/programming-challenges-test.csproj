@@ -36,6 +36,7 @@
     <Compile Include="Tests\PowerTest.cs" />
     <Compile Include="Tests\KnapsackTest.cs" />
     <Compile Include="Tests\CombinationGeneratorTest.cs" />
+    <Compile Include="Tests\ArrayPartitionerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
