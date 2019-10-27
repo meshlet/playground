@@ -41,14 +41,14 @@ namespace programmingchallenges
 
             while (true)
             {
-                // Advance the left_ptr to the right until an element greater or equal to
+                // Increment the left_ptr until an element greater or equal to
                 // the pivot is found
                 do
                 {
                     ++left_ptr;
                 } while (left_ptr < array.Length && array[left_ptr].CompareTo(pivot) < 0);
 
-                // Advance the right_ptr to the left until an element lower than the pivot
+                // Decrement the right_ptr until an element lower than the pivot
                 // is found
                 do
                 {

@@ -41,6 +41,7 @@
     <Compile Include="Sources\MergeSort.cs" />
     <Compile Include="Sources\InsertionSort.cs" />
     <Compile Include="Sources\ShellSort.cs" />
+    <Compile Include="Sources\QuickSortBasic.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
