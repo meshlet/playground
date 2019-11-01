@@ -35,6 +35,7 @@ namespace datastructuresalgorithms
             // Sort the right partition
             SortInternal(array, final_pivot_index + 1, end);
         }
+
         private static int Partition<T>(T[] array, int start, int end) where T : IComparable<T>
         {
             // Pivot is the right-most element of this subarray
@@ -71,16 +72,14 @@ namespace datastructuresalgorithms
 
                     return left_ptr;
                 }
-                else
-                {
-                    // Swap the array[left_ptr] and array[right_ptr] so that array[left_ptr]
-                    // ends up in the right partition of the array (elements greater or equal
-                    // to the pivot) and array[right_ptr] ends up in the left partition of
-                    // the array (elements lower or equal to the pivot)
-                    T tmp = array[left_ptr];
-                    array[left_ptr] = array[right_ptr];
-                    array[right_ptr] = tmp;
-                }
+
+                // Swap the array[left_ptr] and array[right_ptr] so that array[left_ptr]
+                // ends up in the right partition of the array (elements greater or equal
+                // to the pivot) and array[right_ptr] ends up in the left partition of
+                // the array (elements lower or equal to the pivot)
+                T tmp = array[left_ptr];
+                array[left_ptr] = array[right_ptr];
+                array[right_ptr] = tmp;
             }
         }
     }

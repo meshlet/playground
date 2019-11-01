@@ -43,6 +43,7 @@
     <Compile Include="Tests\InsertionSortTest.cs" />
     <Compile Include="Tests\ShellSortTest.cs" />
     <Compile Include="Tests\QuickSortBasicTest.cs" />
+    <Compile Include="Tests\QuickSortMedianOfThreeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
