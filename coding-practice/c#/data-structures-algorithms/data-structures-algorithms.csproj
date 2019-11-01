@@ -42,6 +42,7 @@
     <Compile Include="Sources\InsertionSort.cs" />
     <Compile Include="Sources\ShellSort.cs" />
     <Compile Include="Sources\QuickSortBasic.cs" />
+    <Compile Include="Sources\QuickSortMedianOfThree.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
