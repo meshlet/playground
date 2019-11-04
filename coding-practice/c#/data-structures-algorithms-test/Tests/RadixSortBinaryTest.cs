@@ -9,10 +9,10 @@ namespace datastructuresalgorithmstest
      * Unit tests for the QuickSortBasic.
      */
     [TestFixture()]
-    public class RadixSortDecimalTest
+    public class RadixSortBinaryTest
     {
         [Test()]
-        public void TestRadixSortDecimal()
+        public void TestRadixSortBinary()
         {
             long[][] test_arrays =
             {
@@ -39,8 +39,8 @@ namespace datastructuresalgorithmstest
                 // Sort the tmp_array using built-in sort method
                 Array.Sort(tmp_array);
 
-                // Sort the test_array using custom RadixSortDecimal implementation
-                RadixSortDecimal.Sort(test_array);
+                // Sort the test_array using custom RadixSortBinary implementation
+                RadixSortBinary.Sort(test_array);
                 Assert.True(Enumerable.SequenceEqual(tmp_array, test_array));
             }
         }

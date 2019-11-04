@@ -10,6 +10,13 @@ namespace datastructuresalgorithms
      * of the array items. Hence the time complexity of the algorithm is
      * O(N*W) where N is the number of array items and W is the maximal
      * number of decimal digits of any array item.
+     *
+     * The algorithm handles negative numbers by partitioning the array
+     * around 0 before the sorting begins. The non-positive (left) and
+     * the non-negative partitions are then sorted independently, with
+     * a offset of 9 used when placing negative elements into buckets.
+     * This makes sure that non-positive numbers are placed in correct
+     * buckets (-9 is placed in bucket 0 and 0 is placed in bucket 9).    
      */
     public class RadixSortDecimal
     {

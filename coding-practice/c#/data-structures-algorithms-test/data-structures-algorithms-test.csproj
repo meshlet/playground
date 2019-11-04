@@ -45,6 +45,7 @@
     <Compile Include="Tests\QuickSortBasicTest.cs" />
     <Compile Include="Tests\QuickSortMedianOfThreeTest.cs" />
     <Compile Include="Tests\RadixSortDecimalTest.cs" />
+    <Compile Include="Tests\RadixSortBinaryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
