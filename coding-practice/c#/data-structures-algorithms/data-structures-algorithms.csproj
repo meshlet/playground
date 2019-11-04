@@ -43,6 +43,7 @@
     <Compile Include="Sources\ShellSort.cs" />
     <Compile Include="Sources\QuickSortBasic.cs" />
     <Compile Include="Sources\QuickSortMedianOfThree.cs" />
+    <Compile Include="Sources\RadixSortDecimal.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
