@@ -7,8 +7,7 @@ import org.junit.Test;
 /**
  * Unit tests for the Array class.
  */
-public class ArrayTest 
-{
+public class ArrayTest {
     @Test
     public void testArray()
     {
