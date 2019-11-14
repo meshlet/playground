@@ -167,7 +167,7 @@ public class BinarySearchTree<T> {
 		
 		// Traverse the right subtree and return whatever value is returned
 		// by the recursive traversal of that subtree
-		return traverseInorderInternal(visitor, subtree_root.m_right_child);
+		return traversePreorderInternal(visitor, subtree_root.m_right_child);
 	}
 	
 	/**
@@ -239,6 +239,16 @@ public class BinarySearchTree<T> {
 		}
 	}
 	
+	/**
+	 * Deletes the node with the specified key. If there are multiple
+	 * nodes with the given key the method will delete the first one
+	 * it encounters.
+	 *
+	 * @param key  The key of the node to delete.
+	 *
+	 * @return The deleted node or null if node with the specified key
+	 *         hasn't been found.
+	 */
 	public T delete(long key) {
 		if (m_root == null) {
 			return null;
@@ -316,11 +326,12 @@ public class BinarySearchTree<T> {
 						// child as its left child
 						successor_parent.m_left_child = successor.m_right_child;
 					}
+					
+					// Successor inherits the right child of the delnode as its right
+					// child (must happen only if successor isn't the right child of
+					// delnode otherwise we're creating a circular dependency)
+					successor.m_right_child = delnode.m_right_child;
 				}
-				
-				// Finally, successor inherits the right child of the delnode as its
-				// right child
-				successor.m_right_child = delnode.m_right_child;
 			}
 			else {
 				// Node's left child is null and right child is NOT null, or node's
