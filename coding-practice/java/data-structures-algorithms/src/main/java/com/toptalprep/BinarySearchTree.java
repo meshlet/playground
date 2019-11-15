@@ -1,19 +1,21 @@
 package com.toptalprep;
 
 /**
- * Implements a classic binary tree.
+ * Implements a classic binary tree that supports insertion,
+ * lookup, deletion and most common traversal methods (in-order,
+ * pre-order and post-order).
  */
-public class BinarySearchTree<T> {
+public class BinarySearchTree<KeyT extends Comparable<KeyT>, DataT> {
 	/**
 	 * Represents a single tree node.
 	 */
 	private class Node {
 		public Node m_left_child;
 		public Node m_right_child;
-		public long m_key;
-		public T m_data;
+		public KeyT m_key;
+		public DataT m_data;
 		
-		Node(long key, T data) {
+		Node(KeyT key, DataT data) {
 			m_left_child = m_right_child = null;
 			m_data = data;
 			m_key = key;
@@ -39,10 +41,10 @@ public class BinarySearchTree<T> {
 	}
 	
 	/**
-	 * An interface that allows uses of BinaryTree class to perform
+	 * An interface that allows users of BinaryTree class to perform
 	 * arbitrary actions at each node of the tree.
 	 */
-	public interface NodeVisitor<E> {
+	public interface NodeVisitor<KeyT extends Comparable<KeyT>, DataT> {
 		/**
 		 * Called for each visited node by the tree's traversal methods.
 		 * @param data  The node's data.
@@ -50,7 +52,7 @@ public class BinarySearchTree<T> {
 		 * @return Return 'true' to continue traversing the tree, 'false' to
 		 *         halt the traversal.
 		 */
-		boolean visit(long key, E data);
+		boolean visit(KeyT key, DataT data);
 	}
 	
 	private Node m_root;
@@ -65,7 +67,7 @@ public class BinarySearchTree<T> {
 	 * @param key   The key.
 	 * @param data  The data to insert
 	 */
-	public void insert(long key, T data)
+	public void insert(KeyT key, DataT data)
 	{
 		if (m_root == null) {
 			m_root = new Node(key, data);
@@ -75,8 +77,8 @@ public class BinarySearchTree<T> {
 		insertInternal(key, data, m_root);
 	}
 	
-	private void insertInternal(long key, T data, Node subtree_root) {
-		if (key < subtree_root.m_key) {
+	private void insertInternal(KeyT key, DataT data, Node subtree_root) {
+		if (key.compareTo(subtree_root.m_key) < 0) {
 			// Data placed in the left subtree of the current root
 			if (subtree_root.m_left_child == null) {
 				subtree_root.m_left_child = new Node(key, data);
@@ -103,11 +105,11 @@ public class BinarySearchTree<T> {
 	 * @param visitor  visitor.visit() method is called for each visited
 	 *        node. If method returns 'false' the traversal is stopped.
 	 */
-	public void traverseInorder(NodeVisitor<T> visitor) {
+	public void traverseInorder(NodeVisitor<KeyT, DataT> visitor) {
 		traverseInorderInternal(visitor, m_root);
 	}
 	
-	private boolean traverseInorderInternal(NodeVisitor<T> visitor, Node subtree_root) {
+	private boolean traverseInorderInternal(NodeVisitor<KeyT, DataT> visitor, Node subtree_root) {
 		if (subtree_root == null) {
 			// We don't want to halt traversal as this only means that the parent of
 			// this node doesn't have left and/or right child
@@ -140,11 +142,11 @@ public class BinarySearchTree<T> {
 	 * @param visitor  visitor.visit() method is called for each visited
 	 *        node. If method returns 'false' the traversal is stopped.
 	 */
-	public void traversePreorder(NodeVisitor<T> visitor) {
+	public void traversePreorder(NodeVisitor<KeyT, DataT> visitor) {
 		traversePreorderInternal(visitor, m_root);
 	}
 	
-	private boolean traversePreorderInternal(NodeVisitor<T> visitor, Node subtree_root) {
+	private boolean traversePreorderInternal(NodeVisitor<KeyT, DataT> visitor, Node subtree_root) {
 		if (subtree_root == null) {
 			// We don't want to halt traversal as this only means that the parent of
 			// this node doesn't have left and/or right child
@@ -177,11 +179,11 @@ public class BinarySearchTree<T> {
 	 * @param visitor  visitor.visit() method is called for each visited
 	 *        node. If method returns 'false' the traversal is stopped.
 	 */
-	public void traversePostorder(NodeVisitor<T> visitor) {
+	public void traversePostorder(NodeVisitor<KeyT, DataT> visitor) {
 		traversePostorderInternal(visitor, m_root);
 	}
 	
-	private boolean traversePostorderInternal(NodeVisitor<T> visitor, Node subtree_root) {
+	private boolean traversePostorderInternal(NodeVisitor<KeyT, DataT> visitor, Node subtree_root) {
 		if (subtree_root == null) {
 			// We don't want to halt traversal as this only means that the parent of
 			// this node doesn't have left and/or right child
@@ -215,21 +217,21 @@ public class BinarySearchTree<T> {
 	 * @return The node's data if node with the specified key is found,
 	 *         null otherwise.
 	 */
-	public T find(long key) {
+	public DataT find(KeyT key) {
 		return findInternal(key, m_root);
 	}
 	
-	private T findInternal(long key, Node subtree_root) {
+	private DataT findInternal(KeyT key, Node subtree_root) {
 		if (subtree_root == null) {
 			// We didn't find the node with the given key
 			return null;
 		}
 		
-		if (key == subtree_root.m_key) {
+		if (key.compareTo(subtree_root.m_key) == 0) {
 			// Found the node with given key
 			return subtree_root.m_data;
 		}
-		else if (key < subtree_root.m_key) {
+		else if (key.compareTo(subtree_root.m_key) < 0) {
 			// Proceed the search in the left subtree
 			return findInternal(key, subtree_root.m_left_child);
 		}
@@ -249,7 +251,7 @@ public class BinarySearchTree<T> {
 	 * @return The deleted node or null if node with the specified key
 	 *         hasn't been found.
 	 */
-	public T delete(long key) {
+	public DataT delete(KeyT key) {
 		if (m_root == null) {
 			return null;
 		}
@@ -257,9 +259,9 @@ public class BinarySearchTree<T> {
 		Node parent = null;
 		Node delnode = m_root;
 		
-		while (delnode != null && delnode.m_key != key) {
+		while (delnode != null && delnode.m_key.compareTo(key) != 0) {
 			parent = delnode;
-			if (key < delnode.m_key) {
+			if (key.compareTo(delnode.m_key) < 0) {
 				// Continue the search in the left subtree
 				delnode = delnode.m_left_child;
 			}
