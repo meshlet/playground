@@ -214,22 +214,21 @@ public class BinarySearchTreeViaArray<KeyT extends Comparable<KeyT>, DataT> {
 	}
 	
 	/**
-	 * Attempts to find the node with the specified key.
+	 * Attempts to find the node with the specified key and returns
+	 * its index within the array.
 	 *
 	 * @param key  The key to search for.
 	 *
-	 * @return The node's data if node with the specified key is found,
-	 *         null otherwise.
+	 * @return The node's index within the array if node is found, -1
+	 *         otherwise.
 	 */
-	public DataT find(KeyT key) {
-		// Handle the empty tree here so that we don't need an extra
-		// condition in the while loop below
+	private int findInternal(KeyT key) {
 		if (m_nodes.isEmpty()) {
-			return null;
+			return -1;
 		}
-		
+
 		int node_index = 0;
-		
+
 		// The following loop will terminate when it finds the requested key
 		// OR if it encounters the null node which means the key is not present
 		// in the tree
@@ -244,8 +243,105 @@ public class BinarySearchTreeViaArray<KeyT extends Comparable<KeyT>, DataT> {
 				node_index = 2 * node_index + 2;
 			}
 		}
+
+		return m_nodes.get(node_index) != null ? node_index : -1;
+	}
+	/**
+	 * Attempts to find the node with the specified key.
+	 *
+	 * @param key  The key to search for.
+	 *
+	 * @return The node's data if node with the specified key is found,
+	 *         null otherwise.
+	 */
+	public DataT find(KeyT key) {
+		int node_index = findInternal(key);
+		return node_index != -1 ? m_nodes.get(node_index).m_data : null;
+	}
+	
+	private void moveSubtreeUp(int subtree_root_index) {
+		if (m_nodes.get(subtree_root_index) == null) {
+			// Reached the end of this path
+			return;
+		}
 		
-		return m_nodes.get(node_index) != null ? m_nodes.get(node_index).m_data : null;
+		// Copy current subtree root node to the index of its parent. The parent
+		// node index is determined as (child_index - 1) / 2 regardless of whether
+		// the child is right or left child.
+		m_nodes.set((subtree_root_index - 1) / 2, m_nodes.get(subtree_root_index));
+		
+		// Now that we copied the node to its parent's index, set the array element
+		// to null. This effectively removes the node from the tree in case it's not
+		// overwritten by its children in recursive calls (which will happen if this
+		// is a leaf node).
+		m_nodes.set(subtree_root_index, null);
+		
+		// Recurse into the left subtree
+		moveSubtreeUp(2 * subtree_root_index + 1);
+		
+		// Recurse into the right subtree
+		moveSubtreeUp(2 * subtree_root_index + 2);
+	}
+	/**
+	 * Deletes the node with the specified key. If there are multiple
+	 * nodes with the given key the method will delete the first one
+	 * it encounters.
+	 /// TODO: explain that delete method does not physically remove
+	 /// array elements, as that would make the delete operation O(n)
+	 /// NOTE: the delete method is already O(n) because in most cases
+	 /// we need to visit every child of the delnode and move it to
+	 /// a different array index
+	 *
+	 * @param key  The key of the node to delete.
+	 *
+	 * @return The deleted node or null if node with the specified key
+	 *         hasn't been found.
+	 */
+	public DataT delete(KeyT key) {
+		int delnode_index = findInternal(key);
+		Node delnode = null;
+		
+		if (delnode_index != -1) {
+			// Found the node with the matching key
+			delnode = m_nodes.get(delnode_index);
+			int left_child_index = 2 * delnode_index + 1;
+			int right_child_index = 2 * delnode_index + 2;
+			
+			if (m_nodes.get(left_child_index) == null && m_nodes.get(right_child_index) == null) {
+				// This is a leaf node. The node is deleted by simply setting the given
+				// array element to null.
+				m_nodes.set(delnode_index, null);
+			}
+			else if (m_nodes.get(left_child_index) != null && m_nodes.get(right_child_index) != null) {
+				// We need to find the successor of the delnode. This is the node whose
+				// key is the minimal key in the tree greater than delnode's key. This
+				// node can be found by finding the node with minimal key in the right
+				// subtree of the delnode. The successor will take delnode's place in
+				// the tree.
+				int successor_index = 2 * delnode_index + 2;
+				int successor_left_child_index = 2 * successor_index + 1;
+				
+				while (m_nodes.get(successor_left_child_index) != null) {
+					successor_index = successor_left_child_index;
+					successor_left_child_index = 2 * successor_index + 1;
+				}
+				
+				/// TODO: complete this
+			}
+			else {
+				// Node's left child is null and right child is NOT null, or node's
+				// left child is NOT null and right child is null. The child which
+				// is NOT null together with both its left and right subtrees must
+				// be moved one level up so that the child takes the place of the
+				//delnode.
+				if (m_nodes.get(left_child_index) != null) {
+					moveSubtreeUp(left_child_index);
+				}
+				else {
+					moveSubtreeUp(right_child_index);
+				}
+			}
+		}
 	}
 	
 	/**
@@ -254,6 +350,6 @@ public class BinarySearchTreeViaArray<KeyT extends Comparable<KeyT>, DataT> {
 	 * @return 'true' if tree is empty, 'false' otherwise.
 	 */
 	public boolean isEmpty() {
-		return m_nodes.isEmpty();
+		return m_nodes.isEmpty() || m_nodes.get(0) == null;
 	}
 }
