@@ -384,4 +384,121 @@ public class BinarySearchTreeViaArrayTest {
 			}
 		}
 	}
+
+	/**
+	 * Tests the node deletion functionality.
+	 */
+	@Test
+	public void testDeletion() {
+		class TestVector {
+			public ArrayList<Long> m_keys_in;
+			public long[] m_keys_to_delete;
+			
+			public TestVector(ArrayList<Long> keys_in, long[] keys_to_delete) {
+				m_keys_in = keys_in;
+				m_keys_to_delete = keys_to_delete;
+			}
+		}
+		
+		TestVector[] test_vectors = {
+			new TestVector(
+					new ArrayList<Long>(Arrays.asList()),
+					new long[] { 5, -1, 4, 3, -10, 11, 12 }),
+			
+			new TestVector(
+					new ArrayList<Long>(Arrays.asList(5L)),
+					new long[] { 5, 5, -4, 10 }),
+			
+			new TestVector(
+					new ArrayList<Long>(Arrays.asList(0L, -50L, -100L, -25L, -100L, 150L, 50L, 200L, 120L, 105L)),
+					new long[] { 105, 120, 200, -300, 50, -100 }),
+			
+			new TestVector(
+					new ArrayList<Long>(Arrays.asList(0L, -50L, -100L, -25L, -100L, 150L, 50L, 200L, 120L, 105L, -15L, -130L)),
+					new long[] { 100, -25, -100 }),
+			
+			new TestVector(
+					new ArrayList<Long>(Arrays.asList(0L, -10L, 50L, 70L, 30L, -5L, -20L, 80L, 75L, 90L)),
+					new long[] { 50, 80, -150 }),
+			
+			new TestVector(
+					new ArrayList<Long>(
+							Arrays.asList(0L, -50L, 50L, -100L, -25L, 25L, 100L, -150L, -70L, 75L, 65L, 90L, 12L, 70L, 72L, 67L)),
+					new long[] { 50, 65, -300, -50, 0 }),
+			
+			new TestVector(
+					new ArrayList<Long>(Arrays.asList(0L, -50L, 50L)),
+					new long[] { 0 }),
+			
+			new TestVector(
+					new ArrayList<Long>(Arrays.asList(0L, -50L)),
+					new long[] { 0 }),
+			
+			new TestVector(
+					new ArrayList<Long>(Arrays.asList(0L, 50L)),
+					new long[] { 0 }),
+			
+			new TestVector(
+					new ArrayList<Long>(Arrays.asList(0L, -50L, -100L, -25L, -150L -70L, 50L, 100L, 75L, 120L)),
+					new long[] { 0 }),
+			
+			new TestVector(
+					new ArrayList<Long>(Arrays.asList(0L, -50L, -25L, -100L, -150L, -70L, 50L, 100L, 25L, 15L, 35L)),
+					new long[] { 0 }),
+			
+			new TestVector(
+					new ArrayList<Long>(Arrays.asList(0L, -50L, -100L, -25L, 100L, 50L, 150L, 25L, 70L, 31L)),
+					new long[] { 0 }),
+			
+			new TestVector(
+					new ArrayList<Long>(
+							Arrays.asList(0L, -50L, 50L, -100L, -25L, 25L, 100L, -150L, -70L, 75L, 65L, 90L, 12L, 70L, 72L, 67L)),
+					new long[] { -150, 70, -25, -100, 100, 75, 0, 67, 12, 90, -70, -50, 65, 25, 72, 50, 100 })
+		};
+		
+		for (TestVector test_vector : test_vectors) {
+			BinarySearchTreeViaArray<Long, Long> tree = new BinarySearchTreeViaArray<Long, Long>();
+			
+			// Insert data into the tree
+			for (Long key : test_vector.m_keys_in) {
+				// Doesn't matter what data is inserted as long as its not null
+				tree.insert(key, key);
+			}
+			
+			// Sort the inserted keys in ascending order as they will be used
+			// to compare against the keys produced by tree.traverseInorder
+			// after each deletion
+			test_vector.m_keys_in.sort(null);
+
+			// Iterate over test_vector.m_keys_to_delete and delete each key
+			// from the tree
+			for (int i = 0; i < test_vector.m_keys_to_delete.length; ++i) {
+				// Delete the key from the tree
+				Long data = tree.delete(test_vector.m_keys_to_delete[i]);
+				
+				// Delete the key from the reference key array as well
+				if (!test_vector.m_keys_in.remove(test_vector.m_keys_to_delete[i])) {
+					// As the key wasn't found in the reference array, the deletion
+					// method must have returned a null
+					assertNull(data);
+				}
+				
+				// If reference array is empty so must be the tree
+				assertEquals(test_vector.m_keys_in.isEmpty(), tree.isEmpty());
+				
+				// Traverse the tree in-order and compare the generated array of keys
+				// against the reference array
+				DefaultNodeVisitorImpl<Long, Long> visitor = new DefaultNodeVisitorImpl<Long, Long>();
+				tree.traverseInorder(visitor);
+			
+				// Sanity check
+				assertEquals(test_vector.m_keys_in.size(), visitor.m_actual_keys_out.size());
+				
+				Iterator<Long> actual_key_iter = visitor.m_actual_keys_out.iterator();
+				for (Long expected_key : test_vector.m_keys_in) {
+					assertEquals(expected_key, actual_key_iter.next());
+				}
+			}
+		}
+	}
 }

@@ -223,7 +223,7 @@ public class BinarySearchTreeViaArray<KeyT extends Comparable<KeyT>, DataT> {
 	 *         otherwise.
 	 */
 	private int findInternal(KeyT key) {
-		if (m_nodes.isEmpty()) {
+		if (isEmpty()) {
 			return -1;
 		}
 
@@ -259,38 +259,108 @@ public class BinarySearchTreeViaArray<KeyT extends Comparable<KeyT>, DataT> {
 		return node_index != -1 ? m_nodes.get(node_index).m_data : null;
 	}
 	
-	private void moveSubtreeUp(int subtree_root_index) {
+	/**
+	 * Moves a left subtree whose root is at subtree_root_index one level up.
+	 *
+	 * This method may only be used if node at subtree_root_index is the left
+	 * child of its original parent. The method assumes that the right child
+	 * of the original parent is NULL. If this condition is not satisfied the
+	 * method will corrupt the tree by overwriting the nodes in the right
+	 * subtree of the original parent.
+	 *
+	 * @param subtree_root_index   The root of the subtree that is to be moved one level
+	 *                             up.
+	 * @param replaced_node_index  The index of the node where subtree_root_index node
+	 *                             will be moved to.
+	 */
+	private void moveLeftSubtreeUp(int subtree_root_index, int replaced_node_index) {
 		if (m_nodes.get(subtree_root_index) == null) {
 			// Reached the end of this path
 			return;
 		}
 		
-		// Copy current subtree root node to the index of its parent. The parent
-		// node index is determined as (child_index - 1) / 2 regardless of whether
-		// the child is right or left child.
-		m_nodes.set((subtree_root_index - 1) / 2, m_nodes.get(subtree_root_index));
+		// Move the current subtree root one level up to the replaced_node_index.
+		m_nodes.set(replaced_node_index, m_nodes.get(subtree_root_index));
 		
-		// Now that we copied the node to its parent's index, set the array element
-		// to null. This effectively removes the node from the tree in case it's not
-		// overwritten by its children in recursive calls (which will happen if this
-		// is a leaf node).
+		// Now that we've moved the node one level up, set the array element to null.
+		// This effectively removes the node from the tree in case it's not overwritten
+		// by its children in recursive calls (which won't happen if this is a leaf
+		// node).
 		m_nodes.set(subtree_root_index, null);
 		
-		// Recurse into the left subtree
-		moveSubtreeUp(2 * subtree_root_index + 1);
+		// Recurse into the right subtree first. This is important as recursing into
+		// the left subtree first could lead to overwriting the right children before
+		// they are moved to the correct location.
+		// Note that the subtree root's right child becomes the right child of the node
+		// that was replaced by the current subtree root. We can't use the parent's node
+		// index to decide where to place the child, because parent moves as well.
+		moveLeftSubtreeUp(2 * subtree_root_index + 2, 2 * replaced_node_index + 2);
 		
-		// Recurse into the right subtree
-		moveSubtreeUp(2 * subtree_root_index + 2);
+		// Recurse into the left subtree. Note that the subtree root's left child becomes
+		// the left child of the node that was replaced by the current subtree root.
+		moveLeftSubtreeUp(2 * subtree_root_index + 1, 2 * replaced_node_index + 1);
 	}
+	
+	/**
+	 * Moves a right subtree whose root is at subtree_root_index one level up.
+	 *
+	 * This method may only be used if node at subtree_root_index is the right
+	 * child of its original parent. The method assumes that the left child of
+	 * the original parent is NULL. If this condition is not satisfied the
+	 * method will corrupt the tree by overwriting the nodes in the left subtree
+	 * of the original parent.
+	 *
+	 * @param subtree_root_index   The root of the subtree that is to be moved one level
+	 *                             up.
+	 * @param replaced_node_index  The index of the node where subtree_root_index node
+	 *                             will be moved to.
+	 */
+	private void moveRightSubtreeUp(int subtree_root_index, int replaced_node_index) {
+		if (m_nodes.get(subtree_root_index) == null) {
+			// Reached the end of this path
+			return;
+		}
+		
+		// Move the current subtree root one level up to the replaced_node_index.
+		m_nodes.set(replaced_node_index, m_nodes.get(subtree_root_index));
+		
+		// Now that we've moved the node one level up, set the array element to null.
+		// This effectively removes the node from the tree in case it's not overwritten
+		// by its children in recursive calls (which won't happen if this is a leaf
+		// node).
+		m_nodes.set(subtree_root_index, null);
+		
+		// Recurse into the left subtree first. This is important as recursing into
+		// the right subtree first could lead to overwriting the left children before
+		// they are moved to the correct location.
+		// Note that the subtree root's left child becomes the left child of the node
+		// that was replaced by the current subtree root. We can't use the parent's node
+		// index to decide where to place the child, because parent moves as well.
+		moveRightSubtreeUp(2 * subtree_root_index + 1, 2 * replaced_node_index + 1);
+		
+		// Recurse into the right subtree. Note that the subtree root's right child
+		// becomes the right child of the node that was replaced by the current subtree
+		// root.
+		moveRightSubtreeUp(2 * subtree_root_index + 2, 2 * replaced_node_index + 2);
+	}
+	
 	/**
 	 * Deletes the node with the specified key. If there are multiple
 	 * nodes with the given key the method will delete the first one
-	 * it encounters.
-	 /// TODO: explain that delete method does not physically remove
-	 /// array elements, as that would make the delete operation O(n)
-	 /// NOTE: the delete method is already O(n) because in most cases
-	 /// we need to visit every child of the delnode and move it to
-	 /// a different array index
+	 * it encounters. The time complexity of this method is O(N) where
+	 * N is the number of nodes in the subtree of the node to be deleted.
+	 * This is because, in the general scenario, the method has to visit
+	 * each in the subtree of the node to be deleted and move it to a
+	 * different location in the array.
+	 *
+	 * @note The method does not physically remove elements of the
+	 * underlying vector. This is because removing an element of the
+	 * vector involves shifting all elements right of it one position
+	 * left which has O(N) time complexity (where N is the number of
+	 * nodes in the tree). The nodes are instead deleted by simply
+	 * writing NULL to array element making sure they are ignored.
+	 * This will increase memory consumption of trees with many
+	 * null nodes, but will speed up the deletion operation.
 	 *
 	 * @param key  The key of the node to delete.
 	 *
@@ -299,11 +369,11 @@ public class BinarySearchTreeViaArray<KeyT extends Comparable<KeyT>, DataT> {
 	 */
 	public DataT delete(KeyT key) {
 		int delnode_index = findInternal(key);
-		Node delnode = null;
+		DataT delnode_data = null;
 		
 		if (delnode_index != -1) {
 			// Found the node with the matching key
-			delnode = m_nodes.get(delnode_index);
+			delnode_data = m_nodes.get(delnode_index).m_data;
 			int left_child_index = 2 * delnode_index + 1;
 			int right_child_index = 2 * delnode_index + 2;
 			
@@ -318,7 +388,7 @@ public class BinarySearchTreeViaArray<KeyT extends Comparable<KeyT>, DataT> {
 				// node can be found by finding the node with minimal key in the right
 				// subtree of the delnode. The successor will take delnode's place in
 				// the tree.
-				int successor_index = 2 * delnode_index + 2;
+				int successor_index = right_child_index;
 				int successor_left_child_index = 2 * successor_index + 1;
 				
 				while (m_nodes.get(successor_left_child_index) != null) {
@@ -326,22 +396,43 @@ public class BinarySearchTreeViaArray<KeyT extends Comparable<KeyT>, DataT> {
 					successor_left_child_index = 2 * successor_index + 1;
 				}
 				
-				/// TODO: complete this
+				if (successor_index == right_child_index) {
+					// If successor is the right child of delnode, simply move
+					// the subtree that has successor as its root one level up
+					moveRightSubtreeUp(successor_index, delnode_index);
+				}
+				else if (m_nodes.get(2 * successor_index + 2) == null) {
+					// If successor isn't the right child of delnode but has no
+					// right child of its own, replace delnode with successor
+					// and set successor to NULL (effectively deletes it).
+					m_nodes.set(delnode_index, m_nodes.get(successor_index));
+					m_nodes.set(successor_index, null);
+				}
+				else {
+					// If successor isn't the right child of delnode and it has
+					// right child of its own, replace delnode with successor
+					// and move the subtree whose root is successor's right child
+					// one level up (so that successor's right child becomes the
+					// left child of successor's parent).
+					m_nodes.set(delnode_index, m_nodes.get(successor_index));
+					moveRightSubtreeUp(2 * successor_index + 2, successor_index);
+				}
 			}
 			else {
 				// Node's left child is null and right child is NOT null, or node's
 				// left child is NOT null and right child is null. The child which
 				// is NOT null together with both its left and right subtrees must
 				// be moved one level up so that the child takes the place of the
-				//delnode.
+				// delnode.
 				if (m_nodes.get(left_child_index) != null) {
-					moveSubtreeUp(left_child_index);
+					moveLeftSubtreeUp(left_child_index, delnode_index);
 				}
 				else {
-					moveSubtreeUp(right_child_index);
+					moveRightSubtreeUp(right_child_index, delnode_index);
 				}
 			}
 		}
+		return delnode_data;
 	}
 	
 	/**
