@@ -7,7 +7,7 @@ package com.toptalprep;
  * array element is found.
  *
  * The implementation uses a simple modulo function to
- * compute the array index for the given key:
+ * compute the array index for the given key hash:
  *
  * array_index = key_hash % array_size
  *
@@ -247,6 +247,9 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 *         null if key didn't have mapping. The null might also be
 	 *         returned if the key was previously mapped to a null value.
 	 */
+	//// TODO: Using the underlying array as a ring-buffer is a must. Otherwise,
+	//// the array has to be resized whenever at least 2 keys map to the last
+	//// index in the array which can happen often for small hash tables.
 	public ValueT map(KeyT key, ValueT value) throws UnsupportedOperationException {
 		long hash = computeHash(key);
 		int index = mapHashToIndex(hash);
@@ -256,14 +259,7 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		int new_mapping_index = -1;
 		while (index < m_array.length) {
 			KeyValuePair key_value = getKeyValue(index);
-			if (hash == key_value.m_key_hash) {
-				// The key already has a mapping in the table. Update the value
-				// it's mapped to and return the previous value.
-				ValueT previous_value = key_value.m_value;
-				key_value.m_value = value;
-				return previous_value;
-			}
-			else if (m_array[index] == null) {
+			if (key_value == null) {
 				// Found an empty array cell
 				if (new_mapping_index == -1) {
 					// As we didn't previously encounter a cell containing a deleted
@@ -276,11 +272,20 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 				// encountered (new_mapping_index holds the index of that array cell).
 				break;
 			}
-			else if (getKeyValue(index).m_key_hash == Long.MAX_VALUE && new_mapping_index == -1) {
+			else if (hash == key_value.m_key_hash) {
+				// The key already has a mapping in the table. Update the value
+				// it's mapped to and return the previous value.
+				ValueT previous_value = key_value.m_value;
+				key_value.m_value = value;
+				return previous_value;
+			}
+			else if (key_value.m_key_hash == Long.MAX_VALUE && new_mapping_index == -1) {
 				// This array cell contains a deleted mapping. If we didn't encounter a
 				// deleted mapping before, remember this array index as the new mapping
 				// will be placed in this cell (unless we find the key in the hash table
-				// in which case the new mapping isn't inserted to the table).
+				// in which case the new mapping isn't inserted to the table). We must
+				// continue the loop as the key might already be present in the table at
+				// a later index.
 				new_mapping_index = index;
 			}
 			
@@ -337,6 +342,7 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 			if (hash == key_value.m_key_hash) {
 				// Remove the mapping by setting its key hash to Long.MAX_VALUE
 				key_value.m_key_hash = Long.MAX_VALUE;
+				--m_size;
 				return key_value.m_value;
 			}
 		}
@@ -361,8 +367,6 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * @return Returns true if the mapping is removed from the table, false
 	 *         otherwise.
 	 */
-	// Removes 'key' from the table if it maps to 'value'. Returns true
-	// if key is removed from the table
 	public boolean unmap(KeyT key, ValueT value) {
 		long hash = computeHash(key);
 		int index = mapHashToIndex(hash);
@@ -390,6 +394,7 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * Remaps the key to the specified value.
 	 *
 	 * If the key isn't found in the hash table the method has no effect.
+	 * This is the difference between map and remap methods.
 	 *
 	 * @param key    The key to remap.
 	 * @param value  The value that key is remapped to.
