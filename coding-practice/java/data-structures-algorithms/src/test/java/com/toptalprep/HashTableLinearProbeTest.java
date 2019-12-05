@@ -81,7 +81,7 @@ public class HashTableLinearProbeTest {
 	}
 	
 	/**
-	 * Exercises the method that checks whether a specified key is present in the table.
+	 * Exercises the method that checks whether the table contains a specified key.
 	 */
 	@Test
 	public void testContainsKeyMethod() {

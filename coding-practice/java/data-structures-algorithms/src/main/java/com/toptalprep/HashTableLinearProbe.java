@@ -1,5 +1,7 @@
 package com.toptalprep;
 
+import java.rmi.UnexpectedException;
+
 /**
  * Implements a classic HashTable that uses linear probing
  * to address collisions, where in case of collision the
@@ -82,7 +84,7 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * But this can potentially double the number of collisions if hashes
 	 * are evenly distributed in the negative and positive range. Instead,
 	 * the hash returned by hashCode is added to the Integer.MAX_VALUE + 1
-	 * to form the actual hash to be used. Note that this would cause integer
+	 * to form the actual hash to be used. Note that this could cause integer
 	 * overflow for the Java int type, hence the hash is converted to long
 	 * before the conversion.
 	 * 
@@ -116,11 +118,11 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * Time complexity of this operation is O(1) in best-case scenario
 	 * when key is found at the array index where its hash maps to. If
 	 * the key is not there, the method will linearly scan the array
-	 * until either an empty cell is found or the end of the array is
-	 * reached. In this case the time complexity degrades to O(k) where
-	 * k is the number of array elements that the method needs to
-	 * iterate over. For a mostly unoccupied hash table this k will
-	 * be small, and for mostly occupied hash table this k will grow
+	 * until either an empty cell is found or every element in the array
+	 * is checked. In this case the time complexity degrades to O(K) where
+	 * K is the number of array elements that the method needs to
+	 * iterate over. For a mostly unoccupied hash table this K will
+	 * be small, and for mostly occupied hash table this K will grow
 	 * as the clusters (the sequence of keys that map to the same
 	 * array index) become larger.
 	 *
@@ -138,15 +140,19 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		int index = mapHashToIndex(hash);
 		
 		// Starting at the array index where the given key should map to,
-		// iterate until either: 1) the end of the array is reached, 2) an
-		// empty array cell is found which means that key is not mapped
-		// (otherwise it would've been placed in one of the previous cells),
-		// or 3) we find the key.
-		while (index < m_array.length && m_array[index] != null) {
-			if (getKeyValue(index++).m_key_hash == hash) {
+		// iterate until either: 1) an empty array cell is found which means
+		// that key is not mapped (otherwise it would've been placed in one
+		// of the previous cells), 2) we iterate over every element of the
+		// array without finding the key, or 3) we find the key.
+		int counter = 0;
+		while (counter++ < m_array.length && m_array[index] != null) {
+			if (getKeyValue(index).m_key_hash == hash) {
 				// Found the key
 				return true;
 			}
+			
+			// Index will wrap around if array's end is reached
+			index = (index + 1) % m_array.length;
 		}
 		return false;
 	}
@@ -156,7 +162,7 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 *
 	 * Time complexity of this operation is O(N) where N is the current
 	 * size of the underlying array (and not the number of keys present
-	 * in the array is returned by the size() method).
+	 * in the array as returned by the size() method).
 	 *
 	 * @note Performance of this method could be considerably improved
 	 * by having an array of values stored in the hash table. This method
@@ -203,16 +209,20 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		int index = mapHashToIndex(hash);
 		
 		// Starting at the array index where the given key should map to,
-		// iterate until either: 1) the end of the array is reached, 2) an
-		// empty array cell is found which means that key is not mapped
-		// (otherwise it would've been placed in one of the previous cells),
-		// or 3) we find the key.
-		while (index < m_array.length && m_array[index] != null) {
-			KeyValuePair key_value = getKeyValue(index++);
+		// iterate until either: 1) an empty array cell is found which means
+		// that key is not mapped (otherwise it would've been placed in one
+		// of the previous cells), 2) we iterate over every element of the
+		// array without finding the key, or 3) we find the key.
+		int counter = 0;
+		while (counter++ < m_array.length && m_array[index] != null) {
+			KeyValuePair key_value = getKeyValue(index);
 			if (hash == key_value.m_key_hash) {
 				// Found the key
 				return key_value.m_value;
 			}
+			
+			// Index will wrap around if array's end is reached
+			index = (index + 1) % m_array.length;
 		}
 		return null;
 	}
@@ -222,23 +232,35 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 *
 	 * The method will attempt to place the new mapping at array index where
 	 * the key maps to. If this entry is occupied, the method will linearly
-	 * scan the array until: 1) an empty array cell is found where the new
-	 * mapping is placed, or 2) the end of the array is reached. If 2) happens,
-	 * the underlying array capacity is doubled to make room for the new mapping.
-	 * The current table load is checked against the user-specified load factor,
-	 * and if greater the underlying array capacity is increased to prevent
-	 * the formation of large clusters.
-	 *
-	 * @note The scenario 2) above might lead to poor memory utilization if most
-	 * of the keys are placed at the end of the array, while the rest of the array
-	 * is unoccupied. One way to solve this is to treat the underlying array as a
-	 * ring buffer. Hence, the method wouldn't terminate when the end of the array
-	 * is reached but would instead wrap around and start at the beginning of the
-	 * array.
+	 * scan the array until:
+	 * 
+	 * 1) an array cell containing deleted mapping is found, at which point
+	 * the method continues iterating over the array until either: 
+	 *     a) null-cell is found - this means that the key is not already
+	 *        present in the table, and new mapping is inserted in the cell
+	 *        containing the deleted mapping,
+	 *     b) all array elements are checked - meaning that key is not present
+	 *        in the table, and new mapping is inserted in the cell containing
+	 *        the deleted mapping,
+	 *     c) the key is found - the key is then re-mapped to the new value
+	 *        and method terminates.
+	 *        
+	 * 2) a null-cell is found - the new mapping is placed there
+	 * 3) the key is found - the key is then re-mapped to the new value and
+	 *    method terminates.
+	 * 
+	 * If the new mapping has been created, the method will check the table
+	 * load against the user-provided load factor and if it reached the given
+	 * threshold the underlying array is doubled in size. This is done to
+	 * prevent the formation of larger clusters that can seriously hurt the
+	 * performance of the hash table.
 	 * 
 	 * The time complexity of this method is O(1) if array entry where the
-	 * key maps to is empty. Otherwise, the complexity is O(K) where K is
-	 * the length of the cluster that key is part of.
+	 * key maps to is empty. Otherwise, the complexity is O(C) where C is
+	 * the length of the cluster that key is part of. The time complexity
+	 * in case that array has to be resized is O(K), where K is the number
+	 * of keys in the hash table (we have to find a new location for each
+	 * key).
 	 *
 	 * @param key    The key to be placed in the hash table.
 	 * @param value  The value to which key is mapped to.
@@ -247,17 +269,17 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 *         null if key didn't have mapping. The null might also be
 	 *         returned if the key was previously mapped to a null value.
 	 */
-	//// TODO: Using the underlying array as a ring-buffer is a must. Otherwise,
-	//// the array has to be resized whenever at least 2 keys map to the last
-	//// index in the array which can happen often for small hash tables.
 	public ValueT map(KeyT key, ValueT value) throws UnsupportedOperationException {
 		long hash = computeHash(key);
 		int index = mapHashToIndex(hash);
 		
 		// Starting at the array index where key maps to, find a cell where
-		// the new mapping should be placed.
+		// the new mapping should be placed. Note that index might wrap around
+		// if it reaches the end of the array before the suitable array cell
+		// is found.
 		int new_mapping_index = -1;
-		while (index < m_array.length) {
+		int counter = 0;
+		while (counter++ < m_array.length) {
 			KeyValuePair key_value = getKeyValue(index);
 			if (key_value == null) {
 				// Found an empty array cell
@@ -289,13 +311,18 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 				new_mapping_index = index;
 			}
 			
-			++index;
+			// Index will wrap around if array's end is reached
+			index = (index + 1) % m_array.length;
 		}
 		
 		if (new_mapping_index == -1) {
 			// Couldn't find an empty cell or cell containing a deleted mapping.
 			// Resize the array to make room for the new mapping. The size of
 			// the array is doubled.
+			// TODO: this should never happen once re-sizing is implemented. Even
+			// with load_factor = 1.0, once table is completely filled up the map
+			// method would then double the size of the array, so the next call to
+			// map would have space to place to new mapping.
 			throw new UnsupportedOperationException("Array resize not implemented");
 		}
 		
@@ -333,18 +360,22 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		int index = mapHashToIndex(hash);
 		
 		// Starting at the array index where the given key should map to,
-		// iterate until either: 1) the end of the array is reached, 2) an
-		// empty array cell is found which means that key is not mapped
-		// (otherwise it would've been placed in one of the previous cells),
-		// or 3) we find the key.
-		while (index < m_array.length && m_array[index] != null) {
-			KeyValuePair key_value = getKeyValue(index++);
+		// iterate until either: 1) an empty array cell is found which means
+		// that key is not mapped (otherwise it would've been placed in one
+		// of the previous cells), 2) we iterate over every element of the
+		// array without finding the key, or 3) we find the key.
+		int counter = 0;
+		while (counter++ < m_array.length && m_array[index] != null) {
+			KeyValuePair key_value = getKeyValue(index);
 			if (hash == key_value.m_key_hash) {
 				// Remove the mapping by setting its key hash to Long.MAX_VALUE
 				key_value.m_key_hash = Long.MAX_VALUE;
 				--m_size;
 				return key_value.m_value;
 			}
+			
+			// Index will wrap around if array's end is reached
+			index = (index + 1) % m_array.length;
 		}
 		return null;
 	}
@@ -372,12 +403,13 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		int index = mapHashToIndex(hash);
 		
 		// Starting at the array index where the given key should map to,
-		// iterate until either: 1) the end of the array is reached, 2) an
-		// empty array cell is found which means that key is not mapped
-		// (otherwise it would've been placed in one of the previous cells),
-		// or 3) we find the key.
-		while (index < m_array.length && m_array[index] != null) {
-			KeyValuePair key_value = getKeyValue(index++);
+		// iterate until either: 1) an empty array cell is found which means
+		// that key is not mapped (otherwise it would've been placed in one
+		// of the previous cells), 2) we iterate over every element of the
+		// array without finding the key, or 3) we find the key.
+		int counter = 0;
+		while (counter++ < m_array.length && m_array[index] != null) {
+			KeyValuePair key_value = getKeyValue(index);
 			if (hash == key_value.m_key_hash) {
 				if (value.equals(key_value.m_value)) {
 					// Remove the mapping by setting its key hash to Long.MAX_VALUE
@@ -386,6 +418,9 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 				}
 				break;
 			}
+			
+			// Index will wrap around if array's end is reached
+			index = (index + 1) % m_array.length;
 		}
 		return false;
 	}
@@ -408,12 +443,13 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		int index = mapHashToIndex(hash);
 		
 		// Starting at the array index where the given key should map to,
-		// iterate until either: 1) the end of the array is reached, 2) an
-		// empty array cell is found which means that key is not mapped
-		// (otherwise it would've been placed in one of the previous cells),
-		// or 3) we find the key.
-		while (index < m_array.length && m_array[index] != null) {
-			KeyValuePair key_value = getKeyValue(index++);
+		// iterate until either: 1) an empty array cell is found which means
+		// that key is not mapped (otherwise it would've been placed in one
+		// of the previous cells), 2) we iterate over every element of the
+		// array without finding the key, or 3) we find the key.
+		int counter = 0;
+		while (counter++ < m_array.length && m_array[index] != null) {
+			KeyValuePair key_value = getKeyValue(index);
 			if (hash == key_value.m_key_hash) {
 				// Update value that key is mapped to and returned the previous
 				// value
@@ -421,6 +457,9 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 				key_value.m_value = value;
 				return previous_value;
 			}
+			
+			// Index will wrap around if array's end is reached
+			index = (index + 1) % m_array.length;
 		}
 		return null;
 	}
