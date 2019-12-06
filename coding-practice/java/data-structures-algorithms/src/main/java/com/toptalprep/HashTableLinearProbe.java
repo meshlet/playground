@@ -86,7 +86,12 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * the hash returned by hashCode is added to the Integer.MAX_VALUE + 1
 	 * to form the actual hash to be used. Note that this could cause integer
 	 * overflow for the Java int type, hence the hash is converted to long
-	 * before the conversion.
+	 * before the conversion. This way, the smallest hash value Integer.MIN_VALUE
+	 * maps to 0 and biggest hash value Integer.MAX_VALUE maps to
+	 * Integer.MAX_VALUE + 1 which is less than Long.MAX_VALUE hence there's
+	 * no danger of overflowing the long type.
+	 *
+	 * @TODO map null key to 2 * Integer.MAX_VALUE + 2
 	 * 
 	 * @param key  The key whose hash should be computed.
 	 *
@@ -170,15 +175,18 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * larger hash table array. The performance would still be O(N) but
 	 * N would then be the number of keys in the hash table.
 	 *
-	 * @param value  The value to search for.
+	 * @param ref_value  The value to search for.
 	 *
 	 * @return True if the hash table contains the given value, false
 	 *         otherwise.
 	 */
-	public boolean containsValue(ValueT value) {
+	public boolean containsValue(ValueT ref_value) {
 		for (int i = 0; i < m_array.length; ++i) {
-			if (m_array[i] != null && value.equals(getKeyValue(i))) {
-				return true;
+			if (m_array[i] != null) {
+				ValueT actual_value = getKeyValue(i).m_value;
+				if ((ref_value != null && ref_value.equals(actual_value)) || ref_value == actual_value) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -411,9 +419,10 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		while (counter++ < m_array.length && m_array[index] != null) {
 			KeyValuePair key_value = getKeyValue(index);
 			if (hash == key_value.m_key_hash) {
-				if (value.equals(key_value.m_value)) {
+				if ((value != null && value.equals(key_value.m_value)) || value == key_value.m_value) {
 					// Remove the mapping by setting its key hash to Long.MAX_VALUE
 					key_value.m_key_hash = Long.MAX_VALUE;
+					--m_size;
 					return true;
 				}
 				break;
