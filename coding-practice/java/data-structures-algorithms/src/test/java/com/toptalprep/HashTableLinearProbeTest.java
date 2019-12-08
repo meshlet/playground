@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
@@ -668,9 +669,66 @@ public class HashTableLinearProbeTest {
 		}
 	}
 	
+	/**
+	 * Asserts that mapping a key that already exists in the table doesn't
+	 * create a new entry in the hash table. Also asserts that the existing
+	 * table mapping is updated with the new value.
+	 */
+	@Test
+	@SuppressWarnings("unchecked")
+	public void mapDuplicateKeys() {
+		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+		
+		// Mappings to insert into the table
+		List<Object> mappings_to_insert =
+				Arrays.asList(new Object[] {
+						new KeyValue<Integer, String>(-2, "ABC"),
+						new KeyValue<Integer, String>(0, "dfg09"),
+						new KeyValue<Integer, String>(-10, "MNN"),
+						new KeyValue<Integer, String>(8, "yut"),
+						new KeyValue<Integer, String>(90, "cvb913")
+				});
+		
+		// Populate the table
+		for (Object obj : mappings_to_insert) {
+			KeyValue<Integer, String> mapping = (KeyValue<Integer, String>) obj;
+			table.map(mapping.m_key, mapping.m_value);
+		}
+		
+		// Assert that table size is as expected
+		assertEquals(mappings_to_insert.size(), table.size());
+		
+		// List of values that that keys in 'mappings_to_insert' list
+		// should be re-mapped to.
+		String[] new_values = new String[] {
+				"987", "ghj10", "1fh", "poi", "rui"
+		};
+		
+		// Sanity check
+		assertEquals(mappings_to_insert.size(), new_values.length);
+		
+		// Map the existing keys to new values
+		for (int i = 0; i < new_values.length; ++i) {
+			Integer key = ((KeyValue<Integer, String>) mappings_to_insert.get(i)).m_key;
+			table.map(key, new_values[i]);
+			
+			// Assert that key is now mapped to the new value
+			String remapped_value = table.find(key);
+			assertEquals(new_values[i], remapped_value);
+		}
+		
+		// Assert that the hash table size didn't change (no new keys
+		// were mapped)
+		assertEquals(mappings_to_insert.size(), table.size());
+	}
+	
 	// TODO: Add following tests:
-	// - test that maps the same key multiple times
 	// - test that causes map to resize
+	//     * one variant of the test can use initial_capacity of 0 and load_factor
+	//       of 0.0 so that reach new call to map() will cause the table to be
+	//       resized
+	//     * another variant should pick a reasonable initial_size and load_factor
+	//       and map enough keys so that table must resize
 	// - test where new mappings are placed in array cells containing deleted mappings
 	// - test that maps a null key (possibly multiple times)
 }

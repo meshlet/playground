@@ -28,6 +28,14 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		 * Note that we don't need to store the actual key because if two
 		 * key objects are equal then their hashes must be equal as well
 		 * as specified by the Object.equals and Object.hashCode contracts.
+		 *
+		 * @TODO this won't work. It is legal for hashCode() to return the
+		 * same value for two distinct objects (in other words, even though
+		 * equals() returns false hashCode() might be the same for both
+		 * objects). So if we'd only compare keys hashes, we could mistake
+		 * one key object for the other. That's why we must store the actual
+		 * key objects and compare them via their equals() method and use
+		 * their hashes only to figure out their location in the table.
 		 */
 		long m_key_hash;
 
@@ -43,6 +51,8 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	}
 	
 	private int m_size;
+	private int m_initial_capacity;
+	private float m_load_factor;
 	private Object[] m_array;
 	
 	// TODO: The constructor should accept two parameters:
@@ -64,11 +74,72 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	// mapping is placed in it, the array is resized to make room for
 	// the new mapping even though the current table load might not
 	// have reached the load specified by the load_factor.
+	/**
+	 * Constructs a HashTableLinearProbe instance with initial capacity
+	 * of 11 elements and load factor of 0.75.
+	 */
 	public HashTableLinearProbe() {
 		m_size = 0;
+		m_initial_capacity = 11;
+		m_load_factor = 0.75f;
 		m_array = new Object[50];
 	}
 	
+	/**
+	 * Constructs a HashTableLinearProbe instance with given initial capacity
+	 * and load factor of 0.75.
+	 *
+	 * @param initial_capacity  The hash table's initial capacity.
+	 *
+	 * @throws IllegalArgumentException if initial_capacity is less than zero.
+	 */
+	public HashTableLinearProbe(int initial_capacity) throws IllegalArgumentException {
+		if (initial_capacity < 0) {
+			throw new IllegalArgumentException("initial_capacity must be non-negative");
+		}
+		
+		m_size = 0;
+		m_initial_capacity = initial_capacity;
+		m_load_factor = 0.75f;
+		m_array = new Object[m_initial_capacity];
+	}
+	
+	/**
+	 * Constructs a HashTableLinearProbe instance with given initial capacity
+	 * and initial capacity.
+	 *
+	 * @param initial_capacity  The hash table's initial capacity.
+	 * @param load_factor       The load factor determines the maximal occupancy of
+	 *                          the table before it is re-sized. This value represents
+	 *                          a percentage and falls within a range [0.0, 1.0]. The
+	 *                          value is capped to 1.0 if greater than 1.0, and an
+	 *                          exception is thrown if it is negative.
+	 *
+	 * @throws IllegalArgumentException if initial_capacity or load_factor is negative.
+	 */
+	public HashTableLinearProbe(int initial_capacity, float load_factor)
+			throws IllegalArgumentException {
+		if (initial_capacity < 0) {
+			throw new IllegalArgumentException("initial_capacity must be non-negative");
+		}
+		
+		if (load_factor < 0.0f) {
+			throw new IllegalArgumentException("load_factor must be non-negative");
+		}
+		
+		m_size = 0;
+		m_initial_capacity = initial_capacity;
+		m_load_factor = load_factor <= 1.0f ? load_factor : 1.0f;
+		m_array = new Object[m_initial_capacity];
+	}
+	
+	/**
+	 * Cast the object at given array index to KeyValuePair.
+	 *
+	 * @param index  The array index of the key/value pair.
+	 *
+	 * @return The KeyValuePair instance.
+	 */
 	@SuppressWarnings("unchecked")
 	private KeyValuePair getKeyValue(int index) {
 		return (KeyValuePair) m_array[index];
@@ -485,15 +556,11 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	/**
 	 * Clears the table so that it contains no keys.
 	 *
-	 * TODO: perhaps the new array should be of 'initialCapacity' length
-	 * as specified at construction time. Using the current array length
-	 * might be wasteful because the array might have grown over time
-	 * and user might expect it to shrink in memory after clearing the
-	 * table.
+	 * The underlying array is shrank to its initial capacity.
 	 */
 	public void clear() {
 		m_size = 0;
-		m_array = new Object[m_array.length];
+		m_array = new Object[m_initial_capacity];
 	}
 	
 	public boolean isEmpty() {
