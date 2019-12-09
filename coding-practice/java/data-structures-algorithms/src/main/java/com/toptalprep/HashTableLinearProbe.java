@@ -1,6 +1,5 @@
 package com.toptalprep;
 
-import java.rmi.UnexpectedException;
 
 /**
  * Implements a classic HashTable that uses linear probing
@@ -19,61 +18,63 @@ import java.rmi.UnexpectedException;
  * of this class to make sure that the custom classes uses
  * as keys override these methods (otherwise, the Object
  * class methods will be used).
+ *
+ * The class doesn't allow null keys.
+ *
+ * @TODO allow null keys by having a different way of marking deleted
+ * mappings. I might be able to do this by storing key as Object instead
+ * of KeyT and then have a special class that overrides the equals()
+ * method so that it will return true only if instance is compared with
+ * itself, and false otherwise. HashTable class would have a static
+ * member of that type and would assign that to the key whenever the
+ * mapping is removed. And comparing any key against this dummy key
+ * value would always return false.
  */
 public class HashTableLinearProbe<KeyT, ValueT> {
 	private class KeyValuePair {
 		/**
 		 * This is the hash of the key and not the key itself.
 		 *
-		 * Note that we don't need to store the actual key because if two
-		 * key objects are equal then their hashes must be equal as well
-		 * as specified by the Object.equals and Object.hashCode contracts.
-		 *
-		 * @TODO this won't work. It is legal for hashCode() to return the
-		 * same value for two distinct objects (in other words, even though
-		 * equals() returns false hashCode() might be the same for both
-		 * objects). So if we'd only compare keys hashes, we could mistake
-		 * one key object for the other. That's why we must store the actual
-		 * key objects and compare them via their equals() method and use
-		 * their hashes only to figure out their location in the table.
+		 * @note It is important to store the actual key object and not its
+		 * hash code. While Object.equals() and Object.hashCode() contract
+		 * requires that hashCode() must return the same value for two equal
+		 * objects (for which equals() returns true), it doesn't state that
+		 * distinct objects might not have the same hash. Hence, keys must be
+		 * compared via their equals() method and not their hash value.
 		 */
-		long m_key_hash;
+		KeyT m_key;
 
 		/**
 		 * The value that given key maps to.
 		 */
 		ValueT m_value;
 		
-		public KeyValuePair(long key_hash, ValueT value) {
-			m_key_hash = key_hash;
+		public KeyValuePair(KeyT key, ValueT value) {
+			m_key = key;
 			m_value = value;
+		}
+		
+		/**
+		 * Returns true if m_key is equal to other_key. The method assumes that
+		 * other_key is a key passed in the by the user of hash table, hence it
+		 * must not be NULL. m_key can be NULL on the other hand if this mappings
+		 * has been deleted. Therefore, the method will return false if m_key is
+		 * NULL
+		 *
+		 * @param other_key  The key to compare with.
+		 *
+		 * @return True if m_key is equal to other_key, false otherwise.
+		 */
+		public boolean keyEquals(KeyT other_key) {
+			return m_key != null ? m_key.equals(other_key) : false;
 		}
 	}
 	
 	private int m_size;
-	private int m_initial_capacity;
-	private float m_load_factor;
+	private final int m_initial_capacity;
+	private final float m_load_factor;
 	private Object[] m_array;
 	
-	// TODO: The constructor should accept two parameters:
-	// 1) initial_capacity - determines how big the array will be
-	//    when an instance is created
-	// 2) load_factor - determines how full the array can become
-	//    before its size is increased. This is actually a percentage
-	//    represented as a float between 0.0 and 1.0. The default
-	//    is 0.75 which means that the array size will increase when
-	//    75% of its capacity is filled. This is to mitigate the effects
-	//    of clustering, where the sequence of elements that hash to
-	//    the same index gets long and accessing elements at the end
-	//    of those sequences becomes slow.
-	//
-	// The load_factor is only a suggestion as to when to resize the
-	// underlying array. When will the resizing actually happen is
-	// implementation defined. For instance, when placing a new mapping
-	// in the table, if the end of the array is reached before the new
-	// mapping is placed in it, the array is resized to make room for
-	// the new mapping even though the current table load might not
-	// have reached the load specified by the load_factor.
 	/**
 	 * Constructs a HashTableLinearProbe instance with initial capacity
 	 * of 11 elements and load factor of 0.75.
@@ -161,8 +162,6 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * maps to 0 and biggest hash value Integer.MAX_VALUE maps to
 	 * Integer.MAX_VALUE + 1 which is less than Long.MAX_VALUE hence there's
 	 * no danger of overflowing the long type.
-	 *
-	 * @TODO map null key to 2 * Integer.MAX_VALUE + 2
 	 * 
 	 * @param key  The key whose hash should be computed.
 	 *
@@ -205,15 +204,20 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * @param key  The key to search for.
 	 *
 	 * @return True if key is found, false otherwise.
+	 *
+	 * @throws NullPointerException if the key is null.
 	 */
-	public boolean containsKey(KeyT key) {
+	public boolean containsKey(KeyT key) throws NullPointerException {
+		if (key == null) {
+			throw new NullPointerException("key must not be null");
+		}
+
 		// Handle the case of an empty hash table right away
 		if (isEmpty()) {
 			return false;
 		}
 		
-		long hash = computeHash(key);
-		int index = mapHashToIndex(hash);
+		int index = mapHashToIndex(computeHash(key));
 		
 		// Starting at the array index where the given key should map to,
 		// iterate until either: 1) an empty array cell is found which means
@@ -222,7 +226,7 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		// array without finding the key, or 3) we find the key.
 		int counter = 0;
 		while (counter++ < m_array.length && m_array[index] != null) {
-			if (getKeyValue(index).m_key_hash == hash) {
+			if (getKeyValue(index).keyEquals(key)) {
 				// Found the key
 				return true;
 			}
@@ -277,15 +281,20 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * @return The value that key maps to of keys is present in the hash
 	 *         table, null otherwise. Note that null might also be returned
 	 *         if the key is present in the table but maps to a null value.
+	 *
+	 * @throws NullPointerException if the key is null.
 	 */
-	public ValueT find(KeyT key) {
+	public ValueT find(KeyT key) throws NullPointerException {
+		if (key == null) {
+			throw new NullPointerException("key must not be null");
+		}
+		
 		// Handle the case of an empty hash table right away
 		if (isEmpty()) {
 			return null;
 		}
 
-		long hash = computeHash(key);
-		int index = mapHashToIndex(hash);
+		int index = mapHashToIndex(computeHash(key));
 		
 		// Starting at the array index where the given key should map to,
 		// iterate until either: 1) an empty array cell is found which means
@@ -295,7 +304,7 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		int counter = 0;
 		while (counter++ < m_array.length && m_array[index] != null) {
 			KeyValuePair key_value = getKeyValue(index);
-			if (hash == key_value.m_key_hash) {
+			if (key_value.keyEquals(key)) {
 				// Found the key
 				return key_value.m_value;
 			}
@@ -306,6 +315,42 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		return null;
 	}
 	
+	/**
+	 * Re-sizes the table if needed and moves all the existing mappings
+	 * (those with non-null keys) to the new location in the newly
+	 * allocated array.
+	 */
+	@SuppressWarnings("unchecked")
+	private void resizeTable() {
+		// If current table occupancy is lower than the load factor we
+		// don't need to resize the table
+		float occupancy = (float) m_size / m_array.length;
+		if (occupancy < m_load_factor) {
+			return;
+		}
+
+		// Allocate the array that is twice as big as the current one
+		Object[] old_array = m_array;
+		m_array = new Object[2 * old_array.length];
+		
+		// Move each mapping to a new location
+		for (int i = 0; i < old_array.length; ++i) {
+			KeyValuePair key_value = (KeyValuePair) old_array[i];
+			if (key_value != null && key_value.m_key != null) {
+				// Starting at the array index where the given key should map to,
+				// iterate until we find an empty array cell (an empty cell must
+				// exist as we doubled the capacity of the underlying array)
+				int index = mapHashToIndex(computeHash(key_value.m_key));
+				while (m_array[index] != null) {
+					// Index will wrap around if array's end is reached
+					index = (index + 1) % m_array.length;
+				}
+				
+				// Place the mapping at its new location
+				m_array[index] = key_value;
+			}
+		}
+	}
 	/**
 	 * Maps the key to value if the key is not already mapped in the table.
 	 *
@@ -337,9 +382,20 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * The time complexity of this method is O(1) if array entry where the
 	 * key maps to is empty. Otherwise, the complexity is O(C) where C is
 	 * the length of the cluster that key is part of. The time complexity
-	 * in case that array has to be resized is O(K), where K is the number
-	 * of keys in the hash table (we have to find a new location for each
-	 * key).
+	 * in case that array has to be resized is O(N), where N is the current
+	 * capacity of the underlying array. To resize the table we need to
+	 * iterate over the entire array and find the new location for every
+	 * mapping (with non-null key).
+	 *
+	 * @note The worst-case performance of this method (in case the table
+	 * needs to be resized) could be improved by storing a separate list
+	 * of keys. However, this list needs to be updated each time a key
+	 * is mapped/unmapped. Updating the list would be O(1) on mapping a
+	 * new key, as we can simply append it to the end of the list (we
+	 * already know that key is not present in the table at this point,
+	 * so it is also not present in the list). But, on unmapping we must
+	 * iterate through the list to find the key and then remove it which
+	 * is O(K) operation where K is the number of keys in the table.
 	 *
 	 * @param key    The key to be placed in the hash table.
 	 * @param value  The value to which key is mapped to.
@@ -347,10 +403,15 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * @return Returns the previous value that given key was mapped to, or
 	 *         null if key didn't have mapping. The null might also be
 	 *         returned if the key was previously mapped to a null value.
+	 *
+	 * @throws NullPointerException if the key is null.
 	 */
-	public ValueT map(KeyT key, ValueT value) throws UnsupportedOperationException {
-		long hash = computeHash(key);
-		int index = mapHashToIndex(hash);
+	public ValueT map(KeyT key, ValueT value) throws NullPointerException {
+		if (key == null) {
+			throw new NullPointerException("key must not be null");
+		}
+
+		int index = mapHashToIndex(computeHash(key));
 		
 		// Starting at the array index where key maps to, find a cell where
 		// the new mapping should be placed. Note that index might wrap around
@@ -364,8 +425,8 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 				// Found an empty array cell
 				if (new_mapping_index == -1) {
 					// As we didn't previously encounter a cell containing a deleted
-					// mapping (the one with key set to Long.MAX_VALUE), the new mapping
-					// is placed in this empty cell.
+					// mapping (the one whose key is null), the new mapping is placed
+					// in this empty cell.
 					new_mapping_index = index;
 				}
 				
@@ -373,14 +434,14 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 				// encountered (new_mapping_index holds the index of that array cell).
 				break;
 			}
-			else if (hash == key_value.m_key_hash) {
+			else if (key_value.keyEquals(key)) {
 				// The key already has a mapping in the table. Update the value
 				// it's mapped to and return the previous value.
 				ValueT previous_value = key_value.m_value;
 				key_value.m_value = value;
 				return previous_value;
 			}
-			else if (key_value.m_key_hash == Long.MAX_VALUE && new_mapping_index == -1) {
+			else if (key_value.m_key == null && new_mapping_index == -1) {
 				// This array cell contains a deleted mapping. If we didn't encounter a
 				// deleted mapping before, remember this array index as the new mapping
 				// will be placed in this cell (unless we find the key in the hash table
@@ -394,24 +455,17 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 			index = (index + 1) % m_array.length;
 		}
 		
-		if (new_mapping_index == -1) {
-			// Couldn't find an empty cell or cell containing a deleted mapping.
-			// Resize the array to make room for the new mapping. The size of
-			// the array is doubled.
-			// TODO: this should never happen once re-sizing is implemented. Even
-			// with load_factor = 1.0, once table is completely filled up the map
-			// method would then double the size of the array, so the next call to
-			// map would have space to place to new mapping.
-			throw new UnsupportedOperationException("Array resize not implemented");
-		}
+		// The table must always be able to accommodate a new mapping. Even with
+		// load factor of 1.0, the table should resize after it becomes completely
+		// filled, so the next call to map() will find a free cell.
+		assert(new_mapping_index != -1);
 		
 		// Place new mapping to the table and increment the table size
-		m_array[new_mapping_index] = new KeyValuePair(hash, value);
+		m_array[new_mapping_index] = new KeyValuePair(key, value);
 		++m_size;
 		
-		// TODO: check the current table load and if it reached the user-specified
-		// load threshold, double the underlying array size to prevent formation of
-		// long clusters.
+		// Resize the table if needed
+		resizeTable();
 		
 		return null;
 	}
@@ -419,10 +473,9 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	/**
 	 * Removes the mapping with the given key.
 	 *
-	 * The mappings are removed by setting their key hash to Long.MAX_VALUE
-	 * Note that the maximum key hash value is 2 * Integer.MAX_VALUE + 1 < Long.MAX_VALUE,
-	 * hence Long.MAX_VALUE is not a valid hash. The removed elements cannot
-	 * be set to NULL because methods that search through the list must skip
+	 * The mappings are removed by setting their key to NULL. This is fine as
+	 * NULL isn't a valid key value. Note that we cannot simply set the removed
+	 * element to NULL because methods that search through the list must skip
 	 * this element and proceed with the search instead of halting the search
 	 * there. If removed elements were to be set to NULL, the search would
 	 * terminate there even though more items that map to that particular array
@@ -433,10 +486,15 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * @return Returns the value that key was mapped to, or null if key didn't
 	 *         have a mapping. Null might also be returned if key was mapped
 	 *         to a null value.
+	 *
+	 * @throws NullPointerException if the key is null.
 	 */
-	public ValueT unmap(KeyT key) {
-		long hash = computeHash(key);
-		int index = mapHashToIndex(hash);
+	public ValueT unmap(KeyT key) throws NullPointerException {
+		if (key == null) {
+			throw new NullPointerException("key must not be null");
+		}
+		
+		int index = mapHashToIndex(computeHash(key));
 		
 		// Starting at the array index where the given key should map to,
 		// iterate until either: 1) an empty array cell is found which means
@@ -446,9 +504,9 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		int counter = 0;
 		while (counter++ < m_array.length && m_array[index] != null) {
 			KeyValuePair key_value = getKeyValue(index);
-			if (hash == key_value.m_key_hash) {
-				// Remove the mapping by setting its key hash to Long.MAX_VALUE
-				key_value.m_key_hash = Long.MAX_VALUE;
+			if (key_value.keyEquals(key)) {
+				// Remove the mapping by setting its key to NULL
+				key_value.m_key = null;
 				--m_size;
 				return key_value.m_value;
 			}
@@ -462,10 +520,9 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	/**
 	 * Removes the mapping with the key if it maps to the specified value.
 	 *
-	 * The mappings are removed by setting their key hash to Long.MAX_VALUE
-	 * Note that the maximum key hash value is 2 * Integer.MAX_VALUE + 1 < Long.MAX_VALUE,
-	 * hence Long.MAX_VALUE is not a valid hash. The removed elements cannot
-	 * be set to NULL because methods that search through the list must skip
+	 * The mappings are removed by setting their key to NULL. This is fine as
+	 * NULL isn't a valid key value. Note that we cannot simply set the removed
+	 * element to NULL because methods that search through the list must skip
 	 * this element and proceed with the search instead of halting the search
 	 * there. If removed elements were to be set to NULL, the search would
 	 * terminate there even though more items that map to that particular array
@@ -476,10 +533,15 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 *
 	 * @return Returns true if the mapping is removed from the table, false
 	 *         otherwise.
+	 *
+	 * @throws NullPointerException if the key is null.
 	 */
-	public boolean unmap(KeyT key, ValueT value) {
-		long hash = computeHash(key);
-		int index = mapHashToIndex(hash);
+	public boolean unmap(KeyT key, ValueT value) throws NullPointerException {
+		if (key == null) {
+			throw new NullPointerException("key must not be null");
+		}
+		
+		int index = mapHashToIndex(computeHash(key));
 		
 		// Starting at the array index where the given key should map to,
 		// iterate until either: 1) an empty array cell is found which means
@@ -489,10 +551,10 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		int counter = 0;
 		while (counter++ < m_array.length && m_array[index] != null) {
 			KeyValuePair key_value = getKeyValue(index);
-			if (hash == key_value.m_key_hash) {
+			if (key_value.keyEquals(key)) {
 				if ((value != null && value.equals(key_value.m_value)) || value == key_value.m_value) {
-					// Remove the mapping by setting its key hash to Long.MAX_VALUE
-					key_value.m_key_hash = Long.MAX_VALUE;
+					// Remove the mapping by setting its key to NULL
+					key_value.m_key = null;
 					--m_size;
 					return true;
 				}
@@ -517,10 +579,15 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * @return The value that key was mapped to or null if the key had
 	 *         no mapping. Null return value may also indicate that key
 	 *         was previously mapped to the null value.
+	 *
+	 * @throws NullPointerException if the key is null.
 	 */
-	public ValueT remap(KeyT key, ValueT value) {
-		long hash = computeHash(key);
-		int index = mapHashToIndex(hash);
+	public ValueT remap(KeyT key, ValueT value) throws NullPointerException {
+		if (key == null) {
+			throw new NullPointerException("key must not be null");
+		}
+
+		int index = mapHashToIndex(computeHash(key));
 		
 		// Starting at the array index where the given key should map to,
 		// iterate until either: 1) an empty array cell is found which means
@@ -530,7 +597,7 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		int counter = 0;
 		while (counter++ < m_array.length && m_array[index] != null) {
 			KeyValuePair key_value = getKeyValue(index);
-			if (hash == key_value.m_key_hash) {
+			if (key_value.keyEquals(key)) {
 				// Update value that key is mapped to and returned the previous
 				// value
 				ValueT previous_value = key_value.m_value;

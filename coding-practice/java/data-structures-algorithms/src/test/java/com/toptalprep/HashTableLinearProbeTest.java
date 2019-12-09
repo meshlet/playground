@@ -6,7 +6,6 @@ import org.junit.Test;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Hashtable;
 import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
@@ -722,13 +721,474 @@ public class HashTableLinearProbeTest {
 		assertEquals(mappings_to_insert.size(), table.size());
 	}
 	
-	// TODO: Add following tests:
-	// - test that causes map to resize
-	//     * one variant of the test can use initial_capacity of 0 and load_factor
-	//       of 0.0 so that reach new call to map() will cause the table to be
-	//       resized
-	//     * another variant should pick a reasonable initial_size and load_factor
-	//       and map enough keys so that table must resize
-	// - test where new mappings are placed in array cells containing deleted mappings
-	// - test that maps a null key (possibly multiple times)
+	/**
+	 * Maps distinct keys (for which equals() returns false) that have the same hash
+	 * value (hashCode() returns the same value for both keys). The hash table must
+	 * differentiate between such keys, as equals()/hashCode() contract doesn't
+	 * require for distinct objects to have different hashes (it only requires that
+	 * equal objects have the same hash).
+	 */
+	@Test
+	@SuppressWarnings("unchecked")
+	public void mapDistinctKeysWithIdenticalHash() {
+		/**
+		 * A helper class where user can provide the hash code to be
+		 * returned by its hashCode() method as well as the data that
+		 * represents the instance.
+		 */
+		class KeyClass {
+			int m_hashcode;
+			String m_data;
+			
+			public KeyClass(int hashcode, String data) {
+				m_hashcode = hashcode;
+				m_data = data;
+			}
+			
+			@Override
+			public boolean equals(Object obj) {
+				if (this == obj) {
+					return true;
+				}
+				
+				if (obj instanceof KeyClass) {
+					KeyClass instance = (KeyClass) obj;
+					return m_data.equals(instance.m_data);
+				}
+				
+				return false;
+			}
+			
+			@Override
+			public  int hashCode() {
+				return m_hashcode;
+			}
+		}
+		
+		class TestVector {
+			Object[] m_mappings_to_insert;
+			KeyClass[] m_keys_to_find;
+			Integer[] m_reference_values;
+			
+			public TestVector(Object[] mappings_to_insert, KeyClass[] keys_to_find, Integer[] reference_values) {
+				m_mappings_to_insert = mappings_to_insert;
+				m_keys_to_find = keys_to_find;
+				m_reference_values = reference_values;
+			}
+		}
+		
+		TestVector test_vector = new TestVector(
+				new Object[] {
+						new KeyValue<KeyClass, Integer>(new KeyClass(0, "ABC"), 5),
+						new KeyValue<KeyClass, Integer>(new KeyClass(10, "8679"), 10),
+						new KeyValue<KeyClass, Integer>(new KeyClass(-30, "anmh"), 91),
+						new KeyValue<KeyClass, Integer>(new KeyClass(10, "9999"), 1276),
+						new KeyValue<KeyClass, Integer>(new KeyClass(-30, "anmh"), 1987),
+						new KeyValue<KeyClass, Integer>(new KeyClass(-100, "blabla"), 9000),
+						new KeyValue<KeyClass, Integer>(new KeyClass(0, "tutu"), 1276),
+						new KeyValue<KeyClass, Integer>(new KeyClass(63, "op56"), 7),
+						new KeyValue<KeyClass, Integer>(new KeyClass(10, "9999"), 710),
+						new KeyValue<KeyClass, Integer>(new KeyClass(76, "gfx"), 887),
+						new KeyValue<KeyClass, Integer>(new KeyClass(63, "0ui"), 70),
+						new KeyValue<KeyClass, Integer>(new KeyClass(76, "gfx"), 900)
+				},
+				
+				new KeyClass[] {
+						new KeyClass(-30, "anmh"),
+						new KeyClass(10, "9999"),
+						new KeyClass(64, "9afb"),
+						new KeyClass(0, "ABC"),
+						new KeyClass(10, "8679"),
+						new KeyClass(76, "jgh"),
+						new KeyClass(63, "0ui"),
+						new KeyClass(63, "op56"),
+						new KeyClass(-30, "xcvb"),
+						new KeyClass(0, "tutu"),
+						new KeyClass(76, "gfx")
+				},
+				
+				new Integer[] { 1987, 710, null, 5, 10, null, 70, 7, null, 1276, 900 });
+		
+		// Insert the mappings into the table. The following loop will also create
+		// a list of all distinct keys inserted in the table.
+		HashTableLinearProbe<KeyClass, Integer> table = new HashTableLinearProbe<KeyClass, Integer>();
+		ArrayList<KeyClass> distinct_keys = new ArrayList<KeyClass>();
+		for (Object obj : test_vector.m_mappings_to_insert) {
+			KeyValue<KeyClass, Integer> mapping = (KeyValue<KeyClass, Integer>) obj;
+			table.map(mapping.m_key, mapping.m_value);
+			
+			if (!distinct_keys.contains(mapping.m_key)) {
+				distinct_keys.add(mapping.m_key);
+			}
+		}
+		
+		// Assert that all distinct keys have been inserted to the table
+		assertEquals(distinct_keys.size(), table.size());
+		
+		// Sanity check
+		assertEquals(test_vector.m_keys_to_find.length, test_vector.m_reference_values.length);
+		
+		for (int i = 0; i < test_vector.m_keys_to_find.length; ++i) {
+			Integer value = table.find(test_vector.m_keys_to_find[i]);
+			assertEquals(test_vector.m_reference_values[i], value);
+		}
+	}
+	
+	/**
+	 * Asserts that an exception is thrown when calling map() with null key.
+	 */
+	@Test(expected = NullPointerException.class)
+	public void nullExceptionThrownOnMapWithNullKey() {
+		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+		table.map(null, "str");
+	}
+	
+	/**
+	 * Asserts that an exception is thrown when calling containsKey() with null key.
+	 */
+	@Test(expected = NullPointerException.class)
+	public void nullExceptionThrownOnContainsKeyWithNullkey() {
+		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+		table.containsKey(null);
+	}
+	
+	/**
+	 * Asserts that an exception is thrown when calling find() with null key.
+	 */
+	@Test(expected = NullPointerException.class)
+	public void nullExceptionThrownOnFindWithNullKey() {
+		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+		table.find(null);
+	}
+	
+	/**
+	 * Asserts that an exception is thrown when calling unmap(key) with null key.
+	 */
+	@Test(expected = NullPointerException.class)
+	public void nullExceptionThrownOnUnmapWithNullKey() {
+		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+		table.unmap(null);
+	}
+	
+	/**
+	 * Asserts that an exception is thrown when calling unmap(key, value) with null key.
+	 */
+	@Test(expected = NullPointerException.class)
+	public void nullExceptionThrownOnUnmapKeyValueWithNullKey() {
+		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+		table.unmap(null, "ABC");
+	}
+	
+	/**
+	 * Asserts that an exception is thrown when calling remap() with null key.
+	 */
+	@Test(expected = NullPointerException.class)
+	public void nullExceptionThrownOnRemapWithNullKey() {
+		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+		table.remap(null, "ABC");
+	}
+	
+	/**
+	 * Exercises the hash table resize functionality by mapping enough keys so
+	 * that table occupancy will reach the given load factor, at which point
+	 * the table should resize.
+	 */
+	@Test
+	@SuppressWarnings("unchecked")
+	public void testHashTableResize() {
+		class TestVector {
+			int m_initial_capacity;
+			float m_load_factor;
+			Object[] m_mappings;
+			
+			public TestVector(int initial_capacity, float load_factor, Object[] mappings) {
+				m_initial_capacity = initial_capacity;
+				m_load_factor = load_factor;
+				m_mappings = mappings;
+			}
+		}
+		
+		TestVector[] test_vectors = {
+				// Hash table should resize when occupancy reaches 50%
+				new TestVector(
+						3,
+						0.5f,
+						new Object[] {
+								new KeyValue<Integer, String>(-9, "ABC"),
+								new KeyValue<Integer, String>(0, "-_+="),
+								new KeyValue<Integer, String>(-100, "bla"),
+								new KeyValue<Integer, String>(2, "klafls"),
+								new KeyValue<Integer, String>(7, "cm,x"),
+								new KeyValue<Integer, String>(5, "uit"),
+								new KeyValue<Integer, String>(75, "n,b"),
+								new KeyValue<Integer, String>(4, "567"),
+								new KeyValue<Integer, String>(11, "ghj"),
+								new KeyValue<Integer, String>(12, "qop"),
+								new KeyValue<Integer, String>(21, "rop"),
+								new KeyValue<Integer, String>(33, "wop"),
+								new KeyValue<Integer, String>(56, "xp_"),
+								new KeyValue<Integer, String>(-11, "jojo"),
+								new KeyValue<Integer, String>(-20, "toto"),
+								new KeyValue<Integer, String>(-50, "21314"),
+								new KeyValue<Integer, String>(45, "gsdf"),
+								new KeyValue<Integer, String>(-4, "pry"),
+								new KeyValue<Integer, String>(1000, "zxc"),
+								new KeyValue<Integer, String>(2000, "{}")
+						}),
+				
+				// Hash table should resize each time a new key is inserted
+				new TestVector(
+						5,
+						0.0f,
+						new Object[] {
+								new KeyValue<Integer, String>(-9, "ABC"),
+								new KeyValue<Integer, String>(0, "-_+="),
+								new KeyValue<Integer, String>(-100, "bla"),
+								new KeyValue<Integer, String>(2, "klafls"),
+								new KeyValue<Integer, String>(7, "cm,x"),
+								new KeyValue<Integer, String>(5, "uit"),
+								new KeyValue<Integer, String>(75, "n,b"),
+								new KeyValue<Integer, String>(4, "567"),
+								new KeyValue<Integer, String>(11, "ghj"),
+								new KeyValue<Integer, String>(12, "qop"),
+								new KeyValue<Integer, String>(21, "rop"),
+								new KeyValue<Integer, String>(33, "wop"),
+								new KeyValue<Integer, String>(56, "xp_"),
+								new KeyValue<Integer, String>(-11, "jojo"),
+								new KeyValue<Integer, String>(-20, "toto"),
+								new KeyValue<Integer, String>(-50, "21314"),
+								new KeyValue<Integer, String>(45, "gsdf"),
+								new KeyValue<Integer, String>(-4, "pry"),
+								new KeyValue<Integer, String>(1000, "zxc"),
+								new KeyValue<Integer, String>(2000, "{}")
+						}),
+				
+				// Hash table should resize only once it gets completely full
+				new TestVector(
+						5,
+						1.0f,
+						new Object[] {
+								new KeyValue<Integer, String>(-9, "ABC"),
+								new KeyValue<Integer, String>(0, "-_+="),
+								new KeyValue<Integer, String>(-100, "bla"),
+								new KeyValue<Integer, String>(2, "klafls"),
+								new KeyValue<Integer, String>(7, "cm,x"),
+								new KeyValue<Integer, String>(5, "uit"),
+								new KeyValue<Integer, String>(75, "n,b"),
+								new KeyValue<Integer, String>(4, "567"),
+								new KeyValue<Integer, String>(11, "ghj"),
+								new KeyValue<Integer, String>(12, "qop"),
+								new KeyValue<Integer, String>(21, "rop"),
+								new KeyValue<Integer, String>(33, "wop"),
+								new KeyValue<Integer, String>(56, "xp_"),
+								new KeyValue<Integer, String>(-11, "jojo"),
+								new KeyValue<Integer, String>(-20, "toto"),
+								new KeyValue<Integer, String>(-50, "21314"),
+								new KeyValue<Integer, String>(45, "gsdf"),
+								new KeyValue<Integer, String>(-4, "pry"),
+								new KeyValue<Integer, String>(1000, "zxc"),
+								new KeyValue<Integer, String>(2000, "{}")
+						})
+		};
+		
+		for (TestVector test_vector : test_vectors) {
+			HashTableLinearProbe<Integer, String> table =
+					new HashTableLinearProbe<Integer, String>(
+							test_vector.m_initial_capacity,
+							test_vector.m_load_factor);
+			
+			// Populate the hash table
+			for (Object obj : test_vector.m_mappings) {
+				KeyValue<Integer, String> mapping = (KeyValue<Integer, String>) obj;
+				table.map(mapping.m_key, mapping.m_value);
+			}
+			
+			// Check the table size
+			assertEquals(test_vector.m_mappings.length, table.size());
+			
+			for (Object obj : test_vector.m_mappings) {
+				KeyValue<Integer, String> mapping = (KeyValue<Integer, String>) obj;
+				String value = table.find(mapping.m_key);
+				
+				assertEquals(mapping.m_value, value);
+			}
+		}
+	}
+	
+	/**
+	 * Exercises the behavior of the hash table when mapping keys that have
+	 * the same hash as the previously unmapped keys.
+	 */
+	@Test
+	@SuppressWarnings("unchecked")
+	public void mapKeysWithSameHashAsPrevioiuslyUnmappedKeys() {
+		/**
+		 * A helper class where user can provide the hash code to be
+		 * returned by its hashCode() method as well as the data that
+		 * represents the instance.
+		 */
+		class KeyClass {
+			int m_hashcode;
+			String m_data;
+			
+			public KeyClass(int hashcode, String data) {
+				m_hashcode = hashcode;
+				m_data = data;
+			}
+			
+			@Override
+			public boolean equals(Object obj) {
+				if (this == obj) {
+					return true;
+				}
+				
+				if (obj instanceof KeyClass) {
+					KeyClass instance = (KeyClass) obj;
+					return m_data.equals(instance.m_data);
+				}
+				
+				return false;
+			}
+			
+			@Override
+			public  int hashCode() {
+				return m_hashcode;
+			}
+		}
+		
+		ArrayList<Object> reference_mappings = new ArrayList<Object>(Arrays.asList(new Object[] {
+				new KeyValue<KeyClass, Integer>(new KeyClass(0, "A"), 100),
+				new KeyValue<KeyClass, Integer>(new KeyClass(-1, "b"), -99),
+				new KeyValue<KeyClass, Integer>(new KeyClass(3, "c"), 83),
+				new KeyValue<KeyClass, Integer>(new KeyClass(-3, "d"), 77),
+				new KeyValue<KeyClass, Integer>(new KeyClass(4, "ee"), 54),
+				new KeyValue<KeyClass, Integer>(new KeyClass(-4, "ff"), 101),
+				new KeyValue<KeyClass, Integer>(new KeyClass(5, "gggg"), 95),
+				new KeyValue<KeyClass, Integer>(new KeyClass(1, "hhh"), 73),
+				new KeyValue<KeyClass, Integer>(new KeyClass(6, "iiii"), 69),
+				new KeyValue<KeyClass, Integer>(new KeyClass(-1, "jjjj"), 91),
+				new KeyValue<KeyClass, Integer>(new KeyClass(4, "kkkk"), 150),
+				new KeyValue<KeyClass, Integer>(new KeyClass(-4, "ll"), 324),
+				new KeyValue<KeyClass, Integer>(new KeyClass(3, "mm"), 103),
+				new KeyValue<KeyClass, Integer>(new KeyClass(0, "n"), 95),
+				new KeyValue<KeyClass, Integer>(new KeyClass(5, "o"), 96),
+				new KeyValue<KeyClass, Integer>(new KeyClass(6, "ppp"), 91),
+				new KeyValue<KeyClass, Integer>(new KeyClass(-3, "qqqq"), -95)
+		}));
+		
+		// Populate the table
+		HashTableLinearProbe<KeyClass, Integer> table = new HashTableLinearProbe<KeyClass, Integer>(3, 0.75f);
+		for (Object obj : reference_mappings) {
+			KeyValue<KeyClass, Integer> mapping = (KeyValue<KeyClass, Integer>) obj;
+			table.map(mapping.m_key, mapping.m_value);
+		}
+		
+		KeyClass[] keys_to_unmap = {
+				new KeyClass(0, "A"),
+				new KeyClass(-3, "c"),
+				new KeyClass(-4, "ll"),
+				new KeyClass(6, "iiii"),
+				new KeyClass(6, "afksdjfklsdjf"),
+				new KeyClass(4, "ee"),
+				new KeyClass(3, "mm"),
+				new KeyClass(-4, "kjjkdfs"),
+				new KeyClass(6, "iiii"),
+				new KeyClass(-3, "qqqq"),
+				new KeyClass(0, "jkjkjkk"),
+				new KeyClass(-4, "ff"),
+				new KeyClass(0, "A"),
+				new KeyClass(-4, "ff"),
+				new KeyClass(5, "o")
+		};
+		
+		// Unmap the specified keys
+		for (int i = 0; i < keys_to_unmap.length; ++i) {
+			Integer unmapped_value = table.unmap(keys_to_unmap[i]);
+			
+			// Get the index of the mapping with given key from the reference list
+			int final_i = i;
+			OptionalInt mapping_index = IntStream.range(0, reference_mappings.size())
+					.filter(
+							index -> {
+								return ((KeyValue<KeyClass, Integer>)
+										reference_mappings.get(index)).m_key.equals(
+												keys_to_unmap[final_i]);
+							})
+					.findFirst();
+			
+			if (mapping_index.isPresent()) {
+				// Mapping with the given key is present in the list. Make sure its
+				// value matches the value returned by hash table unmap method.
+				KeyValue<KeyClass, Integer> ref_mapping =
+						(KeyValue<KeyClass, Integer>) reference_mappings.remove(mapping_index.getAsInt());
+				
+				assertEquals(ref_mapping.m_value, unmapped_value);
+			}
+			else {
+				assertNull(unmapped_value);
+			}
+			
+			// Assert that removed key is no longer present in the hash table
+			assertFalse(table.containsKey(keys_to_unmap[i]));
+		}
+		
+		// Insert new mappings. Some of these have keys that match the keys of previously removed mappings
+		Object[] additional_mappings_to_insert = {
+				new KeyValue<KeyClass, Integer>(new KeyClass(0, "AAAA"), 0),
+				new KeyValue<KeyClass, Integer>(new KeyClass(-3, "cccc"), 99),
+				new KeyValue<KeyClass, Integer>(new KeyClass(-4, "llllll"), 100),
+				new KeyValue<KeyClass, Integer>(new KeyClass(6, "iiiiiiiii"), 10),
+				new KeyValue<KeyClass, Integer>(new KeyClass(6, "afksdjfklsdjf"), 831),
+				new KeyValue<KeyClass, Integer>(new KeyClass(4, "eeeeee"), 123),
+				new KeyValue<KeyClass, Integer>(new KeyClass(3, "mm"), 77),
+				new KeyValue<KeyClass, Integer>(new KeyClass(-4, "kjjkdfs"), 34),
+				new KeyValue<KeyClass, Integer>(new KeyClass(6, "iiiiiiii"), 0),
+				new KeyValue<KeyClass, Integer>(new KeyClass(-3, "qqqqqqqq"), 56),
+				new KeyValue<KeyClass, Integer>(new KeyClass(0, "jkjkjkk"), 2334),
+				new KeyValue<KeyClass, Integer>(new KeyClass(-4, "ffffff"), 22),
+				new KeyValue<KeyClass, Integer>(new KeyClass(0, "A"), 12),
+				new KeyValue<KeyClass, Integer>(new KeyClass(-4, "ffffff"), 78),
+				new KeyValue<KeyClass, Integer>(new KeyClass(5, "ooooo"), 11),
+				new KeyValue<KeyClass, Integer>(new KeyClass(5, "gggg"), 95),
+				new KeyValue<KeyClass, Integer>(new KeyClass(1, "hhh"), 73),
+				new KeyValue<KeyClass, Integer>(new KeyClass(-1, "jjjj"), 91),
+				new KeyValue<KeyClass, Integer>(new KeyClass(4, "kkkk"), 150),
+				new KeyValue<KeyClass, Integer>(new KeyClass(-4, "ll"), 324),
+				new KeyValue<KeyClass, Integer>(new KeyClass(0, "n"), 95),
+				new KeyValue<KeyClass, Integer>(new KeyClass(5, "o"), 96),
+				new KeyValue<KeyClass, Integer>(new KeyClass(6, "ppp"), 91)
+		};
+		
+		for (int i = 0; i < additional_mappings_to_insert.length; ++i) {
+			KeyValue<KeyClass, Integer> mapping = (KeyValue<KeyClass, Integer>) additional_mappings_to_insert[i];
+			table.map(mapping.m_key, mapping.m_value);
+			
+			// Check if this mapping is already present in the reference list
+			OptionalInt mapping_index = IntStream.range(0, reference_mappings.size())
+					.filter(
+							index -> {
+								return ((KeyValue<KeyClass, Integer>)
+										reference_mappings.get(index)).m_key.equals(
+												mapping.m_key);
+							})
+					.findFirst();
+			
+			if (!mapping_index.isPresent()) {
+				reference_mappings.add(mapping);
+			}
+			else {
+				// Otherwise, its value in the list must be updated
+				((KeyValue<KeyClass, Integer>) reference_mappings.get(mapping_index.getAsInt())).m_value = mapping.m_value;
+			}
+		}
+		
+		// Finally, iterate over the reference list and make sure all the mappings
+		// are found in the hash table
+		for (Object obj : reference_mappings) {
+			KeyValue<KeyClass, Integer> mapping = (KeyValue<KeyClass, Integer>) obj;
+			
+			Integer value = table.find(mapping.m_key);
+			assertEquals(mapping.m_value, value);
+		}
+	}
 }
