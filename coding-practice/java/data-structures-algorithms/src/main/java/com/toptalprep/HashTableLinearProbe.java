@@ -19,22 +19,26 @@ package com.toptalprep;
  * as keys override these methods (otherwise, the Object
  * class methods will be used).
  *
- * The class doesn't allow null keys.
- *
- * @TODO allow null keys by having a different way of marking deleted
- * mappings. I might be able to do this by storing key as Object instead
- * of KeyT and then have a special class that overrides the equals()
- * method so that it will return true only if instance is compared with
- * itself, and false otherwise. HashTable class would have a static
- * member of that type and would assign that to the key whenever the
- * mapping is removed. And comparing any key against this dummy key
- * value would always return false.
+ * The class allows null keys.
  */
 public class HashTableLinearProbe<KeyT, ValueT> {
+	/**
+	 * This value is assigned to the key to mark the mapping as
+	 * removed. Note that REMOVED_KEY.equals() will return true
+	 * only if compared with itself. When compared to any other
+	 * key it will return false. As user can't pass in the
+	 * REMOVED_KEY, the equals() will return false for any user
+	 * specified key compared with the REMOVED_KEY.
+	 */
+	private static final Object REMOVED_KEY = new Object();
+	
 	private class KeyValuePair {
 		/**
 		 * This is the hash of the key and not the key itself.
 		 *
+		 * @note The keys are stored as Object instead of KeyT to make it
+		 * possible to assign REMOVED_KEY to m_key when key is unmapped.
+		 * 
 		 * @note It is important to store the actual key object and not its
 		 * hash code. While Object.equals() and Object.hashCode() contract
 		 * requires that hashCode() must return the same value for two equal
@@ -42,14 +46,14 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		 * distinct objects might not have the same hash. Hence, keys must be
 		 * compared via their equals() method and not their hash value.
 		 */
-		KeyT m_key;
+		Object m_key;
 
 		/**
 		 * The value that given key maps to.
 		 */
 		ValueT m_value;
 		
-		public KeyValuePair(KeyT key, ValueT value) {
+		public KeyValuePair(Object key, ValueT value) {
 			m_key = key;
 			m_value = value;
 		}
@@ -65,7 +69,11 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		 *
 		 * @return True if m_key is equal to other_key, false otherwise.
 		 */
-		public boolean keyEquals(KeyT other_key) {
+		public boolean keyEquals(Object other_key) {
+			if (m_key == null && other_key == null) {
+				return true;
+			}
+			
 			return m_key != null ? m_key.equals(other_key) : false;
 		}
 	}
@@ -92,11 +100,11 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 *
 	 * @param initial_capacity  The hash table's initial capacity.
 	 *
-	 * @throws IllegalArgumentException if initial_capacity is less than zero.
+	 * @throws IllegalArgumentException if initial_capacity is less or equal to zero.
 	 */
 	public HashTableLinearProbe(int initial_capacity) throws IllegalArgumentException {
-		if (initial_capacity < 0) {
-			throw new IllegalArgumentException("initial_capacity must be non-negative");
+		if (initial_capacity <= 0) {
+			throw new IllegalArgumentException("initial_capacity not positive");
 		}
 		
 		m_size = 0;
@@ -116,21 +124,22 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 *                          value is capped to 1.0 if greater than 1.0, and an
 	 *                          exception is thrown if it is negative.
 	 *
-	 * @throws IllegalArgumentException if initial_capacity or load_factor is negative.
+	 * @throws IllegalArgumentException if initial_capacity is less or equal to zero
+	 *         or load_factor is negative or greater than 1.0.
 	 */
 	public HashTableLinearProbe(int initial_capacity, float load_factor)
 			throws IllegalArgumentException {
-		if (initial_capacity < 0) {
-			throw new IllegalArgumentException("initial_capacity must be non-negative");
+		if (initial_capacity <= 0) {
+			throw new IllegalArgumentException("initial_capacity not positive");
 		}
 		
-		if (load_factor < 0.0f) {
-			throw new IllegalArgumentException("load_factor must be non-negative");
+		if (load_factor < 0.0f || load_factor > 1.0f) {
+			throw new IllegalArgumentException("load_factor not in range [0.0, 1.0]");
 		}
 		
 		m_size = 0;
 		m_initial_capacity = initial_capacity;
-		m_load_factor = load_factor <= 1.0f ? load_factor : 1.0f;
+		m_load_factor = load_factor;
 		m_array = new Object[m_initial_capacity];
 	}
 	
@@ -160,8 +169,12 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * overflow for the Java int type, hence the hash is converted to long
 	 * before the conversion. This way, the smallest hash value Integer.MIN_VALUE
 	 * maps to 0 and biggest hash value Integer.MAX_VALUE maps to
-	 * Integer.MAX_VALUE + 1 which is less than Long.MAX_VALUE hence there's
+	 * 2 * Integer.MAX_VALUE + 1 which is less than Long.MAX_VALUE hence there's
 	 * no danger of overflowing the long type.
+	 *
+	 * NULL is a valid key value and is hashed to 2 * Integer.MAX_VALUE + 2
+	 * by this method. This is so that no key will hash to the same value as
+	 * NULL (the largest hash value a key can hash to is 2 * Integer.MAX_VALUE + 1).
 	 * 
 	 * @param key  The key whose hash should be computed.
 	 *
@@ -170,7 +183,7 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	private long computeHash(KeyT key) {
 		// Note that hash is cast to long before added to Integer.MAX_VALUE
 		// to prevent the integer overflow.
-		return (long) key.hashCode() + Integer.MAX_VALUE + 1L;
+		return key != null ? (long) key.hashCode() + Integer.MAX_VALUE + 1L : 2L * Integer.MAX_VALUE + 2L;
 	}
 	
 	/**
@@ -204,14 +217,8 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * @param key  The key to search for.
 	 *
 	 * @return True if key is found, false otherwise.
-	 *
-	 * @throws NullPointerException if the key is null.
 	 */
-	public boolean containsKey(KeyT key) throws NullPointerException {
-		if (key == null) {
-			throw new NullPointerException("key must not be null");
-		}
-
+	public boolean containsKey(KeyT key) {
 		// Handle the case of an empty hash table right away
 		if (isEmpty()) {
 			return false;
@@ -257,9 +264,9 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 */
 	public boolean containsValue(ValueT ref_value) {
 		for (int i = 0; i < m_array.length; ++i) {
-			if (m_array[i] != null) {
-				ValueT actual_value = getKeyValue(i).m_value;
-				if ((ref_value != null && ref_value.equals(actual_value)) || ref_value == actual_value) {
+			KeyValuePair key_value = getKeyValue(i);
+			if (key_value != null && key_value.m_key != REMOVED_KEY) {
+				if ((ref_value != null && ref_value.equals(key_value.m_value)) || ref_value == key_value.m_value) {
 					return true;
 				}
 			}
@@ -281,14 +288,8 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * @return The value that key maps to of keys is present in the hash
 	 *         table, null otherwise. Note that null might also be returned
 	 *         if the key is present in the table but maps to a null value.
-	 *
-	 * @throws NullPointerException if the key is null.
 	 */
-	public ValueT find(KeyT key) throws NullPointerException {
-		if (key == null) {
-			throw new NullPointerException("key must not be null");
-		}
-		
+	public ValueT find(KeyT key) {
 		// Handle the case of an empty hash table right away
 		if (isEmpty()) {
 			return null;
@@ -336,11 +337,11 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		// Move each mapping to a new location
 		for (int i = 0; i < old_array.length; ++i) {
 			KeyValuePair key_value = (KeyValuePair) old_array[i];
-			if (key_value != null && key_value.m_key != null) {
+			if (key_value != null && key_value.m_key != REMOVED_KEY) {
 				// Starting at the array index where the given key should map to,
 				// iterate until we find an empty array cell (an empty cell must
 				// exist as we doubled the capacity of the underlying array)
-				int index = mapHashToIndex(computeHash(key_value.m_key));
+				int index = mapHashToIndex(computeHash((KeyT) key_value.m_key));
 				while (m_array[index] != null) {
 					// Index will wrap around if array's end is reached
 					index = (index + 1) % m_array.length;
@@ -351,6 +352,7 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 			}
 		}
 	}
+	
 	/**
 	 * Maps the key to value if the key is not already mapped in the table.
 	 *
@@ -382,10 +384,13 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * The time complexity of this method is O(1) if array entry where the
 	 * key maps to is empty. Otherwise, the complexity is O(C) where C is
 	 * the length of the cluster that key is part of. The time complexity
-	 * in case that array has to be resized is O(N), where N is the current
-	 * capacity of the underlying array. To resize the table we need to
-	 * iterate over the entire array and find the new location for every
-	 * mapping (with non-null key).
+	 * in case that array has to be resized is O(N * C), where N is the
+	 * current capacity of the underlying array and C is the length of the
+	 * cluster in the new array where key needs to be place into. Note that
+	 * C is expected to much smaller than N, so the time complexity in this
+	 * case should approach O(N). To resize the table we need to iterate
+	 * over the entire array and find the new location for every mapping
+	 * (with non-null key).
 	 *
 	 * @note The worst-case performance of this method (in case the table
 	 * needs to be resized) could be improved by storing a separate list
@@ -403,14 +408,8 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * @return Returns the previous value that given key was mapped to, or
 	 *         null if key didn't have mapping. The null might also be
 	 *         returned if the key was previously mapped to a null value.
-	 *
-	 * @throws NullPointerException if the key is null.
 	 */
-	public ValueT map(KeyT key, ValueT value) throws NullPointerException {
-		if (key == null) {
-			throw new NullPointerException("key must not be null");
-		}
-
+	public ValueT map(KeyT key, ValueT value) {
 		int index = mapHashToIndex(computeHash(key));
 		
 		// Starting at the array index where key maps to, find a cell where
@@ -441,7 +440,7 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 				key_value.m_value = value;
 				return previous_value;
 			}
-			else if (key_value.m_key == null && new_mapping_index == -1) {
+			else if (key_value.m_key == REMOVED_KEY && new_mapping_index == -1) {
 				// This array cell contains a deleted mapping. If we didn't encounter a
 				// deleted mapping before, remember this array index as the new mapping
 				// will be placed in this cell (unless we find the key in the hash table
@@ -486,14 +485,8 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * @return Returns the value that key was mapped to, or null if key didn't
 	 *         have a mapping. Null might also be returned if key was mapped
 	 *         to a null value.
-	 *
-	 * @throws NullPointerException if the key is null.
 	 */
-	public ValueT unmap(KeyT key) throws NullPointerException {
-		if (key == null) {
-			throw new NullPointerException("key must not be null");
-		}
-		
+	public ValueT unmap(KeyT key)  {
 		int index = mapHashToIndex(computeHash(key));
 		
 		// Starting at the array index where the given key should map to,
@@ -505,8 +498,8 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 		while (counter++ < m_array.length && m_array[index] != null) {
 			KeyValuePair key_value = getKeyValue(index);
 			if (key_value.keyEquals(key)) {
-				// Remove the mapping by setting its key to NULL
-				key_value.m_key = null;
+				// Remove the mapping by setting its key to REMOVED_KEY
+				key_value.m_key = REMOVED_KEY;
 				--m_size;
 				return key_value.m_value;
 			}
@@ -533,14 +526,8 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 *
 	 * @return Returns true if the mapping is removed from the table, false
 	 *         otherwise.
-	 *
-	 * @throws NullPointerException if the key is null.
 	 */
-	public boolean unmap(KeyT key, ValueT value) throws NullPointerException {
-		if (key == null) {
-			throw new NullPointerException("key must not be null");
-		}
-		
+	public boolean unmap(KeyT key, ValueT value) {
 		int index = mapHashToIndex(computeHash(key));
 		
 		// Starting at the array index where the given key should map to,
@@ -553,8 +540,8 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 			KeyValuePair key_value = getKeyValue(index);
 			if (key_value.keyEquals(key)) {
 				if ((value != null && value.equals(key_value.m_value)) || value == key_value.m_value) {
-					// Remove the mapping by setting its key to NULL
-					key_value.m_key = null;
+					// Remove the mapping by setting its key to REMOVED
+					key_value.m_key = REMOVED_KEY;
 					--m_size;
 					return true;
 				}
@@ -579,14 +566,8 @@ public class HashTableLinearProbe<KeyT, ValueT> {
 	 * @return The value that key was mapped to or null if the key had
 	 *         no mapping. Null return value may also indicate that key
 	 *         was previously mapped to the null value.
-	 *
-	 * @throws NullPointerException if the key is null.
 	 */
-	public ValueT remap(KeyT key, ValueT value) throws NullPointerException {
-		if (key == null) {
-			throw new NullPointerException("key must not be null");
-		}
-
+	public ValueT remap(KeyT key, ValueT value) {
 		int index = mapHashToIndex(computeHash(key));
 		
 		// Starting at the array index where the given key should map to,

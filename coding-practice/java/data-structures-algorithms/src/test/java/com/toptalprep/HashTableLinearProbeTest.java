@@ -24,6 +24,64 @@ public class HashTableLinearProbeTest {
 	}
 	
 	/**
+	 * Tests that exception is thrown when hash table is created with 0 initial capacity.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	@SuppressWarnings("unused")
+	public void createTableWithZeroInitialCapacity() {
+		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>(0);
+	}
+	
+	/**
+	 * Tests that exception is thrown when hash table is created with negative initial capacity.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	@SuppressWarnings("unused")
+	public void createTableWithNegativeInitialCapacity() {
+		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>(-10);
+	}
+	
+	/**
+	 * Tests that exception is thrown when hash table is created with 0 initial capacity and load
+	 * factor set to 1.0f.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	@SuppressWarnings("unused")
+	public void createTableWithZeroInitialCapacityAndLoadFactorSetToOne() {
+		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>(0, 1.0f);
+	}
+	
+	/**
+	 * Tests that exception is thrown when hash table is created with negative initial capacity
+	 * and load factor set to 1.0f.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	@SuppressWarnings("unused")
+	public void createTableWithNegativeInitialCapacityAndLoadFactorSetToOne() {
+		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>(-10, 1.0f);
+	}
+	
+	/**
+	 * Tests that exception is thrown when hash table is created with positive initial capacity and
+	 * negative load factor.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	@SuppressWarnings("unused")
+	public void createTableWithPositiveInitialCapacityAndNegativeLoadFactor() {
+		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>(10, -0.5f);
+	}
+	
+	/**
+	 * Tests that exception is thrown when hash table is created with positive initial capacity and
+	 * load factor greater than 1.0f.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	@SuppressWarnings("unused")
+	public void createTableWithPositiveInitialCapacityAndLoadFactorGreaterThanOne() {
+		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>(10, 1.1f);
+	}
+	
+	/**
 	 * Asserts that the empty flag is true upon table creation.
 	 */
 	@Test
@@ -101,11 +159,11 @@ public class HashTableLinearProbeTest {
 	@Test
 	public void testContainsKeyMethod() {
 		class TestVector {
-			int[] m_keys_to_insert;
-			int[] m_keys_to_search_for;
+			Integer[] m_keys_to_insert;
+			Integer[] m_keys_to_search_for;
 			boolean[] m_expected_lookup_results;
 			
-			public TestVector(int[] keys_to_insert, int[] keys_to_search_for, boolean[] expected_lookup_results) {
+			public TestVector(Integer[] keys_to_insert, Integer[] keys_to_search_for, boolean[] expected_lookup_results) {
 				m_keys_to_insert = keys_to_insert;
 				m_keys_to_search_for = keys_to_search_for;
 				m_expected_lookup_results = expected_lookup_results;
@@ -114,24 +172,29 @@ public class HashTableLinearProbeTest {
 		
 		TestVector test_vectors[] = {
 			new TestVector(
-					new int[] { 1, 0, -5, -100, 5, 6, 34 },
-					new int[] { -5, 2, -101, 100, 5, 5, 0, -34, -100 },
-					new boolean[] { true, false, false, false, true, true, true, false, true }),
+					new Integer[] { 1, 0, -5, -100, 5, null, 6, 34 },
+					new Integer[] { -5, 2, -101, 100, 5, 5, 0, null, -34, -100 },
+					new boolean[] { true, false, false, false, true, true, true, true, false, true }),
 			
 			new TestVector(
-					new int[] { },
-					new int[] { 5, -10, 5, 67, -94 },
-					new boolean[] { false, false, false, false, false }),
+					new Integer[] { },
+					new Integer[] { 5, -10, 5, 67, null, -94 },
+					new boolean[] { false, false, false, false, false, false }),
 			
 			new TestVector(
-					new int[] { -10 },
-					new int[] { 0, 5, 50, -15, -10, 0, 765, -34, 35, -10 },
-					new boolean[] { false, false, false, false, true, false, false, false, false, true }),
+					new Integer[] { -10 },
+					new Integer[] { 0, 5, 50, -15, -10, null, 0, 765, -34, 35, -10 },
+					new boolean[] { false, false, false, false, true, false, false, false, false, false, true }),
 			
 			new TestVector(
-					new int[] { -3, -2, -1, 0, 1, 2, 3 },
-					new int[] { 0, 4, -4, 1, -1, 10, -2, 3, 5, -5, -20 },
-					new boolean[] { true, false, false, true, true, false, true, true, false, false, false })
+					new Integer[] { -3, -2, -1, 0, null, 1, 2, 3 },
+					new Integer[] { 0, 4, -4, 1, -1, 10, -2, null, 3, 5, -5, -20 },
+					new boolean[] { true, false, false, true, true, false, true, true, true, false, false, false }),
+			
+			new TestVector(
+					new Integer[] { null, -3, 50, 12, 100, -100 },
+					new Integer[] { 1, 12, -13, -100, null, 50, -3, 897, -32 },
+					new boolean[] { false, true, false, true, true, true, true, false, false })
 		};
 		
 		for (TestVector test_vector : test_vectors) {
@@ -180,16 +243,17 @@ public class HashTableLinearProbeTest {
 		TestVector[] test_vectors = {
 				new TestVector(
 						new Object[] { },
-						new String[] { "", "ab", "c", "auudfd", "tttafb" },
-						new boolean[] { false, false, false, false, false }),
+						new String[] { "", "ab", "c", "auudfd", null, "tttafb" },
+						new boolean[] { false, false, false, false, false, false }),
 				
 				new TestVector(
 						new Object[] { new KeyValue<Integer, String>(0, "abc") },
-						new String[] { "", "ab", "c", "abc", "7red", "abc", "abcd" },
-						new boolean[] { false, false, false, true, false, true, false }),
+						new String[] { "", "ab", "c", "abc", "7red", "abc", "abcd", null },
+						new boolean[] { false, false, false, true, false, true, false, false }),
 				
 				new TestVector(
 						new Object[] {
+								new KeyValue<Integer, String>(null, "habla"),
 								new KeyValue<Integer, String>(0, ""),
 								new KeyValue<Integer, String>(4, "a"),
 								new KeyValue<Integer, String>(-45, "abc"),
@@ -197,11 +261,11 @@ public class HashTableLinearProbeTest {
 								new KeyValue<Integer, String>(-1, "uiyed"),
 								new KeyValue<Integer, String>(99, "78342")
 						},
-						new String[] { "1", "abcd", "", "uiyed", "78341", "ab", "abc", "cba" },
-						new boolean[] { false, false, true, true, false, false, true, false }),
+						new String[] { "1", "abcd", "", "uiyed", "78341", "ab", "abc", "cba", "habla" },
+						new boolean[] { false, false, true, true, false, false, true, false, true }),
 				
 				new TestVector(
-						new Object[] { new KeyValue<Integer, String>(0, null), },
+						new Object[] { new KeyValue<Integer, String>(null, null), },
 						new String[] { null },
 						new boolean[] { true })
 		};
@@ -236,10 +300,10 @@ public class HashTableLinearProbeTest {
 	public void testFindMethod() {
 		class TestVector {
 			Object[] m_mappings_to_insert;
-			int[] m_keys_to_search_for;
+			Integer[] m_keys_to_search_for;
 			String[] m_expected_values;
 			
-			public TestVector(Object[] mappings_to_insert, int[] keys_to_search_for, String[] expected_values) {
+			public TestVector(Object[] mappings_to_insert, Integer[] keys_to_search_for, String[] expected_values) {
 				m_mappings_to_insert = mappings_to_insert;
 				m_keys_to_search_for = keys_to_search_for;
 				m_expected_values = expected_values;
@@ -249,26 +313,28 @@ public class HashTableLinearProbeTest {
 		TestVector[] test_vectors = {
 				new TestVector(
 						new Object[] { },
-						new int[] { 0, -5, 12, -1, 50 },
-						new String[] { null, null, null, null, null }),
+						new Integer[] { 0, -5, null, 12, -1, 50 },
+						new String[] { null, null, null, null, null, null }),
 				
 				new TestVector(
 						new Object[] {
 								new KeyValue<Integer, String>(0, null),
 								new KeyValue<Integer, String>(-4, "ABc"),
 								new KeyValue<Integer, String>(1, "123"),
+								new KeyValue<Integer, String>(null, "wbo"),
 								new KeyValue<Integer, String>(-23, ""),
 								new KeyValue<Integer, String>(10, "adfsDFcd"),
 								new KeyValue<Integer, String>(8, null),
 								new KeyValue<Integer, String>(75, "23afbdA"),
 								new KeyValue<Integer, String>(999, "74AABCad")
 						},
-						new int[] { 999, 76, 0, 11, -4, 1, -22, 919, 8, -23, 0, 999, 1000, -23, 75 },
+						new Integer[] { 999, 76, 0, 11, null, -4, 1, -22, 919, 8, -23, 0, 999, 1000, -23, 75 },
 						new String[] {
 								"74AABCad",
 								null,
 								null,
 								null,
+								"wbo",
 								"ABc",
 								"123",
 								null,
@@ -311,9 +377,9 @@ public class HashTableLinearProbeTest {
 	public void testUnmapMethod() {
 		class TestVector {
 			List<Object> m_mappings_to_insert;
-			int[] m_keys_to_unmap;
+			Integer[] m_keys_to_unmap;
 			
-			public TestVector(List<Object> mappings_to_insert, int[] keys_to_unmap) {
+			public TestVector(List<Object> mappings_to_insert, Integer[] keys_to_unmap) {
 				m_mappings_to_insert = mappings_to_insert;
 				m_keys_to_unmap = keys_to_unmap;
 			}
@@ -322,11 +388,15 @@ public class HashTableLinearProbeTest {
 		TestVector[] test_vectors = {
 				new TestVector(
 						new ArrayList<Object>(Arrays.asList(new Object[] { })),
-						new int[] { 0, -1, 34, 345, -2, 4, 42, -2 }),
+						new Integer[] { 0, -1, 34, 345, null, -2, 4, null, 42, -2 }),
 				
 				new TestVector(
 						new ArrayList<Object>(Arrays.asList(new Object[] { new KeyValue<Integer, String>(-10, "456") })),
-						new int[] { 0, 34, 0, -9, -10, 8, 8, -10, 1 }),
+						new Integer[] { 0, 34, 0, -9, -10, 8, 8, -10, 1 }),
+				
+				new TestVector(
+						new ArrayList<Object>(Arrays.asList(new Object[] { new KeyValue<Integer, String>(null, "a") })),
+						new Integer[] { 0, 34, 49, null, -10, 1, null }),
 				
 				new TestVector(
 						new ArrayList<Object>(Arrays.asList(new Object[] {
@@ -335,13 +405,26 @@ public class HashTableLinearProbeTest {
 								new KeyValue<Integer, String>(0, "abcD"),
 								new KeyValue<Integer, String>(456, "56MNB"),
 								new KeyValue<Integer, String>(1, ",._J"),
+								new KeyValue<Integer, String>(null, "uyt"),
 								new KeyValue<Integer, String>(90, "TRY"),
 								new KeyValue<Integer, String>(12345, "BVN09"),
 								new KeyValue<Integer, String>(854, "32cvb"),
 								new KeyValue<Integer, String>(-7, "f;jklfsd"),
 								new KeyValue<Integer, String>(100, "1v0fd")
 						})),
-						new int[] { 0, -1000, 90, 854, -2, 1, 0, 456, -5, 7, -7, 854, 12345, 90, 99 })
+						new Integer[] { 0, -1000, 90, null, 854, -2, 1, 0, 456, -5, null, 7, -7, 854, 12345, 90, 99 }),
+				
+				new TestVector(
+						new ArrayList<Object>(Arrays.asList(new Object[] {
+								new KeyValue<Integer, String>(-3, "A"),
+								new KeyValue<Integer, String>(null, null),
+								new KeyValue<Integer, String>(10, "B"),
+								new KeyValue<Integer, String>(-5, "C"),
+								new KeyValue<Integer, String>(11, "D"),
+								new KeyValue<Integer, String>(75, "E"),
+								new KeyValue<Integer, String>(-7, "F")
+						})),
+						new Integer[] { -7, 75, 11, -5, 10, null, -3 })
 		};
 		
 		for (TestVector test_vector : test_vectors) {
@@ -367,9 +450,12 @@ public class HashTableLinearProbeTest {
 				OptionalInt mapping_index = IntStream.range(0, test_vector.m_mappings_to_insert.size())
 						.filter(
 								index -> {
-									return ((KeyValue<Integer, String>)
-											test_vector.m_mappings_to_insert.get(index)).m_key.equals(
-													test_vector.m_keys_to_unmap[final_i]);
+									KeyValue<Integer, String> mapping =
+											(KeyValue<Integer, String>) test_vector.m_mappings_to_insert.get(index);
+									
+									return mapping.m_key != null ?
+											mapping.m_key.equals(test_vector.m_keys_to_unmap[final_i]) :
+											test_vector.m_keys_to_unmap[final_i] == null;
 								})
 						.findFirst();
 				
@@ -430,6 +516,7 @@ public class HashTableLinearProbeTest {
 								new KeyValue<Integer, String>(345, null),
 								new KeyValue<Integer, String>(-2, "asdfsd"),
 								new KeyValue<Integer, String>(4, "abc"),
+								new KeyValue<Integer, String>(null, "uma"),
 								new KeyValue<Integer, String>(42, "uyt"),
 								new KeyValue<Integer, String>(-2, "uier")
 						})),
@@ -445,6 +532,7 @@ public class HashTableLinearProbeTest {
 								new KeyValue<Integer, String>(8, "tyu"),
 								new KeyValue<Integer, String>(8, "iew"),
 								new KeyValue<Integer, String>(-10, "456"),
+								new KeyValue<Integer, String>(null, "uma"),
 								new KeyValue<Integer, String>(1, "askfjsd")
 						})),
 				
@@ -452,6 +540,7 @@ public class HashTableLinearProbeTest {
 						new ArrayList<Object>(Arrays.asList(new Object[] {
 								new KeyValue<Integer, String>(-1, ""),
 								new KeyValue<Integer, String>(7, "AB"),
+								new KeyValue<Integer, String>(null, "uma"),
 								new KeyValue<Integer, String>(0, "abcD"),
 								new KeyValue<Integer, String>(456, "56MNB"),
 								new KeyValue<Integer, String>(1, ",._J"),
@@ -468,6 +557,7 @@ public class HashTableLinearProbeTest {
 								new KeyValue<Integer, String>(854, "32cvb"),
 								new KeyValue<Integer, String>(-2, "adfds"),
 								new KeyValue<Integer, String>(1, ",._J"),
+								new KeyValue<Integer, String>(null, "hupa"),
 								new KeyValue<Integer, String>(0, "abcD"),
 								new KeyValue<Integer, String>(456, "dfa"),
 								new KeyValue<Integer, String>(-5, "AB"),
@@ -475,8 +565,38 @@ public class HashTableLinearProbeTest {
 								new KeyValue<Integer, String>(-7, "sdfds"),
 								new KeyValue<Integer, String>(854, "32cvb"),
 								new KeyValue<Integer, String>(12345, "kjdfa32"),
+								new KeyValue<Integer, String>(null, "uma"),
 								new KeyValue<Integer, String>(90, "TRY"),
-								new KeyValue<Integer, String>(99, "23L")
+								new KeyValue<Integer, String>(99, "23L"),
+								new KeyValue<Integer, String>(100, null)
+						})),
+				
+				new TestVector(
+						new ArrayList<Object>(Arrays.asList(new Object[] {
+								new KeyValue<Integer, String>(-1, ""),
+								new KeyValue<Integer, String>(7, "AB"),
+								new KeyValue<Integer, String>(null, "uma"),
+								new KeyValue<Integer, String>(0, "abcD"),
+								new KeyValue<Integer, String>(456, "56MNB"),
+								new KeyValue<Integer, String>(1, ",._J"),
+								new KeyValue<Integer, String>(90, "TRY"),
+								new KeyValue<Integer, String>(12345, "BVN09"),
+								new KeyValue<Integer, String>(854, "32cvb"),
+								new KeyValue<Integer, String>(-7, "f;jklfsd"),
+								new KeyValue<Integer, String>(100, null)
+						})),
+						Arrays.asList(new Object[] {
+								new KeyValue<Integer, String>(100, null),
+								new KeyValue<Integer, String>(-7, "f;jklfsd"),
+								new KeyValue<Integer, String>(854, "32cvb"),
+								new KeyValue<Integer, String>(12345, "BVN09"),
+								new KeyValue<Integer, String>(90, "TRY"),
+								new KeyValue<Integer, String>(1, ",._J"),
+								new KeyValue<Integer, String>(456, "56MNB"),
+								new KeyValue<Integer, String>(0, "abcD"),
+								new KeyValue<Integer, String>(null, "uma"),
+								new KeyValue<Integer, String>(7, "AB"),
+								new KeyValue<Integer, String>(-1, "")
 						}))
 		};
 		
@@ -508,9 +628,16 @@ public class HashTableLinearProbeTest {
 									KeyValue<Integer, String> key_value =
 											(KeyValue<Integer, String>) test_vector.m_mappings_to_insert.get(index);
 									
-									return
-											key_value.m_key.equals(mapping_to_remove.m_key) &&
-											key_value.m_value.equals(mapping_to_remove.m_value);
+									boolean keys_equal = key_value.m_key != null ?
+											key_value.m_key.equals(mapping_to_remove.m_key) :
+											mapping_to_remove.m_key == null;
+									
+									if (keys_equal) {
+										return key_value.m_value != null ?
+												key_value.m_value.equals(mapping_to_remove.m_value) :
+												mapping_to_remove.m_value == null;
+									}
+									return false;
 								})
 						.findFirst();
 				
@@ -568,6 +695,7 @@ public class HashTableLinearProbeTest {
 								new KeyValue<Integer, String>(0, "abc"),
 								new KeyValue<Integer, String>(-10, "45A"),
 								new KeyValue<Integer, String>(9, "12TU"),
+								new KeyValue<Integer, String>(null, "uma"),
 								new KeyValue<Integer, String>(100, "fdsf")
 						})),
 				
@@ -580,6 +708,7 @@ public class HashTableLinearProbeTest {
 								new KeyValue<Integer, String>(74, "UA"),
 								new KeyValue<Integer, String>(-90, "87AFB"),
 								new KeyValue<Integer, String>(100, ",.d"),
+								new KeyValue<Integer, String>(null, "uma"),
 								new KeyValue<Integer, String>(-90, "OIU")
 						})),
 				
@@ -589,6 +718,7 @@ public class HashTableLinearProbeTest {
 								new KeyValue<Integer, String>(4, "8nm"),
 								new KeyValue<Integer, String>(-34, "TYU"),
 								new KeyValue<Integer, String>(-12, "987"),
+								new KeyValue<Integer, String>(null, "uma"),
 								new KeyValue<Integer, String>(198, "hgjf"),
 								new KeyValue<Integer, String>(9, "sdfa"),
 								new KeyValue<Integer, String>(3, "vm"),
@@ -602,11 +732,13 @@ public class HashTableLinearProbeTest {
 								new KeyValue<Integer, String>(3, "87AFB"),
 								new KeyValue<Integer, String>(-100, ",.d"),
 								new KeyValue<Integer, String>(-90, "OIU"),
+								new KeyValue<Integer, String>(null, "hablo"),
 								new KeyValue<Integer, String>(4, "usha"),
 								new KeyValue<Integer, String>(198, "bla"),
 								new KeyValue<Integer, String>(4, "9nm"),
 								new KeyValue<Integer, String>(-12, "hgjf"),
-								new KeyValue<Integer, String>(-1, "push")
+								new KeyValue<Integer, String>(-1, "push"),
+								new KeyValue<Integer, String>(null, "pop")
 						})),
 		};
 		
@@ -632,9 +764,13 @@ public class HashTableLinearProbeTest {
 				OptionalInt mapping_index = IntStream.range(0, test_vector.m_mappings_to_insert.size())
 						.filter(
 								index -> {
-									return ((KeyValue<Integer, String>)
-											test_vector.m_mappings_to_insert.get(index)).m_key.equals(
-													mapping_to_update.m_key);
+									KeyValue<Integer, String> mapping =
+											(KeyValue<Integer, String>) test_vector.m_mappings_to_insert.get(index);
+									
+									return mapping.m_key != null ?
+											mapping.m_key.equals(mapping_to_update.m_key) :
+											mapping_to_update.m_key == null;
+											
 								})
 						.findFirst();
 				
@@ -685,7 +821,8 @@ public class HashTableLinearProbeTest {
 						new KeyValue<Integer, String>(0, "dfg09"),
 						new KeyValue<Integer, String>(-10, "MNN"),
 						new KeyValue<Integer, String>(8, "yut"),
-						new KeyValue<Integer, String>(90, "cvb913")
+						new KeyValue<Integer, String>(90, "cvb913"),
+						new KeyValue<Integer, String>(null, "uma")
 				});
 		
 		// Populate the table
@@ -700,7 +837,7 @@ public class HashTableLinearProbeTest {
 		// List of values that that keys in 'mappings_to_insert' list
 		// should be re-mapped to.
 		String[] new_values = new String[] {
-				"987", "ghj10", "1fh", "poi", "rui"
+				"987", "ghj10", "1fh", "poi", "rui", "pop"
 		};
 		
 		// Sanity check
@@ -832,60 +969,6 @@ public class HashTableLinearProbeTest {
 			Integer value = table.find(test_vector.m_keys_to_find[i]);
 			assertEquals(test_vector.m_reference_values[i], value);
 		}
-	}
-	
-	/**
-	 * Asserts that an exception is thrown when calling map() with null key.
-	 */
-	@Test(expected = NullPointerException.class)
-	public void nullExceptionThrownOnMapWithNullKey() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
-		table.map(null, "str");
-	}
-	
-	/**
-	 * Asserts that an exception is thrown when calling containsKey() with null key.
-	 */
-	@Test(expected = NullPointerException.class)
-	public void nullExceptionThrownOnContainsKeyWithNullkey() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
-		table.containsKey(null);
-	}
-	
-	/**
-	 * Asserts that an exception is thrown when calling find() with null key.
-	 */
-	@Test(expected = NullPointerException.class)
-	public void nullExceptionThrownOnFindWithNullKey() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
-		table.find(null);
-	}
-	
-	/**
-	 * Asserts that an exception is thrown when calling unmap(key) with null key.
-	 */
-	@Test(expected = NullPointerException.class)
-	public void nullExceptionThrownOnUnmapWithNullKey() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
-		table.unmap(null);
-	}
-	
-	/**
-	 * Asserts that an exception is thrown when calling unmap(key, value) with null key.
-	 */
-	@Test(expected = NullPointerException.class)
-	public void nullExceptionThrownOnUnmapKeyValueWithNullKey() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
-		table.unmap(null, "ABC");
-	}
-	
-	/**
-	 * Asserts that an exception is thrown when calling remap() with null key.
-	 */
-	@Test(expected = NullPointerException.class)
-	public void nullExceptionThrownOnRemapWithNullKey() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
-		table.remap(null, "ABC");
 	}
 	
 	/**
@@ -1190,5 +1273,50 @@ public class HashTableLinearProbeTest {
 			Integer value = table.find(mapping.m_key);
 			assertEquals(mapping.m_value, value);
 		}
+	}
+	
+	/**
+	 * Populates the hash table in such a way that each key is map to a unique
+	 * value. It then unmaps a single key and asserts that the value it used to
+	 * be mapped to is no longer present in the table.
+	 */
+	@Test
+	@SuppressWarnings("unchecked")
+	public void unmapKeyThenCheckWhetherValueIsPresent() {
+		// All keys must be mapped to unique values
+		Object[] mappings_to_insert = {
+				new KeyValue<Integer, String>(0, "A"),
+				new KeyValue<Integer, String>(-23, "B"),
+				new KeyValue<Integer, String>(5, "C"),
+				new KeyValue<Integer, String>(34, "D"),
+				new KeyValue<Integer, String>(100, "E"),
+				new KeyValue<Integer, String>(null, "F")
+		};
+		
+		// We'll remove the middle mapping
+		KeyValue<Integer, String> mapping_to_remove =
+				(KeyValue<Integer, String>) mappings_to_insert[mappings_to_insert.length / 2];
+		
+		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+		
+		// Populate the table
+		for (Object obj : mappings_to_insert) {
+			KeyValue<Integer, String> mapping = (KeyValue<Integer, String>) obj;
+			table.map(mapping.m_key, mapping.m_value);
+		}
+		
+		// Remove the mapping
+		String removed_value = table.unmap(mapping_to_remove.m_key);
+		if (mapping_to_remove.m_value != null) {
+			assertEquals(mapping_to_remove.m_value, removed_value);
+		}
+		else {
+			assertNull(removed_value);
+		}
+		
+		// Assert that the table doesn't contain the value of the mapping
+		// we just removed (that must've been the only mapping with this
+		// value in the table
+		assertFalse(table.containsValue(mapping_to_remove.m_value));
 	}
 }
