@@ -3,16 +3,112 @@ package com.toptalprep;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
 /**
- * Unit tests for the HashTableLinearProbe class.
+ * Unit tests for the various implementations of the HashTable interface.
  */
-public class HashTableLinearProbeTest {
+@RunWith(value = Parameterized.class)
+public class HashTableTest {
+	/**
+	 * Lists all HashTable interface implementations.
+	 */
+	enum HashTableImplementation {
+		HASH_TABLE_LINEAR_PROBE,
+		HASH_TABLE_QUADRATIC_PROBE
+	}
+	
+	/**
+	 * Returns a collection containing an enum for each HashTable
+	 * implementation.
+	 */
+	@SuppressWarnings("rawtypes")
+	@Parameters
+	public static Collection getHashTableImplementationEnums() {
+		return Arrays.asList(new Object[][] {
+				{ HashTableImplementation.HASH_TABLE_LINEAR_PROBE },
+				{ HashTableImplementation.HASH_TABLE_QUADRATIC_PROBE }
+		});
+	}
+	
+	/**
+	 * The HashTable implementation tested by current test fixture.
+	 */
+	private HashTableImplementation m_implementation;
+	
+	/**
+	 * Initializes the test fixture.
+	 *
+	 * @param implementation  The HashTable implementation to be tested.
+	 */
+	public HashTableTest(HashTableImplementation implementation) {
+		m_implementation = implementation;
+	}
+	
+	/**
+	 * Create a new HashTable instance whose type is determined by the value
+	 * of m_implementation member.
+	 */
+	private <KeyT, ValueT> HashTable<KeyT, ValueT> newHashTableInstance() {
+		switch (m_implementation) {
+		case HASH_TABLE_LINEAR_PROBE:
+			return new HashTableLinearProbe<KeyT, ValueT>();
+			
+		case HASH_TABLE_QUADRATIC_PROBE:
+			return new HashTableQuadraticProbe<KeyT, ValueT>();
+			
+		default:
+			assertTrue("Unknown hash table implementation", false);
+			return null;
+		}
+	}
+	
+	/**
+	 * Create a new HashTable instance whose type is determined by the value
+	 * of m_implementation member.
+	 */
+	private <KeyT, ValueT> HashTable<KeyT, ValueT> newHashTableInstance(int initial_capacity) {
+		switch (m_implementation) {
+		case HASH_TABLE_LINEAR_PROBE:
+			return new HashTableLinearProbe<KeyT, ValueT>(initial_capacity);
+			
+		case HASH_TABLE_QUADRATIC_PROBE:
+			return new HashTableQuadraticProbe<KeyT, ValueT>(initial_capacity);
+			
+		default:
+			assertTrue("Unknown hash table implementation", false);
+			return null;
+		}
+	}
+	
+	/**
+	 * Create a new HashTable instance whose type is determined by the value
+	 * of m_implementation member.
+	 */
+	private <KeyT, ValueT> HashTable<KeyT, ValueT> newHashTableInstance(
+			int initial_capacity, float load_factor) {
+		switch (m_implementation) {
+		case HASH_TABLE_LINEAR_PROBE:
+			return new HashTableLinearProbe<KeyT, ValueT>(initial_capacity, load_factor);
+			
+		case HASH_TABLE_QUADRATIC_PROBE:
+			return new HashTableQuadraticProbe<KeyT, ValueT>(initial_capacity, load_factor);
+			
+		default:
+			assertTrue("Unknown hash table implementation", false);
+			return null;
+		}
+	}
+	
 	private class KeyValue<KeyT, ValueT> {
 		KeyT m_key;
 		ValueT m_value;
@@ -29,7 +125,7 @@ public class HashTableLinearProbeTest {
 	@Test(expected = IllegalArgumentException.class)
 	@SuppressWarnings("unused")
 	public void createTableWithZeroInitialCapacity() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>(0);
+		HashTable<Integer, String> table = newHashTableInstance(0);
 	}
 	
 	/**
@@ -38,7 +134,7 @@ public class HashTableLinearProbeTest {
 	@Test(expected = IllegalArgumentException.class)
 	@SuppressWarnings("unused")
 	public void createTableWithNegativeInitialCapacity() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>(-10);
+		HashTable<Integer, String> table = newHashTableInstance(-10);
 	}
 	
 	/**
@@ -48,7 +144,7 @@ public class HashTableLinearProbeTest {
 	@Test(expected = IllegalArgumentException.class)
 	@SuppressWarnings("unused")
 	public void createTableWithZeroInitialCapacityAndLoadFactorSetToOne() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>(0, 1.0f);
+		HashTable<Integer, String> table = newHashTableInstance(0, 1.0f);
 	}
 	
 	/**
@@ -58,7 +154,7 @@ public class HashTableLinearProbeTest {
 	@Test(expected = IllegalArgumentException.class)
 	@SuppressWarnings("unused")
 	public void createTableWithNegativeInitialCapacityAndLoadFactorSetToOne() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>(-10, 1.0f);
+		HashTable<Integer, String> table = newHashTableInstance(-10, 1.0f);
 	}
 	
 	/**
@@ -68,7 +164,7 @@ public class HashTableLinearProbeTest {
 	@Test(expected = IllegalArgumentException.class)
 	@SuppressWarnings("unused")
 	public void createTableWithPositiveInitialCapacityAndNegativeLoadFactor() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>(10, -0.5f);
+		HashTable<Integer, String> table = newHashTableInstance(10, -0.5f);
 	}
 	
 	/**
@@ -78,7 +174,7 @@ public class HashTableLinearProbeTest {
 	@Test(expected = IllegalArgumentException.class)
 	@SuppressWarnings("unused")
 	public void createTableWithPositiveInitialCapacityAndLoadFactorGreaterThanOne() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>(10, 1.1f);
+		HashTable<Integer, String> table = newHashTableInstance(10, 1.1f);
 	}
 	
 	/**
@@ -86,7 +182,7 @@ public class HashTableLinearProbeTest {
 	 */
 	@Test
 	public void emptyFlagIsTrueInNewTable() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+		HashTable<Integer, String> table = newHashTableInstance();
 		assertTrue(table.isEmpty());
 	}
 	
@@ -95,7 +191,7 @@ public class HashTableLinearProbeTest {
 	 */
 	@Test
 	public void emptyFlagIsFalseInNonEmptyTable() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+		HashTable<Integer, String> table = newHashTableInstance();
 		table.map(5, "A");
 		assertFalse(table.isEmpty());
 	}
@@ -105,7 +201,7 @@ public class HashTableLinearProbeTest {
 	 */
 	@Test
 	public void emptyFlagIsTrueAfterTableBecomesEmpty() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+		HashTable<Integer, String> table = newHashTableInstance();
 		table.map(5, "A");
 		table.unmap(5);
 		assertTrue(table.isEmpty());
@@ -116,7 +212,7 @@ public class HashTableLinearProbeTest {
 	 */
 	@Test
 	public void sizeIsZeroUponCreation() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+		HashTable<Integer, String> table = newHashTableInstance();
 		assertEquals(0, table.size());
 	}
 	
@@ -125,7 +221,7 @@ public class HashTableLinearProbeTest {
 	 */
 	@Test
 	public void sizeIsOneAfterMappingKey() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+		HashTable<Integer, String> table = newHashTableInstance();
 		table.map(5, "A");
 		assertEquals(1, table.size());
 	}
@@ -135,7 +231,7 @@ public class HashTableLinearProbeTest {
 	 */
 	@Test
 	public void sizeIsZeroAfterTableBecomesEmpty() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+		HashTable<Integer, String> table = newHashTableInstance();
 		table.map(5, "A");
 		table.unmap(5);
 		assertEquals(0, table.size());
@@ -146,7 +242,7 @@ public class HashTableLinearProbeTest {
 	 */
 	@Test
 	public void emptyFlagFalseSizeZeroAfterTableIsCleared() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+		HashTable<Integer, String> table = newHashTableInstance();
 		table.map(5, "A");
 		table.clear();
 		assertTrue(table.isEmpty());
@@ -198,7 +294,7 @@ public class HashTableLinearProbeTest {
 		};
 		
 		for (TestVector test_vector : test_vectors) {
-			HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+			HashTable<Integer, String> table = newHashTableInstance();
 			
 			// Map the keys
 			for (int i = 0; i < test_vector.m_keys_to_insert.length; ++i) {
@@ -271,7 +367,7 @@ public class HashTableLinearProbeTest {
 		};
 		
 		for (TestVector test_vector : test_vectors) {
-			HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+			HashTable<Integer, String> table = newHashTableInstance();
 			
 			// Insert the mappings into the table
 			for (Object mapping : test_vector.m_mappings_to_insert) {
@@ -349,7 +445,7 @@ public class HashTableLinearProbeTest {
 		};
 		
 		for (TestVector test_vector : test_vectors) {
-			HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+			HashTable<Integer, String> table = newHashTableInstance();
 			
 			// Insert the mappings into the table
 			for (Object mapping : test_vector.m_mappings_to_insert) {
@@ -428,7 +524,7 @@ public class HashTableLinearProbeTest {
 		};
 		
 		for (TestVector test_vector : test_vectors) {
-			HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+			HashTable<Integer, String> table = newHashTableInstance();
 			
 			// Insert the mappings into the table
 			for (Object mapping : test_vector.m_mappings_to_insert) {
@@ -601,7 +697,7 @@ public class HashTableLinearProbeTest {
 		};
 		
 		for (TestVector test_vector : test_vectors) {
-			HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+			HashTable<Integer, String> table = newHashTableInstance();
 			
 			// Insert the mappings into the table
 			for (Object mapping : test_vector.m_mappings_to_insert) {
@@ -743,7 +839,7 @@ public class HashTableLinearProbeTest {
 		};
 		
 		for (TestVector test_vector : test_vectors) {
-			HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+			HashTable<Integer, String> table = newHashTableInstance();
 
 			// Insert the mappings into the table
 			for (Object mapping : test_vector.m_mappings_to_insert) {
@@ -812,7 +908,7 @@ public class HashTableLinearProbeTest {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void mapDuplicateKeys() {
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+		HashTable<Integer, String> table = newHashTableInstance();
 		
 		// Mappings to insert into the table
 		List<Object> mappings_to_insert =
@@ -948,7 +1044,7 @@ public class HashTableLinearProbeTest {
 		
 		// Insert the mappings into the table. The following loop will also create
 		// a list of all distinct keys inserted in the table.
-		HashTableLinearProbe<KeyClass, Integer> table = new HashTableLinearProbe<KeyClass, Integer>();
+		HashTable<KeyClass, Integer> table = newHashTableInstance();
 		ArrayList<KeyClass> distinct_keys = new ArrayList<KeyClass>();
 		for (Object obj : test_vector.m_mappings_to_insert) {
 			KeyValue<KeyClass, Integer> mapping = (KeyValue<KeyClass, Integer>) obj;
@@ -1075,8 +1171,8 @@ public class HashTableLinearProbeTest {
 		};
 		
 		for (TestVector test_vector : test_vectors) {
-			HashTableLinearProbe<Integer, String> table =
-					new HashTableLinearProbe<Integer, String>(
+			HashTable<Integer, String> table =
+					newHashTableInstance(
 							test_vector.m_initial_capacity,
 							test_vector.m_load_factor);
 			
@@ -1160,7 +1256,7 @@ public class HashTableLinearProbeTest {
 		}));
 		
 		// Populate the table
-		HashTableLinearProbe<KeyClass, Integer> table = new HashTableLinearProbe<KeyClass, Integer>(3, 0.75f);
+		HashTable<KeyClass, Integer> table = newHashTableInstance(3, 0.75f);
 		for (Object obj : reference_mappings) {
 			KeyValue<KeyClass, Integer> mapping = (KeyValue<KeyClass, Integer>) obj;
 			table.map(mapping.m_key, mapping.m_value);
@@ -1297,7 +1393,7 @@ public class HashTableLinearProbeTest {
 		KeyValue<Integer, String> mapping_to_remove =
 				(KeyValue<Integer, String>) mappings_to_insert[mappings_to_insert.length / 2];
 		
-		HashTableLinearProbe<Integer, String> table = new HashTableLinearProbe<Integer, String>();
+		HashTable<Integer, String> table = newHashTableInstance();
 		
 		// Populate the table
 		for (Object obj : mappings_to_insert) {
