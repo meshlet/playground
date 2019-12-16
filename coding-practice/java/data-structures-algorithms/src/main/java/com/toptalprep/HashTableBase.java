@@ -18,6 +18,8 @@ package com.toptalprep;
  * will be used).
  */
 public abstract class HashTableBase<KeyT, ValueT> implements HashTable<KeyT, ValueT> {
+	// TODO: this won't be used in hash table implementations that
+	// use separate chaining to resolve key collisions.
 	/**
 	 * This value is assigned to the key to mark the mapping as
 	 * removed. Note that REMOVED_KEY.equals() will return true
@@ -92,6 +94,8 @@ public abstract class HashTableBase<KeyT, ValueT> implements HashTable<KeyT, Val
 			throw new IllegalArgumentException("initial_capacity not positive");
 		}
 		
+		// TODO: load_factor can be > 1.0 for hash table implementations that use
+		// separate chaining, so HashTableBase shouldn't throw in that case.
 		if (load_factor < 0.0f || load_factor > 1.0f) {
 			throw new IllegalArgumentException("load_factor not in range [0.0, 1.0]");
 		}
@@ -159,6 +163,9 @@ public abstract class HashTableBase<KeyT, ValueT> implements HashTable<KeyT, Val
 		return (int)(hash % m_array.length);
 	}
 	
+	// TODO: this method implementation should be moved to the HashTableOpenAddressing
+	// class, as different implementation is needed for the hash table implementations
+	// using separate chaining.
 	/**
 	 * Linearly scans the map searching for specified value.
 	 *

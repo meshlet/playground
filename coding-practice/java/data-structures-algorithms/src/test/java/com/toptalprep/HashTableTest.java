@@ -1275,7 +1275,7 @@ public class HashTableTest {
 		
 		KeyClass[] keys_to_unmap = {
 				new KeyClass(0, "A"),
-				new KeyClass(-3, "c"),
+				new KeyClass(3, "c"),
 				new KeyClass(-4, "ll"),
 				new KeyClass(6, "iiii"),
 				new KeyClass(6, "afksdjfklsdjf"),
