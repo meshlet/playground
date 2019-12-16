@@ -9,7 +9,7 @@ package com.toptalprep;
  * A simple modulo function is used to compute the array index for
  * the given key hash:
  *
- * array_index = key_hash % array_size
+ * array_index = hash(k) % array_size
  *
  * The Object.hashCode method is used to obtain the hash of the key
  * value, and Object.equals to test keys for equality. It is the

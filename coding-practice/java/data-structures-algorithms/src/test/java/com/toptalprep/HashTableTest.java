@@ -24,20 +24,22 @@ public class HashTableTest {
 	 */
 	enum HashTableImplementation {
 		HASH_TABLE_LINEAR_PROBE,
-		HASH_TABLE_QUADRATIC_PROBE
+		HASH_TABLE_QUADRATIC_PROBE,
+		HASH_TABLE_DOUBLE_HASHING
 	}
 	
 	/**
-	 * Returns a collection containing an enum for each HashTable
+	 * Returns a collection containing an enum  value for each HashTable
 	 * implementation.
 	 */
 	@SuppressWarnings("rawtypes")
 	@Parameters
 	public static Collection getHashTableImplementationEnums() {
-		return Arrays.asList(new Object[][] {
-				{ HashTableImplementation.HASH_TABLE_LINEAR_PROBE },
-				{ HashTableImplementation.HASH_TABLE_QUADRATIC_PROBE }
-		});
+		Object[][] implementation_enums = new Object[HashTableImplementation.values().length][1];
+		for (int i = 0; i < HashTableImplementation.values().length; ++i) {
+			implementation_enums[i][0] = HashTableImplementation.values()[i];
+		}
+		return Arrays.asList(implementation_enums);
 	}
 	
 	/**
@@ -65,6 +67,9 @@ public class HashTableTest {
 			
 		case HASH_TABLE_QUADRATIC_PROBE:
 			return new HashTableQuadraticProbe<KeyT, ValueT>();
+		
+		case HASH_TABLE_DOUBLE_HASHING:
+			return new HashTableDoubleHashing<KeyT, ValueT>();
 			
 		default:
 			assertTrue("Unknown hash table implementation", false);
@@ -83,6 +88,9 @@ public class HashTableTest {
 			
 		case HASH_TABLE_QUADRATIC_PROBE:
 			return new HashTableQuadraticProbe<KeyT, ValueT>(initial_capacity);
+		
+		case HASH_TABLE_DOUBLE_HASHING:
+			return new HashTableDoubleHashing<KeyT, ValueT>(initial_capacity);
 			
 		default:
 			assertTrue("Unknown hash table implementation", false);
@@ -102,6 +110,9 @@ public class HashTableTest {
 			
 		case HASH_TABLE_QUADRATIC_PROBE:
 			return new HashTableQuadraticProbe<KeyT, ValueT>(initial_capacity, load_factor);
+		
+		case HASH_TABLE_DOUBLE_HASHING:
+			return new HashTableDoubleHashing<KeyT, ValueT>(initial_capacity, load_factor);
 			
 		default:
 			assertTrue("Unknown hash table implementation", false);
@@ -1200,7 +1211,7 @@ public class HashTableTest {
 	 */
 	@Test
 	@SuppressWarnings("unchecked")
-	public void mapKeysWithSameHashAsPrevioiuslyUnmappedKeys() {
+	public void mapKeysWithSameHashAsPreviouslyUnmappedKeys() {
 		/**
 		 * A helper class where user can provide the hash code to be
 		 * returned by its hashCode() method as well as the data that

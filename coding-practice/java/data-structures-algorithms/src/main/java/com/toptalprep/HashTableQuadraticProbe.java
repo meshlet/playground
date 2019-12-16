@@ -7,29 +7,29 @@ package com.toptalprep;
  * The array index to probe is a quadratic function of the number of
  * array indices already probed:
  *
- * f(i) = [hash(k) + c1*i + c2*i^2] % m
+ * f(k, i) = [hash(k) + c1*i + c2*i^2] % m
  *
  * where i is the number of array indices already probed, m is the length
  * of the array, hash(k) is the hash value for the key k, c1 and c2 are the
  * coefficients. This implementation uses c1 = c2 = 1/2 and array length m
  * that is power of 2:
  *
- * f(i) = [hash(k) + i/2 + (i^2)/2] % m
+ * f(k, i) = [hash(k) + i/2 + (i^2)/2] % m
  *
  * Having coefficients c1 = c2 = 1/2 and m that is power of 2 guarantees
- * that values f(i) for i in [0,m-1] are all distinct. In other words,
+ * that values f(k, i) for i in [0,m-1] are all distinct. In other words,
  * every array index [0,m-1] will be probed exactly once.
  *
- * Instead of computing f(i) from scratch for every i, we can compute
- * f(i) as a function of f(i-1):
+ * Instead of computing f(k, i) from scratch for every i, we can compute
+ * f(k, i) as a function of f(k, i-1):
  *
- * f(i) - f(i-1) = [hash(k) + i/2 + (i^2)/2] % m - [hash(k) + (i-1)/2 + ((i-1)^2)/2] % m
+ * f(k, i) - f(k, i-1) = [hash(k) + i/2 + (i^2)/2] % m - [hash(k) + (i-1)/2 + ((i-1)^2)/2] % m
  *               = [hash(k) - hash(k) + i/2 - i/2 + 1/2 + (i^2)/2 - (i^2 -2*i + 1)/2] % m
  *               = [1/2 + (i^2)/2 - (i^2)/2 + i - 1/2] % m
  *               = i % m
  *               = i (as i < m)
  * 
- * and thus: f(i) = f(i-1) + i. Note that f(0) = hash(k) % m.
+ * and thus: f(k, i) = f(k, i-1) + i. Note that f(k, 0) = hash(k) % m.
  */
 public class HashTableQuadraticProbe<KeyT, ValueT> extends HashTableOpenAddressing<KeyT, ValueT> {
 	/**
@@ -136,7 +136,7 @@ public class HashTableQuadraticProbe<KeyT, ValueT> extends HashTableOpenAddressi
 	protected int computeArraySize(int requested_size) throws ArithmeticException {
 		int actual_size = roundToPowOfTwo(requested_size);
 		if (actual_size < 0) {
-			throw new ArithmeticException("Round to the next power of 2 causes integer overflow");
+			throw new ArithmeticException("Rounding the size to power of 2 causes overflow");
 		}
 		return actual_size;
 	}
