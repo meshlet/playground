@@ -25,7 +25,8 @@ public class HashTableTest {
 	enum HashTableImplementation {
 		HASH_TABLE_LINEAR_PROBE,
 		HASH_TABLE_QUADRATIC_PROBE,
-		HASH_TABLE_DOUBLE_HASHING
+		HASH_TABLE_DOUBLE_HASHING,
+		HASH_TABLE_SEPARATE_CHAINING
 	}
 	
 	/**
@@ -70,6 +71,9 @@ public class HashTableTest {
 		
 		case HASH_TABLE_DOUBLE_HASHING:
 			return new HashTableDoubleHashing<KeyT, ValueT>();
+		
+		case HASH_TABLE_SEPARATE_CHAINING:
+			return new HashTableSeparateChaining<KeyT, ValueT>();
 			
 		default:
 			assertTrue("Unknown hash table implementation", false);
@@ -92,6 +96,9 @@ public class HashTableTest {
 		case HASH_TABLE_DOUBLE_HASHING:
 			return new HashTableDoubleHashing<KeyT, ValueT>(initial_capacity);
 			
+		case HASH_TABLE_SEPARATE_CHAINING:
+			return new HashTableSeparateChaining<KeyT, ValueT>(initial_capacity);
+			
 		default:
 			assertTrue("Unknown hash table implementation", false);
 			return null;
@@ -113,6 +120,9 @@ public class HashTableTest {
 		
 		case HASH_TABLE_DOUBLE_HASHING:
 			return new HashTableDoubleHashing<KeyT, ValueT>(initial_capacity, load_factor);
+			
+		case HASH_TABLE_SEPARATE_CHAINING:
+			return new HashTableSeparateChaining<KeyT, ValueT>(initial_capacity, load_factor);
 			
 		default:
 			assertTrue("Unknown hash table implementation", false);
@@ -176,16 +186,6 @@ public class HashTableTest {
 	@SuppressWarnings("unused")
 	public void createTableWithPositiveInitialCapacityAndNegativeLoadFactor() {
 		HashTable<Integer, String> table = newHashTableInstance(10, -0.5f);
-	}
-	
-	/**
-	 * Tests that exception is thrown when hash table is created with positive initial capacity and
-	 * load factor greater than 1.0f.
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	@SuppressWarnings("unused")
-	public void createTableWithPositiveInitialCapacityAndLoadFactorGreaterThanOne() {
-		HashTable<Integer, String> table = newHashTableInstance(10, 1.1f);
 	}
 	
 	/**

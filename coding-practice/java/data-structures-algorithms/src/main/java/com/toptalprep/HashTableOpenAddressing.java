@@ -9,11 +9,27 @@ package com.toptalprep;
 public abstract class HashTableOpenAddressing<KeyT, ValueT> extends HashTableBase<KeyT, ValueT> {
 	/**
 	 * @see HashTableBase#HashTableBase(int, float)
+	 *
+	 * Hash table implementations using open addressing don't allow load
+	 * factor greater than 1.0, as the number of mappings these tables
+	 * can store cannot be greater than the size of the table. Hence,
+	 * load factor is capped to 1.0.
 	 */
 	protected HashTableOpenAddressing(int initial_capacity, float load_factor)
 			throws IllegalArgumentException {
-		super(initial_capacity, load_factor);
+		// Cap the load factor to 1.0
+		super(initial_capacity, load_factor > 1.0f ? 1.0f : load_factor);
 	}
+	
+	/**
+	 * This value is assigned to the key to mark the mapping as
+	 * removed. Note that REMOVED_KEY.equals() will return true
+	 * only if compared with itself. When compared to any other
+	 * key it will return false. As user can't pass in the
+	 * REMOVED_KEY, the equals() will return false for any user
+	 * specified key compared with the REMOVED_KEY.
+	 */
+	protected static final Object REMOVED_KEY = new Object();
 	
 	/**
 	 * Determines the offset to the next array index to probe.
@@ -124,6 +140,36 @@ public abstract class HashTableOpenAddressing<KeyT, ValueT> extends HashTableBas
 	}
 	
 	/**
+	 * Linearly scans the table searching for the specified value.
+	 *
+	 * Time complexity of this operation is O(N) where N is the current
+	 * size of the underlying array (and not the number of keys present
+	 * in the array as returned by the size() method).
+	 *
+	 * @note Performance of this method could be considerably improved
+	 * by having an array of values stored in the hash table. This method
+	 * would then iterate of that array instead of a potentially much
+	 * larger hash table array. The performance would still be O(N) but
+	 * N would then be the number of keys in the hash table.
+	 *
+	 * @param ref_value  The value to search for.
+	 *
+	 * @return True if the hash table contains the given value, false
+	 *         otherwise.
+	 */
+	public boolean containsValue(ValueT ref_value) {
+		for (int i = 0; i < m_array.length; ++i) {
+			KeyValuePair key_value = getKeyValue(i);
+			if (key_value != null && key_value.m_key != REMOVED_KEY) {
+				if ((ref_value != null && ref_value.equals(key_value.m_value)) || ref_value == key_value.m_value) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Returns the value that given key maps to.
 	 *
 	 * The time complexity of this method is O(1) in best-case scenario
@@ -188,6 +234,7 @@ public abstract class HashTableOpenAddressing<KeyT, ValueT> extends HashTableBas
 		if (doubled_size < 0) {
 			throw new ArithmeticException("Increased array size overflows the integer type");
 		}
+		// Implementation might place restriction on the array size
 		m_array = new Object[computeArraySize(doubled_size)];
 		
 		// Move each mapping to a new location

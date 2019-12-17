@@ -1,5 +1,7 @@
 package com.toptalprep;
 
+import javax.naming.OperationNotSupportedException;
+
 /**
  * Abstract base hash table class.
  *
@@ -18,21 +20,9 @@ package com.toptalprep;
  * will be used).
  */
 public abstract class HashTableBase<KeyT, ValueT> implements HashTable<KeyT, ValueT> {
-	// TODO: this won't be used in hash table implementations that
-	// use separate chaining to resolve key collisions.
-	/**
-	 * This value is assigned to the key to mark the mapping as
-	 * removed. Note that REMOVED_KEY.equals() will return true
-	 * only if compared with itself. When compared to any other
-	 * key it will return false. As user can't pass in the
-	 * REMOVED_KEY, the equals() will return false for any user
-	 * specified key compared with the REMOVED_KEY.
-	 */
-	protected static final Object REMOVED_KEY = new Object();
-	
 	protected class KeyValuePair {
 		/**
-		 * This is the hash of the key and not the key itself.
+		 * The key.
 		 *
 		 * @note The keys are stored as Object instead of KeyT to make it
 		 * possible to assign REMOVED_KEY to m_key when key is unmapped.
@@ -54,6 +44,46 @@ public abstract class HashTableBase<KeyT, ValueT> implements HashTable<KeyT, Val
 		public KeyValuePair(Object key, ValueT value) {
 			m_key = key;
 			m_value = value;
+		}
+		
+		/**
+		 * Override the equals() method.
+		 */
+		@Override
+		@SuppressWarnings("unchecked")
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			
+			if (obj instanceof HashTableBase.KeyValuePair) {
+				KeyValuePair other_mapping = (KeyValuePair) obj;
+				boolean keys_equal =
+						(m_key == other_mapping.m_key) ||
+						(m_key != null ? m_key.equals(other_mapping.m_key) : false);
+				
+				boolean values_equal =
+						(m_value == other_mapping.m_value) ||
+						(m_value != null ? m_value.equals(other_mapping.m_value) : false);
+				
+				// Two mappings are considered equal if both their keys and values are equal
+				return keys_equal && values_equal;
+			}
+			return false;
+		}
+		
+		/**
+		 * Override the hashCode method so that two equal mappings return
+		 * the same hash code. This implementation will return the same
+		 * hash code for every two mappings that have equal keys, even
+		 * though their values might differ. This is generally bad practice
+		 * but as this implementation is here only to satisfy the contract
+		 * between equals() and hashCode() methods. It is not expected to
+		 * be used anywhere.
+		 */
+		@Override
+		public  int hashCode() {
+			return m_key.hashCode();
 		}
 		
 		/**
@@ -87,17 +117,15 @@ public abstract class HashTableBase<KeyT, ValueT> implements HashTable<KeyT, Val
 	 *                          a percentage and falls within a range [0.0, 1.0].
 	 *
 	 * @throws IllegalArgumentException if initial_capacity is less or equal to zero
-	 *         or load_factor is negative or greater than 1.0.
+	 *         or load_factor is negative.
 	 */
 	protected HashTableBase(int initial_capacity, float load_factor) throws IllegalArgumentException {
 		if (initial_capacity <= 0) {
-			throw new IllegalArgumentException("initial_capacity not positive");
+			throw new IllegalArgumentException("initial_capacity must be positive");
 		}
 		
-		// TODO: load_factor can be > 1.0 for hash table implementations that use
-		// separate chaining, so HashTableBase shouldn't throw in that case.
-		if (load_factor < 0.0f || load_factor > 1.0f) {
-			throw new IllegalArgumentException("load_factor not in range [0.0, 1.0]");
+		if (load_factor < 0.0f) {
+			throw new IllegalArgumentException("load_factor must be non-negative");
 		}
 		
 		m_size = 0;
@@ -161,39 +189,6 @@ public abstract class HashTableBase<KeyT, ValueT> implements HashTable<KeyT, Val
 		// integer because the resulting value cannot be larger than
 		// Integer.MAX_VALUE - 1
 		return (int)(hash % m_array.length);
-	}
-	
-	// TODO: this method implementation should be moved to the HashTableOpenAddressing
-	// class, as different implementation is needed for the hash table implementations
-	// using separate chaining.
-	/**
-	 * Linearly scans the map searching for specified value.
-	 *
-	 * Time complexity of this operation is O(N) where N is the current
-	 * size of the underlying array (and not the number of keys present
-	 * in the array as returned by the size() method).
-	 *
-	 * @note Performance of this method could be considerably improved
-	 * by having an array of values stored in the hash table. This method
-	 * would then iterate of that array instead of a potentially much
-	 * larger hash table array. The performance would still be O(N) but
-	 * N would then be the number of keys in the hash table.
-	 *
-	 * @param ref_value  The value to search for.
-	 *
-	 * @return True if the hash table contains the given value, false
-	 *         otherwise.
-	 */
-	public boolean containsValue(ValueT ref_value) {
-		for (int i = 0; i < m_array.length; ++i) {
-			KeyValuePair key_value = getKeyValue(i);
-			if (key_value != null && key_value.m_key != REMOVED_KEY) {
-				if ((ref_value != null && ref_value.equals(key_value.m_value)) || ref_value == key_value.m_value) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 	
 	/**

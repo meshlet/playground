@@ -11,17 +11,17 @@ public interface HashTable<KeyT, ValueT> {
 	 *
 	 * @return True if key is found, false otherwise.
 	 */
-	public boolean containsKey(KeyT key);
+	boolean containsKey(KeyT key);
 	
 	/**
-	 * Linearly scans the map searching for specified value.
+	 * Linearly scans the table searching for the specified value.
 	 *
 	 * @param ref_value  The value to search for.
 	 *
 	 * @return True if the hash table contains the given value, false
 	 *         otherwise.
 	 */
-	public boolean containsValue(ValueT ref_value);
+	boolean containsValue(ValueT ref_value);
 	
 	/**
 	 * Returns the value that given key maps to.
@@ -32,7 +32,7 @@ public interface HashTable<KeyT, ValueT> {
 	 *         table, null otherwise. Note that null might also be returned
 	 *         if the key is present in the table but maps to a null value.
 	 */
-	public ValueT find(KeyT key);
+	ValueT find(KeyT key);
 	
 	/**
 	 * Maps the key to value if the key is not already mapped in the table,
@@ -45,7 +45,7 @@ public interface HashTable<KeyT, ValueT> {
 	 *         null if key didn't have mapping. The null might also be
 	 *         returned if the key was previously mapped to a null value.
 	 */
-	public ValueT map(KeyT key, ValueT value);
+	ValueT map(KeyT key, ValueT value);
 	
 	/**
 	 * Removes the mapping with the given key.
@@ -56,7 +56,7 @@ public interface HashTable<KeyT, ValueT> {
 	 *         have a mapping. Null might also be returned if key was mapped
 	 *         to a null value.
 	 */
-	public ValueT unmap(KeyT key);
+	ValueT unmap(KeyT key);
 	
 	/**
 	 * Removes the mapping with the key if it maps to the specified value.
@@ -67,7 +67,7 @@ public interface HashTable<KeyT, ValueT> {
 	 * @return Returns true if the mapping is removed from the table, false
 	 *         otherwise.
 	 */
-	public boolean unmap(KeyT key, ValueT value);
+	boolean unmap(KeyT key, ValueT value);
 	
 	/**
 	 * Remaps the key to the specified value.
@@ -82,26 +82,26 @@ public interface HashTable<KeyT, ValueT> {
 	 *         no mapping. Null return value may also indicate that key
 	 *         was previously mapped to the null value.
 	 */
-	public ValueT remap(KeyT key, ValueT value);
+	ValueT remap(KeyT key, ValueT value);
 	
 	/**
 	 * The number of keys in the hash table.
 	 *
 	 * @return The number of keys.
 	 */
-	public int size();
+	int size();
 	
 	/**
 	 * Clears the table so that it contains no keys.
 	 *
 	 * The underlying array is shrank to its initial capacity.
 	 */
-	public void clear();
+	void clear();
 	
 	/**
 	 * Whether table is empty.
 	 *
 	 * @return True if table is empty, false otherwise.
 	 */
-	public boolean isEmpty();
+	boolean isEmpty();
 }
