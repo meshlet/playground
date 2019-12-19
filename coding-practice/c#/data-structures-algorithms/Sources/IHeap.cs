@@ -19,7 +19,7 @@ namespace datastructuresalgorithms
      * where the ordering of the objects is determined by the
      * IComparable<T> implementation. For example, a heap of
      * integers would by default be sorted in descending order.
-     * Note, however, that one can introduce a custom Integer class
+     * Note, however, that one can introduce a custom integer class
      * that implements the IComparable<> interface that orders
      * integers in reversed order, i.e. X.CompareTo(Y) > 0 when
      * X < Y. Such integers would effectively be sorted in
@@ -45,7 +45,7 @@ namespace datastructuresalgorithms
          * ascending order) node in the tree.
          *
          * @note It is a programming error to call remove on an empty
-         * heap and result in an undefined behavior.
+         * heap and doing so results in an undefined behavior.
          *
          * @returns The root of the heap tree.
          */        

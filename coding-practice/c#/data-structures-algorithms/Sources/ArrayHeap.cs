@@ -26,14 +26,17 @@ namespace datastructuresalgorithms
              * @throws SystemException is thrown if T does not implement
              * IComparable<T>.
              */
-            public int Compare(T obj_1, T obj_2)
+            public DefaultComparator()
             {
                 if (!typeof(T).GetInterfaces().Any(
                     i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IComparable<T>)))
                 {
                     throw new SystemException("T doesn't implement IComparable<T> interface");
                 }
+            }
 
+            public int Compare(T obj_1, T obj_2)
+            {
                 return ((IComparable<T>)obj_1).CompareTo(obj_2);
             }
         }
