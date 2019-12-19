@@ -45,6 +45,8 @@
     <Compile Include="Sources\QuickSortMedianOfThree.cs" />
     <Compile Include="Sources\RadixSortDecimal.cs" />
     <Compile Include="Sources\RadixSortBinary.cs" />
+    <Compile Include="Sources\ArrayHeap.cs" />
+    <Compile Include="Sources\IHeap.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

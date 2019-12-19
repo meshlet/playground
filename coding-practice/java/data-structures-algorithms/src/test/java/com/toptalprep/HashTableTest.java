@@ -1178,6 +1178,40 @@ public class HashTableTest {
 								new KeyValue<Integer, String>(-4, "pry"),
 								new KeyValue<Integer, String>(1000, "zxc"),
 								new KeyValue<Integer, String>(2000, "{}")
+						}),
+				
+				// Depending on the hash table implementation, the table should resize
+				// when it gets completely full or once occupancy reaches the specified
+				// load factor (for implementations where the number of keys can be
+				// greater than the size of the table i.e. separate chaining
+				new TestVector(
+						5,
+						2.0f,
+						new Object[] {
+								new KeyValue<Integer, String>(-9, "ABC"),
+								new KeyValue<Integer, String>(0, "-_+="),
+								new KeyValue<Integer, String>(-100, "bla"),
+								new KeyValue<Integer, String>(2, "klafls"),
+								new KeyValue<Integer, String>(7, "cm,x"),
+								new KeyValue<Integer, String>(5, "uit"),
+								new KeyValue<Integer, String>(75, "n,b"),
+								new KeyValue<Integer, String>(4, "567"),
+								new KeyValue<Integer, String>(11, "ghj"),
+								new KeyValue<Integer, String>(12, "qop"),
+								new KeyValue<Integer, String>(21, "rop"),
+								new KeyValue<Integer, String>(33, "wop"),
+								new KeyValue<Integer, String>(56, "xp_"),
+								new KeyValue<Integer, String>(-11, "jojo"),
+								new KeyValue<Integer, String>(-20, "toto"),
+								new KeyValue<Integer, String>(-50, "21314"),
+								new KeyValue<Integer, String>(45, "gsdf"),
+								new KeyValue<Integer, String>(-4, "pry"),
+								new KeyValue<Integer, String>(1000, "zxc"),
+								new KeyValue<Integer, String>(2000, "{}"),
+								new KeyValue<Integer, String>(-99, "usa"),
+								new KeyValue<Integer, String>(-78312, "acme"),
+								new KeyValue<Integer, String>(-234, "habla"),
+								new KeyValue<Integer, String>(-12459, "humus")
 						})
 		};
 		
