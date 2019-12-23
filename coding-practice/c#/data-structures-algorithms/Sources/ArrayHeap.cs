@@ -1,58 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Diagnostics;
 
 namespace datastructuresalgorithms
 {
     /**
-     * Heap implementation using an array to store nodes.
-     *
-     * By default, the nodes are stored in the heap in ascending
-     * order - parent is lower-or-equal than both its children
-     * where the ordering of the objects is determined by the
-     * IComparable<T> implementation. For example, a heap of
-     * integers would by default be sorted in ascending order.
-     * Note, however, that one can introduce a custom integer class
-     * that implements the IComparable<> interface that orders
-     * integers in descending order, i.e. X.CompareTo(Y) < 0 when
-     * X > Y. Such integers would effectively be sorted in
-     * descending order in the heap.
-     * 
-     * @note The T generic type is not constrained to types that implement
-     * IComparable<T> to simplify the usage in the case where user provides
-     * the custom comparator. Otherwise, type T would have to implement
-     * IComparable<T> even when a custom comparator is provided.    
+     * Heap implementation that uses an array to store nodes.
      */
-    public class ArrayHeap<T> : IHeap<T>
+    public class ArrayHeap<T> : HeapBase<T>
     {
         /**
          * The array used to store the heap tree nodes.
          */
         private T[] Nodes
-        {
-            get; set;
-        }
-
-        /**
-         * The comparer used to compare the nodes.
-         *
-         * By default, the comparer will use IComparable<T> inteface
-         * to compare nodes. However, class user can specify a custom
-         * comparator object to use instead.
-         */
-        private Comparison<T> Comparator
-        {
-            get; set;
-        }
-
-        /**
-         * Whether type T is nullable or not.
-         *
-         * This field exists only to remove the overhead of checking whether
-         * a type is nullable each time Insert method is called.
-         */
-        private bool IsNullable
         {
             get; set;
         }
@@ -69,37 +27,20 @@ namespace datastructuresalgorithms
          *                          to order the objects. Hence, T must implement
          *                          IComparable<T> in this case.
          *
-         * @throws ApplicationException if comparator is null and the T is
-         *         neither a Nullable type nor it implements the IComparable
-         *         interface.
+         * @throws ApplicationException if comparator is null but T doesn't
+         *         implement the IComparable<T> interface.        
          * @throws ArgumentException if initial_capacity is negative or zero
          *
          */
         public ArrayHeap(int initial_capacity = 10, Comparison<T> comparator = null)
+            : base(comparator)
         {
             if (initial_capacity <= 0)
             {
                 throw new ArgumentException("initial_capacity must positive");
             }
 
-            if (comparator == null)
-            {
-                if (!typeof(T).GetInterfaces().Any(i => i == typeof(IComparable<T>)))
-                {
-                    throw new ApplicationException("T doesn't implement IComparable<T> interface");
-                }
-                Comparator = (x, y) =>
-                {
-                    return ((IComparable<T>)x).CompareTo(y);
-                };
-            }
-            else
-            {
-                Comparator = comparator;
-            }
-
             Nodes = new T[initial_capacity];
-            IsNullable = !typeof(T).IsValueType || Nullable.GetUnderlyingType(typeof(T)) != null;
         }
 
         /**
@@ -134,7 +75,7 @@ namespace datastructuresalgorithms
          * @throws ArgumentNullException if obj is NULL (can happen only if T is
          * a reference or nullable value type).        
          */
-        public void Insert(T obj)
+        public override void Insert(T obj)
         {
             if (IsNullable && obj == null)
             {
@@ -202,17 +143,17 @@ namespace datastructuresalgorithms
          *    child could break the heap condition, because the larger child
          *    could become a parent of the smaller child.        
          *
-         * @returns The root of the heap tree or NULL if the heap is empty.
+         * @returns The root of the heap tree.        
          * @throws IndexOutOfRangeException if heap is empty.
          */
-        public T Remove()
+        public override T Remove()
         {
             if (Size == 0)
             {
                 throw new IndexOutOfRangeException("heap is empty");
             }
 
-            // Handle the corner-case of a heap with single node
+            // Handle the corner-case of a heap with a single node
             if (Size == 1)
             {
                 Size = 0;
@@ -302,29 +243,9 @@ namespace datastructuresalgorithms
          * This could be implemented by allocating a new array of size determined
          * by the initial_capacity passed in by the user.        
          */
-        public void Clear()
+        public override void Clear()
         {
             Size = 0;
-        }
-
-        /**
-         * The number of nodes in the heap.
-         *
-         * @return The number of nodes in the heap.
-         */
-        public int Size
-        {
-            get; private set;
-        }
-
-        /**
-         * Whether heap is empty.
-         *
-         * @return True if heap is empty, false otherwise.
-         */
-        public bool IsEmpty
-        {
-            get { return Size == 0; }
         }
     }
 }

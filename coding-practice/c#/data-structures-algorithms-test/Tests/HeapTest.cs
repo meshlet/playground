@@ -2,23 +2,110 @@
 using datastructuresalgorithms;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace datastructuresalgorithmstest
 {
     /**
      * Unit tests for IHeap interface implementations.
      */
-    [TestFixture()]
-    public class HeapTest
+    [TestFixture(typeof(string), "ARRAY_HEAP")]
+    [TestFixture(typeof(string), "TREE_HEAP")]
+    public class HeapTest<T>
     {
+        /**
+         * All the heap implementations tested by this test fixture.
+         */
+        private enum HeapImplementation
+        {
+            ARRAY_HEAP,
+            TREE_HEAP
+        }
+
+        /**
+         * Heap implementation tested by this test fixture instance.
+         */
+        private HeapImplementation m_implementation;
+
+        /**
+         * Invoked by NUnit with argument set to the string defined
+         * in the TestFixture attribute.
+         *
+         * @throws ArgumentException if impl_str doesn't match any of
+         * the enum values in HeapImplementation enum.        
+         */        
+        public HeapTest(T obj)
+        {
+            Assert.AreEqual(typeof(string), typeof(T));
+            switch (obj.ToString())
+            {
+                case "ARRAY_HEAP":
+                    m_implementation = HeapImplementation.ARRAY_HEAP;
+                    break;
+
+                case "TREE_HEAP":
+                    m_implementation = HeapImplementation.TREE_HEAP;
+                    break;
+
+                default:
+                    throw new ArgumentException("impl_str doesn't match any HeapImplementation");
+            }
+        }
+
+        private IHeap<T2> NewHeapInstance<T2>()
+        {
+            switch (m_implementation)
+            {
+                case HeapImplementation.ARRAY_HEAP:
+                    return new ArrayHeap<T2>();
+
+                case HeapImplementation.TREE_HEAP:
+                    return new TreeHeap<T2>();
+
+                default:
+                    Assert.Fail("Unknown heap implementation");
+                    return null;
+            }
+        }
+
+        private IHeap<T2> NewHeapInstance<T2>(int initial_capacity)
+        {
+            switch (m_implementation)
+            {
+                case HeapImplementation.ARRAY_HEAP:
+                    return new ArrayHeap<T2>(initial_capacity);
+
+                case HeapImplementation.TREE_HEAP:
+                    return new TreeHeap<T2>();
+
+                default:
+                    Assert.Fail("Unknown heap implementation");
+                    return null;
+            }
+        }
+
+        private IHeap<T2> NewHeapInstance<T2>(int initial_capacity, Comparison<T2> comparator)
+        {
+            switch (m_implementation)
+            {
+                case HeapImplementation.ARRAY_HEAP:
+                    return new ArrayHeap<T2>(initial_capacity, comparator);
+
+                case HeapImplementation.TREE_HEAP:
+                    return new TreeHeap<T2>(comparator);
+
+                default:
+                    Assert.Fail("Unknown heap implementation");
+                    return null;
+            }
+        }
+
         /**
          * Asserts that empty heap has correctly set empty flag.
          */
         [Test()]
         public void EmptyFlagTrueInEmptyHeap()
         {
-            ArrayHeap<int> heap = new ArrayHeap<int>();
+            IHeap<int> heap = NewHeapInstance<int>();
             Assert.IsTrue(heap.IsEmpty);
         }
 
@@ -28,7 +115,7 @@ namespace datastructuresalgorithmstest
         [Test()]
         public void EmptyFlagFalseInNonEmptyHeap()
         {
-            ArrayHeap<int> heap = new ArrayHeap<int>();
+            IHeap<int> heap = NewHeapInstance<int>();
             heap.Insert(5);
             Assert.IsFalse(heap.IsEmpty);
         }
@@ -39,7 +126,7 @@ namespace datastructuresalgorithmstest
         [Test()]
         public void EmptyFlagTrueAfterHeapBecomesEmpty()
         {
-            ArrayHeap<int> heap = new ArrayHeap<int>();
+            IHeap<int> heap = NewHeapInstance<int>();
             heap.Insert(5);
             heap.Remove();
             Assert.IsTrue(heap.IsEmpty);
@@ -51,7 +138,7 @@ namespace datastructuresalgorithmstest
         [Test()]
         public void EmptyFlagTrueAfterHeapIsCleared()
         {
-            ArrayHeap<int> heap = new ArrayHeap<int>();
+            IHeap<int> heap = NewHeapInstance<int>();
             heap.Insert(5);
             heap.Clear();
             Assert.IsTrue(heap.IsEmpty);
@@ -63,7 +150,7 @@ namespace datastructuresalgorithmstest
         [Test()]
         public void SizeIsZeroInEmptyHeap()
         {
-            ArrayHeap<int> heap = new ArrayHeap<int>();
+            IHeap<int> heap = NewHeapInstance<int>();
             Assert.AreEqual(0, heap.Size);
         }
 
@@ -73,7 +160,7 @@ namespace datastructuresalgorithmstest
         [Test()]
         public void SizeIsOneInOneEntryHeap()
         {
-            ArrayHeap<int> heap = new ArrayHeap<int>();
+            IHeap<int> heap = NewHeapInstance<int>();
             heap.Insert(5);
             Assert.AreEqual(1, heap.Size);
         }
@@ -84,7 +171,7 @@ namespace datastructuresalgorithmstest
         [Test()]
         public void SizeIsZeroAfterHeapBecomesEmpty()
         {
-            ArrayHeap<int> heap = new ArrayHeap<int>();
+            IHeap<int> heap = NewHeapInstance<int>();
             heap.Insert(5);
             heap.Remove();
             Assert.AreEqual(0, heap.Size);
@@ -96,7 +183,7 @@ namespace datastructuresalgorithmstest
         [Test()]
         public void SizeIsZeroAfterHeapIsCleared()
         {
-            ArrayHeap<int> heap = new ArrayHeap<int>();
+            IHeap<int> heap = NewHeapInstance<int>();
             heap.Insert(5);
             heap.Clear();
             Assert.AreEqual(0, heap.Size);
@@ -109,8 +196,13 @@ namespace datastructuresalgorithmstest
         [Test()]
         public void ExceptionThrownIfInitialCapacityIsNonPositive()
         {
-            Assert.Throws<ArgumentException>(() => new ArrayHeap<int>(-10));
-            Assert.Throws<ArgumentException>(() => new ArrayHeap<int>(0));
+            if (m_implementation == HeapImplementation.TREE_HEAP)
+            {
+                Assert.Ignore("Initial capacity cannot be specified for a tree based heap");
+            }
+
+            Assert.Throws<ArgumentException>(() => NewHeapInstance<int>(-10));
+            Assert.Throws<ArgumentException>(() => NewHeapInstance<int>(0));
         }
 
         /**
@@ -121,7 +213,7 @@ namespace datastructuresalgorithmstest
         [Test()]
         public void ExceptionThrownIfObjectTypeIsNotComparable()
         {
-            Assert.Throws<ApplicationException>(() => new ArrayHeap<object>());
+            Assert.Throws<ApplicationException>(() => NewHeapInstance<object>());
         }
 
         /**
@@ -131,7 +223,7 @@ namespace datastructuresalgorithmstest
         [Test()]
         public void ExceptionThrownIfNullIsInserted()
         {
-            ArrayHeap<int?> heap = new ArrayHeap<int?>(
+            IHeap<int?> heap = NewHeapInstance<int?>(
                 10,
                 (x, y) => Nullable.Compare(x, y));
             Assert.Throws<ArgumentNullException>(() => heap.Insert(null));
@@ -143,7 +235,7 @@ namespace datastructuresalgorithmstest
         [Test()]
         public void ExceptionThrownIfRemovingFromEmptyHeap()
         {
-            ArrayHeap<int> heap = new ArrayHeap<int>();
+            IHeap<int> heap = NewHeapInstance<int>();
             Assert.Throws<IndexOutOfRangeException>(() => heap.Remove());
         }
 
@@ -246,7 +338,7 @@ namespace datastructuresalgorithmstest
             {
                 foreach (var test_vector in test_vectors)
                 {
-                    ArrayHeap<int> heap = new ArrayHeap<int>(test_vector.m_initial_capacity, comparator);
+                    IHeap<int> heap = NewHeapInstance(test_vector.m_initial_capacity, comparator);
 
                     // Populate the heap
                     List<int> reference_data = new List<int>(test_vector.m_objects_to_insert.Length);

@@ -47,6 +47,8 @@
     <Compile Include="Sources\RadixSortBinary.cs" />
     <Compile Include="Sources\ArrayHeap.cs" />
     <Compile Include="Sources\IHeap.cs" />
+    <Compile Include="Sources\HeapBase.cs" />
+    <Compile Include="Sources\TreeHeap.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
