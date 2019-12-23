@@ -14,26 +14,20 @@ namespace datastructuresalgorithms
      * possibly that last, is completely filled and all nodes in the
      * last level are as far left as possible.        
      *
-     * By default, the nodes are stored in the heap in descending
-     * order - parent is greater-or-equal than both its children
-     * where the ordering of the objects is determined by the
-     * IComparable<T> implementation. For example, a heap of
-     * integers would by default be sorted in descending order.
-     * Note, however, that one can introduce a custom integer class
-     * that implements the IComparable<> interface that orders
-     * integers in reversed order, i.e. X.CompareTo(Y) > 0 when
-     * X < Y. Such integers would effectively be sorted in
-     * ascending order in the heap.
-     *
-     * Implementations may decide to implement other ways to suport
-     * sorting objects in ascending or descending order.
+     * It is up to the implementation to provide means to control the
+     * order of objects in the heap (ascending or descending).    
      */
     public interface IHeap<T>
     {
         /**
          * Inserts the object into the heap.
          *
+         * The insertion is done so that heap condition is preserved. That is,
+         * the new node comes before both its children (in case they exist) and
+         * it comes after its parent.
+         *
          * @param obj  The object to insert.
+         * @throws ArgumentNullException if obj is NULL.
          */
         void Insert(T obj);
 
@@ -44,19 +38,24 @@ namespace datastructuresalgorithms
          * desceding order) or the smallest (heap sorted in the
          * ascending order) node in the tree.
          *
-         * @note It is a programming error to call remove on an empty
-         * heap and doing so results in an undefined behavior.
-         *
          * @returns The root of the heap tree.
-         */        
+         * @throws IndexOutOfRangeException if heap is empty.
+         */
         T Remove();
+
+        /**
+         * Clears the heap.
+         *
+         * The heap will be empty after this call.
+         */
+        void Clear();
 
         /**
          * The number of nodes in the heap.
          *
          * @return The number of nodes in the heap.
          */
-        uint Size
+        int Size
         {
             get;
         }
