@@ -7,7 +7,7 @@ namespace datastructuresalgorithms
      * Heap implementation that uses binary tree to store nodes.
      *
      * Consider the following binary tree representing a heap of
-     * integers sorted in ascending order:
+     * strings sorted in ascending order:
      *
      *                                                      (0001)    
      *                                                         A
@@ -243,8 +243,8 @@ namespace datastructuresalgorithms
             // NULL before copying parent node to the child node in the
             // following loop. Also note that we don't set the actual data
             // in the new node at this point. This is because the following
-            // loop might overwrite that data with the data from nodes in
-            // upper levels.
+            // loop might overwrite that data with the data from the node in
+            // the upper level.
             Node child = new Node(default(T), parent);
             if (parent.LeftChild == null)
             {
@@ -272,7 +272,7 @@ namespace datastructuresalgorithms
 
                 // Otherwise, continue the search one level up. We now know that
                 // the current parent node is greater (comes after) the new node
-                // node so copy its data down to its child
+                // so copy its data down to its child
                 child.Data = parent.Data;
                 child = parent;
                 parent = parent.Parent;
