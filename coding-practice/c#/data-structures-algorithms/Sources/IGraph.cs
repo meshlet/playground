@@ -16,11 +16,11 @@ namespace datastructuresalgorithms
          * duplicates or might decide to allow duplicate vertices by
          * simply not checking whether identical vertex already exists).        
          *
-         * @param data  The new vertex data.
+         * @param vertex  The new vertex data.
          *
          * @return True if new vertex was added, false otherwise.
          *
-         * @throws ArgumentNullException if data is NULL.
+         * @throws ArgumentNullException if vertex is NULL.
          */
         bool AddVertex(T vertex);
 
@@ -131,9 +131,66 @@ namespace datastructuresalgorithms
         void RemoveEdge(T first_vertex, T second_vertex);
 
         /**
+         * Whether specified vertex exists in the graph.
+         *
+         * @param vertex  The vertex to search for.
+         *
+         * @return True if the vertex is found false otherwise.
+         *
+         * @throws ArgumentNullException if vertex is NULL.
+         */
+        bool HasVertex(T vertex);
+        
+        /**
+         * Returns the vertex at the given index.
+         *
+         * @param vertex_index  The index of the vertex.
+         *
+         * @return The vertex data.
+         *
+         * @throws ArgumentException if vertex_index is negative or
+         * greater-or-equal than the number of vertices in the graph.
+         */
+        T GetVertex(int vertex_index);
+
+        /**
+         * Whether an edge between vertices at given indices exists.
+         *
+         * @param first_vertex   The index of the first vertex.
+         * @param second_vertex  The index of the second vertex.
+         *
+         * @return True if the edge exists, false otherwise.
+         * TODO: rename IsEdgePresentAt and IsEdgePresent to HashEdgeAt and
+         * HasEdge respectively.
+         *
+         * @throws ArgumentException exception if first_vertex or second_vertex
+         * is negative or greater-or-equal than the number of vertices in the
+         * graph.
+         */
+        bool IsEdgePresentAt(int first_vertex, int second_vertex);
+
+        /**
+         * Whether an edge between given vertices exists.
+         *
+         * @note The user should expect this method to be slower than the
+         * IsEdgePresentAt(int, int), as this method might have to find
+         * the index of the given vertices before checking whether an
+         * edge between them exists.
+         *
+         * @param first_vertex   The first vertex.
+         * @param second_vertex  The second vertex.
+         *
+         * @return True if the edge exists, false otherwise.
+         *
+         * @throws ArgumentException if first_vertex or second_vertex don't
+         * exist within the graph.
+         */
+        bool IsEdgePresent(T first_vertex, T second_vertex);
+        
+        /**
          * Runs the depth-first-search from the start_index.
          *
-         * This is an iterator method that with yield the control to the
+         * This is an iterator method that yields the control to the
          * caller each time a new vertex is visited.
          *
          * @param start_index  The vertex index where DFS is started from.
@@ -141,7 +198,7 @@ namespace datastructuresalgorithms
          * @return An iterator interface type used to iterate over the vertices
          * produced by the DFS algorithm.
          *
-         * @throws @throws IndexOutOfRangeException exception if vertex_index is negative
+         * @throws @throws ArgumentException exception if vertex_index is negative
          * or greater-or-equal to the number of vertices in the graph.
          */
         IEnumerable<T> DepthFirstSearchAt(int start_index);
@@ -149,7 +206,7 @@ namespace datastructuresalgorithms
         /**
          * Runs the depth-first-seach from the given vertex.
          *
-         * This is an iterator method that with yield the control to the
+         * This is an iterator method that yields the control to the
          * caller each time a new vertex is visited.
          *
          * @note The user should expect this method to be slower than the
@@ -170,7 +227,7 @@ namespace datastructuresalgorithms
         /**
          * Runs the breadth-first-search from the start_index.
          *
-         * This is an iterator method that with yield the control to the
+         * This is an iterator method that yields the control to the
          * caller each time a new vertex is visited.
          *
          * @param start_index  The vertex index where BFS is started from.
@@ -178,7 +235,7 @@ namespace datastructuresalgorithms
          * @return An iterator interface type used to iterate over the vertices
          * produced by the BFS algorithm.
          *
-         * @throws @throws IndexOutOfRangeException exception if vertex_index is negative
+         * @throws ArgumentException exception if vertex_index is negative
          * or greater-or-equal to the number of vertices in the graph.
          */
         IEnumerable<T> BreadthFirstSearchAt(int start_index);
@@ -186,7 +243,7 @@ namespace datastructuresalgorithms
         /**
          * Runs the breadth-first-seach from the given vertex.
          *
-         * This is an iterator method that with yield the control to the
+         * This is an iterator method that yields the control to the
          * caller each time a new vertex is visited.
          *
          * @note The user should expect this method to be slower than the
@@ -207,7 +264,7 @@ namespace datastructuresalgorithms
         /**
          * Clears the graph.
          *
-         * The graph will contain no vertices after this call.
+         * The graph will be empty after this call.
          */
         void Clear();
                 
@@ -226,7 +283,7 @@ namespace datastructuresalgorithms
          *
          * @return True if the graph is empty, false otherwise.
          */
-        bool IsEmpty
+        bool Empty
         {
             get;
         }

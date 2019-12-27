@@ -77,7 +77,7 @@ namespace datastructuresalgorithms
          */
         public override void Insert(T obj)
         {
-            if (IsNullable && obj == null)
+            if (obj == null)
             {
                 throw new ArgumentNullException(nameof(obj), "Parameter 'obj' is NULL");
             }

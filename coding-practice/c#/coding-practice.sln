@@ -36,4 +36,12 @@ Global
 		{52338145-2DBE-4BB3-A62A-46F729CB6E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52338145-2DBE-4BB3-A62A-46F729CB6E43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.FileWidth = 80
+		$1.TabsToSpaces = True
+		$1.RemoveTrailingWhitespace = False
+		$1.scope = text/plain
+	EndGlobalSection
 EndGlobal

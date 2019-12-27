@@ -37,17 +37,6 @@ namespace datastructuresalgorithms
         }
 
         /**
-         * Whether type T is nullable or not.
-         *
-         * This field exists only to remove the overhead of checking whether
-         * a type is nullable each time Insert method is called.
-         */
-        protected bool IsNullable
-        {
-            get; set;
-        }
-
-        /**
          * Creates a heap instance.
          *
          * @param comparator        The comparator used to order the heap nodes.
@@ -76,8 +65,7 @@ namespace datastructuresalgorithms
             {
                 Comparator = comparator;
             }
-
-            IsNullable = !typeof(T).IsValueType || Nullable.GetUnderlyingType(typeof(T)) != null;
+            
             Size = 0;
         }
 

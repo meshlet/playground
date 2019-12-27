@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+
 namespace datastructuresalgorithms
 {
     /**
@@ -80,9 +83,9 @@ namespace datastructuresalgorithms
             Vertices.CopyTo(new_vertices, 0);
 
             // Copy the existing edges to the new adjacency matrix
-            for (int i = 0; i < Vertices.Length; ++i)
+            for (int i = 0; i < Size; ++i)
             {
-                for (int j = 0; j < Vertices.Length; ++j)
+                for (int j = 0; j < Size; ++j)
                 {
                     new_adjacency_matrix[i, j] = AdjacencyMatrix[i, j];
                 }
@@ -183,10 +186,10 @@ namespace datastructuresalgorithms
 
             // Remove the edges 'to' the vertex by moving all the edges in
             // the columns right to the column to which this vertex belongs
-            // to one column to the left.
+            // one column to the left.
             for (int i = 0; i < vertex_index; ++i)
             {
-                for (int j = vertex_index + 1; j < Size)
+                for (int j = vertex_index + 1; j < Size; ++j)
                 {
                     AdjacencyMatrix[i, j - 1] = AdjacencyMatrix[i, j];
                 }
@@ -199,14 +202,14 @@ namespace datastructuresalgorithms
             {
                 for (int j = 0; j < Size; ++j)
                 {
-                    if (j < vertex_index)
+                    if (j <= vertex_index)
                     {
                         // The edges in the columns left to the column to which
                         // the deleting vertex belongs to only need to be moved
                         // one row up
                         AdjacencyMatrix[i - 1, j] = AdjacencyMatrix[i, j];
                     }
-                    else if (j > vertex_index)
+                    else
                     {
                         // The edges in the columns right to the column to which
                         // the deleting vertex belongs to also need to be moved
@@ -232,7 +235,7 @@ namespace datastructuresalgorithms
          */
         public bool AddVertex(T vertex)
         {
-            if ((!typeof(T).IsValueType || Nullable.GetUnderlyingType(typeof(T)) != null) && vertex == null)
+            if (vertex == null)
             {
                 throw new ArgumentNullException(nameof(vertex), "vertex must not be NULL");
             }
@@ -301,8 +304,7 @@ namespace datastructuresalgorithms
          */
         public bool AddEdge(T first_vertex, T second_vertex)
         {
-            if ((!typeof(T).IsValueType || Nullable.GetUnderlyingType(typeof(T)) != null) &&
-                (first_vertex == null || second_vertex == null))
+            if (first_vertex == null || second_vertex == null)
             {
                 throw new ArgumentNullException();
             }
@@ -351,7 +353,7 @@ namespace datastructuresalgorithms
          */
         public void RemoveVertex(T vertex)
         {
-            if ((!typeof(T).IsValueType || Nullable.GetUnderlyingType(typeof(T)) != null) && vertex == null)
+            if (vertex == null)
             {
                 throw new ArgumentNullException(nameof(vertex), "vertex must not be NULL");
             }
@@ -396,13 +398,314 @@ namespace datastructuresalgorithms
          */
         public void RemoveEdge(T first_vertex, T second_vertex)
         {
-            if ((!typeof(T).IsValueType || Nullable.GetUnderlyingType(typeof(T)) != null) &&
-                (first_vertex == null || second_vertex == null))
+            if (first_vertex == null || second_vertex == null)
             {
                 throw new ArgumentNullException();
             }
 
             RemoveEdgeAt(GetIndex(first_vertex), GetIndex(second_vertex));
+        }
+
+        /**
+         * Whether specified vertex exists in the graph.
+         *
+         * @param vertex  The vertex to search for.
+         *
+         * @return True if the vertex is found false otherwise.
+         *
+         * @throws ArgumentNullException if vertex is NULL.
+         */
+        public bool HasVertex(T vertex)
+        {
+            if (vertex == null)
+            {
+                throw new ArgumentNullException(nameof(vertex));
+            }
+
+            return GetIndex(vertex) != -1;
+        }
+
+        /**
+         * Returns the vertex at the given index.
+         *
+         * @param vertex_index  The index of the vertex.
+         *
+         * @return The vertex data.
+         *
+         * @throws ArgumentException if vertex_index is negative or
+         * greater-or-equal than the number of vertices in the graph.
+         */
+        public T GetVertex(int vertex_index)
+        {
+            if (vertex_index < 0 || vertex_index >= Size)
+            {
+                throw new ArgumentException();
+            }
+
+            return Vertices[vertex_index];
+        }
+
+        /**
+         * Whether an edge between vertices at given indices exists.
+         *
+         * @param first_vertex   The index of the first vertex.
+         * @param second_vertex  The index of the second vertex.
+         *
+         * @return True if the edge exists, false otherwise.
+         *
+         * @throws ArgumentException exception if first_vertex or second_vertex
+         * is negative or greater-or-equal than the number of vertices in the
+         * graph.
+         */
+        public bool IsEdgePresentAt(int first_vertex, int second_vertex)
+        {
+            if (first_vertex < 0 || first_vertex >= Size || second_vertex < 0 || second_vertex >= Size)
+            {
+                throw new ArgumentException();
+            }
+
+            return AdjacencyMatrix[first_vertex, second_vertex];
+        }
+
+        /**
+         * Whether an edge between given vertices exists.
+         *
+         * @note The user should expect this method to be slower than the
+         * IsEdgePresentAt(int, int), as this method might have to find
+         * the index of the given vertices before checking whether an
+         * edge between them exists.
+         *
+         * @param first_vertex   The first vertex.
+         * @param second_vertex  The second vertex.
+         *
+         * @return True if the edge exists, false otherwise.
+         *
+         * @throws ArgumentException if first_vertex or second_vertex don't
+         * exist within the graph.
+         */
+        public bool IsEdgePresent(T first_vertex, T second_vertex)
+        {
+            if (first_vertex == null || second_vertex == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return IsEdgePresentAt(GetIndex(first_vertex), GetIndex(second_vertex));
+        }
+
+        /**
+         * Runs the depth-first-search from the start_index.
+         *
+         * This is an iterator method that yields the control to the
+         * caller each time a new vertex is visited.
+         *
+         * TODO: describe the algorithm        
+         *
+         * @param start_index  The vertex index where DFS is started from.
+         *
+         * @return An iterator interface type used to iterate over the vertices
+         * produced by the DFS algorithm.
+         *
+         * @throws @throws ArgumentException exception if vertex_index is negative
+         * or greater-or-equal to the number of vertices in the graph.
+         */
+        public IEnumerable<T> DepthFirstSearchAt(int start_index)
+        {
+            if (start_index < 0 || start_index >= Size)
+            {
+                throw new ArgumentException();
+            }
+
+            // Tracks which vertices are visited during the DFS search
+            BitArray visited_vertices = new BitArray(Size, false);
+
+            // Once visited, vertex indicies are pushed onto the stack
+            StackViaLinkedList<int> stack = new StackViaLinkedList<int>();
+
+            // Visit the starting vertex
+            yield return Vertices[start_index];
+            stack.Push(start_index);
+            visited_vertices[start_index] = true;
+
+            // The adjacency matrix column from which to start checking for
+            // adjacent vertices of the vertex at the top of the stack.
+            int column = 0;
+
+            // DFS algorithm is done once stack becomes empty
+            while (!stack.IsEmpty())
+            {
+                // Scan the adjacency matrix row corresponding to the vertex
+                // at the top of the stack
+                for (; column < Size; ++column)
+                {
+                    if (AdjacencyMatrix[stack.Peak(), column] && !visited_vertices[column])
+                    {
+                        // Found an adjecent vertex that hasn't been visited yet.
+                        // Visit it and push it to the stack
+                        yield return Vertices[column];
+                        stack.Push(column);
+                        visited_vertices[column] = true;
+                        break;
+                    }
+                }
+
+                if (column == Size)
+                {
+                    // This means that the for-loop didn't find an unvisited
+                    // adjecent vertex of the vertex at the stack's top. Pop
+                    // the stack and assign the (stack.Pop() + 1) to the column
+                    // variable. This make sure that the next iteration scans
+                    // the row corresponding to the vertex at the top of the
+                    // stack from the index that it reached earlier, instead
+                    // of re-scaning the entire row.
+                    column = stack.Pop() + 1;
+                }
+                else
+                {
+                    // The previous for-loop found an unvisited adjecent vertex
+                    // of the vertex at the top of the stack. Reset column to
+                    // 0 as the next iteration needs to scan the row that
+                    // corresponds to the new stack's top from the start.
+                    column = 0;
+                }
+            }
+        }
+
+        /**
+         * Runs the depth-first-seach from the given vertex.
+         *
+         * This is an iterator method that yields the control to the
+         * caller each time a new vertex is visited.
+         *
+         * @note The user should expect this method to be slower than the
+         * DepthFirstSearchAt(int), as this method might have to find the
+         * index of the given vertex before running the DFS algorithm.
+         *
+         * @param start_vertex  The vertex where DFS is started from.
+         *
+         * @return An iterator interface type used to iterate over the vertices
+         * produced by the DFS algorithm.
+         *
+         * @throws ArgumentNullException if start_vertex is NULL.
+         *
+         * @throws ArgumentException if start_vertex doesn't exist in the graph.
+         */
+        public IEnumerable<T> DepthFirstSearch(T start_vertex)
+        {
+            if (start_vertex == null)
+            {
+                throw new ArgumentNullException(nameof(start_vertex), "start_vertex must not be NULL");
+            }
+
+            return DepthFirstSearchAt(GetIndex(start_vertex));
+        }
+
+        /**
+         * Runs the breadth-first-search from the start_index.
+         *
+         * This is an iterator method that yields the control to the
+         * caller each time a new vertex is visited.
+         *
+         * TODO: describe the algorithm
+         *
+         * @param start_index  The vertex index where BFS is started from.
+         *
+         * @return An iterator interface type used to iterate over the vertices
+         * produced by the BFS algorithm.
+         *
+         * @throws ArgumentException exception if vertex_index is negative
+         * or greater-or-equal to the number of vertices in the graph.
+         */
+        public IEnumerable<T> BreadthFirstSearchAt(int start_index)
+        {
+            if (start_index < 0 || start_index >= Size)
+            {
+                throw new ArgumentException();
+            }
+
+            // Tracks which vertices are visited during the DFS search
+            BitArray visited_vertices = new BitArray(Size, false);
+
+            // Once visited, vertex indices are added to the queue
+            QueueViaLinkedList<int> queue = new QueueViaLinkedList<int>();
+
+            // Visit the initial node and add it to the queue
+            yield return Vertices[start_index];
+            queue.Enqueue(start_index);
+            visited_vertices[start_index] = true;
+
+            // BFS algorithm is done once the queue becomes empty
+            while (!queue.IsEmpty())
+            {
+                for (int column = 0; column < Size; ++column)
+                {
+                    if (AdjacencyMatrix[queue.Peak(), column] && !visited_vertices[column])
+                    {
+                        // Found an adjacent unvisited vertex. Visit it and push it
+                        // to the queue so that its adjecent vertices will be visited
+                        // later
+                        yield return Vertices[column];
+                        queue.Enqueue(column);
+                        visited_vertices[column] = true;
+                    }
+                }
+
+                // At this point we have visited all the adjecent vertices of
+                // the vertex currently at the head of the queue. Thus, remove
+                // this vertex from the queue so that next iteration will visit
+                // the adjacent vertices of the next vertex in the queue
+                queue.Dequeue();
+            }
+        }
+
+        /**
+         * Runs the breadth-first-seach from the given vertex.
+         *
+         * This is an iterator method that yields the control to the
+         * caller each time a new vertex is visited.
+         *
+         * @note The user should expect this method to be slower than the
+         * DepthFirstSearchAt(int), as this method might have to find the
+         * index of the given vertex before running the BFS algorithm.
+         *
+         * @param start_vertex  The vertex where BFS is started from.
+         *
+         * @return An iterator interface type used to iterate over the vertices
+         * produced by the BFS algorithm.
+         *
+         * @throws ArgumentNullException if start_vertex is NULL.
+         *
+         * @throws ArgumentException if start_vertex doesn't exist in the graph.
+         */
+        public IEnumerable<T> BreadthFirstSearch(T start_vertex)
+        {
+            if (start_vertex == null)
+            {
+                throw new ArgumentNullException(nameof(start_vertex), "start_vertex must not be NULL");
+            }
+
+            return BreadthFirstSearchAt(GetIndex(start_vertex));
+        }
+
+        /**
+         * Clears the graph.
+         *
+         * The graph will be empty after this call.
+         */
+        public void Clear()
+        {
+            Size = 0;
+
+            // We also need to remove the edges from the adjacency matrix.
+            // Otherwise, existing edges might be erroneously interpreted
+            // as edges of the vertices added after the clear operation.
+            for (int i = 0; i < Size; ++i)
+            {
+                for (int j = 0; j < Size; ++j)
+                {
+                    AdjacencyMatrix[i, j] = false;
+                }
+            }
         }
 
         /**
@@ -413,6 +716,16 @@ namespace datastructuresalgorithms
         public int Size
         {
             get; private set;
+        }
+
+        /**
+         * Is graph empty.
+         *
+         * @return True if the graph is empty, false otherwise.
+         */
+        public bool Empty
+        {
+            get { return Size == 0; }
         }
     }
 }

@@ -47,6 +47,7 @@
     <Compile Include="Tests\RadixSortDecimalTest.cs" />
     <Compile Include="Tests\RadixSortBinaryTest.cs" />
     <Compile Include="Tests\HeapTest.cs" />
+    <Compile Include="Tests\GraphTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
