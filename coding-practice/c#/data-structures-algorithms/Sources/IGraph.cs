@@ -128,18 +128,18 @@ namespace datastructuresalgorithms
          * @throws ArgumentException if first_vertex or second_vertex don't
          * exist within the graph.
          */
-        void RemoveEdge(T first_vertex, T second_vertex);
+        void RemoveEdge(T first_vertex, T second_vertex);   
 
         /**
-         * Whether specified vertex exists in the graph.
+         * The index of the given vertex.
          *
          * @param vertex  The vertex to search for.
          *
-         * @return True if the vertex is found false otherwise.
+         * @return Index of the vertex or -1 if vertex is not in the graph.
          *
          * @throws ArgumentNullException if vertex is NULL.
          */
-        bool HasVertex(T vertex);
+        int GetIndexOf(T vertex);
         
         /**
          * Returns the vertex at the given index.
@@ -160,22 +160,20 @@ namespace datastructuresalgorithms
          * @param second_vertex  The index of the second vertex.
          *
          * @return True if the edge exists, false otherwise.
-         * TODO: rename IsEdgePresentAt and IsEdgePresent to HashEdgeAt and
-         * HasEdge respectively.
          *
          * @throws ArgumentException exception if first_vertex or second_vertex
          * is negative or greater-or-equal than the number of vertices in the
          * graph.
          */
-        bool IsEdgePresentAt(int first_vertex, int second_vertex);
+        bool HasEdgeAt(int first_vertex, int second_vertex);
 
         /**
          * Whether an edge between given vertices exists.
          *
          * @note The user should expect this method to be slower than the
-         * IsEdgePresentAt(int, int), as this method might have to find
-         * the index of the given vertices before checking whether an
-         * edge between them exists.
+         * HasEdgeAt(int, int), as this method might have to find the index
+         * of the given vertices before checking whether an edge between
+         * them exists.
          *
          * @param first_vertex   The first vertex.
          * @param second_vertex  The second vertex.
@@ -185,7 +183,7 @@ namespace datastructuresalgorithms
          * @throws ArgumentException if first_vertex or second_vertex don't
          * exist within the graph.
          */
-        bool IsEdgePresent(T first_vertex, T second_vertex);
+        bool HasEdge(T first_vertex, T second_vertex);
         
         /**
          * Runs the depth-first-search from the start_index.

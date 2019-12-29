@@ -96,26 +96,6 @@ namespace datastructuresalgorithms
         }
 
         /**
-         * Returns the index of the vertex in Vertices array.
-         *
-         * @param vertex  The vertex to search for.
-         *
-         * @return The index of the vertex or -1 if vertex is not present in
-         * the graph.
-         */
-        private int GetIndex(T vertex)
-        {
-            for (int i = 0; i < Vertices.Length; ++i)
-            {
-                if (Vertices[i].Equals(vertex))
-                {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
-        /**
          * Removes the vertex and its edge from the graph.
          *
          * The vertex  is removed from the Vertices array by moving all the
@@ -309,7 +289,7 @@ namespace datastructuresalgorithms
                 throw new ArgumentNullException();
             }
 
-            return AddEdgeAt(GetIndex(first_vertex), GetIndex(second_vertex));
+            return AddEdgeAt(GetIndexOf(first_vertex), GetIndexOf(second_vertex));
         }
 
         /**
@@ -358,7 +338,7 @@ namespace datastructuresalgorithms
                 throw new ArgumentNullException(nameof(vertex), "vertex must not be NULL");
             }
 
-            RemoveVertexAt(GetIndex(vertex));
+            RemoveVertexAt(GetIndexOf(vertex));
         }
 
         /**
@@ -403,28 +383,30 @@ namespace datastructuresalgorithms
                 throw new ArgumentNullException();
             }
 
-            RemoveEdgeAt(GetIndex(first_vertex), GetIndex(second_vertex));
+            RemoveEdgeAt(GetIndexOf(first_vertex), GetIndexOf(second_vertex));
         }
 
         /**
-         * Whether specified vertex exists in the graph.
+         * The index of the given vertex.
          *
          * @param vertex  The vertex to search for.
          *
-         * @return True if the vertex is found false otherwise.
+         * @return Index of the vertex or -1 if vertex is not in the graph.
          *
          * @throws ArgumentNullException if vertex is NULL.
          */
-        public bool HasVertex(T vertex)
+        public int GetIndexOf(T vertex)
         {
-            if (vertex == null)
+            for (int i = 0; i < Vertices.Length; ++i)
             {
-                throw new ArgumentNullException(nameof(vertex));
+                if (Vertices[i].Equals(vertex))
+                {
+                    return i;
+                }
             }
-
-            return GetIndex(vertex) != -1;
+            return -1;
         }
-
+        
         /**
          * Returns the vertex at the given index.
          *
@@ -457,7 +439,7 @@ namespace datastructuresalgorithms
          * is negative or greater-or-equal than the number of vertices in the
          * graph.
          */
-        public bool IsEdgePresentAt(int first_vertex, int second_vertex)
+        public bool HasEdgeAt(int first_vertex, int second_vertex)
         {
             if (first_vertex < 0 || first_vertex >= Size || second_vertex < 0 || second_vertex >= Size)
             {
@@ -471,9 +453,9 @@ namespace datastructuresalgorithms
          * Whether an edge between given vertices exists.
          *
          * @note The user should expect this method to be slower than the
-         * IsEdgePresentAt(int, int), as this method might have to find
-         * the index of the given vertices before checking whether an
-         * edge between them exists.
+         * HasEdgeAt(int, int), as this method might have to find the index
+         * of the given vertices before checking whether an edge between
+         * them exists.
          *
          * @param first_vertex   The first vertex.
          * @param second_vertex  The second vertex.
@@ -483,14 +465,14 @@ namespace datastructuresalgorithms
          * @throws ArgumentException if first_vertex or second_vertex don't
          * exist within the graph.
          */
-        public bool IsEdgePresent(T first_vertex, T second_vertex)
+        public bool HasEdge(T first_vertex, T second_vertex)
         {
             if (first_vertex == null || second_vertex == null)
             {
                 throw new ArgumentNullException();
             }
 
-            return IsEdgePresentAt(GetIndex(first_vertex), GetIndex(second_vertex));
+            return HasEdgeAt(GetIndexOf(first_vertex), GetIndexOf(second_vertex));
         }
 
         /**
@@ -597,7 +579,7 @@ namespace datastructuresalgorithms
                 throw new ArgumentNullException(nameof(start_vertex), "start_vertex must not be NULL");
             }
 
-            return DepthFirstSearchAt(GetIndex(start_vertex));
+            return DepthFirstSearchAt(GetIndexOf(start_vertex));
         }
 
         /**
@@ -684,7 +666,7 @@ namespace datastructuresalgorithms
                 throw new ArgumentNullException(nameof(start_vertex), "start_vertex must not be NULL");
             }
 
-            return BreadthFirstSearchAt(GetIndex(start_vertex));
+            return BreadthFirstSearchAt(GetIndexOf(start_vertex));
         }
 
         /**
