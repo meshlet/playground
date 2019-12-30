@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace datastructuresalgorithms
 {
@@ -481,22 +482,25 @@ namespace datastructuresalgorithms
         }
 
         /**
-         * Runs the depth-first-search from the start_index.
+         * Uses DFS to find all vertices connected to the vertex at the start_index.
+         *
+         * TODO: describe the algorithm
          *
          * This is an iterator method that yields the control to the
          * caller each time a new vertex is visited.
-         *
-         * TODO: describe the algorithm        
          *
          * @param start_index  The vertex index where DFS is started from.
          *
          * @return An iterator interface type used to iterate over the vertices
          * produced by the DFS algorithm.
          *
+         * @note The method returns a vertex index and not the vertex itself.
+         * The caller can use GetVertex() to get access the vertex.
+         *
          * @throws @throws ArgumentException exception if vertex_index is negative
          * or greater-or-equal to the number of vertices in the graph.
          */
-        public IEnumerable<T> DepthFirstSearchAt(int start_index)
+        public IEnumerable<int> DepthFirstSearchAt(int start_index)
         {
             if (start_index < 0 || start_index >= Size)
             {
@@ -510,7 +514,7 @@ namespace datastructuresalgorithms
             StackViaLinkedList<int> stack = new StackViaLinkedList<int>();
 
             // Visit the starting vertex
-            yield return Vertices[start_index];
+            yield return start_index;
             stack.Push(start_index);
             visited_vertices[start_index] = true;
 
@@ -529,7 +533,7 @@ namespace datastructuresalgorithms
                     {
                         // Found an adjecent vertex that hasn't been visited yet.
                         // Visit it and push it to the stack
-                        yield return Vertices[column];
+                        yield return column;
                         stack.Push(column);
                         visited_vertices[column] = true;
                         break;
@@ -559,7 +563,7 @@ namespace datastructuresalgorithms
         }
 
         /**
-         * Runs the depth-first-seach from the given vertex.
+         * Uses DFS to find all vertices connected to the vertex at the start_index.
          *
          * This is an iterator method that yields the control to the
          * caller each time a new vertex is visited.
@@ -573,11 +577,14 @@ namespace datastructuresalgorithms
          * @return An iterator interface type used to iterate over the vertices
          * produced by the DFS algorithm.
          *
+         * @note The method returns a vertex index and not the vertex itself.
+         * The caller can use GetVertex() to get access the vertex.
+         *
          * @throws ArgumentNullException if start_vertex is NULL.
          *
          * @throws ArgumentException if start_vertex doesn't exist in the graph.
          */
-        public IEnumerable<T> DepthFirstSearch(T start_vertex)
+        public IEnumerable<int> DepthFirstSearch(T start_vertex)
         {
             if (start_vertex == null)
             {
@@ -588,37 +595,39 @@ namespace datastructuresalgorithms
         }
 
         /**
-         * Runs the breadth-first-search from the start_index.
+         * Uses BFS to find all vertices connected to the vertex at the start_index.
+         *
+         * TODO: describe the algorithm
          *
          * This is an iterator method that yields the control to the
          * caller each time a new vertex is visited.
-         *
-         * TODO: describe the algorithm
          *
          * @param start_index  The vertex index where BFS is started from.
          *
          * @return An iterator interface type used to iterate over the vertices
          * produced by the BFS algorithm.
          *
+         * @note The method returns a vertex index and not the vertex itself.
+         * The caller can use GetVertex() to get access the vertex.
+         *
          * @throws ArgumentException exception if vertex_index is negative
          * or greater-or-equal to the number of vertices in the graph.
          */
-        public IEnumerable<T> BreadthFirstSearchAt(int start_index)
+        public IEnumerable<int> BreadthFirstSearchAt(int start_index)
         {
-            Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa");
             if (start_index < 0 || start_index >= Size)
             {
                 throw new ArgumentException();
             }
 
-            // Tracks which vertices are visited during the DFS search
+            // Tracks which vertices are visited during the BFS search
             BitArray visited_vertices = new BitArray(Size, false);
 
             // Once visited, vertex indices are added to the queue
             QueueViaLinkedList<int> queue = new QueueViaLinkedList<int>();
 
             // Visit the initial node and add it to the queue
-            yield return Vertices[start_index];
+            yield return start_index;
             queue.Enqueue(start_index);
             visited_vertices[start_index] = true;
 
@@ -632,7 +641,7 @@ namespace datastructuresalgorithms
                         // Found an adjacent unvisited vertex. Visit it and push it
                         // to the queue so that its adjecent vertices will be visited
                         // later
-                        yield return Vertices[column];
+                        yield return column;
                         queue.Enqueue(column);
                         visited_vertices[column] = true;
                     }
@@ -647,13 +656,13 @@ namespace datastructuresalgorithms
         }
 
         /**
-         * Runs the breadth-first-seach from the given vertex.
+         * Uses BFS to find all vertices connected to the vertex at the start_index.
          *
          * This is an iterator method that yields the control to the
          * caller each time a new vertex is visited.
          *
          * @note The user should expect this method to be slower than the
-         * DepthFirstSearchAt(int), as this method might have to find the
+         * BreadthFirstSearchAt(int), as this method might have to find the
          * index of the given vertex before running the BFS algorithm.
          *
          * @param start_vertex  The vertex where BFS is started from.
@@ -661,11 +670,14 @@ namespace datastructuresalgorithms
          * @return An iterator interface type used to iterate over the vertices
          * produced by the BFS algorithm.
          *
+         * @note The method returns a vertex index and not the vertex itself.
+         * The caller can use GetVertex() to get access the vertex.
+         *
          * @throws ArgumentNullException if start_vertex is NULL.
          *
          * @throws ArgumentException if start_vertex doesn't exist in the graph.
          */
-        public IEnumerable<T> BreadthFirstSearch(T start_vertex)
+        public IEnumerable<int> BreadthFirstSearch(T start_vertex)
         {
             if (start_vertex == null)
             {
@@ -673,6 +685,138 @@ namespace datastructuresalgorithms
             }
 
             return BreadthFirstSearchAt(GetIndexOf(start_vertex));
+        }
+
+        /**
+         * Finds the shortest path between the vertices at the start_index
+         * and end_index.
+         *
+         * @note Uses the modified BFS algorithm to find the shortest path.
+         * TODO: describe the algorithm.
+         *
+         * @param start_index  The index of the start vertex.
+         * @param end_index    The index of the end vertex.
+         *
+         * @return A collection of vertex indices tracing the path from the
+         * start_index to end_index, or NULL if these two vertices are
+         * not connected. If start_index == end_index, a collection with a
+         * single element (start_index) is returned.
+         *
+         * @throws ArgumentException exception if start_index or end_index
+         * is negative or greater-or-equal to the number of vertices in the
+         * graph.
+         */
+        public ICollection<int> FindShortestPathAt(int start_index, int end_index)
+        {
+            if (start_index < 0 || start_index >= Size || end_index < 0 || end_index >= Size)
+            {
+                throw new ArgumentException();
+            }
+            
+            if (start_index == end_index)
+            {
+                // Return a list with the given vertex index
+                return new LinkedList<int>(new int[] { start_index });
+            }
+
+            // Tracks which vertices are visited during the BFS search
+            BitArray visited_vertices = new BitArray(Size, false);
+
+            // Once visited, vertex indices are added to the queue
+            QueueViaLinkedList<int> queue = new QueueViaLinkedList<int>();
+
+            // Each entry prev[i] contain the index of the vertex visited
+            // immediatelly prior to vertex i (or -1 if vertex i is the
+            // very first visited vertex or has not been visited yet)
+            int[] prev = Enumerable.Repeat(-1, Size).ToArray();
+
+            // Add the index of the start vertex to the queue
+            queue.Enqueue(start_index);
+            visited_vertices[start_index] = true;
+
+            // BFS algorithm is done once the queue becomes empty
+            while (!queue.IsEmpty())
+            {
+                // Remove the vertex whose direct siblings are to be visited
+                // in this iteration
+                int curr_vertex_index = queue.Dequeue();
+                
+                for (int column = 0; column < Size; ++column)
+                {
+                    if (AdjacencyMatrix[curr_vertex_index, column] && !visited_vertices[column])
+                    {
+                        // Found an adjacent unvisited vertex. Visit it and push it
+                        // to the queue so that its adjecent vertices will be visited
+                        // later
+                        queue.Enqueue(column);
+                        visited_vertices[column] = true;
+
+                        // Mark the vertex that was visisted immediatelly prior
+                        // to the current one.
+                        prev[column] = curr_vertex_index;
+                        
+                        if (column == end_index)
+                        {
+                            // Traced the path to the end vertex. Clear the queue
+                            // so that the outer while loop will terminate
+                            queue.Clear();
+                            break;
+                        }
+                    }
+                }
+            }
+
+            LinkedList<int> shortest_path = null;
+
+            if (prev[end_index] != -1)
+            {
+                // Trace the path from the vertex at end_index back to the
+                // start_index. This is the shortest path from start_index
+                // to end_index
+                shortest_path = new LinkedList<int>();
+                int index = end_index;
+                
+                while (index != -1)
+                {
+                    shortest_path.AddFirst(index);
+                    index = prev[index];
+                }
+            }
+
+            return shortest_path;
+        }
+
+        /**
+         * Finds the shortest path between the start_vertex and end_vertex.
+         *
+         * @note Uses the modified BFS algorithm to find the shortest path.
+         *
+         * @note The user should expect this method to be slower than the
+         * FindShortestPathAt(int), as this method might have to find the
+         * index of the start_vertex and end_vertex.
+         *
+         * @param start_vertex  The start vertex.
+         * @param end_vertex    The end vertex.
+         *
+         * @return A collection of vertex indices tracing the path from the
+         * start_vertex to end_vertex, or NULL if such path doesn't these
+         * two vertices are not connected. If start_vertex is equal to
+         * end_vertex, a collection with a single element (index of the
+         * start vertex) is returned.
+         *
+         * @throws ArgumentNullException if start_vertex or end_vertex is NULL.
+         *
+         * @throws ArgumentException if start_vertex or end_vertex doesn't
+         * exist in the graph.
+         */
+        public ICollection<int> FindShortestPath(T start_vertex, T end_vertex)
+        {
+            if (start_vertex == null || end_vertex == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return FindShortestPathAt(GetIndexOf(start_vertex), GetIndexOf(end_vertex));
         }
 
         /**

@@ -185,7 +185,7 @@ namespace datastructuresalgorithms
         bool HasEdge(T first_vertex, T second_vertex);
         
         /**
-         * Runs the depth-first-search from the start_index.
+         * Uses DFS to find all vertices connected to the vertex at the start_index.
          *
          * This is an iterator method that yields the control to the
          * caller each time a new vertex is visited.
@@ -195,13 +195,16 @@ namespace datastructuresalgorithms
          * @return An iterator interface type used to iterate over the vertices
          * produced by the DFS algorithm.
          *
+         * @note The method returns a vertex index and not the vertex itself.
+         * The caller can use GetVertex() to get access the vertex.
+         *
          * @throws @throws ArgumentException exception if vertex_index is negative
          * or greater-or-equal to the number of vertices in the graph.
          */
-        IEnumerable<T> DepthFirstSearchAt(int start_index);
+        IEnumerable<int> DepthFirstSearchAt(int start_index);
 
         /**
-         * Runs the depth-first-seach from the given vertex.
+         * Uses DFS to find all vertices connected to the vertex at the start_index.
          *
          * This is an iterator method that yields the control to the
          * caller each time a new vertex is visited.
@@ -215,14 +218,17 @@ namespace datastructuresalgorithms
          * @return An iterator interface type used to iterate over the vertices
          * produced by the DFS algorithm.
          *
+         * @note The method returns a vertex index and not the vertex itself.
+         * The caller can use GetVertex() to get access the vertex.
+         *
          * @throws ArgumentNullException if start_vertex is NULL.
          *
          * @throws ArgumentException if start_vertex doesn't exist in the graph.
          */
-        IEnumerable<T> DepthFirstSearch(T start_vertex);
+        IEnumerable<int> DepthFirstSearch(T start_vertex);
 
         /**
-         * Runs the breadth-first-search from the start_index.
+         * Uses BFS to find all vertices connected to the vertex at the start_index.
          *
          * This is an iterator method that yields the control to the
          * caller each time a new vertex is visited.
@@ -232,19 +238,22 @@ namespace datastructuresalgorithms
          * @return An iterator interface type used to iterate over the vertices
          * produced by the BFS algorithm.
          *
+         * @note The method returns a vertex index and not the vertex itself.
+         * The caller can use GetVertex() to get access the vertex.
+         *
          * @throws ArgumentException exception if vertex_index is negative
          * or greater-or-equal to the number of vertices in the graph.
          */
-        IEnumerable<T> BreadthFirstSearchAt(int start_index);
+        IEnumerable<int> BreadthFirstSearchAt(int start_index);
 
         /**
-         * Runs the breadth-first-seach from the given vertex.
+         * Uses BFS to find all vertices connected to the vertex at the start_index.
          *
          * This is an iterator method that yields the control to the
          * caller each time a new vertex is visited.
          *
          * @note The user should expect this method to be slower than the
-         * DepthFirstSearchAt(int), as this method might have to find the
+         * BreadthFirstSearchAt(int), as this method might have to find the
          * index of the given vertex before running the BFS algorithm.
          *
          * @param start_vertex  The vertex where BFS is started from.
@@ -252,11 +261,55 @@ namespace datastructuresalgorithms
          * @return An iterator interface type used to iterate over the vertices
          * produced by the BFS algorithm.
          *
+         * @note The method returns a vertex index and not the vertex itself.
+         * The caller can use GetVertex() to get access the vertex.
+         *
          * @throws ArgumentNullException if start_vertex is NULL.
          *
          * @throws ArgumentException if start_vertex doesn't exist in the graph.
          */
-        IEnumerable<T> BreadthFirstSearch(T start_vertex);
+        IEnumerable<int> BreadthFirstSearch(T start_vertex);
+
+        /**
+         * Finds the shortest path between the vertices at the start_index
+         * and end_index.
+         *
+         * @param start_index  The index of the start vertex.
+         * @param end_index    The index of the end vertex.
+         *
+         * @return A collection of vertex indices tracing the path from the
+         * start_index to end_index, or NULL if these two vertices are
+         * not connected. If start_index == end_index, a collection with a
+         * single element (start_index) is returned.
+         *
+         * @throws ArgumentException exception if start_index or end_index
+         * is negative or greater-or-equal to the number of vertices in the
+         * graph.
+         */
+        ICollection<int> FindShortestPathAt(int start_index, int end_index);
+
+        /**
+         * Finds the shortest path between the start_vertex and end_vertex.
+         *
+         * @note The user should expect this method to be slower than the
+         * FindShortestPathAt(int), as this method might have to find the
+         * index of the start_vertex and end_vertex.
+         *
+         * @param start_vertex  The start vertex.
+         * @param end_vertex    The end vertex.
+         *
+         * @return A collection of vertex indices tracing the path from the
+         * start_vertex to end_vertex, or NULL if such path doesn't these
+         * two vertices are not connected. If start_vertex is equal to
+         * end_vertex, a collection with a single element (index of the
+         * start vertex) is returned.
+         *
+         * @throws ArgumentNullException if start_vertex or end_vertex is NULL.
+         *
+         * @throws ArgumentException if start_vertex or end_vertex doesn't
+         * exist in the graph.
+         */
+        ICollection<int> FindShortestPath(T start_vertex, T end_vertex);
 
         /**
          * Clears the graph.

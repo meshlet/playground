@@ -1125,20 +1125,20 @@ namespace datastructuresalgorithmstest
                 int i = 0;
                 foreach (var start_vertex_index in test_vector.Item3)
                 {
-                    IEnumerable<string> iter =
+                    IEnumerable<int> iter =
                         use_depth_first_search_at ?
                         graph.DepthFirstSearchAt(start_vertex_index) :
                         graph.DepthFirstSearch(test_vector.Item1[start_vertex_index]);
 
                     int count = 0;
-                    foreach (var vertex in iter)
+                    foreach (var vertex_index in iter)
                     {
                         // Search must not have visited more vertices than expected
                         Assert.Less(count, test_vector.Item4[i].Length);
 
                         // Assert that the vertex visited at this point in the search
                         // was the expected one
-                        Assert.AreEqual(test_vector.Item4[i][count++], vertex);
+                        Assert.AreEqual(test_vector.Item4[i][count++], graph.GetVertex(vertex_index));
                     }
 
                     // Assert that DFS visited expected number of vertices
@@ -1349,20 +1349,20 @@ namespace datastructuresalgorithmstest
                 int i = 0;
                 foreach (var start_vertex_index in test_vector.Item3)
                 {
-                    IEnumerable<string> iter =
+                    IEnumerable<int> iter =
                         use_breadth_first_search_at ?
                         graph.BreadthFirstSearchAt(start_vertex_index) :
                         graph.BreadthFirstSearch(test_vector.Item1[start_vertex_index]);
 
                     int count = 0;
-                    foreach (var vertex in iter)
+                    foreach (var vertex_index in iter)
                     {
                         // Search must not have visited more vertices than expected
                         Assert.Less(count, test_vector.Item4[i].Length);
 
                         // Assert that the vertex visited at this point in the search
                         // was the expected one
-                        Assert.AreEqual(test_vector.Item4[i][count++], vertex);
+                        Assert.AreEqual(test_vector.Item4[i][count++], graph.GetVertex(vertex_index));
                     }
 
                     // Assert that BFS visited expected number of vertices
@@ -1388,6 +1388,267 @@ namespace datastructuresalgorithmstest
         {
             BreadthFirstSearchHelper(false);
         }
+
+        /**
+         * Asserts that FindShortestPathAt() throws an exception if either of
+         * indices are negative.
+         */
+        [Test()]
+        public void FindShortestPathAtThrowsExceptionIfIndicesAreNegative()
+        {
+            IGraph<int> graph = new UndirectedUnweightedGraph<int>();
+            graph.AddVertex(5);
+            Assert.Throws<ArgumentException>(() => graph.FindShortestPathAt(-1, 0));
+            Assert.Throws<ArgumentException>(() => graph.FindShortestPathAt(0, -1));
+            Assert.Throws<ArgumentException>(() => graph.FindShortestPathAt(-1, -1));
+        }
+
+        /**
+         * Asserts that FindShortestPathAt() throws an exception if either of
+         * indices are greater-or-equal to the graph size.
+         */
+        [Test()]
+        public void FindShortestPathAtThrowsExceptionIfIndicesAreGreaterOrEqualToSize()
+        {
+            IGraph<int> graph = new UndirectedUnweightedGraph<int>();
+            graph.AddVertex(5);
+            Assert.Throws<ArgumentException>(() => graph.FindShortestPathAt(1, 0));
+            Assert.Throws<ArgumentException>(() => graph.FindShortestPathAt(0, 2));
+            Assert.Throws<ArgumentException>(() => graph.FindShortestPathAt(2, 1));
+        }
+        
+        /**
+         * Asserts that FindShortestPath() throws an exception if either of
+         * vertices is NULL.
+         */
+        [Test()]
+        public void FindShortestPathThrowsExceptionOnNull()
+        {
+            IGraph<int?> graph = new UndirectedUnweightedGraph<int?>();
+            graph.AddVertex(5);
+            Assert.Throws<ArgumentNullException>(() => graph.FindShortestPath(null, 5));
+            Assert.Throws<ArgumentNullException>(() => graph.FindShortestPath(5, null));
+            Assert.Throws<ArgumentNullException>(() => graph.FindShortestPath(null, null));
+        }
+
+        /**
+         * Asserts that FindShortestPath() throws an exception if either of
+         * vertices don't exist in the graph.
+         */
+        [Test()]
+        public void FindShortestPathThrowsExceptionOnUnknownVertices()
+        {
+            IGraph<int> graph = new UndirectedUnweightedGraph<int>();
+            graph.AddVertex(5);
+            Assert.Throws<ArgumentException>(() => graph.FindShortestPath(6, 5));
+            Assert.Throws<ArgumentException>(() => graph.FindShortestPath(5, 7));
+            Assert.Throws<ArgumentException>(() => graph.FindShortestPath(19, -5));
+        }
+
+        /**
+         * Helper for testing the shortest path graph methods. The helper will
+         * use the FindShortestPathAt() if use_find_shortest_path_at is true,
+         * otherwise FindShortestPath() is used.
+         */
+        private void ShortestPathFinderHelper(bool use_find_shortest_path_at)
+        {
+            // Item1 - the vertices to add to the graph
+            // Item2 - the edges to add to the graph
+            // Item3 - the array of vertex pairs. The shortest path is to be
+            //         found between vertices of each of these pairs.
+            // Item4 - the expected shortest paths for each of vertex pairs in
+            //         Item3. The Item4.Length must be equal to Item3.Length.
+            Tuple<string[], byte[,], Tuple<int, int>[], int[][]>[] test_vectors =
+            {
+                new Tuple<string[], byte[,], Tuple<int, int>[], int[][]>(
+                    new string[] { "A" },
+                    new byte[,] { { 0 } },
+                    new Tuple<int, int>[] { new Tuple<int, int>(0, 0) },
+                    new int[][] { new int[] { 0 } }),
+
+                new Tuple<string[], byte[,], Tuple<int, int>[], int[][]>(
+                    new string[] { "A", "B" },
+                    new byte[,]
+                    {
+                        { 0, 1 },
+                        { 1, 0 }
+                    },
+                    new Tuple<int, int>[]
+                    {
+                        new Tuple<int, int>(0, 1),
+                        new Tuple<int, int>(1, 0)
+                    },
+                    new int[][]
+                    {
+                        new int[] { 0, 1 },
+                        new int[] { 1, 0}
+                    }),
+
+                new Tuple<string[], byte[,], Tuple<int, int>[], int[][]>(
+                    new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" },
+                    new byte[,]
+                    {
+                        { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
+                        { 1, 0, 1, 1, 0, 0, 0, 0, 0, 0 },
+                        { 1, 1, 0, 1, 1, 0, 0, 0, 0, 0 },
+                        { 0, 1, 1, 0, 0, 1, 0, 0, 0, 0 },
+                        { 0, 0, 1, 0, 0, 1, 1, 0, 1, 0 },
+                        { 0, 0, 0, 1, 1, 0, 0, 1, 0, 1 },
+                        { 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 },
+                        { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 1, 0, 1, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 }
+                    },
+                    new Tuple<int, int>[]
+                    {
+                        new Tuple<int, int>(0, 8),
+                        new Tuple<int, int>(0, 5),
+                        new Tuple<int, int>(3, 8),
+                        new Tuple<int, int>(0, 9),
+                        new Tuple<int, int>(2, 7),
+                        new Tuple<int, int>(7, 9),
+                        new Tuple<int, int>(6, 1)
+                    },
+                    new int[][]
+                    {
+                        new int[] { 0, 2, 4, 8 },
+                        new int[] { 0, 1, 3, 5 },
+                        new int[] { 3, 2, 4, 8 },
+                        new int[] { 0, 1, 3, 5, 9 },
+                        new int[] { 2, 3, 5, 7 },
+                        new int[] { 7, 5, 9 },
+                        new int[] { 6, 4, 2, 1 }
+                    }),
+
+                // The following defines a disconnected graph with 4 distinct
+                // sub-graphs
+                new Tuple<string[], byte[,], Tuple<int, int>[], int[][]>(
+                    new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M" },
+                    new byte[,]
+                    {
+                        { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 }
+                    },
+                    new Tuple<int, int>[]
+                    {
+                        new Tuple<int, int>(0, 3),
+                        new Tuple<int, int>(6, 6),
+                        new Tuple<int, int>(4, 5),
+                        new Tuple<int, int>(1, 3),
+                        new Tuple<int, int>(0, 5),
+                        new Tuple<int, int>(6, 12),
+                        new Tuple<int, int>(7, 12),
+                        new Tuple<int, int>(8, 12),
+                        new Tuple<int, int>(9, 12),
+                        new Tuple<int, int>(11, 8),
+                        new Tuple<int, int>(3, 4),
+                        new Tuple<int, int>(9, 0),
+                        new Tuple<int, int>(12, 4),
+                        new Tuple<int, int>(8, 6)
+                    },
+                    new int[][]
+                    {
+                        new int[] { 0, 1, 3 },
+                        new int[] { 6 },
+                        new int[] { 4, 5 },
+                        new int[] { 1, 3 },
+                        null,
+                        null,
+                        new int[] { 7, 12 },
+                        new int[] { 8, 7, 12 },
+                        new int[] { 9, 11, 12 },
+                        new int[] { 11, 9, 8 },
+                        null,
+                        null,
+                        null,
+                        null
+                    })
+            };
+
+            foreach (var test_vector in test_vectors)
+            {
+                IGraph<string> graph = new UndirectedUnweightedGraph<string>(3);
+
+                // Sanity check
+                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(0));
+                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(1));
+                Assert.AreEqual(test_vector.Item3.Length, test_vector.Item4.Length);
+
+                // Add vertices
+                foreach (var vertex in test_vector.Item1)
+                {
+                    graph.AddVertex(vertex);
+                }
+
+                // Assert that the graph size is as expected
+                Assert.AreEqual(test_vector.Item1.Length, graph.Size);
+
+                // Add edges. Iterate over the upper triangular matrix only
+                // as the lower triangular matrix (below the diagonal) must
+                // be its mirror.
+                for (int row = 0; row < test_vector.Item1.Length; ++row)
+                {
+                    for (int col = row + 1; col < test_vector.Item1.Length; ++col)
+                    {
+                        // Sanity check
+                        Assert.AreEqual(test_vector.Item2[row, col], test_vector.Item2[col, row]);
+
+                        if (Convert.ToBoolean(test_vector.Item2[row, col]))
+                        {
+                            graph.AddEdgeAt(row, col);
+                        }
+                    }
+                }
+
+                // Run the shortest path algorithm for each of the vertex pairs
+                // in test_vector.Item3
+                int i = 0;
+                foreach (var vertex_pair in test_vector.Item3)
+                {
+                    // Sanity check
+                    Assert.Greater(test_vector.Item1.Length, vertex_pair.Item1);
+                    Assert.Greater(test_vector.Item1.Length, vertex_pair.Item2);
+
+                    ICollection<int> shortest_path =
+                        use_find_shortest_path_at ?
+                        graph.FindShortestPathAt(vertex_pair.Item1, vertex_pair.Item2) :
+                        graph.FindShortestPath(test_vector.Item1[vertex_pair.Item1], test_vector.Item1[vertex_pair.Item2]);
+
+                    // Assert that the shortest path is equal to the expected one
+                     Assert.AreEqual(test_vector.Item4[i++], shortest_path);
+                }
+            }
+        }
+        
+        /**
+         * Tests the FindShortestPathAt() method.
+         */
+        [Test()]
+        public void TestFindShortestPathAt()
+        {
+            ShortestPathFinderHelper(true);
+        }
+        
+        /**
+         * Tests the FindShortestPath() method.
+         */
+        [Test()]
+        public void TestFindShortestPath()
+        {
+            ShortestPathFinderHelper(false);
+        }
+
         // - Add a test where graph.Clear() is called after which some
         //   vertices are added to the graph. The IsEdgePresent methods
         //   is then used to make sure that old adjacency info did not

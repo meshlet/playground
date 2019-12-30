@@ -31,6 +31,11 @@ namespace datastructuresalgorithms
         {
             return list.PeakFront();
         }
+        
+        public void Clear()
+        {
+            list.Clear();
+        }
 
         public bool IsEmpty()
         {
