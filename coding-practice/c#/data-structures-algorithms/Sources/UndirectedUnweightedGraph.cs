@@ -397,7 +397,12 @@ namespace datastructuresalgorithms
          */
         public int GetIndexOf(T vertex)
         {
-            for (int i = 0; i < Vertices.Length; ++i)
+            if (vertex == null)
+            {
+                throw new ArgumentNullException(nameof(vertex));
+            }
+            
+            for (int i = 0; i < Size; ++i)
             {
                 if (Vertices[i].Equals(vertex))
                 {
@@ -600,6 +605,7 @@ namespace datastructuresalgorithms
          */
         public IEnumerable<T> BreadthFirstSearchAt(int start_index)
         {
+            Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa");
             if (start_index < 0 || start_index >= Size)
             {
                 throw new ArgumentException();

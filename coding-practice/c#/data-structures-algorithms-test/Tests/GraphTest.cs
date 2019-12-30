@@ -342,7 +342,7 @@ namespace datastructuresalgorithmstest
             }
             
             // Make sure the vertices were correctly inserted to the graph
-            for (int i = vertices.Length - 1; i >= 0; ++i)
+            for (int i = vertices.Length - 1; i >= 0; --i)
             {
                 Assert.AreEqual(vertices[i], graph.GetVertex(i));
             }
@@ -365,7 +365,7 @@ namespace datastructuresalgorithmstest
             }
 
             // Make sure the vertices were correctly inserted to the graph
-            for (int i = vertices.Length - 1; i >= 0; ++i)
+            for (int i = vertices.Length - 1; i >= 0; --i)
             {
                 Assert.AreEqual(vertices[i], graph.GetVertex(i));
             }
@@ -491,7 +491,8 @@ namespace datastructuresalgorithmstest
             graph.AddVertex(5);
             graph.AddVertex(-10);
             Assert.Throws<ArgumentException>(() => graph.AddEdge(5, 10));
-            Assert.Throws<ArgumentException>(() => graph.AddEdge(-10, 5));
+            Assert.Throws<ArgumentException>(() => graph.AddEdge(-10, -5));
+            Assert.Throws<ArgumentException>(() => graph.AddEdge(-5, 10));
         }
 
         /**
@@ -614,7 +615,7 @@ namespace datastructuresalgorithmstest
          * remove the vertex depending on the 'user_remove_vertex_at'
          * parameter.
          */
-        private void RemoveVertexIndexHelper(
+        private void RemoveVertexHelper(
             int[] vertices, byte[,] edges, int index, bool use_remove_vertex_at)
         {
             // Sanity check
@@ -705,10 +706,10 @@ namespace datastructuresalgorithmstest
             };
             
             // Test the RemoveVertexAt method
-            RemoveVertexIndexHelper(vertices, edges, 0, true);
+            RemoveVertexHelper(vertices, edges, 0, true);
 
             // Test the RemoveVertex method
-            RemoveVertexIndexHelper(vertices, edges, 0, false);
+            RemoveVertexHelper(vertices, edges, 0, false);
         }
         
         /**
@@ -733,10 +734,10 @@ namespace datastructuresalgorithmstest
             };
 
             // Test the RemoveVertexAt method
-            RemoveVertexIndexHelper(vertices, edges, vertices.Length / 2, true);
+            RemoveVertexHelper(vertices, edges, vertices.Length / 2, true);
 
             // Test the RemoveVertex method
-            RemoveVertexIndexHelper(vertices, edges, vertices.Length / 2, false);
+            RemoveVertexHelper(vertices, edges, vertices.Length / 2, false);
         }
 
         /**
@@ -761,10 +762,10 @@ namespace datastructuresalgorithmstest
             };
 
             // Test the RemoveVertexAt method
-            RemoveVertexIndexHelper(vertices, edges, vertices.Length - 1, true);
+            RemoveVertexHelper(vertices, edges, vertices.Length - 1, true);
 
             // Test the RemoveVertex method
-            RemoveVertexIndexHelper(vertices, edges, vertices.Length - 1, false);
+            RemoveVertexHelper(vertices, edges, vertices.Length - 1, false);
         }
         
         /**
@@ -896,8 +897,8 @@ namespace datastructuresalgorithmstest
                 // Sanity check
                 Assert.GreaterOrEqual(edge_to_remove.Item1, 0);
                 Assert.GreaterOrEqual(edge_to_remove.Item2, 0);
-                Assert.Less(vertices.Length, edge_to_remove.Item1);
-                Assert.Less(vertices.Length, edge_to_remove.Item2);
+                Assert.Greater(vertices.Length, edge_to_remove.Item1);
+                Assert.Greater(vertices.Length, edge_to_remove.Item2);
                 
                 if (use_remove_edge_at)
                 {
@@ -950,7 +951,7 @@ namespace datastructuresalgorithmstest
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
-            Assert.Throws<ArgumentException>(() => graph.DepthFirstSearchAt(-1));
+            Assert.Throws<ArgumentException>(() => graph.DepthFirstSearchAt(-1).GetEnumerator().MoveNext());
         }
         
         /**
@@ -962,7 +963,7 @@ namespace datastructuresalgorithmstest
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
-            Assert.Throws<ArgumentException>(() => graph.DepthFirstSearchAt(1));
+            Assert.Throws<ArgumentException>(() => graph.DepthFirstSearchAt(1).GetEnumerator().MoveNext());
         }
 
         /**
@@ -974,7 +975,7 @@ namespace datastructuresalgorithmstest
         {
             IGraph<int?> graph = new UndirectedUnweightedGraph<int?>();
             graph.AddVertex(5);
-            Assert.Throws<ArgumentNullException>(() => graph.DepthFirstSearch(null));
+            Assert.Throws<ArgumentNullException>(() => graph.DepthFirstSearch(null).GetEnumerator().MoveNext());
         }
 
         /**
@@ -986,7 +987,7 @@ namespace datastructuresalgorithmstest
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
-            Assert.Throws<ArgumentException>(() => graph.DepthFirstSearch(-5));
+            Assert.Throws<ArgumentException>(() => graph.DepthFirstSearch(-5).GetEnumerator().MoveNext());
         }
         
         /**
@@ -1110,7 +1111,7 @@ namespace datastructuresalgorithmstest
                 {
                     for (int col = row + 1; col < test_vector.Item1.Length; ++col)
                     {
-                        // Sanit check
+                        // Sanity check
                         Assert.AreEqual(test_vector.Item2[row, col], test_vector.Item2[col, row]);
 
                         if (Convert.ToBoolean(test_vector.Item2[row, col]))
@@ -1164,6 +1165,229 @@ namespace datastructuresalgorithmstest
             DepthFirstSearchHelper(false);
         }
 
+        /**
+         * Asserts that BreadthFirstSearchAt() throws an exception if index is
+         * negative.
+         */
+        [Test()]
+        public void BreadthFirstSearchAtThrowsExceptionIfIndexIsNegative()
+        {
+            IGraph<int> graph = new UndirectedUnweightedGraph<int>();
+            graph.AddVertex(5);
+            Assert.Throws<ArgumentException>(() => graph.BreadthFirstSearchAt(-1).GetEnumerator().MoveNext());
+        }
+
+        /**
+         * Asserts that BreadthFirstSearchAt() throws an exception if index is
+         * greater-or-equal to the graph size.
+         */
+        [Test()]
+        public void BreadthFirstSearchAtThrowsExceptionIfIndexIsGreaterOrEqualToSize()
+        {
+            IGraph<int> graph = new UndirectedUnweightedGraph<int>();
+            graph.AddVertex(5);
+            graph.BreadthFirstSearchAt(1);
+            Assert.Throws<ArgumentException>(() => graph.BreadthFirstSearchAt(1).GetEnumerator().MoveNext());
+        }
+
+        /**
+         * Asserts that BreadthFirstSearch() throws an exception if supplied with
+         * a NULL.
+         */
+        [Test()]
+        public void BreadthFirstSearchThrowsExceptionOnNull()
+        {
+            IGraph<int?> graph = new UndirectedUnweightedGraph<int?>();
+            graph.AddVertex(5);
+            Assert.Throws<ArgumentNullException>(() => graph.BreadthFirstSearch(null).GetEnumerator().MoveNext());
+        }
+
+        /**
+         * Asserts that BreadthFirstSearch() throws an exception on an unknown
+         * vertex.
+         */
+        [Test()]
+        public void BreadthFirstSearchThrowsExceptionOnUnknownVertex()
+        {
+            IGraph<int> graph = new UndirectedUnweightedGraph<int>();
+            graph.AddVertex(5);
+            Assert.Throws<ArgumentException>(() => graph.BreadthFirstSearch(-5).GetEnumerator().MoveNext());
+        }
+
+        /**
+         * Helper for testing the BFS search. The BFS search is done using the
+         * BreadthFirstSearchAt() method if 'use_breadth_first_search_at" is true,
+         * otherwise BreadthFirstSearch() is used.
+         */
+        private void BreadthFirstSearchHelper(bool use_breadth_first_search_at)
+        {
+            // Item1 - the vertices to add to the graph
+            // Item2 - the edges to add to the graph
+            // Item3 - the list of vertex indices, BFS search is run from
+            //         each of these vertices
+            // Item4 - the expected result of the BFS search for each of the
+            //         vertex indices in the Item3. Item4.Length must be equal
+            //         to Item3.Length
+            Tuple<string[], byte[,], int[], string[][]>[] test_vectors =
+            {
+                new Tuple<string[], byte[,], int[], string[][]>(
+                    new string[] { "A" },
+                    new byte[,] { { 0 } },
+                    new int[] { 0 },
+                    new string[][] { new string[] { "A" } }),
+
+                new Tuple<string[], byte[,], int[], string[][]>(
+                    new string[] { "A", "B" },
+                    new byte[,]
+                    {
+                        { 0, 1 },
+                        { 1, 0 }
+                    },
+                    new int[] { 0, 1 },
+                    new string[][]
+                    {
+                        new string[] { "A", "B" },
+                        new string[] { "B", "A" }
+                    }),
+
+                new Tuple<string[], byte[,], int[], string[][]>(
+                    new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" },
+                    new byte[,]
+                    {
+                        { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
+                        { 1, 0, 1, 1, 0, 0, 0, 0, 0, 0 },
+                        { 1, 1, 0, 1, 1, 0, 0, 0, 0, 0 },
+                        { 0, 1, 1, 0, 0, 1, 0, 0, 0, 0 },
+                        { 0, 0, 1, 0, 0, 1, 1, 0, 1, 0 },
+                        { 0, 0, 0, 1, 1, 0, 0, 1, 0, 1 },
+                        { 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 },
+                        { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 1, 0, 1, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 }
+                    },
+                    new int[] { 4, 9, 2, 7, 3, 0 },
+                    new string[][]
+                    {
+                        new string[] { "E", "C", "F", "G", "I", "A", "B", "D", "H", "J" },
+                        new string[] { "J", "F", "D", "E", "H", "B", "C", "G", "I", "A" },
+                        new string[] { "C", "A", "B", "D", "E", "F", "G", "I", "H", "J" },
+                        new string[] { "H", "F", "D", "E", "J", "B", "C", "G", "I", "A" },
+                        new string[] { "D", "B", "C", "F", "A", "E", "H", "J", "G", "I" },
+                        new string[] { "A", "B", "C", "D", "E", "F", "G", "I", "H", "J" }
+                    }),
+
+                // The following defines a disconnected graph with 4 distinct
+                // sub-graphs
+                new Tuple<string[], byte[,], int[], string[][]>(
+                    new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M" },
+                    new byte[,]
+                    {
+                        { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 }
+                    },
+                    new int[] { 0, 2, 4, 5, 6, 8, 12, 11 },
+                    new string[][]
+                    {
+                        new string[] { "A", "B", "C", "D" },
+                        new string[] { "C", "B", "D", "A" },
+                        new string[] { "E", "F" },
+                        new string[] { "F", "E" },
+                        new string[] { "G" },
+                        new string[] { "I", "H", "J", "M", "K", "L" },
+                        new string[] { "M", "H", "L", "I", "J", "K" },
+                        new string[] { "L", "J", "K", "M", "I", "H" }
+                    })
+            };
+
+            foreach (var test_vector in test_vectors)
+            {
+                IGraph<string> graph = new UndirectedUnweightedGraph<string>(3);
+
+                // Sanity check
+                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(0));
+                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(1));
+                Assert.AreEqual(test_vector.Item3.Length, test_vector.Item4.Length);
+
+                // Add vertices
+                foreach (var vertex in test_vector.Item1)
+                {
+                    graph.AddVertex(vertex);
+                }
+
+                // Assert that the graph size is as expected
+                Assert.AreEqual(test_vector.Item1.Length, graph.Size);
+
+                // Add edges. Iterate over the upper triangular matrix only
+                // as the lower triangular matrix (below the diagonal) must
+                // be its mirror.
+                for (int row = 0; row < test_vector.Item1.Length; ++row)
+                {
+                    for (int col = row + 1; col < test_vector.Item1.Length; ++col)
+                    {
+                        // Sanity check
+                        Assert.AreEqual(test_vector.Item2[row, col], test_vector.Item2[col, row]);
+
+                        if (Convert.ToBoolean(test_vector.Item2[row, col]))
+                        {
+                            graph.AddEdgeAt(row, col);
+                        }
+                    }
+                }
+
+                // Run BFS starting from each vertex in the test_vector.Item3
+                int i = 0;
+                foreach (var start_vertex_index in test_vector.Item3)
+                {
+                    IEnumerable<string> iter =
+                        use_breadth_first_search_at ?
+                        graph.BreadthFirstSearchAt(start_vertex_index) :
+                        graph.BreadthFirstSearch(test_vector.Item1[start_vertex_index]);
+
+                    int count = 0;
+                    foreach (var vertex in iter)
+                    {
+                        // Search must not have visited more vertices than expected
+                        Assert.Less(count, test_vector.Item4[i].Length);
+
+                        // Assert that the vertex visited at this point in the search
+                        // was the expected one
+                        Assert.AreEqual(test_vector.Item4[i][count++], vertex);
+                    }
+
+                    // Assert that BFS visited expected number of vertices
+                    Assert.AreEqual(test_vector.Item4[i++].Length, count);
+                }
+            }
+        }
+
+        /**
+         * Tests the breadth first search using the BreadthFirstSearchAt() method.
+         */
+        [Test()]
+        public void TestBreadthFirstSearchAt()
+        {
+            BreadthFirstSearchHelper(true);
+        }
+
+        /**
+         * Tests the breadth first search using the BreadthFirstSearch() method.
+         */
+        [Test()]
+        public void TestBreadthFirstSearch()
+        {
+            BreadthFirstSearchHelper(false);
+        }
         // - Add a test where graph.Clear() is called after which some
         //   vertices are added to the graph. The IsEdgePresent methods
         //   is then used to make sure that old adjacency info did not
