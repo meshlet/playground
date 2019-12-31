@@ -40,7 +40,7 @@ namespace datastructuresalgorithmstest
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
-            graph.RemoveVertexAt(0);
+            graph.RemoveVertex(0);
             Assert.IsTrue(graph.Empty);
         }
 
@@ -74,7 +74,7 @@ namespace datastructuresalgorithmstest
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
-            graph.RemoveVertexAt(0);
+            graph.RemoveVertex(0);
             Assert.AreEqual(0, graph.Size);
         }
 
@@ -131,124 +131,63 @@ namespace datastructuresalgorithmstest
         }
 
         /**
-         * Asserts that HasEdgeAt() throws an exception if invoked
+         * Asserts that EdgeExists() throws an exception if invoked
          * on an empty graph.
          */
         [Test()]
-        public void HasEdgeAtThrowsExceptionOnEmptyGraph()
+        public void EdgeExistsThrowsExceptionOnEmptyGraph()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
-            Assert.Throws<ArgumentException>(() => graph.HasEdgeAt(0, 1));
+            Assert.Throws<ArgumentException>(() => graph.EdgeExists(0, 1));
         }
 
         /**
-         * Asserts that HasEdgeAt() throws an exception on negative
+         * Asserts that EdgeExists() throws an exception on negative
          * vertex index.
          */
         [Test()]
-        public void HasEdgeAtThrowsExceptionOnNegativeIndices()
+        public void EdgeExistsThrowsExceptionOnNegativeIndices()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
             graph.AddVertex(-10);
-            Assert.Throws<ArgumentException>(() => graph.HasEdgeAt(-1, 0));
-            Assert.Throws<ArgumentException>(() => graph.HasEdgeAt(0, -1));
-            Assert.Throws<ArgumentException>(() => graph.HasEdgeAt(-1, -1));
+            Assert.Throws<ArgumentException>(() => graph.EdgeExists(-1, 0));
+            Assert.Throws<ArgumentException>(() => graph.EdgeExists(0, -1));
+            Assert.Throws<ArgumentException>(() => graph.EdgeExists(-1, -1));
         }
 
         /**
-         * Asserts that HasEdgeAt() throws an exception if vertex index
+         * Asserts that EdgeExists() throws an exception if vertex index
          * greater-or-equal than the graph size.
          */
         [Test()]
-        public void HasEdgeAtThrowsExceptionIfIndicesGreaterOrEqualThanSize()
+        public void EdgeExistsThrowsExceptionIfIndicesGreaterOrEqualThanSize()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
             graph.AddVertex(-10);
-            Assert.Throws<ArgumentException>(() => graph.HasEdgeAt(0, 2));
-            Assert.Throws<ArgumentException>(() => graph.HasEdgeAt(3, 0));
+            Assert.Throws<ArgumentException>(() => graph.EdgeExists(0, 2));
+            Assert.Throws<ArgumentException>(() => graph.EdgeExists(3, 0));
         }
 
         /**
          * Asserts that HasEdgeAt() returns expected value.
          */
         [Test()]
-        public void HasEdgeAtReturnsExpectedValue()
+        public void EdgeExistsReturnsExpectedValue()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
             graph.AddVertex(-10);
             graph.AddVertex(20);
-            graph.AddEdgeAt(0, 1);
-            graph.AddEdgeAt(1, 2);
-            Assert.IsTrue(graph.HasEdgeAt(0, 1));
-            Assert.IsTrue(graph.HasEdgeAt(1, 0));
-            Assert.IsTrue(graph.HasEdgeAt(1, 2));
-            Assert.IsTrue(graph.HasEdgeAt(2, 1));
-            Assert.IsFalse(graph.HasEdgeAt(0, 2));
-            Assert.IsFalse(graph.HasEdgeAt(2, 0));
-        }
-
-        /**
-         * Asserts that HasEdge() throws an exception if invoked
-         * on an empty graph.
-         */
-        [Test()]
-        public void HasEdgeThrowsExceptionOnEmptyGraph()
-        {
-            IGraph<int> graph = new UndirectedUnweightedGraph<int>();
-            Assert.Throws<ArgumentException>(() => graph.HasEdge(5, -10));
-        }
-
-        /**
-         * Asserts that HasEdge() throws an exception when supplied
-         * with the vertices that are not present in the graph.
-         */
-        [Test()]
-        public void HasEdgeThrowsExceptionOnUnknownVertices()
-        {
-            IGraph<int> graph = new UndirectedUnweightedGraph<int>();
-            graph.AddVertex(5);
-            graph.AddVertex(-10);
-            Assert.Throws<ArgumentException>(() => graph.HasEdge(5, 10));
-            Assert.Throws<ArgumentException>(() => graph.HasEdge(-10, 0));
-            Assert.Throws<ArgumentException>(() => graph.HasEdge(3, 4));
-        }
-
-        /**
-         * Asserts that HasEdge() throws an exception if supplied with
-         * NULL vertices.
-         */
-        [Test()]
-        public void HasEdgeThrowsExceptionOnNullVertices()
-        {
-            IGraph<int?> graph = new UndirectedUnweightedGraph<int?>();
-            graph.AddVertex(5);
-            graph.AddVertex(-10);
-            Assert.Throws<ArgumentNullException>(() => graph.HasEdge(5, null));
-            Assert.Throws<ArgumentNullException>(() => graph.HasEdge(null, -10));
-            Assert.Throws<ArgumentNullException>(() => graph.HasEdge(null, null));
-        }
-
-        /**
-         * Asserts that HasEdge() returns expected value.
-         */
-        [Test()]
-        public void HasEdgeReturnsExpectedValue()
-        {
-            IGraph<int> graph = new UndirectedUnweightedGraph<int>();
-            graph.AddVertex(5);
-            graph.AddVertex(-10);
-            graph.AddVertex(20);
-            graph.AddEdgeAt(0, 1);
-            graph.AddEdgeAt(1, 2);
-            Assert.IsTrue(graph.HasEdge(5, -10));
-            Assert.IsTrue(graph.HasEdge(-10, 5));
-            Assert.IsTrue(graph.HasEdge(-10, 20));
-            Assert.IsTrue(graph.HasEdge(20, -10));
-            Assert.IsFalse(graph.HasEdge(5, 20));
-            Assert.IsFalse(graph.HasEdge(20, 5));
+            graph.AddEdge(0, 1);
+            graph.AddEdge(1, 2);
+            Assert.IsTrue(graph.EdgeExists(0, 1));
+            Assert.IsTrue(graph.EdgeExists(1, 0));
+            Assert.IsTrue(graph.EdgeExists(1, 2));
+            Assert.IsTrue(graph.EdgeExists(2, 1));
+            Assert.IsFalse(graph.EdgeExists(0, 2));
+            Assert.IsFalse(graph.EdgeExists(2, 0));
         }
 
         /**
@@ -372,36 +311,36 @@ namespace datastructuresalgorithmstest
         }
 
         /**
-         * Asserts that AddEdgeAt() throws and exception if vertex index
+         * Asserts that AddEdge() throws and exception if vertex index
          * is negative.
          */
         [Test()]
-        public void AddEdgeAtThrowsExceptionIfIndicesAreNegative()
+        public void AddEdgeThrowsExceptionIfIndicesAreNegative()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
             graph.AddVertex(-10);
-            Assert.Throws<ArgumentException>(() => graph.AddEdgeAt(-1, 0));
-            Assert.Throws<ArgumentException>(() => graph.AddEdgeAt(0, -1));
-            Assert.Throws<ArgumentException>(() => graph.AddEdgeAt(-1, -1));
+            Assert.Throws<ArgumentException>(() => graph.AddEdge(-1, 0));
+            Assert.Throws<ArgumentException>(() => graph.AddEdge(0, -1));
+            Assert.Throws<ArgumentException>(() => graph.AddEdge(-1, -1));
         }
 
         /**
-         * Asserts that AddEdgeAt() throws an exception if vertex index
+         * Asserts that AddEdge() throws an exception if vertex index
          * greater-or-equal than the graph size.
          */
         [Test()]
-        public void AddEdgeAtThrowsExceptionIfIndicesGreaterOrEqualThanSize()
+        public void AddEdgeThrowsExceptionIfIndicesGreaterOrEqualThanSize()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
             graph.AddVertex(-10);
-            Assert.Throws<ArgumentException>(() => graph.AddEdgeAt(0, 2));
-            Assert.Throws<ArgumentException>(() => graph.AddEdgeAt(3, 0));
+            Assert.Throws<ArgumentException>(() => graph.AddEdge(0, 2));
+            Assert.Throws<ArgumentException>(() => graph.AddEdge(3, 0));
         }
 
         /**
-         * Tests adding edges to the graph via the AddEdgeAt() method.
+         * Tests adding edges to the graph via the AddEdge() method.
          */
         [Test()]
         public void TestAddingEdgesBetweenVertexIndices()
@@ -440,7 +379,7 @@ namespace datastructuresalgorithmstest
                     
                     if (adjacency_matrix[row, col])
                     {
-                        Assert.IsTrue(graph.AddEdgeAt(row, col));
+                        Assert.IsTrue(graph.AddEdge(row, col));
                     }
                 }
             }
@@ -450,173 +389,53 @@ namespace datastructuresalgorithmstest
             {
                 for (int col = 0; col < vertices.Length; ++col)
                 {
-                    Assert.AreEqual(adjacency_matrix[row, col], graph.HasEdgeAt(row, col));
+                    Assert.AreEqual(adjacency_matrix[row, col], graph.EdgeExists(row, col));
                 }
             }
         }
 
         /**
-         * Asserts that AddEdgeAt() returns false if supplied vertex indices
+         * Asserts that AddEdge() returns false if supplied vertex indices
          * are equal.
-         */
-        [Test()]
-        public void AddEdgeAtReturnsFalseIfIndicesAreEqual()
-        {
-            IGraph<int> graph = new UndirectedUnweightedGraph<int>();
-            graph.AddVertex(5);
-            Assert.IsFalse(graph.AddEdgeAt(0, 0));
-        }
-
-        /**
-         * Asserts that AddEdge() throws and exception if vertex is NULL
-         */
-        [Test()]
-        public void AddEdgeThrowsExceptionOnNull()
-        {
-            IGraph<int?> graph = new UndirectedUnweightedGraph<int?>();
-            graph.AddVertex(5);
-            graph.AddVertex(-10);
-            Assert.Throws<ArgumentNullException>(() => graph.AddEdge(5, null));
-            Assert.Throws<ArgumentNullException>(() => graph.AddEdge(null, -10));
-        }
-
-        /**
-         * Asserts that AddEdge() throws an exception if either of vertices
-         * is not present in the graph.
-         */
-        [Test()]
-        public void AddEdgeThrowsExceptionOnUnknownVertices()
-        {
-            IGraph<int> graph = new UndirectedUnweightedGraph<int>();
-            graph.AddVertex(5);
-            graph.AddVertex(-10);
-            Assert.Throws<ArgumentException>(() => graph.AddEdge(5, 10));
-            Assert.Throws<ArgumentException>(() => graph.AddEdge(-10, -5));
-            Assert.Throws<ArgumentException>(() => graph.AddEdge(-5, 10));
-        }
-
-        /**
-         * Tests adding edges to the graph via the AddEdge() method.
-         */
-        [Test()]
-        public void TestAddingEdgesBetweenVertices()
-        {
-            IGraph<int> graph = new UndirectedUnweightedGraph<int>();
-            int[] vertices = { 45, -3, 77, -9, 33, -71 };
-            bool[,] adjacency_matrix =
-            {
-                { false, true, true, false, false, false },
-                { true, false, false, true, false, true  },
-                { true, false, false, false, true, false },
-                { false, true, false, false, true, true  },
-                { false, false, true, true, false, false },
-                { false, true, false, true, false, false }
-            };
-
-            // Sanity check
-            Assert.AreEqual(vertices.Length, adjacency_matrix.GetLength(0));
-            Assert.AreEqual(vertices.Length, adjacency_matrix.GetLength(1));
-
-            // Add the vertices
-            foreach (var vertex in vertices)
-            {
-                Assert.IsTrue(graph.AddVertex(vertex));
-            }
-
-            // Add the edges. Iterate over the lower triangular matrix
-            // only as the upper triangular matrix (above the diagonal)
-            // is the mirror of the lower triangular matrix.
-            for (int row = 1; row < vertices.Length; ++row)
-            {
-                for (int col = 0; col < row; ++col)
-                {
-                    // Sanity check
-                    Assert.AreEqual(adjacency_matrix[row, col], adjacency_matrix[col, row]);
-                    
-                    if (adjacency_matrix[row, col])
-                    {
-                        Assert.IsTrue(graph.AddEdge(vertices[row], vertices[col]));
-                    }
-                }
-            }
-
-            // Make sure that the graph has the expected structure
-            for (int row = 0; row < vertices.Length; ++row)
-            {
-                for (int col = 0; col < vertices.Length; ++col)
-                {
-                    Assert.AreEqual(adjacency_matrix[row, col], graph.HasEdgeAt(row, col));
-                }
-            }
-        }
-
-        /**
-         * Asserts that AddEdge() returns false if supplied vertices are
-         * equal.
          */
         [Test()]
         public void AddEdgeReturnsFalseIfIndicesAreEqual()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
-            Assert.IsFalse(graph.AddEdge(5, 5));
+            Assert.IsFalse(graph.AddEdge(0, 0));
         }
 
         /**
-         * Asserts that RemoveVertexAt() throws an exception if supplied with
+         * Asserts that RemoveVertex() throws an exception if supplied with
          * a negative vertex index.
          */
         [Test()]
-        public void RemoveVertexAtThrowsExceptionIfIndexIsNegative()
+        public void RemoveVertexThrowsExceptionIfIndexIsNegative()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
-            Assert.Throws<ArgumentException>(() => graph.RemoveVertexAt(-1));
+            Assert.Throws<ArgumentException>(() => graph.RemoveVertex(-1));
         }
 
         /**
-         * Asserts that RemoveVertexAt() throws an exception if supplied with
+         * Asserts that RemoveVertex() throws an exception if supplied with
          * a vertex indes that is greater-or-equal to the graph size.
          */
         [Test()]
-        public void RemoveVertexAtThrowsExceptionIfIndexIsGreaterOrEqualToSize()
+        public void RemoveVertexThrowsExceptionIfIndexIsGreaterOrEqualToSize()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
-            Assert.Throws<ArgumentException>(() => graph.RemoveVertexAt(1));
-        }
-        
-        /**
-         * Asserts that RemoveVertex() throws an exception if supplied with
-         * NULL.
-         */
-        [Test()]
-        public void RemoveVertexThrowsExceptionOnNull()
-        {
-            IGraph<int?> graph = new UndirectedUnweightedGraph<int?>();
-            graph.AddVertex(5);
-            Assert.Throws<ArgumentNullException>(() => graph.RemoveVertex(null));
-        }
-        
-        [Test()]
-        public void RemoveVertexThrowsExceptionOnUnknownVertex()
-        {
-            IGraph<int?> graph = new UndirectedUnweightedGraph<int?>();
-            graph.AddVertex(5);
-            Assert.Throws<ArgumentException>(() => graph.RemoveVertex(7));
+            Assert.Throws<ArgumentException>(() => graph.RemoveVertex(1));
         }
 
         /**
          * Helper method that removes the specified vertex and check
          * whether the vertex has been removed along with its associated
          * edges.
-         *
-         * The RemoveVertexAt() or RemoveVertex() methods are used to
-         * remove the vertex depending on the 'user_remove_vertex_at'
-         * parameter.
          */
-        private void RemoveVertexHelper(
-            int[] vertices, byte[,] edges, int index, bool use_remove_vertex_at)
+        private void RemoveVertexHelper(int[] vertices, byte[,] edges, int index)
         {
             // Sanity check
             Assert.AreEqual(vertices.Length, edges.GetLength(0));
@@ -643,20 +462,13 @@ namespace datastructuresalgorithmstest
                     
                     if (Convert.ToBoolean(edges[row, col]))
                     {
-                        Assert.IsTrue(graph.AddEdge(vertices[row], vertices[col]));
+                        Assert.IsTrue(graph.AddEdge(row, col));
                     }
                 }
             }
 
             // Remove the vertex
-            if (use_remove_vertex_at)
-            {
-                Assert.AreEqual(vertices[index], graph.RemoveVertexAt(index));
-            }
-            else
-            {
-                graph.RemoveVertex(vertices[index]);
-            }
+            Assert.AreEqual(vertices[index], graph.RemoveVertex(index));
 
             // Confirm that the graph size has been decremented
             Assert.AreEqual(vertices.Length - 1, graph.Size);
@@ -680,7 +492,7 @@ namespace datastructuresalgorithmstest
                         {
                             // We must skip the column that correponds to the
                             // removed vertex
-                            Assert.AreEqual(Convert.ToBoolean(edges[i, j]), graph.HasEdgeAt(row, col++));
+                            Assert.AreEqual(Convert.ToBoolean(edges[i, j]), graph.EdgeExists(row, col++));
                         }
                     }
                     ++row;
@@ -705,11 +517,7 @@ namespace datastructuresalgorithmstest
                 { 0, 1, 0, 1, 0, 0 }
             };
             
-            // Test the RemoveVertexAt method
-            RemoveVertexHelper(vertices, edges, 0, true);
-
-            // Test the RemoveVertex method
-            RemoveVertexHelper(vertices, edges, 0, false);
+            RemoveVertexHelper(vertices, edges, 0);
         }
         
         /**
@@ -732,12 +540,8 @@ namespace datastructuresalgorithmstest
                 { 0, 0, 1, 1, 0, 0, 0, 0, 0, 1 },
                 { 0, 1, 1, 0, 1, 0, 1, 0, 1, 0 }
             };
-
-            // Test the RemoveVertexAt method
-            RemoveVertexHelper(vertices, edges, vertices.Length / 2, true);
-
-            // Test the RemoveVertex method
-            RemoveVertexHelper(vertices, edges, vertices.Length / 2, false);
+            
+            RemoveVertexHelper(vertices, edges, vertices.Length / 2);
         }
 
         /**
@@ -760,80 +564,47 @@ namespace datastructuresalgorithmstest
                 { 0, 0, 1, 1, 0, 0, 0, 0, 0, 1 },
                 { 0, 1, 1, 0, 1, 0, 1, 0, 1, 0 }
             };
-
-            // Test the RemoveVertexAt method
-            RemoveVertexHelper(vertices, edges, vertices.Length - 1, true);
-
-            // Test the RemoveVertex method
-            RemoveVertexHelper(vertices, edges, vertices.Length - 1, false);
+            
+            RemoveVertexHelper(vertices, edges, vertices.Length - 1);
         }
         
         /**
-         * Asserts that RemoveEdgeAt() throws an exception if supplied with
+         * Asserts that RemoveEdge() throws an exception if supplied with
          * negative indices.
          */
         [Test()]
-        public void RemoveEdgeAtThrowsExceptionIfIndicesNegative()
+        public void RemoveEdgeThrowsExceptionIfIndicesNegative()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
             graph.AddVertex(8);
-            graph.AddEdgeAt(0, 1);
-            Assert.Throws<ArgumentException>(() => graph.RemoveEdgeAt(0, -1));
-            Assert.Throws<ArgumentException>(() => graph.RemoveEdgeAt(-1, 0));
-            Assert.Throws<ArgumentException>(() => graph.RemoveEdgeAt(-2, -1));
+            graph.AddEdge(0, 1);
+            Assert.Throws<ArgumentException>(() => graph.RemoveEdge(0, -1));
+            Assert.Throws<ArgumentException>(() => graph.RemoveEdge(-1, 0));
+            Assert.Throws<ArgumentException>(() => graph.RemoveEdge(-2, -1));
         }
-        
+
         /**
-         * Asserts that RemoveEdgeAt() throws an exception if supplied indices
+         * Asserts that RemoveEdge() throws an exception if supplied indices
          * are greater-or-equal than the graph size.
          */
         [Test()]
-        public void RemoveEdgeAtThrowsExceptionIfIndicesGreaterOrEqualToSize()
+        public void RemoveEdgeThrowsExceptionIfIndicesGreaterOrEqualToSize()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
             graph.AddVertex(8);
-            graph.AddEdgeAt(0, 1);
-            Assert.Throws<ArgumentException>(() => graph.RemoveEdgeAt(0, 2));
-            Assert.Throws<ArgumentException>(() => graph.RemoveEdgeAt(2, 1));
-            Assert.Throws<ArgumentException>(() => graph.RemoveEdgeAt(2, 4));
+            graph.AddEdge(0, 1);
+            Assert.Throws<ArgumentException>(() => graph.RemoveEdge(0, 2));
+            Assert.Throws<ArgumentException>(() => graph.RemoveEdge(2, 1));
+            Assert.Throws<ArgumentException>(() => graph.RemoveEdge(2, 4));
         }
 
         /**
-         * Asserts that RemoveEdge() throws an exception on NULL.
+         * Test the removal of graph edges.
          */
         [Test()]
-        public void TestRemoveEdgeThrowsExceptionOnNull()
-        {
-            IGraph<int?> graph = new UndirectedUnweightedGraph<int?>();
-            graph.AddVertex(5);
-            Assert.Throws<ArgumentNullException>(() => graph.RemoveEdge(null, 5));
-            Assert.Throws<ArgumentNullException>(() => graph.RemoveEdge(5, null));
-            Assert.Throws<ArgumentNullException>(() => graph.RemoveEdge(null, null));
-        }
-
-        /**
-         * Asserts that RemoveEdge() throws an exception if supplied with
-         * unknown vertices.
-         */
-        [Test()]
-        public void TestRemoveEdgeThrowsExceptionOnUnknownVertices()
-        {
-            IGraph<int?> graph = new UndirectedUnweightedGraph<int?>();
-            graph.AddVertex(5);
-            graph.AddVertex(10);
-            Assert.Throws<ArgumentException>(() => graph.RemoveEdge(5, -10));
-            Assert.Throws<ArgumentException>(() => graph.RemoveEdge(-5, 10));
-            Assert.Throws<ArgumentException>(() => graph.RemoveEdge(-5, -10));
-        }
-
-        /**
-         * Helper for testing removing graph edges. Removal is done using
-         * the RemoveEdgeAt() if 'use_remove_edge_at' is true, otherwise the
-         * RemoveEdge() method is used.
-         */
-        private void RemoveEdgesHelper(bool use_remove_edge_at)
+        public void TestRemovingEdges()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>(3);
             int[] vertices = { 88, 1, -3, 7, 9, -23, 3, 84, 20, 45 };
@@ -886,7 +657,7 @@ namespace datastructuresalgorithmstest
                     
                     if (Convert.ToBoolean(edges[row, col]))
                     {
-                        graph.AddEdgeAt(row, col);
+                        graph.AddEdge(row, col);
                     }
                 }
             }
@@ -899,15 +670,8 @@ namespace datastructuresalgorithmstest
                 Assert.GreaterOrEqual(edge_to_remove.Item2, 0);
                 Assert.Greater(vertices.Length, edge_to_remove.Item1);
                 Assert.Greater(vertices.Length, edge_to_remove.Item2);
-                
-                if (use_remove_edge_at)
-                {
-                    graph.RemoveEdgeAt(edge_to_remove.Item1, edge_to_remove.Item2);
-                }
-                else
-                {
-                    graph.RemoveEdge(vertices[edge_to_remove.Item1], vertices[edge_to_remove.Item2]);
-                }
+
+                graph.RemoveEdge(edge_to_remove.Item1, edge_to_remove.Item2);
 
                 // Also remove the edge from the 'edges' array used later for verification
                 edges[edge_to_remove.Item1, edge_to_remove.Item2] =
@@ -919,83 +683,40 @@ namespace datastructuresalgorithmstest
             {
                 for (int col = 0; col < vertices.Length; ++col)
                 {
-                    Assert.AreEqual(Convert.ToBoolean(edges[row, col]), graph.HasEdgeAt(row, col));
+                    Assert.AreEqual(Convert.ToBoolean(edges[row, col]), graph.EdgeExists(row, col));
                 }
             }
         }
         
         /**
-         * Tests the RemoveEdgeAt() method.
-         */
-        [Test()]
-        public void TestRemoveEdgeAt()
-        {
-            RemoveEdgesHelper(true);
-        }
-        
-        /**
-         * Tests the RemoveEdge() method.
-         */
-        [Test()]
-        public void TestRemoveEdge()
-        {
-            RemoveEdgesHelper(false);
-        }
-        
-        /**
-         * Asserts that DepthFirstSearchAt() throws an exception if index is
+         * Asserts that DepthFirstSearch() throws an exception if index is
          * negative.
          */
         [Test()]
-        public void DepthFirstSearchAtThrowsExceptionIfIndexIsNegative()
+        public void DepthFirstSearchThrowsExceptionIfIndexIsNegative()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
-            Assert.Throws<ArgumentException>(() => graph.DepthFirstSearchAt(-1).GetEnumerator().MoveNext());
+            Assert.Throws<ArgumentException>(() => graph.DepthFirstSearch(-1).GetEnumerator().MoveNext());
         }
-        
+
         /**
-         * Asserts that DepthFirstSearchAt() throws an exception if index is
+         * Asserts that DepthFirstSearch() throws an exception if index is
          * greater-or-equal to the graph size.
          */
         [Test()]
-        public void DepthFirstSearchAtThrowsExceptionIfIndexIsGreaterOrEqualToSize()
+        public void DepthFirstSearchThrowsExceptionIfIndexIsGreaterOrEqualToSize()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
-            Assert.Throws<ArgumentException>(() => graph.DepthFirstSearchAt(1).GetEnumerator().MoveNext());
+            Assert.Throws<ArgumentException>(() => graph.DepthFirstSearch(1).GetEnumerator().MoveNext());
         }
 
         /**
-         * Asserts that DepthFirstSearch() throws an exception if supplied with
-         * a NULL.
+         * Tests the depth first search.
          */
         [Test()]
-        public void DepthFirstSearchThrowsExceptionOnNull()
-        {
-            IGraph<int?> graph = new UndirectedUnweightedGraph<int?>();
-            graph.AddVertex(5);
-            Assert.Throws<ArgumentNullException>(() => graph.DepthFirstSearch(null).GetEnumerator().MoveNext());
-        }
-
-        /**
-         * Asserts that DepthFirstSearch() throws an exception on an unknown
-         * vertex.
-         */
-        [Test()]
-        public void DepthFirstSearchThrowsExceptionOnUnknownVertex()
-        {
-            IGraph<int> graph = new UndirectedUnweightedGraph<int>();
-            graph.AddVertex(5);
-            Assert.Throws<ArgumentException>(() => graph.DepthFirstSearch(-5).GetEnumerator().MoveNext());
-        }
-        
-        /**
-         * Helper for testing the DFS search. The DFS search is done using the
-         * DepthFirstSearchAt() method if 'use_depth_first_search_at" is true,
-         * otherwise DepthFirstSearch() is used.
-         */
-        private void DepthFirstSearchHelper(bool use_depth_first_search_at)
+        public void TestDepthFirstSearch()
         {
             // Item1 - the vertices to add to the graph
             // Item2 - the edges to add to the graph
@@ -1116,7 +837,7 @@ namespace datastructuresalgorithmstest
 
                         if (Convert.ToBoolean(test_vector.Item2[row, col]))
                         {
-                            graph.AddEdgeAt(row, col);
+                            graph.AddEdge(row, col);
                         }
                     }
                 }
@@ -1125,10 +846,7 @@ namespace datastructuresalgorithmstest
                 int i = 0;
                 foreach (var start_vertex_index in test_vector.Item3)
                 {
-                    IEnumerable<int> iter =
-                        use_depth_first_search_at ?
-                        graph.DepthFirstSearchAt(start_vertex_index) :
-                        graph.DepthFirstSearch(test_vector.Item1[start_vertex_index]);
+                    IEnumerable<int> iter = graph.DepthFirstSearch(start_vertex_index);
 
                     int count = 0;
                     foreach (var vertex_index in iter)
@@ -1146,80 +864,36 @@ namespace datastructuresalgorithmstest
                 }
             }
         }
-        
-        /**
-         * Tests the depth first search using the DepthFirstSearchAt() method.
-         */
-        [Test()]
-        public void TestDepthFirstSearchAt()
-        {
-            DepthFirstSearchHelper(true);
-        }
-        
-        /**
-         * Tests the depth first search using the DepthFirstSearch() method.
-         */
-        [Test()]
-        public void TestDepthFirstSearch()
-        {
-            DepthFirstSearchHelper(false);
-        }
 
         /**
-         * Asserts that BreadthFirstSearchAt() throws an exception if index is
+         * Asserts that BreadthFirstSearch() throws an exception if index is
          * negative.
          */
         [Test()]
-        public void BreadthFirstSearchAtThrowsExceptionIfIndexIsNegative()
+        public void BreadthFirstSearchThrowsExceptionIfIndexIsNegative()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
-            Assert.Throws<ArgumentException>(() => graph.BreadthFirstSearchAt(-1).GetEnumerator().MoveNext());
+            Assert.Throws<ArgumentException>(() => graph.BreadthFirstSearch(-1).GetEnumerator().MoveNext());
         }
 
         /**
-         * Asserts that BreadthFirstSearchAt() throws an exception if index is
+         * Asserts that BreadthFirstSearch() throws an exception if index is
          * greater-or-equal to the graph size.
          */
         [Test()]
-        public void BreadthFirstSearchAtThrowsExceptionIfIndexIsGreaterOrEqualToSize()
+        public void BreadthFirstSearchThrowsExceptionIfIndexIsGreaterOrEqualToSize()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
-            graph.BreadthFirstSearchAt(1);
-            Assert.Throws<ArgumentException>(() => graph.BreadthFirstSearchAt(1).GetEnumerator().MoveNext());
+            Assert.Throws<ArgumentException>(() => graph.BreadthFirstSearch(1).GetEnumerator().MoveNext());
         }
 
         /**
-         * Asserts that BreadthFirstSearch() throws an exception if supplied with
-         * a NULL.
+         * Tests the breadth first search.
          */
         [Test()]
-        public void BreadthFirstSearchThrowsExceptionOnNull()
-        {
-            IGraph<int?> graph = new UndirectedUnweightedGraph<int?>();
-            graph.AddVertex(5);
-            Assert.Throws<ArgumentNullException>(() => graph.BreadthFirstSearch(null).GetEnumerator().MoveNext());
-        }
-
-        /**
-         * Asserts that BreadthFirstSearch() throws an exception on an unknown
-         * vertex.
-         */
-        [Test()]
-        public void BreadthFirstSearchThrowsExceptionOnUnknownVertex()
-        {
-            IGraph<int> graph = new UndirectedUnweightedGraph<int>();
-            graph.AddVertex(5);
-            Assert.Throws<ArgumentException>(() => graph.BreadthFirstSearch(-5).GetEnumerator().MoveNext());
-        }
-
-        /**
-         * Helper for testing the BFS search. The BFS search is done using the
-         * BreadthFirstSearchAt() method if 'use_breadth_first_search_at" is true,
-         * otherwise BreadthFirstSearch() is used.
-         */
-        private void BreadthFirstSearchHelper(bool use_breadth_first_search_at)
+        public void BreadthFirstSearchHelper()
         {
             // Item1 - the vertices to add to the graph
             // Item2 - the edges to add to the graph
@@ -1340,7 +1014,7 @@ namespace datastructuresalgorithmstest
 
                         if (Convert.ToBoolean(test_vector.Item2[row, col]))
                         {
-                            graph.AddEdgeAt(row, col);
+                            graph.AddEdge(row, col);
                         }
                     }
                 }
@@ -1349,10 +1023,7 @@ namespace datastructuresalgorithmstest
                 int i = 0;
                 foreach (var start_vertex_index in test_vector.Item3)
                 {
-                    IEnumerable<int> iter =
-                        use_breadth_first_search_at ?
-                        graph.BreadthFirstSearchAt(start_vertex_index) :
-                        graph.BreadthFirstSearch(test_vector.Item1[start_vertex_index]);
+                    IEnumerable<int> iter = graph.BreadthFirstSearch(start_vertex_index);
 
                     int count = 0;
                     foreach (var vertex_index in iter)
@@ -1372,85 +1043,38 @@ namespace datastructuresalgorithmstest
         }
 
         /**
-         * Tests the breadth first search using the BreadthFirstSearchAt() method.
-         */
-        [Test()]
-        public void TestBreadthFirstSearchAt()
-        {
-            BreadthFirstSearchHelper(true);
-        }
-
-        /**
-         * Tests the breadth first search using the BreadthFirstSearch() method.
-         */
-        [Test()]
-        public void TestBreadthFirstSearch()
-        {
-            BreadthFirstSearchHelper(false);
-        }
-
-        /**
-         * Asserts that FindShortestPathAt() throws an exception if either of
+         * Asserts that FindShortestPath() throws an exception if either of
          * indices are negative.
          */
         [Test()]
-        public void FindShortestPathAtThrowsExceptionIfIndicesAreNegative()
+        public void FindShortestPathThrowsExceptionIfIndicesAreNegative()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
-            Assert.Throws<ArgumentException>(() => graph.FindShortestPathAt(-1, 0));
-            Assert.Throws<ArgumentException>(() => graph.FindShortestPathAt(0, -1));
-            Assert.Throws<ArgumentException>(() => graph.FindShortestPathAt(-1, -1));
+            Assert.Throws<ArgumentException>(() => graph.FindShortestPath(-1, 0));
+            Assert.Throws<ArgumentException>(() => graph.FindShortestPath(0, -1));
+            Assert.Throws<ArgumentException>(() => graph.FindShortestPath(-1, -1));
         }
 
         /**
-         * Asserts that FindShortestPathAt() throws an exception if either of
+         * Asserts that FindShortestPath() throws an exception if either of
          * indices are greater-or-equal to the graph size.
          */
         [Test()]
-        public void FindShortestPathAtThrowsExceptionIfIndicesAreGreaterOrEqualToSize()
+        public void FindShortestPathThrowsExceptionIfIndicesAreGreaterOrEqualToSize()
         {
             IGraph<int> graph = new UndirectedUnweightedGraph<int>();
             graph.AddVertex(5);
-            Assert.Throws<ArgumentException>(() => graph.FindShortestPathAt(1, 0));
-            Assert.Throws<ArgumentException>(() => graph.FindShortestPathAt(0, 2));
-            Assert.Throws<ArgumentException>(() => graph.FindShortestPathAt(2, 1));
-        }
-        
-        /**
-         * Asserts that FindShortestPath() throws an exception if either of
-         * vertices is NULL.
-         */
-        [Test()]
-        public void FindShortestPathThrowsExceptionOnNull()
-        {
-            IGraph<int?> graph = new UndirectedUnweightedGraph<int?>();
-            graph.AddVertex(5);
-            Assert.Throws<ArgumentNullException>(() => graph.FindShortestPath(null, 5));
-            Assert.Throws<ArgumentNullException>(() => graph.FindShortestPath(5, null));
-            Assert.Throws<ArgumentNullException>(() => graph.FindShortestPath(null, null));
+            Assert.Throws<ArgumentException>(() => graph.FindShortestPath(1, 0));
+            Assert.Throws<ArgumentException>(() => graph.FindShortestPath(0, 2));
+            Assert.Throws<ArgumentException>(() => graph.FindShortestPath(2, 1));
         }
 
         /**
-         * Asserts that FindShortestPath() throws an exception if either of
-         * vertices don't exist in the graph.
+         * Tests finding the shortest path between two vertices.
          */
         [Test()]
-        public void FindShortestPathThrowsExceptionOnUnknownVertices()
-        {
-            IGraph<int> graph = new UndirectedUnweightedGraph<int>();
-            graph.AddVertex(5);
-            Assert.Throws<ArgumentException>(() => graph.FindShortestPath(6, 5));
-            Assert.Throws<ArgumentException>(() => graph.FindShortestPath(5, 7));
-            Assert.Throws<ArgumentException>(() => graph.FindShortestPath(19, -5));
-        }
-
-        /**
-         * Helper for testing the shortest path graph methods. The helper will
-         * use the FindShortestPathAt() if use_find_shortest_path_at is true,
-         * otherwise FindShortestPath() is used.
-         */
-        private void ShortestPathFinderHelper(bool use_find_shortest_path_at)
+        public void ShortestPathFinderHelper()
         {
             // Item1 - the vertices to add to the graph
             // Item2 - the edges to add to the graph
@@ -1606,7 +1230,7 @@ namespace datastructuresalgorithmstest
 
                         if (Convert.ToBoolean(test_vector.Item2[row, col]))
                         {
-                            graph.AddEdgeAt(row, col);
+                            graph.AddEdge(row, col);
                         }
                     }
                 }
@@ -1620,35 +1244,323 @@ namespace datastructuresalgorithmstest
                     Assert.Greater(test_vector.Item1.Length, vertex_pair.Item1);
                     Assert.Greater(test_vector.Item1.Length, vertex_pair.Item2);
 
-                    ICollection<int> shortest_path =
-                        use_find_shortest_path_at ?
-                        graph.FindShortestPathAt(vertex_pair.Item1, vertex_pair.Item2) :
-                        graph.FindShortestPath(test_vector.Item1[vertex_pair.Item1], test_vector.Item1[vertex_pair.Item2]);
+                    ICollection<int> shortest_path = graph.FindShortestPath(vertex_pair.Item1, vertex_pair.Item2);
 
                     // Assert that the shortest path is equal to the expected one
                      Assert.AreEqual(test_vector.Item4[i++], shortest_path);
                 }
             }
         }
-        
-        /**
-         * Tests the FindShortestPathAt() method.
-         */
-        [Test()]
-        public void TestFindShortestPathAt()
-        {
-            ShortestPathFinderHelper(true);
-        }
-        
-        /**
-         * Tests the FindShortestPath() method.
-         */
-        [Test()]
-        public void TestFindShortestPath()
-        {
-            ShortestPathFinderHelper(false);
-        }
 
+        /**
+         * Asserts that FindMinimumSpanningTree() throws an exception if
+         * index is negative.
+         */
+        [Test()]
+        public void FindMinimumSpanningTreeIfIndexIsNegative()
+        {
+            IGraph<int> graph = new UndirectedUnweightedGraph<int>();
+            graph.AddVertex(5);
+            Assert.Throws<ArgumentException>(() => graph.FindMinimumSpanningTree(-1));
+        }
+        
+        /**
+         * Asserts that FindMinimumSpanningTree() throws an exception if
+         * index is greater-or-equal to the graph size.
+         */
+        [Test()]
+        public void FindMinimumSpanningTreeIfIndexIsGreaterOrEqualToZero()
+        {
+            IGraph<int> graph = new UndirectedUnweightedGraph<int>();
+            graph.AddVertex(5);
+            Assert.Throws<ArgumentException>(() => graph.FindMinimumSpanningTree(1));
+            Assert.Throws<ArgumentException>(() => graph.FindMinimumSpanningTree(2));
+        }
+        
+        /**
+         * Tests finding a minimu spanning tree in a graph.
+         */
+        [Test()]
+        public void TestFindingMinimumSpanningTree()
+        {
+            // Item1 - the vertices to add to the graph
+            // Item2 - the edges to add to the graph
+            // Item3 - the array of indices. The minimum spanning tree is
+            //         computed from each of these vertex indices.
+            // Item4 - the expected MST for each of the starting vertices
+            //         in Item3. The MSTs are represented as adjacency lists.
+            //         Item4.Lenght must be equal to Item3.Length.
+            Tuple<string[], byte[,], int[], LinkedList<int>[][]>[] test_vectors =
+            {
+                new Tuple<string[], byte[,], int[], LinkedList<int>[][]>(
+                    new string[] { "A" },
+                    new byte[,] { { 0 } },
+                    new int[] { 0 },
+                    new LinkedList<int>[][]
+                    {
+                        new LinkedList<int>[] { new LinkedList<int>() }
+                    }),
+
+                new Tuple<string[], byte[,], int[], LinkedList<int>[][]>(
+                    new string[] { "A", "B" },
+                    new byte[,]
+                    {
+                        { 0, 1 },
+                        { 1, 0 }
+                    },
+                    new int[] { 1, 0 },
+                    new LinkedList<int>[][]
+                    {
+                        new LinkedList<int>[]
+                        {
+                            new LinkedList<int>(new int[] { 1 }),
+                            new LinkedList<int>(new int[] { 0 })
+                        },
+
+                        new LinkedList<int>[]
+                        {
+                            new LinkedList<int>(new int[] { 1 }),
+                            new LinkedList<int>(new int[] { 0 })
+                        }
+                    }),
+
+                new Tuple<string[], byte[,], int[], LinkedList<int>[][]>(
+                    new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" },
+                    new byte[,]
+                    {
+                        { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
+                        { 1, 0, 1, 1, 0, 0, 0, 0, 0, 0 },
+                        { 1, 1, 0, 1, 1, 0, 0, 0, 0, 0 },
+                        { 0, 1, 1, 0, 0, 1, 0, 0, 0, 0 },
+                        { 0, 0, 1, 0, 0, 1, 1, 0, 1, 0 },
+                        { 0, 0, 0, 1, 1, 0, 0, 1, 0, 1 },
+                        { 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 },
+                        { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 1, 0, 1, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 }
+                    },
+                    new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
+                    new LinkedList<int>[][]
+                    {
+                        new LinkedList<int>[]
+                        {
+                            new LinkedList<int>(new int[] { 1 }),
+                            new LinkedList<int>(new int[] { 0, 2 }),
+                            new LinkedList<int>(new int[] { 1, 3 }),
+                            new LinkedList<int>(new int[] { 2, 5 }),
+                            new LinkedList<int>(new int[] { 5, 6 }),
+                            new LinkedList<int>(new int[] { 3, 4, 7, 9 }),
+                            new LinkedList<int>(new int[] { 4, 8 }),
+                            new LinkedList<int>(new int[] { 5 }),
+                            new LinkedList<int>(new int[] { 6 }),
+                            new LinkedList<int>(new int[] { 5 })
+                        },
+
+                        new LinkedList<int>[]
+                        {
+                            new LinkedList<int>(new int[] { 1, 2 }),
+                            new LinkedList<int>(new int[] { 0 }),
+                            new LinkedList<int>(new int[] { 0, 3 }),
+                            new LinkedList<int>(new int[] { 2, 5 }),
+                            new LinkedList<int>(new int[] { 5, 6 }),
+                            new LinkedList<int>(new int[] { 3, 4, 7, 9 }),
+                            new LinkedList<int>(new int[] { 4, 8 }),
+                            new LinkedList<int>(new int[] { 5 }),
+                            new LinkedList<int>(new int[] { 6 }),
+                            new LinkedList<int>(new int[] { 5 })
+                        },
+
+                        new LinkedList<int>[]
+                        {
+                            new LinkedList<int>(new int[] { 2, 1 }),
+                            new LinkedList<int>(new int[] { 0, 3 }),
+                            new LinkedList<int>(new int[] { 0 }),
+                            new LinkedList<int>(new int[] { 1, 5 }),
+                            new LinkedList<int>(new int[] { 5, 6 }),
+                            new LinkedList<int>(new int[] { 3, 4, 7, 9 }),
+                            new LinkedList<int>(new int[] { 4, 8 }),
+                            new LinkedList<int>(new int[] { 5 }),
+                            new LinkedList<int>(new int[] { 6 }),
+                            new LinkedList<int>(new int[] { 5 })
+                        },
+
+                        new LinkedList<int>[]
+                        {
+                            new LinkedList<int>(new int[] { 1, 2 }),
+                            new LinkedList<int>(new int[] { 3, 0 }),
+                            new LinkedList<int>(new int[] { 0, 4 }),
+                            new LinkedList<int>(new int[] { 1 }),
+                            new LinkedList<int>(new int[] { 2, 5, 6 }),
+                            new LinkedList<int>(new int[] { 4, 7, 9 }),
+                            new LinkedList<int>(new int[] { 4, 8 }),
+                            new LinkedList<int>(new int[] { 5 }),
+                            new LinkedList<int>(new int[] { 6 }),
+                            new LinkedList<int>(new int[] { 5 })
+                        },
+
+                        new LinkedList<int>[]
+                        {
+                            new LinkedList<int>(new int[] { 2, 1 }),
+                            new LinkedList<int>(new int[] { 0, 3 }),
+                            new LinkedList<int>(new int[] { 4, 0 }),
+                            new LinkedList<int>(new int[] { 1, 5 }),
+                            new LinkedList<int>(new int[] { 2, 6 }),
+                            new LinkedList<int>(new int[] { 3, 7, 9 }),
+                            new LinkedList<int>(new int[] { 4, 8 }),
+                            new LinkedList<int>(new int[] { 5 }),
+                            new LinkedList<int>(new int[] { 6 }),
+                            new LinkedList<int>(new int[] { 5 })
+                        },
+
+                        new LinkedList<int>[]
+                        {
+                            new LinkedList<int>(new int[] { 1, 2 }),
+                            new LinkedList<int>(new int[] { 3, 0 }),
+                            new LinkedList<int>(new int[] { 0, 4 }),
+                            new LinkedList<int>(new int[] { 5, 1 }),
+                            new LinkedList<int>(new int[] { 2, 6 }),
+                            new LinkedList<int>(new int[] { 3, 7, 9 }),
+                            new LinkedList<int>(new int[] { 4, 8 }),
+                            new LinkedList<int>(new int[] { 5 }),
+                            new LinkedList<int>(new int[] { 6 }),
+                            new LinkedList<int>(new int[] { 5 })
+                        },
+
+                        new LinkedList<int>[]
+                        {
+                            new LinkedList<int>(new int[] { 2, 1 }),
+                            new LinkedList<int>(new int[] { 0, 3 }),
+                            new LinkedList<int>(new int[] { 4, 0 }),
+                            new LinkedList<int>(new int[] { 1, 5 }),
+                            new LinkedList<int>(new int[] { 6, 2, 8 }),
+                            new LinkedList<int>(new int[] { 3, 7, 9 }),
+                            new LinkedList<int>(new int[] { 4 }),
+                            new LinkedList<int>(new int[] { 5 }),
+                            new LinkedList<int>(new int[] { 4 }),
+                            new LinkedList<int>(new int[] { 5 })
+                        },
+
+                        new LinkedList<int>[]
+                        {
+                            new LinkedList<int>(new int[] { 1, 2 }),
+                            new LinkedList<int>(new int[] { 3, 0 }),
+                            new LinkedList<int>(new int[] { 0, 4 }),
+                            new LinkedList<int>(new int[] { 5, 1 }),
+                            new LinkedList<int>(new int[] { 2, 6 }),
+                            new LinkedList<int>(new int[] { 7, 3, 9 }),
+                            new LinkedList<int>(new int[] { 4, 8 }),
+                            new LinkedList<int>(new int[] { 5 }),
+                            new LinkedList<int>(new int[] { 6 }),
+                            new LinkedList<int>(new int[] { 5 })
+                        },
+
+                        new LinkedList<int>[]
+                        {
+                            new LinkedList<int>(new int[] { 2, 1 }),
+                            new LinkedList<int>(new int[] { 0, 3 }),
+                            new LinkedList<int>(new int[] { 4, 0 }),
+                            new LinkedList<int>(new int[] { 1, 5 }),
+                            new LinkedList<int>(new int[] { 8, 2, 6 }),
+                            new LinkedList<int>(new int[] { 3, 7, 9 }),
+                            new LinkedList<int>(new int[] { 4 }),
+                            new LinkedList<int>(new int[] { 5 }),
+                            new LinkedList<int>(new int[] { 4 }),
+                            new LinkedList<int>(new int[] { 5 })
+                        },
+
+                        new LinkedList<int>[]
+                        {
+                            new LinkedList<int>(new int[] { 1, 2 }),
+                            new LinkedList<int>(new int[] { 3, 0 }),
+                            new LinkedList<int>(new int[] { 0, 4 }),
+                            new LinkedList<int>(new int[] { 5, 1 }),
+                            new LinkedList<int>(new int[] { 2, 6 }),
+                            new LinkedList<int>(new int[] { 9, 3, 7 }),
+                            new LinkedList<int>(new int[] { 4, 8 }),
+                            new LinkedList<int>(new int[] { 5 }),
+                            new LinkedList<int>(new int[] { 6 }),
+                            new LinkedList<int>(new int[] { 5 })
+                        }
+                    }),
+
+                //// The following defines a disconnected graph with 4 distinct
+                //// sub-graphs
+                new Tuple<string[], byte[,], int[], LinkedList<int>[][]>(
+                    new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M" },
+                    new byte[,]
+                    {
+                        { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 }
+                    },
+                    new int[] { 0, 3, 6, 1, 5, 8, 9, 12, 4, 11, 7 },
+                    new LinkedList<int>[][]
+                    {
+                        null, null, null, null, null, null, null, null, null, null, null
+                    })
+            };
+            
+            foreach (var test_vector in test_vectors)
+            {
+                IGraph<string> graph = new UndirectedUnweightedGraph<string>(3);
+
+                // Sanity check
+                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(0));
+                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(1));
+                Assert.AreEqual(test_vector.Item3.Length, test_vector.Item4.Length);
+
+                // Add vertices
+                foreach (var vertex in test_vector.Item1)
+                {
+                    graph.AddVertex(vertex);
+                }
+
+                // Assert that the graph size is as expected
+                Assert.AreEqual(test_vector.Item1.Length, graph.Size);
+
+                // Add edges. Iterate over the upper triangular matrix only
+                // as the lower triangular matrix (below the diagonal) must
+                // be its mirror.
+                for (int row = 0; row < test_vector.Item1.Length; ++row)
+                {
+                    for (int col = row + 1; col < test_vector.Item1.Length; ++col)
+                    {
+                        // Sanity check
+                        Assert.AreEqual(test_vector.Item2[row, col], test_vector.Item2[col, row]);
+
+                        if (Convert.ToBoolean(test_vector.Item2[row, col]))
+                        {
+                            graph.AddEdge(row, col);
+                        }
+                    }
+                }
+
+                // Compute the MST starting from each vertex in test_vector.Item3
+                var expected_adjacency_list = test_vector.Item4.GetEnumerator();
+                foreach (var start_vertex_index in test_vector.Item3)
+                {
+                    // Sanity check
+                    Assert.Greater(test_vector.Item1.Length, start_vertex_index);
+
+                    var mst_adjacency_list = graph.FindMinimumSpanningTree(start_vertex_index);
+
+                    // Compare the actual against the expected adjacency list
+                    expected_adjacency_list.MoveNext();
+                    Assert.AreEqual(expected_adjacency_list.Current, mst_adjacency_list);
+                }
+            }
+        }
+        
         // - Add a test where graph.Clear() is called after which some
         //   vertices are added to the graph. The IsEdgePresent methods
         //   is then used to make sure that old adjacency info did not

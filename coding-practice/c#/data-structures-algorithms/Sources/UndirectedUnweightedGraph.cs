@@ -232,162 +232,6 @@ namespace datastructuresalgorithms
         }
 
         /**
-         * Adds a new edge between the vertices at specified indices.
-         *
-         * @note Method will have no effect if first_vertex is equal to the
-         * second_vertex.
-         *
-         * @param first_vertex   The index of the first vertex.
-         * @param second_vertex  The index of the second vertex.
-         *
-         * @return True if the edge has been added, false otherwise.
-         *
-         * @throws ArgumentException exception if first_vertex or second_vertex
-         * is negative or greater-or-equal than the number of vertices in the
-         * graph.
-         */
-        public bool AddEdgeAt(int first_vertex, int second_vertex)
-        {
-            if (first_vertex < 0 || first_vertex >= Size || second_vertex < 0 || second_vertex >= Size)
-            {
-                throw new ArgumentException();
-            }
-
-            if (first_vertex != second_vertex)
-            {
-                AdjacencyMatrix[first_vertex, second_vertex] = AdjacencyMatrix[second_vertex, first_vertex] = true;
-                return true;
-            }
-            return false;
-        }
-
-        /**
-         * Adds a new edge between the specified vertices.
-         *
-         * @note The users should expect this method to be slower than the
-         * AddEdge(int, int) variant, because implementation might have to
-         * find the indices of specified vertices before adding an edge
-         * between them.
-         *
-         * @note Method will have no effect if first_vertex is equal to the
-         * second vertex as defined by Object.Equals() method.        
-         *
-         * @param first_vertex   The first vertex.
-         * @param second_vertex  The second vertex.
-         *
-         * @return True if the edge has been added, false otherwise.
-         *
-         * @throws ArgumentNullException if first_vertex or second_vertex is
-         * NULL.
-         *
-         * @throws ArgumentException if first_vertex or second_vertex is not
-         * present in the graph.
-         */
-        public bool AddEdge(T first_vertex, T second_vertex)
-        {
-            if (first_vertex == null || second_vertex == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            return AddEdgeAt(GetIndexOf(first_vertex), GetIndexOf(second_vertex));
-        }
-
-        /**
-         * Remove the vertex at the specified index.
-         *
-         * @param vertex_index  The index of the vertex to remove.
-         *
-         * @return The removed vertex data.
-         *
-         * @throws ArgumentException exception if vertex_index is negative or
-         * greater-or-equal to the number of vertices in the graph.
-         */
-        public T RemoveVertexAt(int vertex_index)
-        {
-            if (vertex_index < 0 || vertex_index >= Size)
-            {
-                throw new ArgumentException();
-            }
-
-            // Save the vertex
-            T vertex = Vertices[vertex_index];
-
-            // Remove the vertex and the associated edges
-            RemoveVertexInternal(vertex_index);
-
-            return vertex;
-        }
-
-        /**
-         * Remove the vertex.
-         *
-         * @note The user should expect this method to be slower than the
-         * RemoveVertexAt(int), as this method might have to find the index
-         * of the given vertex before removing it from the graph.
-         *
-         * @param vertex  The vertex to remove.
-         *
-         * @throws ArgumentNullException if vertex is NULL.
-         *
-         * @throws ArgumentException if vertex doesn't exist in the graph.
-         */
-        public void RemoveVertex(T vertex)
-        {
-            if (vertex == null)
-            {
-                throw new ArgumentNullException(nameof(vertex), "vertex must not be NULL");
-            }
-
-            RemoveVertexAt(GetIndexOf(vertex));
-        }
-
-        /**
-         * Removes the edge between the vertices at specified indices.
-         *
-         * @param first_vertex   The index of the first vertex.
-         * @param second_vertex  The index of the second vertex.
-         *
-         * @throws ArgumentException exception if first_vertex or second_vertex
-         * is negative or greater-or-equal than the number of vertices in the
-         * graph.        
-         */
-        public void RemoveEdgeAt(int first_vertex, int second_vertex)
-        {
-            if (first_vertex < 0 || first_vertex >= Size || second_vertex < 0 || second_vertex >= Size)
-            {
-                throw new ArgumentException();
-            }
-
-            if (first_vertex != second_vertex)
-            {
-                AdjacencyMatrix[first_vertex, second_vertex] = AdjacencyMatrix[second_vertex, first_vertex] = false;
-            }
-        }
-
-        /**
-         * Removes the edge between the specified vertices.
-         *
-         * @param first_vertex   The first vertex.
-         * @param second_vertex  The second vertex.
-         *
-         * @throws ArgumentNullException if first_vertex or second_vertex is
-         * NULL.
-         *
-         * @throws ArgumentException if first_vertex or second_vertex don't
-         * exist within the graph.
-         */
-        public void RemoveEdge(T first_vertex, T second_vertex)
-        {
-            if (first_vertex == null || second_vertex == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            RemoveEdgeAt(GetIndexOf(first_vertex), GetIndexOf(second_vertex));
-        }
-
-        /**
          * The index of the given vertex.
          *
          * @param vertex  The vertex to search for.
@@ -402,7 +246,7 @@ namespace datastructuresalgorithms
             {
                 throw new ArgumentNullException(nameof(vertex));
             }
-            
+
             for (int i = 0; i < Size; ++i)
             {
                 if (Vertices[i].Equals(vertex))
@@ -412,7 +256,7 @@ namespace datastructuresalgorithms
             }
             return -1;
         }
-        
+
         /**
          * Returns the vertex at the given index.
          *
@@ -434,6 +278,85 @@ namespace datastructuresalgorithms
         }
 
         /**
+         * Adds a new edge between the vertices at specified indices.
+         *
+         * @note Method will have no effect if first_vertex is equal to the
+         * second_vertex.
+         *
+         * @param first_vertex   The index of the first vertex.
+         * @param second_vertex  The index of the second vertex.
+         *
+         * @return True if the edge has been added, false otherwise.
+         *
+         * @throws ArgumentException exception if first_vertex or second_vertex
+         * is negative or greater-or-equal than the number of vertices in the
+         * graph.
+         */
+        public bool AddEdge(int first_vertex, int second_vertex)
+        {
+            if (first_vertex < 0 || first_vertex >= Size || second_vertex < 0 || second_vertex >= Size)
+            {
+                throw new ArgumentException();
+            }
+
+            if (first_vertex != second_vertex)
+            {
+                AdjacencyMatrix[first_vertex, second_vertex] = AdjacencyMatrix[second_vertex, first_vertex] = true;
+                return true;
+            }
+            return false;
+        }
+
+        /**
+         * Remove the vertex at the specified index.
+         *
+         * @param vertex_index  The index of the vertex to remove.
+         *
+         * @return The removed vertex data.
+         *
+         * @throws ArgumentException exception if vertex_index is negative or
+         * greater-or-equal to the number of vertices in the graph.
+         */
+        public T RemoveVertex(int vertex_index)
+        {
+            if (vertex_index < 0 || vertex_index >= Size)
+            {
+                throw new ArgumentException();
+            }
+
+            // Save the vertex
+            T vertex = Vertices[vertex_index];
+
+            // Remove the vertex and the associated edges
+            RemoveVertexInternal(vertex_index);
+
+            return vertex;
+        }
+
+        /**
+         * Removes the edge between the vertices at specified indices.
+         *
+         * @param first_vertex   The index of the first vertex.
+         * @param second_vertex  The index of the second vertex.
+         *
+         * @throws ArgumentException exception if first_vertex or second_vertex
+         * is negative or greater-or-equal than the number of vertices in the
+         * graph.        
+         */
+        public void RemoveEdge(int first_vertex, int second_vertex)
+        {
+            if (first_vertex < 0 || first_vertex >= Size || second_vertex < 0 || second_vertex >= Size)
+            {
+                throw new ArgumentException();
+            }
+
+            if (first_vertex != second_vertex)
+            {
+                AdjacencyMatrix[first_vertex, second_vertex] = AdjacencyMatrix[second_vertex, first_vertex] = false;
+            }
+        }
+
+        /**
          * Whether an edge between vertices at given indices exists.
          *
          * @param first_vertex   The index of the first vertex.
@@ -445,7 +368,7 @@ namespace datastructuresalgorithms
          * is negative or greater-or-equal than the number of vertices in the
          * graph.
          */
-        public bool HasEdgeAt(int first_vertex, int second_vertex)
+        public bool EdgeExists(int first_vertex, int second_vertex)
         {
             if (first_vertex < 0 || first_vertex >= Size || second_vertex < 0 || second_vertex >= Size)
             {
@@ -453,32 +376,6 @@ namespace datastructuresalgorithms
             }
 
             return AdjacencyMatrix[first_vertex, second_vertex];
-        }
-
-        /**
-         * Whether an edge between given vertices exists.
-         *
-         * @note The user should expect this method to be slower than the
-         * HasEdgeAt(int, int), as this method might have to find the index
-         * of the given vertices before checking whether an edge between
-         * them exists.
-         *
-         * @param first_vertex   The first vertex.
-         * @param second_vertex  The second vertex.
-         *
-         * @return True if the edge exists, false otherwise.
-         *
-         * @throws ArgumentException if first_vertex or second_vertex don't
-         * exist within the graph.
-         */
-        public bool HasEdge(T first_vertex, T second_vertex)
-        {
-            if (first_vertex == null || second_vertex == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            return HasEdgeAt(GetIndexOf(first_vertex), GetIndexOf(second_vertex));
         }
 
         /**
@@ -500,7 +397,7 @@ namespace datastructuresalgorithms
          * @throws @throws ArgumentException exception if vertex_index is negative
          * or greater-or-equal to the number of vertices in the graph.
          */
-        public IEnumerable<int> DepthFirstSearchAt(int start_index)
+        public IEnumerable<int> DepthFirstSearch(int start_index)
         {
             if (start_index < 0 || start_index >= Size)
             {
@@ -561,39 +458,7 @@ namespace datastructuresalgorithms
                 }
             }
         }
-
-        /**
-         * Uses DFS to find all vertices connected to the vertex at the start_index.
-         *
-         * This is an iterator method that yields the control to the
-         * caller each time a new vertex is visited.
-         *
-         * @note The user should expect this method to be slower than the
-         * DepthFirstSearchAt(int), as this method might have to find the
-         * index of the given vertex before running the DFS algorithm.
-         *
-         * @param start_vertex  The vertex where DFS is started from.
-         *
-         * @return An iterator interface type used to iterate over the vertices
-         * produced by the DFS algorithm.
-         *
-         * @note The method returns a vertex index and not the vertex itself.
-         * The caller can use GetVertex() to get access the vertex.
-         *
-         * @throws ArgumentNullException if start_vertex is NULL.
-         *
-         * @throws ArgumentException if start_vertex doesn't exist in the graph.
-         */
-        public IEnumerable<int> DepthFirstSearch(T start_vertex)
-        {
-            if (start_vertex == null)
-            {
-                throw new ArgumentNullException(nameof(start_vertex), "start_vertex must not be NULL");
-            }
-
-            return DepthFirstSearchAt(GetIndexOf(start_vertex));
-        }
-
+        
         /**
          * Uses BFS to find all vertices connected to the vertex at the start_index.
          *
@@ -613,7 +478,7 @@ namespace datastructuresalgorithms
          * @throws ArgumentException exception if vertex_index is negative
          * or greater-or-equal to the number of vertices in the graph.
          */
-        public IEnumerable<int> BreadthFirstSearchAt(int start_index)
+        public IEnumerable<int> BreadthFirstSearch(int start_index)
         {
             if (start_index < 0 || start_index >= Size)
             {
@@ -656,38 +521,6 @@ namespace datastructuresalgorithms
         }
 
         /**
-         * Uses BFS to find all vertices connected to the vertex at the start_index.
-         *
-         * This is an iterator method that yields the control to the
-         * caller each time a new vertex is visited.
-         *
-         * @note The user should expect this method to be slower than the
-         * BreadthFirstSearchAt(int), as this method might have to find the
-         * index of the given vertex before running the BFS algorithm.
-         *
-         * @param start_vertex  The vertex where BFS is started from.
-         *
-         * @return An iterator interface type used to iterate over the vertices
-         * produced by the BFS algorithm.
-         *
-         * @note The method returns a vertex index and not the vertex itself.
-         * The caller can use GetVertex() to get access the vertex.
-         *
-         * @throws ArgumentNullException if start_vertex is NULL.
-         *
-         * @throws ArgumentException if start_vertex doesn't exist in the graph.
-         */
-        public IEnumerable<int> BreadthFirstSearch(T start_vertex)
-        {
-            if (start_vertex == null)
-            {
-                throw new ArgumentNullException(nameof(start_vertex), "start_vertex must not be NULL");
-            }
-
-            return BreadthFirstSearchAt(GetIndexOf(start_vertex));
-        }
-
-        /**
          * Finds the shortest path between the vertices at the start_index
          * and end_index.
          *
@@ -706,7 +539,7 @@ namespace datastructuresalgorithms
          * is negative or greater-or-equal to the number of vertices in the
          * graph.
          */
-        public ICollection<int> FindShortestPathAt(int start_index, int end_index)
+        public ICollection<int> FindShortestPath(int start_index, int end_index)
         {
             if (start_index < 0 || start_index >= Size || end_index < 0 || end_index >= Size)
             {
@@ -787,36 +620,110 @@ namespace datastructuresalgorithms
         }
 
         /**
-         * Finds the shortest path between the start_vertex and end_vertex.
+         * Finds a minimum spanning tree in the graph.
          *
-         * @note Uses the modified BFS algorithm to find the shortest path.
+         * The MST is found using a modifed DFS algorithm. The only difference
+         * to the algorithm implemented by DepthFirstSearch() method, is that
+         * here we record the edges that were crossed throughout the algorithm.
+         * These edges make up the MST at the end of the DFS search.
          *
-         * @note The user should expect this method to be slower than the
-         * FindShortestPathAt(int), as this method might have to find the
-         * index of the start_vertex and end_vertex.
+         * @param start_index  The index of the vertex where search starts at.
          *
-         * @param start_vertex  The start vertex.
-         * @param end_vertex    The end vertex.
+         * @return An adjacency list that defines the minimum spanning tree. The
+         * collection has Size elements, Size being the current graph size (the
+         * number of vertices). Each element collection[i] at index i is also
+         * a collection, containing all the vertices that are adjacent to the
+         * vertex i. Note that NULL is returned if the graph is disconnected,
+         * as minimum spanning tree doesn't exist in that case. If the graph
+         * has a single vertex, a collection containing a single empty collection
+         * is returned, indicating that the MST is empty (it contains no edges).
          *
-         * @return A collection of vertex indices tracing the path from the
-         * start_vertex to end_vertex, or NULL if such path doesn't these
-         * two vertices are not connected. If start_vertex is equal to
-         * end_vertex, a collection with a single element (index of the
-         * start vertex) is returned.
-         *
-         * @throws ArgumentNullException if start_vertex or end_vertex is NULL.
-         *
-         * @throws ArgumentException if start_vertex or end_vertex doesn't
-         * exist in the graph.
+         * @throws ArgumentException exception if start_index is negative
+         * or greater-or-equal to the number of vertices in the graph.
          */
-        public ICollection<int> FindShortestPath(T start_vertex, T end_vertex)
+        public ICollection<ICollection<int>> FindMinimumSpanningTree(int start_index)
         {
-            if (start_vertex == null || end_vertex == null)
+            if (start_index < 0 || start_index >= Size)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentException();
             }
 
-            return FindShortestPathAt(GetIndexOf(start_vertex), GetIndexOf(end_vertex));
+            // Tracks the visited vertices so that we don't visit the same
+            // vertex multiple times
+            BitArray visited = new BitArray(Size, false);
+
+            // After they are visited, the vertices are pushed to the stack
+            // so that search can be continued at them at later time
+            StackViaLinkedList<int> stack = new StackViaLinkedList<int>();
+
+            // The adjacency list that defines the MST. Allocate the linked list
+            // for every vertex. If the graph is connected, then every vertex
+            // will have at least one adjacent vertex so we'll need a linked
+            // list for every vertex in the graph.
+            LinkedList<int>[] mst_adjacency_list = new LinkedList<int>[Size];
+            for (int i = 0; i < Size; ++i)
+            {
+                mst_adjacency_list[i] = new LinkedList<int>();
+            }
+
+            // Push the start vertex to the queue and mark it as visited
+            stack.Push(start_index);
+            visited[start_index] = true;
+            int visited_vertices_count = 1;
+
+            // The column of the adjacency matrix where the search for adjacent
+            // vertices needs to start from. This is set to stack.Pop() + 1 so
+            // that we don't re-scan the entire row of the adjacency matrix
+            // when we continue looking at the adjacent vertices of the vertex
+            // that was pushed to the stack before
+            int column = 0;
+            
+            while (!stack.IsEmpty())
+            {
+                for (; column < Size; ++column)
+                {
+                    if (AdjacencyMatrix[stack.Peak(), column] && !visited[column])
+                    {
+                        // Found an unvisited adjacent vertex. Add it to the
+                        // adjacency list of the vertex at the top of the stack
+                        mst_adjacency_list[stack.Peak()].AddLast(column);
+
+                        // And, as this is an undirected graph, add the vertex
+                        // at the top of the stack to the adjacency list of the
+                        // current unvisited vertex
+                        mst_adjacency_list[column].AddLast(stack.Peak());
+                        
+                        // Mark it as visited and push it to the stack
+                        stack.Push(column);
+                        visited[column] = true;
+                        ++visited_vertices_count;
+
+                        // Reset the column to 0 so that the adjacency matrix row
+                        // corresponding to unvisited vertex is scanned from the
+                        // beginning
+                        column = 0;
+                        
+                        // Break the the loop as we need to look at the adjecent
+                        // vertices of the new vertex at the top of the stack next
+                        break;
+                    }
+                }
+                
+                if (column == Size)
+                {
+                    // We've found no unvisited adjecent vertices of the vertex
+                    // at the top of the stack. Pop it off the stack so the next
+                    // iteration will look at other adjacent vertices of the
+                    // new top of the stack. Note that column is set to
+                    // stack.Pop() + 1 so we start scanning that vertex's
+                    // adjacency matrix row from where we left off
+                    column = stack.Pop() + 1;
+                }
+            }
+
+            // If we didn't visit all the vertices, the graph is disconnected
+            // and MST doesn't exist (in which case NULL is returned)
+            return visited_vertices_count == Size ? mst_adjacency_list : null;
         }
 
         /**
