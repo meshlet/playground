@@ -24,6 +24,21 @@ namespace datastructuresalgorithms
         bool AddVertex(T vertex);
 
         /**
+         * Removes the edge between the vertices at specified indices.
+         *
+         * @note This is an optional method and the implementation might not
+         * support it.
+         *
+         * @param first_index   The index of the first vertex.
+         * @param second_index  The index of the second vertex.
+         *
+         * @throws ArgumentException exception if first_index or second_index
+         * is negative or greater-or-equal than the number of vertices in the
+         * graph.
+         */
+        void RemoveEdge(int first_index, int second_index);
+
+        /**
          * The index of the given vertex.
          *
          * @param vertex  The vertex to search for.
@@ -45,23 +60,6 @@ namespace datastructuresalgorithms
          * greater-or-equal than the number of vertices in the graph.
          */
         T GetVertex(int vertex_index);
-        
-        /**
-         * Adds a new edge between the vertices at specified indices.
-         *
-         * @note Implementation might choose to do nothing if start_vertex
-         * is equal to end_vertex.
-         *
-         * @param first_vertex   The index of the first vertex.
-         * @param second_vertex  The index of the second vertex.
-         *
-         * @return True if the edge has been added, false otherwise.
-         *
-         * @throws ArgumentException exception if first_vertex or second_vertex
-         * is negative or greater-or-equal than the number of vertices in the
-         * graph.
-         */
-        bool AddEdge(int first_vertex, int second_vertex);
 
         /**
          * Remove the vertex at the specified index.
@@ -77,21 +75,6 @@ namespace datastructuresalgorithms
          * greater-or-equal to the number of vertices in the graph.
          */
         T RemoveVertex(int vertex_index);
-
-        /**
-         * Removes the edge between the vertices at specified indices.
-         *
-         * @note This is an optional method and the implementation might not
-         * support it.
-         *
-         * @param first_vertex   The index of the first vertex.
-         * @param second_vertex  The index of the second vertex.
-         *
-         * @throws ArgumentException exception if first_vertex or second_vertex
-         * is negative or greater-or-equal than the number of vertices in the
-         * graph.
-         */
-        void RemoveEdge(int first_vertex, int second_vertex);
 
         /**
          * Whether an edge between vertices at given indices exists.
@@ -168,19 +151,16 @@ namespace datastructuresalgorithms
          *
          * @param start_index  The index of the vertex where search starts at.
          *
-         * @return An adjacency list that defines the minimum spanning tree. The
-         * collection has Size elements, Size being the current graph size (the
-         * number of vertices). Each element collection[i] at index i is also
-         * a collection, containing all the vertices that are adjacent to the
-         * vertex i. Note that NULL is returned if the graph is disconnected,
-         * as minimum spanning tree doesn't exist in that case. If the graph
-         * has a single vertex, a collection containing a single empty collection
-         * is returned, indicating that the MST is empty (it contains no edges).
+         * @return An adjacency matrix that defines the minimum spanning tree.
+         * collection has Size rows and columns, Size being the current graph
+         * size (the number of vertices). Note that NULL is returned if the
+         * graph is disconnected, as minimum spanning tree doesn't exist in
+         * that case.
          *
          * @throws ArgumentException exception if start_index is negative
          * or greater-or-equal to the number of vertices in the graph.
          */
-        ICollection<ICollection<int>> FindMinimumSpanningTree(int start_index);
+        bool[,] FindMinimumSpanningTree(int start_index);
 
         /**
          * Clears the graph.

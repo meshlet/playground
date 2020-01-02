@@ -51,6 +51,11 @@
     <Compile Include="Sources\TreeHeap.cs" />
     <Compile Include="Sources\IGraph.cs" />
     <Compile Include="Sources\UndirectedUnweightedGraph.cs" />
+    <Compile Include="Sources\IUnweightedGraph.cs" />
+    <Compile Include="Sources\GraphBase.cs" />
+    <Compile Include="Sources\IWeightedGraph.cs" />
+    <Compile Include="Sources\DirectedUnweightedGraph.cs" />
+    <Compile Include="Sources\UnweightedGraphBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

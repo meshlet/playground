@@ -47,7 +47,8 @@
     <Compile Include="Tests\RadixSortDecimalTest.cs" />
     <Compile Include="Tests\RadixSortBinaryTest.cs" />
     <Compile Include="Tests\HeapTest.cs" />
-    <Compile Include="Tests\GraphTest.cs" />
+    <Compile Include="Tests\UndirectedUnweightedGraphTest.cs" />
+    <Compile Include="Tests\GraphCommonTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
