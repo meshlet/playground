@@ -6,10 +6,10 @@ using datastructuresalgorithms;
 namespace datastructuresalgorithmstest
 {
     /**
-     * Unit tests for the undirected and unweighted graph implementation.
-     */
+    * Unit tests for the directed and unweighted graph implementation.
+    */
     [TestFixture]
-    public class UndirectedUnweightedGraphTest
+    public class DirectedUnweightedGraphTest
     {
         /**
          * Asserts that EdgeExists() returns expected value.
@@ -17,16 +17,16 @@ namespace datastructuresalgorithmstest
         [Test]
         public void EdgeExistsReturnsExpectedValue()
         {
-            IUnweightedGraph<int> graph = new UndirectedUnweightedGraph<int>();
+            IUnweightedGraph<int> graph = new DirectedUnweightedGraph<int>();
             graph.AddVertex(5);
             graph.AddVertex(-10);
             graph.AddVertex(20);
             graph.AddEdge(0, 1);
             graph.AddEdge(1, 2);
             Assert.IsTrue(graph.EdgeExists(0, 1));
-            Assert.IsTrue(graph.EdgeExists(1, 0));
+            Assert.IsFalse(graph.EdgeExists(1, 0));
             Assert.IsTrue(graph.EdgeExists(1, 2));
-            Assert.IsTrue(graph.EdgeExists(2, 1));
+            Assert.IsFalse(graph.EdgeExists(2, 1));
             Assert.IsFalse(graph.EdgeExists(0, 2));
             Assert.IsFalse(graph.EdgeExists(2, 0));
         }
@@ -42,7 +42,7 @@ namespace datastructuresalgorithmstest
             Assert.AreEqual(vertices.Length, edges.GetLength(0));
             Assert.AreEqual(vertices.Length, edges.GetLength(1));
 
-            IUnweightedGraph<int> graph = new UndirectedUnweightedGraph<int>(2);
+            IUnweightedGraph<int> graph = new DirectedUnweightedGraph<int>(2);
 
             // Add the vertices
             foreach (var vertex in vertices)
@@ -50,17 +50,12 @@ namespace datastructuresalgorithmstest
                 Assert.IsTrue(graph.AddVertex(vertex));
             }
 
-            // Add the edges. Iterate over the lower triangular matrix
-            // only as the upper triangular matrix (above the diagonal)
-            // is the mirror of the lower triangular matrix.
+            // Add the edges.
             int row, col;
-            for (row = 1; row < vertices.Length; ++row)
+            for (row = 0; row < vertices.Length; ++row)
             {
-                for (col = 0; col < row; ++col)
+                for (col = 0; col < vertices.Length; ++col)
                 {
-                    // Sanity check
-                    Assert.AreEqual(edges[row, col], edges[col, row]);
-
                     if (Convert.ToBoolean(edges[row, col]))
                     {
                         Assert.IsTrue(graph.AddEdge(row, col));
@@ -175,7 +170,7 @@ namespace datastructuresalgorithmstest
         [Test]
         public void TestAddingEdges()
         {
-            IUnweightedGraph<int> graph = new UndirectedUnweightedGraph<int>();
+            IUnweightedGraph<int> graph = new DirectedUnweightedGraph<int>();
             int[] vertices = { 45, -3, 77, -9, 33, -71 };
             bool[,] adjacency_matrix =
             {
@@ -197,16 +192,11 @@ namespace datastructuresalgorithmstest
                 Assert.IsTrue(graph.AddVertex(vertex));
             }
 
-            // Add the edges. Iterate over the lower triangular matrix
-            // only as the upper triangular matrix (above the diagonal)
-            // is the mirror of the lower triangular matrix.
-            for (int row = 1; row < vertices.Length; ++row)
+            // Add the edges.
+            for (int row = 0; row < vertices.Length; ++row)
             {
-                for (int col = 0; col < row; ++col)
+                for (int col = 0; col < vertices.Length; ++col)
                 {
-                    // Sanity check
-                    Assert.AreEqual(adjacency_matrix[row, col], adjacency_matrix[col, row]);
-
                     if (adjacency_matrix[row, col])
                     {
                         Assert.IsTrue(graph.AddEdge(row, col));
@@ -230,7 +220,7 @@ namespace datastructuresalgorithmstest
         [Test]
         public void TestRemovingEdges()
         {
-            IUnweightedGraph<int> graph = new UndirectedUnweightedGraph<int>(3);
+            IUnweightedGraph<int> graph = new DirectedUnweightedGraph<int>(3);
             int[] vertices = { 88, 1, -3, 7, 9, -23, 3, 84, 20, 45 };
             byte[,] edges =
             {
@@ -269,16 +259,11 @@ namespace datastructuresalgorithmstest
                 graph.AddVertex(vertex);
             }
 
-            // Add edges. Iterate over the upper triangular matrix only
-            // as the lower triangular matrix (below the diagonal) must
-            // be its mirror.
+            // Add edges.
             for (int row = 0; row < vertices.Length; ++row)
             {
-                for (int col = row + 1; col < vertices.Length; ++col)
+                for (int col = 0; col < vertices.Length; ++col)
                 {
-                    // Sanity check
-                    Assert.AreEqual(edges[row, col], edges[col, row]);
-
                     if (Convert.ToBoolean(edges[row, col]))
                     {
                         graph.AddEdge(row, col);
@@ -298,8 +283,7 @@ namespace datastructuresalgorithmstest
                 graph.RemoveEdge(edge_to_remove.Item1, edge_to_remove.Item2);
 
                 // Also remove the edge from the 'edges' array used later for verification
-                edges[edge_to_remove.Item1, edge_to_remove.Item2] =
-                    edges[edge_to_remove.Item2, edge_to_remove.Item1] = 0;
+                edges[edge_to_remove.Item1, edge_to_remove.Item2] = 0;
             }
 
             // Verify that the edges have been removed from the graph
@@ -332,21 +316,21 @@ namespace datastructuresalgorithmstest
                     new byte[,] { { 0 } },
                     new int[] { 0 },
                     new string[][] { new string[] { "A" } }),
-                
+
                 new Tuple<string[], byte[,], int[], string[][]>(
                     new string[] { "A", "B" },
                     new byte[,]
                     {
                         { 0, 1 },
-                        { 1, 0 }
+                        { 0, 0 }
                     },
                     new int[] { 0, 1 },
                     new string[][]
                     {
                         new string[] { "A", "B" },
-                        new string[] { "B", "A" }
+                        new string[] { "B" }
                     }),
-                
+
                 new Tuple<string[], byte[,], int[], string[][]>(
                     new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" },
                     new byte[,]
@@ -371,6 +355,32 @@ namespace datastructuresalgorithmstest
                         new string[] { "H", "F", "D", "B", "A", "C", "E", "G", "I", "J" },
                         new string[] { "D", "B", "A", "C", "E", "F", "H", "J", "G", "I" },
                         new string[] { "A", "B", "C", "D", "F", "E", "G", "I", "H", "J" }
+                    }),
+
+                new Tuple<string[], byte[,], int[], string[][]>(
+                    new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" },
+                    new byte[,]
+                    {
+                        { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+                        { 1, 0, 0, 1, 1, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 1, 1, 0, 0, 1, 0, 0 },
+                        { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 1, 0, 0, 1, 0 },
+                        { 0, 0, 0, 0, 0, 0, 1, 0, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }
+                    },
+                    new int[] { 0, 3, 4, 9, 1, 2 },
+                    new string[][]
+                    {
+                        new string[] { "A", "B", "E", "C", "D", "G", "F", "H", "I", "J" },
+                        new string[] { "D", "G", "F", "E", "H", "I", "J" },
+                        new string[] { "E" },
+                        new string[] { "J", "H", "F", "D", "G", "E", "I" },
+                        new string[] { "B", "E" },
+                        new string[] { "C", "A", "B", "E", "D", "G", "F", "H", "I", "J" }
                     }),
 
                 // The following defines a disconnected graph with 4 distinct
@@ -409,8 +419,8 @@ namespace datastructuresalgorithmstest
 
             foreach (var test_vector in test_vectors)
             {
-                IUnweightedGraph<string> graph = new UndirectedUnweightedGraph<string>(3);
-                
+                IUnweightedGraph<string> graph = new DirectedUnweightedGraph<string>(3);
+
                 // Sanity check
                 Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(0));
                 Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(1));
@@ -424,17 +434,12 @@ namespace datastructuresalgorithmstest
 
                 // Assert that the graph size is as expected
                 Assert.AreEqual(test_vector.Item1.Length, graph.Size);
-                
-                // Add edges. Iterate over the upper triangular matrix only
-                // as the lower triangular matrix (below the diagonal) must
-                // be its mirror.
+
+                // Add edges.
                 for (int row = 0; row < test_vector.Item1.Length; ++row)
                 {
-                    for (int col = row + 1; col < test_vector.Item1.Length; ++col)
+                    for (int col = 0; col < test_vector.Item1.Length; ++col)
                     {
-                        // Sanity check
-                        Assert.AreEqual(test_vector.Item2[row, col], test_vector.Item2[col, row]);
-
                         if (Convert.ToBoolean(test_vector.Item2[row, col]))
                         {
                             graph.AddEdge(row, col);
@@ -468,7 +473,7 @@ namespace datastructuresalgorithmstest
         /**
          * Tests the breadth first search.
          */
-        [Test]
+        [Test()]
         public void TestBreadthFirstSearch()
         {
             // Item1 - the vertices to add to the graph
@@ -491,13 +496,13 @@ namespace datastructuresalgorithmstest
                     new byte[,]
                     {
                         { 0, 1 },
-                        { 1, 0 }
+                        { 0, 0 }
                     },
                     new int[] { 0, 1 },
                     new string[][]
                     {
                         new string[] { "A", "B" },
-                        new string[] { "B", "A" }
+                        new string[] { "B" }
                     }),
 
                 new Tuple<string[], byte[,], int[], string[][]>(
@@ -524,6 +529,32 @@ namespace datastructuresalgorithmstest
                         new string[] { "H", "F", "D", "E", "J", "B", "C", "G", "I", "A" },
                         new string[] { "D", "B", "C", "F", "A", "E", "H", "J", "G", "I" },
                         new string[] { "A", "B", "C", "D", "E", "F", "G", "I", "H", "J" }
+                    }),
+
+                new Tuple<string[], byte[,], int[], string[][]>(
+                    new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" },
+                    new byte[,]
+                    {
+                        { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+                        { 1, 0, 0, 1, 1, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 1, 1, 0, 0, 1, 0, 0 },
+                        { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 1, 0, 0, 1, 0 },
+                        { 0, 0, 0, 0, 0, 0, 1, 0, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }
+                    },
+                    new int[] { 0, 3, 4, 9, 1, 2 },
+                    new string[][]
+                    {
+                        new string[] { "A", "B", "C", "E", "D", "G", "F", "H", "I", "J" },
+                        new string[] { "D", "G", "F", "E", "H", "I", "J" },
+                        new string[] { "E" },
+                        new string[] { "J", "H", "F", "I", "D", "E", "G" },
+                        new string[] { "B", "E" },
+                        new string[] { "C", "A", "D", "E", "B", "G", "F", "H", "I", "J" }
                     }),
 
                 // The following defines a disconnected graph with 4 distinct
@@ -562,7 +593,7 @@ namespace datastructuresalgorithmstest
 
             foreach (var test_vector in test_vectors)
             {
-                IUnweightedGraph<string> graph = new UndirectedUnweightedGraph<string>(3);
+                IUnweightedGraph<string> graph = new DirectedUnweightedGraph<string>(3);
 
                 // Sanity check
                 Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(0));
@@ -578,16 +609,11 @@ namespace datastructuresalgorithmstest
                 // Assert that the graph size is as expected
                 Assert.AreEqual(test_vector.Item1.Length, graph.Size);
 
-                // Add edges. Iterate over the upper triangular matrix only
-                // as the lower triangular matrix (below the diagonal) must
-                // be its mirror.
+                // Add edges.
                 for (int row = 0; row < test_vector.Item1.Length; ++row)
                 {
-                    for (int col = row + 1; col < test_vector.Item1.Length; ++col)
+                    for (int col = 0; col < test_vector.Item1.Length; ++col)
                     {
-                        // Sanity check
-                        Assert.AreEqual(test_vector.Item2[row, col], test_vector.Item2[col, row]);
-
                         if (Convert.ToBoolean(test_vector.Item2[row, col]))
                         {
                             graph.AddEdge(row, col);
@@ -643,7 +669,7 @@ namespace datastructuresalgorithmstest
                     new byte[,]
                     {
                         { 0, 1 },
-                        { 1, 0 }
+                        { 0, 0 }
                     },
                     new Tuple<int, int>[]
                     {
@@ -653,7 +679,7 @@ namespace datastructuresalgorithmstest
                     new int[][]
                     {
                         new int[] { 0, 1 },
-                        new int[] { 1, 0}
+                        null
                     }),
 
                 new Tuple<string[], byte[,], Tuple<int, int>[], int[][]>(
@@ -690,6 +716,48 @@ namespace datastructuresalgorithmstest
                         new int[] { 2, 3, 5, 7 },
                         new int[] { 7, 5, 9 },
                         new int[] { 6, 4, 2, 1 }
+                    }),
+
+                new Tuple<string[], byte[,], Tuple<int, int>[], int[][]>(
+                    new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" },
+                    new byte[,]
+                    {
+                        { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+                        { 1, 0, 0, 1, 1, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 1, 1, 0, 0, 1, 0, 0 },
+                        { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 1, 0, 0, 1, 0 },
+                        { 0, 0, 0, 0, 0, 0, 1, 0, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }
+                    },
+                    new Tuple<int, int>[]
+                    {
+                        new Tuple<int, int>(0, 9),
+                        new Tuple<int, int>(9, 3),
+                        new Tuple<int, int>(2, 7),
+                        new Tuple<int, int>(7, 6),
+                        new Tuple<int, int>(7, 1),
+                        new Tuple<int, int>(3, 8),
+                        new Tuple<int, int>(4, 9),
+                        new Tuple<int, int>(8, 4),
+                        new Tuple<int, int>(5, 6),
+                        new Tuple<int, int>(8, 2)
+                    },
+                    new int[][]
+                    {
+                        new int[] { 0, 2, 3, 6, 5, 7, 8, 9 },
+                        new int[] { 9, 7, 5, 3 },
+                        new int[] { 2, 3, 6, 5, 7 },
+                        new int[] { 7, 8, 6 },
+                        null,
+                        new int[] { 3, 6, 5, 7, 8 },
+                        null,
+                        new int[] { 8, 6, 5, 4 },
+                        new int[] { 5, 3, 6 },
+                        null
                     }),
 
                 // The following defines a disconnected graph with 4 distinct
@@ -750,7 +818,7 @@ namespace datastructuresalgorithmstest
 
             foreach (var test_vector in test_vectors)
             {
-                IUnweightedGraph<string> graph = new UndirectedUnweightedGraph<string>(3);
+                IUnweightedGraph<string> graph = new DirectedUnweightedGraph<string>(3);
 
                 // Sanity check
                 Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(0));
@@ -766,16 +834,11 @@ namespace datastructuresalgorithmstest
                 // Assert that the graph size is as expected
                 Assert.AreEqual(test_vector.Item1.Length, graph.Size);
 
-                // Add edges. Iterate over the upper triangular matrix only
-                // as the lower triangular matrix (below the diagonal) must
-                // be its mirror.
+                // Add edges.
                 for (int row = 0; row < test_vector.Item1.Length; ++row)
                 {
-                    for (int col = row + 1; col < test_vector.Item1.Length; ++col)
+                    for (int col = 0; col < test_vector.Item1.Length; ++col)
                     {
-                        // Sanity check
-                        Assert.AreEqual(test_vector.Item2[row, col], test_vector.Item2[col, row]);
-
                         if (Convert.ToBoolean(test_vector.Item2[row, col]))
                         {
                             graph.AddEdge(row, col);
@@ -795,11 +858,11 @@ namespace datastructuresalgorithmstest
                     ICollection<int> shortest_path = graph.FindShortestPath(vertex_pair.Item1, vertex_pair.Item2);
 
                     // Assert that the shortest path is equal to the expected one
-                     Assert.AreEqual(test_vector.Item4[i++], shortest_path);
+                    Assert.AreEqual(test_vector.Item4[i++], shortest_path);
                 }
             }
         }
-        
+
         /**
          * Tests finding a minimum spanning tree in a graph.
          */
@@ -832,21 +895,16 @@ namespace datastructuresalgorithmstest
                     new byte[,]
                     {
                         { 0, 1 },
-                        { 1, 0 }
+                        { 0, 0 }
                     },
                     new int[] { 1, 0 },
                     new byte[][,]
                     {
+                        null,
                         new byte[,]
                         {
                             { 0, 1 },
-                            { 1, 0 }
-                        },
-
-                        new byte[,]
-                        {
-                            { 0, 1 },
-                            { 1, 0 }
+                            { 0, 0 }
                         }
                     }),
 
@@ -871,144 +929,198 @@ namespace datastructuresalgorithmstest
                         new byte[,]
                         {
                             { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
-                            { 0, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
-                            { 0, 0, 1, 0, 0, 1, 0, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 1, 1, 0, 0, 0 },
-                            { 0, 0, 0, 1, 1, 0, 0, 1, 0, 1 },
-                            { 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 },
+                            { 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
                             { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
                             { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 }
-                        },
-                        
-                        new byte[,]
-                        {
-                            { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
-                            { 0, 0, 1, 0, 0, 1, 0, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 1, 1, 0, 0, 0 },
-                            { 0, 0, 0, 1, 1, 0, 0, 1, 0, 1 },
-                            { 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 },
-                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 }
-                        },
-                        
-                        new byte[,]
-                        {
-                            { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                            { 0, 1, 0, 0, 0, 1, 0, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 1, 1, 0, 0, 0 },
-                            { 0, 0, 0, 1, 1, 0, 0, 1, 0, 1 },
-                            { 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 },
-                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 }
-                        },
-                        
-                        new byte[,]
-                        {
-                            { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
-                            { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
-                            { 0, 0, 1, 0, 0, 1, 1, 0, 0, 0 },
                             { 0, 0, 0, 0, 1, 0, 0, 1, 0, 1 },
-                            { 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 },
-                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 }
-                        },
-                        
-                        new byte[,]
-                        {
-                            { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
-                            { 0, 1, 0, 0, 0, 1, 0, 0, 0, 0 },
-                            { 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 },
-                            { 0, 0, 0, 1, 0, 0, 0, 1, 0, 1 },
-                            { 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 },
-                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 }
-                        },
-                        
-                        new byte[,]
-                        {
-                            { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
-                            { 0, 1, 0, 0, 0, 1, 0, 0, 0, 0 },
-                            { 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 },
-                            { 0, 0, 0, 1, 0, 0, 0, 1, 0, 1 },
-                            { 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 },
-                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 }
-                        },
-                        
-                        new byte[,]
-                        {
-                            { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
-                            { 0, 1, 0, 0, 0, 1, 0, 0, 0, 0 },
-                            { 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 },
-                            { 0, 0, 0, 1, 0, 0, 0, 1, 0, 1 },
-                            { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
-                            { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 }
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
                         },
 
                         new byte[,]
                         {
-                            { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
-                            { 0, 1, 0, 0, 0, 1, 0, 0, 0, 0 },
-                            { 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 },
-                            { 0, 0, 0, 1, 0, 0, 0, 1, 0, 1 },
-                            { 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 },
+                            { 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
+                            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
                             { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
                             { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 }
+                            { 0, 0, 0, 0, 1, 0, 0, 1, 0, 1 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
                         },
 
                         new byte[,]
                         {
-                            { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
-                            { 0, 1, 0, 0, 0, 1, 0, 0, 0, 0 },
-                            { 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 },
-                            { 0, 0, 0, 1, 0, 0, 0, 1, 0, 1 },
-                            { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+                            { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
+                            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                             { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
-                            { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
-                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 }
+                            { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
+                            { 0, 0, 0, 0, 1, 0, 0, 1, 0, 1 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
                         },
 
                         new byte[,]
                         {
-                            { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
-                            { 1, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
-                            { 0, 1, 0, 0, 0, 1, 0, 0, 0, 0 },
-                            { 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 },
-                            { 0, 0, 0, 1, 0, 0, 0, 1, 0, 1 },
-                            { 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 },
+                            { 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
+                            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+                            { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 1, 1, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 1, 0, 1 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+                        },
+
+                        new byte[,]
+                        {
+                            { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
+                            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                             { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+                            { 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 1, 0, 1 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+                        },
+
+                        new byte[,]
+                        {
+                            { 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
+                            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+                            { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
                             { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
+                            { 0, 0, 0, 1, 0, 0, 0, 1, 0, 1 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+                        },
+
+                        new byte[,]
+                        {
+                            { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
+                            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+                            { 0, 0, 1, 0, 0, 0, 0, 0, 1, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 1, 0, 1 },
+                            { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+                        },
+
+                        new byte[,]
+                        {
+                            { 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
+                            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+                            { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
+                            { 0, 0, 0, 1, 0, 0, 0, 0, 0, 1 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+                        },
+
+                        new byte[,]
+                        {
+                            { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
+                            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+                            { 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 1, 0, 1 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+                        },
+
+                        new byte[,]
+                        {
+                            { 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
+                            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+                            { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
+                            { 0, 0, 0, 1, 0, 0, 0, 1, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                             { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 }
                         }
                     }),
 
+                new Tuple<string[], byte[,], int[], byte[][,]>(
+                    new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" },
+                    new byte[,]
+                    {
+                        { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+                        { 1, 0, 0, 1, 1, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 1, 1, 0, 0, 1, 0, 0 },
+                        { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 1, 0, 0, 1, 0 },
+                        { 0, 0, 0, 0, 0, 0, 1, 0, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 }
+                    },
+                    new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 },
+                    new byte[][,]
+                    {
+                        new byte[,]
+                        {
+                            { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 },
+                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+                        },
+                        null,
+                        new byte[,]
+                        {
+                            { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+                            { 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 },
+                            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+                            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+                        },
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    }),
+                    
                 //// The following defines a disconnected graph with 4 distinct
                 //// sub-graphs
                 new Tuple<string[], byte[,], int[], byte[][,]>(
@@ -1035,10 +1147,10 @@ namespace datastructuresalgorithmstest
                         null, null, null, null, null, null, null, null, null, null, null
                     })
             };
-            
+
             foreach (var test_vector in test_vectors)
             {
-                IUnweightedGraph<string> graph = new UndirectedUnweightedGraph<string>(3);
+                IUnweightedGraph<string> graph = new DirectedUnweightedGraph<string>(3);
 
                 // Sanity check
                 Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(0));
@@ -1054,16 +1166,11 @@ namespace datastructuresalgorithmstest
                 // Assert that the graph size is as expected
                 Assert.AreEqual(test_vector.Item1.Length, graph.Size);
 
-                // Add edges. Iterate over the upper triangular matrix only
-                // as the lower triangular matrix (below the diagonal) must
-                // be its mirror.
+                // Add edges
                 for (int row = 0; row < test_vector.Item1.Length; ++row)
                 {
-                    for (int col = row + 1; col < test_vector.Item1.Length; ++col)
+                    for (int col = 0; col < test_vector.Item1.Length; ++col)
                     {
-                        // Sanity check
-                        Assert.AreEqual(test_vector.Item2[row, col], test_vector.Item2[col, row]);
-
                         if (Convert.ToBoolean(test_vector.Item2[row, col]))
                         {
                             graph.AddEdge(row, col);
@@ -1106,10 +1213,5 @@ namespace datastructuresalgorithmstest
                 }
             }
         }
-        
-        // - Add a test where graph.Clear() is called after which some
-        //   vertices are added to the graph. The IsEdgePresent methods
-        //   is then used to make sure that old adjacency info did not
-        //   persist after the graph has been cleared.
     }
 }

@@ -398,13 +398,15 @@ namespace datastructuresalgorithms
          * here we record the edges that were crossed throughout the algorithm.
          * These edges make up the MST at the end of the DFS search.
          *
-         * @param start_index  The index of the vertex where search starts at.
+         * @param start_index           The index of the vertex where search starts at.
+         * @param mst_adjacency_matrix  MST adjacency matrix that will be setup by
+         *                              this method.
          *
          * @return An adjacency matrix that defines the minimum spanning tree.
-         * The matrix has Size rows and columns, Size being the current graph
-         * size (the number of vertices). Note that NULL is returned if the
-         * graph is disconnected, as minimum spanning tree doesn't exist in
-         * that case.
+         * collection has Size rows and columns, Size being the current graph
+         * size (the number of vertices). Note that NULL is returned if there
+         * is no path from the vertex at start_index to one or more vertices
+         * in the graph.
          *
          * @throws ArgumentException exception if start_index is negative
          * or greater-or-equal to the number of vertices in the graph.

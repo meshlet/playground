@@ -153,9 +153,9 @@ namespace datastructuresalgorithms
          *
          * @return An adjacency matrix that defines the minimum spanning tree.
          * collection has Size rows and columns, Size being the current graph
-         * size (the number of vertices). Note that NULL is returned if the
-         * graph is disconnected, as minimum spanning tree doesn't exist in
-         * that case.
+         * size (the number of vertices). Note that NULL is returned if there
+         * is no path from the vertex at start_index to one or more vertices
+         * in the graph.
          *
          * @throws ArgumentException exception if start_index is negative
          * or greater-or-equal to the number of vertices in the graph.
