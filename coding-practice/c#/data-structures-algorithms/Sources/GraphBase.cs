@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Collections;
 
 namespace datastructuresalgorithms
 {
@@ -432,6 +433,125 @@ namespace datastructuresalgorithms
             }
 
             return Edges.EdgeExists(first_vertex, second_vertex);
+        }
+
+        /**
+         * Finds the topological order for the directed acyclic graph.
+         *
+         * The topological order is found using a modified DFS search algorithm
+         * that constructs an array of vertex indices sorted in toplogical order.
+         * This variant of DFS algorithm works for disconnected graphs, by
+         * running DFS from the first unvisited vertex if the previous DFS
+         * searches did not visit all graph vertices.
+         * TODO: describe the algorithm
+         *
+         * @note The implementation assumes that the underlying graph is directed.
+         * It is up to the concrete graph classes to ensure this, by selecting to
+         * expose this method or not.
+         *
+         * @note It is caller responsibility to ensure that the graph is acyclic.
+         * Cyclic graphs have no topological ordering. If this methods is called
+         * on a cyclic graph, the collection of vertex indices returned are not
+         * guaranteed to be in any defined order.
+         *
+         * @return The collection of vertex indices arranged in the topological
+         * order. Vertices are said to be in the topological order if for any
+         * two vertices u and v with edge u -> v (v is a successor of v), vertex
+         * u appears before the vertex v.
+         */
+        protected ICollection<int> FindTopologicalSort()
+        {
+            if (Size == 0)
+            {
+                // If graph is empty return an empty array
+                return new int[0];
+            }
+            
+            // Bit array that tracks whether a given vertex has been visited
+            // or not
+            BitArray visited = new BitArray(Size, false);
+
+            // The stack that keeps track of the visited vertices
+            StackViaLinkedList<int> stack = new StackViaLinkedList<int>();
+
+            // The array of all graph vertices that will be sorted in the
+            // topological order at the end of the algorithm
+            int[] topologically_sorted_array = new int[Size];
+            int sorted_array_index = Size;
+
+            // Tracks the vertex index at which the DFS search should be
+            // started from
+            int dfs_search_start_index = 0;
+            
+            // We'll run DFS searches until all graph vertices are visited.
+            while (sorted_array_index > 0)
+            {
+                // Find the first unvisited vertex and push it to the stack
+                for (int i = dfs_search_start_index; i < Size; ++i)
+                {
+                    if (!visited[i])
+                    {
+                        // Found a unvisited vertex. We'll start the DFS search
+                        // from this vertex. Push it to the stack and mark it
+                        // as visited.
+                        stack.Push(0);
+                        visited[0] = true;
+                        dfs_search_start_index = i + 1;
+                        break;
+                    }
+                }
+
+                // When vertex index is popped of the stack it is incremented by 1
+                // before it is assigned to this variable. The next iteration will
+                // then start scanning the graph vertices starting at that index
+                // instead of starting at index 0. Note that there's no need to
+                // check vertices at earlier indices as they were already checked
+                // before when the new vertex at the top of the stack has been
+                // processed.
+                int vertex_index = 0;
+                
+                // Iterate while the stack is not empty. DFS search terminates
+                // when the stack becomes empty
+                while (!stack.IsEmpty())
+                {
+                    for (; vertex_index < Size; ++vertex_index)
+                    {
+                        if (Edges.EdgeExists(stack.Peak(), vertex_index) && !visited[vertex_index])
+                        {
+                            // Found an adjacent vertex that has not been visited yet.
+                            // Push it to the stack and mark it as visited
+                            stack.Push(vertex_index);
+                            visited[vertex_index] = true;
+
+                            // Reset the vertex_index as the next iteration of the
+                            // outer loop needs to start scanning for adjacent vertices
+                            // starting from vertex 0
+                            vertex_index = 0;
+                            break;
+                        }
+                    }
+
+                    if (vertex_index == Size)
+                    {
+                        // We didn't find an adjacent vertex for the vertex at the
+                        // top of the stack that has not yet been visited. This means
+                        // that all its successors have been placed in the topologically
+                        // sorted array, hence it is now safe to place this vertex as
+                        // well
+                        topologically_sorted_array[--sorted_array_index] = stack.Peak();
+
+                        // Pop the stack, increment the popped value by 1 and assign it
+                        // to vertex_index so that the next iteration of the outer loop
+                        // starts scanning vertices from where it left off
+                        vertex_index = stack.Pop() + 1;
+                    }
+                }
+            }
+
+            // Assert that every vertex has been added to the topological sort
+            Debug.Assert(sorted_array_index == 0);
+
+            return topologically_sorted_array;
         }
 
         /**

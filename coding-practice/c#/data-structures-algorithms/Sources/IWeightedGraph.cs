@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace datastructuresalgorithms
+﻿namespace datastructuresalgorithms
 {
     /**
-     * Defines the interface to be implemented by weighted graph implementations.
+     * Defines the interface to be realized by weighted graph implementations.
      */
     public interface IWeightedGraph<T> : IGraph<T>
     {

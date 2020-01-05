@@ -188,5 +188,7 @@ namespace datastructuresalgorithms
         {
             get;
         }
+        
+        // TODO: add IsCyclic() method that checks whether a graph contains cycles
     }
 }

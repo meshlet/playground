@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace datastructuresalgorithms
 {
@@ -23,7 +23,7 @@ namespace datastructuresalgorithms
      * method. Otherwise, the default implementation is used by which no
      * two vertices will be considered equal.    
      */
-    public class DirectedUnweightedGraph<VertexT> : UnweightedGraphBase<VertexT>
+    public class DirectedUnweightedGraph<VertexT> : UnweightedGraphBase<VertexT>, IDirectedGraph<VertexT>
     {
         /**
          * Implementation of the directed edge collection.
@@ -147,6 +147,19 @@ namespace datastructuresalgorithms
         public override bool[,] FindMinimumSpanningTree(int start_index)
         {
             return FindMinimumSpanningTree(start_index, new DirectedEdgeCollection(Size));
+        }
+
+        /**
+         * Finds the topological order for the directed acyclic graph.
+         *
+         * @return The collection of vertex indices arranged in the topological
+         * order. Vertices are said to be in the topological order if for any
+         * two vertices u and v with edge u -> v (v is a successor of v), vertex
+         * u appears before the vertex v.
+         */
+        public new ICollection<int> FindTopologicalSort()
+        {
+            return base.FindTopologicalSort();
         }
     }
 }
