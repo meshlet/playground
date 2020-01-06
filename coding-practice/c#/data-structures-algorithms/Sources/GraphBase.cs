@@ -436,124 +436,138 @@ namespace datastructuresalgorithms
         }
 
         /**
+         * The topological sort helper.
+         *
+         * @param vertex_index                 The index of the vertex to process.
+         * @param permantetly_marked_vertices  If bit i in this array is 1, then
+         *                                     vertex i has been added to the
+         *                                     topological sort.
+         * @param temporary_marked_vertices    Used to detect cycles in the graph.
+         *                                     When processing vertex i, the bit
+         *                                     i of this bit array is set before
+         *                                     recursively calling this method
+         *                                     on successor vertices. If at any
+         *                                     point we reach a vertex whose
+         *                                     bit in the temporary_marked_vertices
+         *                                     is 1, we found a cycle.
+         * @param topological_sort             The array of vertices that will be
+         *                                     sorted in topological order at the
+         *                                     end of the algorithm.
+         * @param sorted_array_index           The index in the topological_sort
+         *                                     where the next vertex should be
+         *                                     placed to.
+         *
+         * @return The index in the topological_sort where the next vertex
+         * should be placed to.
+         *
+         * @throws InvalidOperationException if cycle is encountered in the
+         * graph as topological sort exists only in a directed acyclic graph.
+         */
+        private int TopologicalSortHelper(int vertex_index,
+            BitArray permanently_marked_vertices, BitArray temporary_marked_vertices,
+            int[] topological_sort, int sorted_array_index)
+        {
+            if (permanently_marked_vertices[vertex_index])
+            {
+                // The vertex has already been added to the topological sort.
+                // Return right away as all its successors have been already
+                // processed as well
+                return sorted_array_index;
+            }
+            
+            if (temporary_marked_vertices[vertex_index])
+            {
+                // The graph is not a DAG as there is a cycle in it
+                throw new InvalidOperationException();
+            }
+
+            // Mark the vertex with a temporary mark so we'll detect a
+            // cycle if the recursion leads back to it
+            temporary_marked_vertices[vertex_index] = true;
+            
+            // Recursively process each of its successors
+            for (int i = 0; i < Size; ++i)
+            {
+                if (Edges.EdgeExists(vertex_index, i))
+                {
+                    sorted_array_index = TopologicalSortHelper(
+                        i, permanently_marked_vertices, temporary_marked_vertices,
+                        topological_sort, sorted_array_index);
+                }
+            }
+
+            // Remove the temporary mark as we didn't enounter a cycle
+            // that leads back to this vertex
+            temporary_marked_vertices[vertex_index] = false;
+
+            // Permanently mark the vertex as we're adding it to the
+            // topological sort
+            permanently_marked_vertices[vertex_index] = true;
+            topological_sort[sorted_array_index--] = vertex_index;
+
+            return sorted_array_index;
+        }
+
+        /**
          * Finds the topological order for the directed acyclic graph.
          *
          * The topological order is found using a modified DFS search algorithm
          * that constructs an array of vertex indices sorted in toplogical order.
          * This variant of DFS algorithm works for disconnected graphs, by
-         * running DFS from the first unvisited vertex if the previous DFS
-         * searches did not visit all graph vertices.
+         * running DFS for every graph component.
+         *
          * TODO: describe the algorithm
          *
          * @note The implementation assumes that the underlying graph is directed.
          * It is up to the concrete graph classes to ensure this, by selecting to
          * expose this method or not.
          *
-         * @note It is caller responsibility to ensure that the graph is acyclic.
-         * Cyclic graphs have no topological ordering. If this methods is called
-         * on a cyclic graph, the collection of vertex indices returned are not
-         * guaranteed to be in any defined order.
-         *
          * @return The collection of vertex indices arranged in the topological
          * order. Vertices are said to be in the topological order if for any
          * two vertices u and v with edge u -> v (v is a successor of v), vertex
          * u appears before the vertex v.
+         *
+         * @throws InvalidOperationException if cycle is encountered in the
+         * graph as topological sort exists only in a directed acyclic graph.
          */
         protected ICollection<int> FindTopologicalSort()
         {
-            if (Size == 0)
-            {
-                // If graph is empty return an empty array
-                return new int[0];
-            }
+            // The array of vertex indices that will be sorted in topological
+            // order at the end of the algorithm
+            int[] topological_sort = new int[Size];
+
+            // The index in the topological_sort array where the next vertex
+            // should be placed to. We start from the end of the array
+            int sorted_array_index = Size - 1;
+
+            // Tracks which vertices have been added to the topological_sort
+            // array. If we ever reach a vertex whose entry in this bit array
+            // is true, we terminate the search as we know that all its
+            // successors have already been added to the topological sort
+            BitArray permanently_marked_vertices = new BitArray(Size, false);
+
+            // Used to detect cycles in the graph. When we reach a vertex
+            // that hasn't been permanently marked yet, we temporarily mark
+            // it and then recurse into all its successors. If we find the
+            // way back to the original vertex (which will be marked with
+            // a temporary mark), we found a cycle in the graph which means
+            // it is impossible to find a topological sort.
+            BitArray temporary_marked_vertices = new BitArray(Size, false);
             
-            // Bit array that tracks whether a given vertex has been visited
-            // or not
-            BitArray visited = new BitArray(Size, false);
-
-            // The stack that keeps track of the visited vertices
-            StackViaLinkedList<int> stack = new StackViaLinkedList<int>();
-
-            // The array of all graph vertices that will be sorted in the
-            // topological order at the end of the algorithm
-            int[] topologically_sorted_array = new int[Size];
-            int sorted_array_index = Size;
-
-            // Tracks the vertex index at which the DFS search should be
-            // started from
-            int dfs_search_start_index = 0;
-            
-            // We'll run DFS searches until all graph vertices are visited.
-            // This makes sure that every vertex is visited even if graph
-            // is disconnected.
-            while (sorted_array_index > 0)
+            // Run a modified DFS search for each of the vertices in the
+            // graph. Note that TopologicalSortHelper() returns immediatelly
+            // if vertex has already been added to the topological sort
+            for (int i = 0; i < Size; ++i)
             {
-                // Find the first unvisited vertex and push it to the stack
-                for (int i = dfs_search_start_index; i < Size; ++i)
-                {
-                    if (!visited[i])
-                    {
-                        // Found a unvisited vertex. We'll start the DFS search
-                        // from this vertex. Push it to the stack and mark it
-                        // as visited.
-                        stack.Push(i);
-                        visited[i] = true;
-                        dfs_search_start_index = i + 1;
-                        break;
-                    }
-                }
-
-                // When vertex index is popped of the stack it is incremented by 1
-                // before it is assigned to this variable. The next iteration will
-                // then start scanning the graph vertices starting at that index
-                // instead of starting at index 0. Note that there's no need to
-                // check vertices at earlier indices as they were already checked
-                // before when the new vertex at the top of the stack has been
-                // processed.
-                int vertex_index = 0;
-                
-                // Iterate while the stack is not empty. DFS search terminates
-                // when the stack becomes empty
-                while (!stack.IsEmpty())
-                {
-                    for (; vertex_index < Size; ++vertex_index)
-                    {
-                        if (Edges.EdgeExists(stack.Peak(), vertex_index) && !visited[vertex_index])
-                        {
-                            // Found an adjacent vertex that has not been visited yet.
-                            // Push it to the stack and mark it as visited
-                            stack.Push(vertex_index);
-                            visited[vertex_index] = true;
-
-                            // Reset the vertex_index as the next iteration of the
-                            // outer loop needs to start scanning for adjacent vertices
-                            // starting from vertex 0
-                            vertex_index = 0;
-                            break;
-                        }
-                    }
-
-                    if (vertex_index == Size)
-                    {
-                        // We didn't find an adjacent vertex for the vertex at the
-                        // top of the stack that has not yet been visited. This means
-                        // that all its successors have been placed in the topologically
-                        // sorted array, hence it is now safe to place this vertex as
-                        // well
-                        topologically_sorted_array[--sorted_array_index] = stack.Peak();
-
-                        // Pop the stack, increment the popped value by 1 and assign it
-                        // to vertex_index so that the next iteration of the outer loop
-                        // starts scanning vertices from where it left off
-                        vertex_index = stack.Pop() + 1;
-                    }
-                }
+                sorted_array_index = TopologicalSortHelper(
+                    i, permanently_marked_vertices, temporary_marked_vertices,
+                    topological_sort, sorted_array_index);
             }
 
             // Assert that every vertex has been added to the topological sort
             Debug.Assert(sorted_array_index == 0);
 
-            return topologically_sorted_array;
+            return topological_sort;
         }
 
         /**
