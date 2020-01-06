@@ -484,6 +484,8 @@ namespace datastructuresalgorithms
             int dfs_search_start_index = 0;
             
             // We'll run DFS searches until all graph vertices are visited.
+            // This makes sure that every vertex is visited even if graph
+            // is disconnected.
             while (sorted_array_index > 0)
             {
                 // Find the first unvisited vertex and push it to the stack
@@ -494,8 +496,8 @@ namespace datastructuresalgorithms
                         // Found a unvisited vertex. We'll start the DFS search
                         // from this vertex. Push it to the stack and mark it
                         // as visited.
-                        stack.Push(0);
-                        visited[0] = true;
+                        stack.Push(i);
+                        visited[i] = true;
                         dfs_search_start_index = i + 1;
                         break;
                     }
