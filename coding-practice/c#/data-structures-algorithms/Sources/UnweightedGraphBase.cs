@@ -57,6 +57,26 @@ namespace datastructuresalgorithms
             }
 
             /**
+             * Sets the edge to the default value.
+             *
+             * After calling this method, the start_index -> end_index edge
+             * is added to the collection and, if this graph associates values
+             * with its edges, the edge value is set to the default value.
+             * If edge already exists in the graph it is overwritten.
+             *
+             * @param start_index  The index of the start vertex.
+             * @param end_index    The index of the end_vertex.
+             *
+             * @note This method must disregard the directionality of the
+             * graph edges. If called with indices i and j it must only
+             * set the edge i -> j, even if the graph is undirectional.
+             */
+            public void SetEdge(int start_index, int end_index)
+            {
+                AdjacencyMatrix[start_index, end_index] = true;
+            }
+
+            /**
              * Sets the edge to the given value.
              *
              * @param start_index  The index of the start vertex.

@@ -1452,5 +1452,172 @@ namespace datastructuresalgorithmstest
                 Assert.AreEqual(test_vector.Item3, topological_sort);
             }
         }
+
+        /**
+         * Tests the ComputeTransitiveClosure() method.
+         */
+        [Test]
+        public void TestComputingTransitiveClosure()
+        {
+            // Item1 - the array of vertices to add to the graph
+            // Item2 - the adjacency matrix that defines the edges of the graph
+            // Item3 - the computed transitive closure expected adjacency matrix.
+            Tuple<string[], byte[,], byte[,]>[] test_vectors =
+            {
+                new Tuple<string[], byte[,], byte[,]>(
+                    new string[] { },
+                    new byte[0,0],
+                    new byte[0,0]),
+
+                new Tuple<string[], byte[,], byte[,]>(
+                    new string[] { "A" },
+                    new byte[,] { { 0 } },
+                    new byte[,] { { 0 } }),
+
+                new Tuple<string[], byte[,], byte[,]>(
+                    new string[] { "A", "B" },
+                    new byte[,]
+                    {
+                        { 0, 1 },
+                        { 0, 0 }
+                    },
+                    new byte[,]
+                    {
+                        { 0, 1 },
+                        { 0, 0 }
+                    }),
+
+                new Tuple<string[], byte[,], byte[,]>(
+                    new string[] { "A", "B", "C", "D", "E", "F", "G", "H" },
+                    new byte[,]
+                    {
+                        { 0, 1, 1, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 1, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 1, 0, 0, 0 },
+                        { 0, 0, 0, 0, 1, 1, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 1, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0 }
+                    },
+                    new byte[,]
+                    {
+                        { 0, 1, 1, 1, 1, 1, 1, 1 },
+                        { 0, 0, 0, 1, 1, 1, 1, 1 },
+                        { 0, 0, 0, 0, 1, 0, 1, 1 },
+                        { 0, 0, 0, 0, 1, 1, 1, 1 },
+                        { 0, 0, 0, 0, 0, 0, 1, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0 }
+                    }),
+
+                new Tuple<string[], byte[,], byte[,]>(
+                    new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I" },
+                    new byte[,]
+                    {
+                        { 0, 0, 0, 0, 1, 1, 0, 0, 0 },
+                        { 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+                        { 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+                        { 0, 0, 0, 0, 0, 0, 1, 0, 0 },
+                        { 0, 0, 1, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+                    },
+                    new byte[,]
+                    {
+                        { 0, 0, 1, 1, 1, 1, 1, 1, 1 },
+                        { 0, 0, 0, 0, 1, 0, 1, 1, 1 },
+                        { 0, 0, 0, 1, 0, 0, 0, 1, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1, 1 },
+                        { 0, 0, 0, 0, 0, 0, 1, 1, 1 },
+                        { 0, 0, 1, 1, 0, 0, 0, 1, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 1, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+                    }),
+
+                new Tuple<string[], byte[,], byte[,]>(
+                    new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" },
+                    new byte[,]
+                    {
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+                        { 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 }
+                    },
+                    new byte[,]
+                    {
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+                        { 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
+                        { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 }
+                    })
+            };
+
+            foreach (var test_vector in test_vectors)
+            {
+                var graph = new DirectedUnweightedGraph<string>(3);
+
+                // Sanity check
+                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(0));
+                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(1));
+                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item3.GetLength(0));
+                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item3.GetLength(1));
+
+                // Add vertices
+                foreach (var vertex in test_vector.Item1)
+                {
+                    graph.AddVertex(vertex);
+                }
+
+                // Assert that the graph size is as expected
+                Assert.AreEqual(test_vector.Item1.Length, graph.Size);
+
+                // Add edges
+                for (int row = 0; row < test_vector.Item1.Length; ++row)
+                {
+                    for (int col = 0; col < test_vector.Item1.Length; ++col)
+                    {
+                        if (Convert.ToBoolean(test_vector.Item2[row, col]))
+                        {
+                            graph.AddEdge(row, col);
+                        }
+                    }
+                }
+
+                // Compute the transitive closure of the graph
+                bool[,] transitive_closure = graph.ComputeTransitiveClosure();
+
+                // Assert that its dimensions are correct
+                Assert.AreEqual(test_vector.Item1.Length, transitive_closure.GetLength(0));
+                Assert.AreEqual(test_vector.Item1.Length, transitive_closure.GetLength(1));
+                
+                // Compare the computed against the expected transitive closure
+                for (int i = 0; i < test_vector.Item1.Length; ++i)
+                {
+                    for (int j = 0; j < test_vector.Item1.Length; ++j)
+                    {
+                        Assert.AreEqual(Convert.ToBoolean(test_vector.Item3[i, j]), transitive_closure[i, j]);
+                    }
+                }
+            }
+        }
     }
 }

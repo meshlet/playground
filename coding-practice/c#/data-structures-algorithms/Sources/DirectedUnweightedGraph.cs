@@ -161,5 +161,35 @@ namespace datastructuresalgorithms
         {
             return base.FindTopologicalSort();
         }
+
+        /**
+         * Computes a transitive closure for a given graph.
+         *
+         * The method computes the transitive closure using the Floyd-
+         * Warshall algorithm.
+         *
+         * Transitive closure of a given graph G is a graph G' with the
+         * following property: for any three vertices a, b and c in the
+         * graph G and edges a -> b and b -> c, the graph G' will also
+         * have an edge between a -> c. Graph G' makes it possible to
+         * answer reachability queries with O(1) complexity. For any
+         * two vertices a and b in graph G', b is reacheable from a
+         * if graph G' has the a -> b edge.
+         *
+         * @param transitive_closure  The edge collection that will define the
+         *                            transitive closure at end end of the
+         *                            algorithm. The edge collection must not
+         *                            contain any edges when calling this method.
+         *
+         * @return The adjacency matrix that defines the transitive
+         * closure of the graph. The matrix has Size rows and columns,
+         * Size being the current graph size (the number of vertices).
+         */
+        public override bool[,] ComputeTransitiveClosure()
+        {
+            DirectedEdgeCollection transitive_closure = new DirectedEdgeCollection(Size);
+            ComputeTransitiveClosure(transitive_closure);
+            return transitive_closure.AdjacencyMatrix;
+        }
     }
 }

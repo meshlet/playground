@@ -152,7 +152,7 @@ namespace datastructuresalgorithms
          * @param start_index  The index of the vertex where search starts at.
          *
          * @return An adjacency matrix that defines the minimum spanning tree.
-         * collection has Size rows and columns, Size being the current graph
+         * The matrix has Size rows and columns, Size being the current graph
          * size (the number of vertices). Note that NULL is returned if there
          * is no path from the vertex at start_index to one or more vertices
          * in the graph.
@@ -161,6 +161,23 @@ namespace datastructuresalgorithms
          * or greater-or-equal to the number of vertices in the graph.
          */
         bool[,] FindMinimumSpanningTree(int start_index);
+
+        /**
+         * Computes a transitive closure for a given graph.
+         *
+         * Transitive closure of a given graph G is a graph G' with the
+         * following property: for any three vertices a, b and c in the
+         * graph G and edges a -> b and b -> c, the graph G' will also
+         * have an edge between a -> c. Graph G' makes it possible to
+         * answer reachability queries with O(1) complexity. For any
+         * two vertices a and b in graph G', b is reacheable from a
+         * if graph G' has the a -> b edge.
+         *
+         * @return The adjacency matrix that defines the transitive
+         * closure of the graph. The matrix has Size rows and columns,
+         * Size being the current graph size (the number of vertices).
+         */
+        bool[,] ComputeTransitiveClosure();
 
         /**
          * Clears the graph.

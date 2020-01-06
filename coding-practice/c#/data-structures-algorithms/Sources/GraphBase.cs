@@ -60,6 +60,23 @@ namespace datastructuresalgorithms
             void Resize(int new_capacity, int graph_size);
 
             /**
+             * Sets the edge to the default value.
+             *
+             * After calling this method, the start_index -> end_index edge
+             * is added to the collection and, if this graph associates values
+             * with its edges, the edge value is set to the default value.
+             * If edge already exists in the graph it is overwritten.
+             *
+             * @param start_index  The index of the start vertex.
+             * @param end_index    The index of the end_vertex.
+             *
+             * @note This method must disregard the directionality of the
+             * graph edges. If called with indices i and j it must only
+             * set the edge i -> j, even if the graph is undirectional.
+             */
+            void SetEdge(int start_index, int end_index);
+
+            /**
              * Sets the edge to the given value.
              *
              * @param start_index  The index of the start vertex.
@@ -571,6 +588,73 @@ namespace datastructuresalgorithms
         }
 
         /**
+         * Computes a transitive closure for a given graph.
+         *
+         * The method computes the transitive closure using the Floyd-
+         * Warshall algorithm.
+         *
+         * TODO: describe the algorithm
+         *
+         * Transitive closure of a given graph G is a graph G' with the
+         * following property: for any three vertices a, b and c in the
+         * graph G and edges a -> b and b -> c, the graph G' will also
+         * have an edge between a -> c. Graph G' makes it possible to
+         * answer reachability queries with O(1) complexity. For any
+         * two vertices a and b in graph G', b is reacheable from a
+         * if graph G' has the a -> b edge.
+         *
+         * @param transitive_closure  The edge collection that will define the
+         *                            transitive closure at end end of the
+         *                            algorithm. The edge collection must not
+         *                            contain any edges when calling this method.
+         */
+        protected void ComputeTransitiveClosure(IEdgeCollection transitive_closure)
+        {
+            // Copy the current graph's edge collection to the transitive_closure
+            // edge collection. The algorithm works by continuously modifying the
+            // edge collection until it is transformed into the transitive closure
+            // hence we need to do the copy to preserve this graph's structure.
+            // TODO: this could be optimized for undirected graphs by iterating
+            // over the lower or upper-triangular matrix only. This can be done
+            // by adding CopyFrom() method to IEdgeCollection that would handle
+            // the copying. The undirected implementation could then improve
+            // the optimized copying.
+            for (int i = 0; i < Size; ++i)
+            {
+                for (int j = 0; j < Size; ++j)
+                {
+                    if (Edges.EdgeExists(i, j))
+                    {
+                        transitive_closure.SetEdge(i, j, Edges.GetEdge(i, j));
+                    }
+                }
+            }
+            
+            // For every vertex in the graph
+            for (int i = 0; i < Size; ++i)
+            {
+                // Find vertices that have an edge from 'i' to 'j'
+                for (int j = 0; j < Size; ++j)
+                {
+                    if (transitive_closure.EdgeExists(i, j))
+                    {
+                        // An i -> j edge exists. Next, find the vertices
+                        // that have an from 'k' to 'i'
+                        for (int k = 0; k < Size; ++k)
+                        {
+                            if (transitive_closure.EdgeExists(k, i))
+                            {
+                                // As edges k -> i and i -> j exist, add the
+                                // k -> j edge to the edge collection
+                                transitive_closure.SetEdge(k, j);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
          * Clears the graph.
          *
          * The graph will be empty after this call.
@@ -618,5 +702,6 @@ namespace datastructuresalgorithms
         public abstract IEnumerable<int> BreadthFirstSearch(int start_index);
         public abstract ICollection<int> FindShortestPath(int start_index, int end_index);
         public abstract bool[,] FindMinimumSpanningTree(int start_index);
+        public abstract bool[,] ComputeTransitiveClosure();
     }
 }
