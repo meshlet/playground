@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using datastructuresalgorithms;
 
 namespace datastructuresalgorithmstest
@@ -563,7 +564,17 @@ namespace datastructuresalgorithmstest
             Type constructed_graph_type = ConstructGraphType<int>(generic_type_def);
             IGraph<int> graph = InstantiateGraph<int>(constructed_graph_type);
             graph.AddVertex(5);
-            Assert.Throws<ArgumentException>(() => graph.FindMinimumSpanningTree(-1));
+            
+            MethodInfo find_mst_method = constructed_graph_type.GetMethod("FindMinimumSpanningTree");
+            try
+            {
+                find_mst_method.Invoke(graph, new object[] { -1 });
+                Assert.Fail();
+            }
+            catch (TargetInvocationException e)
+            {
+                Assert.AreEqual(typeof(ArgumentException), e.InnerException.GetType());
+            }
         }
 
         /**
@@ -576,8 +587,21 @@ namespace datastructuresalgorithmstest
             Type constructed_graph_type = ConstructGraphType<int>(generic_type_def);
             IGraph<int> graph = InstantiateGraph<int>(constructed_graph_type);
             graph.AddVertex(5);
-            Assert.Throws<ArgumentException>(() => graph.FindMinimumSpanningTree(1));
-            Assert.Throws<ArgumentException>(() => graph.FindMinimumSpanningTree(2));
+
+            MethodInfo find_mst_method = constructed_graph_type.GetMethod("FindMinimumSpanningTree");
+            int[] args = { 1, 2 };
+            foreach (var arg in args)
+            {
+                try
+                {
+                    find_mst_method.Invoke(graph, new object[] { arg });
+                    Assert.Fail();
+                }
+                catch (TargetInvocationException e)
+                {
+                    Assert.AreEqual(typeof(ArgumentException), e.InnerException.GetType());
+                }
+            }
         }
     }
 }

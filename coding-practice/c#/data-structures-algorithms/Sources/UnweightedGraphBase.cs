@@ -9,20 +9,20 @@ namespace datastructuresalgorithms
      * The abstract base for the unweighted graph implementations.
      *
      * This class implements most of the functionality required by both
-     * directed and undirected unweighted graphs. It only relies on the
-     * concrete implementations to extend the EdgeCollectionBase class.
-     * This is required as edge manipulation (such as adding a new edge)
-     * differs between directed and undirected graphs (i.e. adding an
-     * edge between vertex A and B in an undirected graph also means
-     * adding an edge between B and A, while this doesn't hold in
-     * directed graphs).
+     * directed and undirected unweighted graphs. Some of the functionality
+     * differs between directed and undirected graphs, so the concrete
+     * classes are required to extend this class. This is required as
+     * edge manipulation (such as adding a new edge) differs between
+     * directed and undirected graphs (i.e. adding an edge between vertex
+     * A and B in an undirected graph also means adding an edge between B
+     * and A, while this doesn't hold in directed graphs).
      */
     public abstract class UnweightedGraphBase<VertexT> : GraphBase<VertexT, bool>, IUnweightedGraph<VertexT>
     {
         /**
          * Base class for the unweighted edge collection implementation.
          */
-        protected abstract class EdgeCollectionBase : IEdgeCollection
+        protected abstract class UnweightedEdgeCollectionBase : IEdgeCollection
         {
             /**
              * The adjacency matrix storing the graph's connectivity info.
@@ -38,9 +38,9 @@ namespace datastructuresalgorithms
              * to IEdgeCollection, but implementing it only for the weighted
              * graph edge collection.
              */
-            public bool[,] AdjacencyMatrix
+            protected bool[,] AdjacencyMatrix
             {
-                get; protected set;
+                get; set;
             }
 
             /**
@@ -51,7 +51,7 @@ namespace datastructuresalgorithms
              *                          the initial_capacity passed to the graph
              *                          constructor.
              */
-            public EdgeCollectionBase(int initial_capacity)
+            public UnweightedEdgeCollectionBase(int initial_capacity)
             {
                 AdjacencyMatrix = new bool[initial_capacity, initial_capacity];
             }
@@ -136,7 +136,7 @@ namespace datastructuresalgorithms
         /**
          * Constructs a graph instance.
          *
-         * @param edges             An instance of EdgeCollectionBase interface
+         * @param edges             An instance of UnweightedEdgeCollectionBase
          *                          that will store edges for this graph.
          * @param initial_capacity  Determines how much memory to reserve at
          *                          construction time. The larger this value
@@ -145,8 +145,20 @@ namespace datastructuresalgorithms
          *
          * @throws ArgumentException if initial_capacity is negative or zero.
          */
-        protected UnweightedGraphBase(EdgeCollectionBase edges, int initial_capacity = 10)
+        protected UnweightedGraphBase(UnweightedEdgeCollectionBase edges, int initial_capacity = 10)
             : base(edges, initial_capacity)
+        {
+        }
+
+        /**
+         * Constructs a graph instance.
+         *
+         * @param edges  An instance of IEdgeCollection interface
+         *               that will store edges for this graph.
+         * @param graph  A graph from which to copy the vertices.
+         */
+        protected UnweightedGraphBase(IEdgeCollection edges, UnweightedGraphBase<VertexT> graph)
+            : base(edges, graph)
         {
         }
 
@@ -167,148 +179,6 @@ namespace datastructuresalgorithms
         public bool AddEdge(int first_index, int second_index)
         {
             return AddEdge(first_index, second_index, true);
-        }
-
-        /**
-         * Uses DFS to find all vertices connected to the vertex at the start_index.
-         *
-         * TODO: describe the algorithm
-         *
-         * This is an iterator method that yields the control to the
-         * caller each time a new vertex is visited.
-         *
-         * @param start_index  The vertex index where DFS is started from.
-         *
-         * @return An iterator interface type used to iterate over the vertices
-         * produced by the DFS algorithm.
-         *
-         * @note The method returns a vertex index and not the vertex itself.
-         * The caller can use GetVertex() to get access the vertex.
-         *
-         * @throws @throws ArgumentException exception if vertex_index is negative
-         * or greater-or-equal to the number of vertices in the graph.
-         */
-        public override IEnumerable<int> DepthFirstSearch(int start_index)
-        {
-            if (start_index < 0 || start_index >= Size)
-            {
-                throw new ArgumentException();
-            }
-
-            // Tracks which vertices are visited during the DFS search
-            BitArray visited_vertices = new BitArray(Size, false);
-
-            // Once visited, vertex indicies are pushed onto the stack
-            StackViaLinkedList<int> stack = new StackViaLinkedList<int>();
-
-            // Visit the starting vertex
-            yield return start_index;
-            stack.Push(start_index);
-            visited_vertices[start_index] = true;
-
-            // The adjacency matrix column from which to start checking for
-            // adjacent vertices of the vertex at the top of the stack.
-            int column = 0;
-
-            // DFS algorithm is done once stack becomes empty
-            while (!stack.IsEmpty())
-            {
-                // Scan the adjacency matrix row corresponding to the vertex
-                // at the top of the stack
-                for (; column < Size; ++column)
-                {
-                    if (Edges.EdgeExists(stack.Peak(), column) && !visited_vertices[column])
-                    {
-                        // Found an adjecent vertex that hasn't been visited yet.
-                        // Visit it and push it to the stack
-                        yield return column;
-                        stack.Push(column);
-                        visited_vertices[column] = true;
-                        break;
-                    }
-                }
-
-                if (column == Size)
-                {
-                    // This means that the for-loop didn't find an unvisited
-                    // adjecent vertex of the vertex at the stack's top. Pop
-                    // the stack and assign the (stack.Pop() + 1) to the column
-                    // variable. This make sure that the next iteration scans
-                    // the row corresponding to the vertex at the top of the
-                    // stack from the index that it reached earlier, instead
-                    // of re-scaning the entire row.
-                    column = stack.Pop() + 1;
-                }
-                else
-                {
-                    // The previous for-loop found an unvisited adjecent vertex
-                    // of the vertex at the top of the stack. Reset column to
-                    // 0 as the next iteration needs to scan the row that
-                    // corresponds to the new stack's top from the start.
-                    column = 0;
-                }
-            }
-        }
-
-        /**
-         * Uses BFS to find all vertices connected to the vertex at the start_index.
-         *
-         * TODO: describe the algorithm
-         *
-         * This is an iterator method that yields the control to the
-         * caller each time a new vertex is visited.
-         *
-         * @param start_index  The vertex index where BFS is started from.
-         *
-         * @return An iterator interface type used to iterate over the vertices
-         * produced by the BFS algorithm.
-         *
-         * @note The method returns a vertex index and not the vertex itself.
-         * The caller can use GetVertex() to get access the vertex.
-         *
-         * @throws ArgumentException exception if vertex_index is negative
-         * or greater-or-equal to the number of vertices in the graph.
-         */
-        public override IEnumerable<int> BreadthFirstSearch(int start_index)
-        {
-            if (start_index < 0 || start_index >= Size)
-            {
-                throw new ArgumentException();
-            }
-
-            // Tracks which vertices are visited during the BFS search
-            BitArray visited_vertices = new BitArray(Size, false);
-
-            // Once visited, vertex indices are added to the queue
-            QueueViaLinkedList<int> queue = new QueueViaLinkedList<int>();
-
-            // Visit the initial node and add it to the queue
-            yield return start_index;
-            queue.Enqueue(start_index);
-            visited_vertices[start_index] = true;
-
-            // BFS algorithm is done once the queue becomes empty
-            while (!queue.IsEmpty())
-            {
-                for (int column = 0; column < Size; ++column)
-                {
-                    if (Edges.EdgeExists(queue.Peak(), column) && !visited_vertices[column])
-                    {
-                        // Found an adjacent unvisited vertex. Visit it and push it
-                        // to the queue so that its adjecent vertices will be visited
-                        // later
-                        yield return column;
-                        queue.Enqueue(column);
-                        visited_vertices[column] = true;
-                    }
-                }
-
-                // At this point we have visited all the adjecent vertices of
-                // the vertex currently at the head of the queue. Thus, remove
-                // this vertex from the queue so that next iteration will visit
-                // the adjacent vertices of the next vertex in the queue
-                queue.Dequeue();
-            }
         }
 
         /**
@@ -419,19 +289,20 @@ namespace datastructuresalgorithms
          * These edges make up the MST at the end of the DFS search.
          *
          * @param start_index           The index of the vertex where search starts at.
-         * @param mst_adjacency_matrix  MST adjacency matrix that will be setup by
-         *                              this method.
+         * @param mst                   Unweighted tree instance that will become
+         *                              an MST in this method. The MST instance must
+         *                              already contain all the original's graph
+         *                              vertices.
          *
-         * @return An adjacency matrix that defines the minimum spanning tree.
-         * collection has Size rows and columns, Size being the current graph
-         * size (the number of vertices). Note that NULL is returned if there
-         * is no path from the vertex at start_index to one or more vertices
-         * in the graph.
+         * @return The unweighted graph instance representing the MST. Note
+         * that NULL is returned if there is no path from the vertex at
+         * start_index to one or more vertices in the graph.
          *
          * @throws ArgumentException exception if start_index is negative
          * or greater-or-equal to the number of vertices in the graph.
          */
-        protected bool[,] FindMinimumSpanningTree(int start_index, EdgeCollectionBase mst_adjacency_matrix)
+        protected IUnweightedGraph<VertexT> FindMinimumSpanningTree(
+            int start_index, IUnweightedGraph<VertexT> mst)
         {
             if (start_index < 0 || start_index >= Size)
             {
@@ -446,10 +317,10 @@ namespace datastructuresalgorithms
             // so that search can be continued at them at later time
             StackViaLinkedList<int> stack = new StackViaLinkedList<int>();
 
-            // Push the start vertex to the queue and mark it as visited
+            // Push the start vertex to the queue and mark it as visited.
             stack.Push(start_index);
             visited[start_index] = true;
-            int visited_vertices_count = 1;
+            int added_edges_count = 0;
 
             // The column of the adjacency matrix where the search for adjacent
             // vertices needs to start from. This is set to stack.Pop() + 1 so
@@ -469,12 +340,12 @@ namespace datastructuresalgorithms
                         // Note that if this is an undirected graph, the AddEdge
                         // method bellow will also add an edge in the opposite
                         // direction.
-                        mst_adjacency_matrix.AddEdge(stack.Peak(), column, true);
+                        mst.AddEdge(stack.Peak(), column);
 
                         // Mark it as visited and push it to the stack
                         stack.Push(column);
                         visited[column] = true;
-                        ++visited_vertices_count;
+                        ++added_edges_count;
 
                         // Reset the column to 0 so that the adjacency matrix row
                         // corresponding to unvisited vertex is scanned from the
@@ -499,9 +370,15 @@ namespace datastructuresalgorithms
                 }
             }
 
-            // If we didn't visit all the vertices, the graph is disconnected
-            // and MST doesn't exist (in which case NULL is returned)
-            return visited_vertices_count == Size ? mst_adjacency_matrix.AdjacencyMatrix : null;
+            // The MST must consists of Size - 1 edges. If this is not the
+            // case, the graph is disconnected and MST doesn't exist (in
+            // which case NULL is returned)
+            return added_edges_count == Size - 1 ? mst : null;
         }
+
+        /**
+         * To be implemented by concrete unweighted graph classes.
+         */
+        public abstract IUnweightedGraph<VertexT> FindMinimumSpanningTree(int start_index);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace datastructuresalgorithms
 {
-    // TODO: go through and update briefs
     /**
      * Directed and unweighted graph.
      *
@@ -26,13 +25,13 @@ namespace datastructuresalgorithms
     public class DirectedUnweightedGraph<VertexT> : UnweightedGraphBase<VertexT>, IDirectedGraph<VertexT>
     {
         /**
-         * Implementation of the directed edge collection.
+         * Implementation of the directed unweighted edge collection.
          *
          * Edges are unidirection in this implementation. Hence, if adding/removing
          * the i -> j (where i and j and vertex indices) edge, only that edge is
          * added/removed.
          */
-        private class DirectedEdgeCollection : EdgeCollectionBase
+        private class DirectedUnweightedEdgeCollection : UnweightedEdgeCollectionBase
         {
             /**
              * Create an instance of DirectedEdgeCollection.
@@ -42,7 +41,8 @@ namespace datastructuresalgorithms
              *                          the initial_capacity passed to the graph
              *                          constructor.
              */
-            public DirectedEdgeCollection(int initial_capacity) : base(initial_capacity)
+            public DirectedUnweightedEdgeCollection(int initial_capacity)
+                : base(initial_capacity)
             {
             }
 
@@ -119,7 +119,17 @@ namespace datastructuresalgorithms
          * @throws ArgumentException if initial_capacity is negative or zero.
          */
         public DirectedUnweightedGraph(int initial_capacity = 10)
-            : base(new DirectedEdgeCollection(initial_capacity), initial_capacity)
+            : base(new DirectedUnweightedEdgeCollection(initial_capacity), initial_capacity)
+        {
+        }
+
+        /**
+         * Constructs a graph instance.
+         *
+         * @param graph  A graph from which to copy the vertices.
+         */
+        protected DirectedUnweightedGraph(DirectedUnweightedGraph<VertexT> graph)
+            : base(new DirectedUnweightedEdgeCollection(graph.Size), graph)
         {
         }
 
@@ -131,22 +141,19 @@ namespace datastructuresalgorithms
          * here we record the edges that were crossed throughout the algorithm.
          * These edges make up the MST at the end of the DFS search.
          *
-         * @param start_index           The index of the vertex where search starts at.
-         * @param mst_adjacency_matrix  MST adjacency matrix that will be setup by
-         *                              this method.
+         * @param start_index  The index of the vertex where search starts at.
          *
-         * @return An adjacency matrix that defines the minimum spanning tree.
-         * collection has Size rows and columns, Size being the current graph
-         * size (the number of vertices). Note that NULL is returned if there
-         * is no path from the vertex at start_index to one or more vertices
-         * in the graph.
+         * @return The weighted graph instance representing the MST. Note
+         * that NULL is returned if there is no path from the vertex at
+         * start_index to one or more vertices in the graph.
          *
          * @throws ArgumentException exception if start_index is negative
          * or greater-or-equal to the number of vertices in the graph.
          */
-        public override bool[,] FindMinimumSpanningTree(int start_index)
+        public override IUnweightedGraph<VertexT> FindMinimumSpanningTree(int start_index)
         {
-            return FindMinimumSpanningTree(start_index, new DirectedEdgeCollection(Size));
+            return FindMinimumSpanningTree(
+                start_index, new DirectedUnweightedGraph<VertexT>(this));
         }
 
         /**
@@ -160,36 +167,6 @@ namespace datastructuresalgorithms
         public new ICollection<int> FindTopologicalSort()
         {
             return base.FindTopologicalSort();
-        }
-
-        /**
-         * Computes a transitive closure for a given graph.
-         *
-         * The method computes the transitive closure using the Floyd-
-         * Warshall algorithm.
-         *
-         * Transitive closure of a given graph G is a graph G' with the
-         * following property: for any three vertices a, b and c in the
-         * graph G and edges a -> b and b -> c, the graph G' will also
-         * have an edge between a -> c. Graph G' makes it possible to
-         * answer reachability queries with O(1) complexity. For any
-         * two vertices a and b in graph G', b is reacheable from a
-         * if graph G' has the a -> b edge.
-         *
-         * @param transitive_closure  The edge collection that will define the
-         *                            transitive closure at end end of the
-         *                            algorithm. The edge collection must not
-         *                            contain any edges when calling this method.
-         *
-         * @return The adjacency matrix that defines the transitive
-         * closure of the graph. The matrix has Size rows and columns,
-         * Size being the current graph size (the number of vertices).
-         */
-        public override bool[,] ComputeTransitiveClosure()
-        {
-            DirectedEdgeCollection transitive_closure = new DirectedEdgeCollection(Size);
-            ComputeTransitiveClosure(transitive_closure);
-            return transitive_closure.AdjacencyMatrix;
         }
     }
 }

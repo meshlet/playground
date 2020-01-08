@@ -23,5 +23,19 @@ namespace datastructuresalgorithms
          * graph.
          */
         bool AddEdge(int first_index, int second_index);
+
+        /**
+         * Finds a minimum spanning tree in the graph.
+         *
+         * @param start_index  The index of the vertex where search starts at.
+         *
+         * @return The unweighted graph instance representing the MST. Note
+         * that NULL is returned if there is no path from the vertex at
+         * start_index to one or more vertices in the graph.
+         *
+         * @throws ArgumentException exception if start_index is negative
+         * or greater-or-equal to the number of vertices in the graph.
+         */
+        IUnweightedGraph<T> FindMinimumSpanningTree(int start_index);
     }
 }

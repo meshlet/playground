@@ -50,6 +50,7 @@
     <Compile Include="Tests\UndirectedUnweightedGraphTest.cs" />
     <Compile Include="Tests\GraphCommonTests.cs" />
     <Compile Include="Tests\DirectedUnweightedGraphTest.cs" />
+    <Compile Include="Tests\UndirectedWeightedGraphTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

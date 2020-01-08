@@ -1078,28 +1078,25 @@ namespace datastructuresalgorithmstest
                     // Sanity check
                     Assert.Greater(test_vector.Item1.Length, start_vertex_index);
 
-                    var mst_adjacency_matrix = graph.FindMinimumSpanningTree(start_vertex_index);
+                    var mst = graph.FindMinimumSpanningTree(start_vertex_index);
                     expected_adj_matrix_iter.MoveNext();
                     var expected_adj_matrix = (byte[,])expected_adj_matrix_iter.Current;
 
                     if (expected_adj_matrix == null)
                     {
-                        Assert.IsNull(mst_adjacency_matrix);
+                        Assert.IsNull(mst);
                     }
                     else
                     {
-                        // Assert that produced adjacency matrix dimensions match the
-                        // dimensions of the expected adjacency matrix
-                        Assert.AreEqual(expected_adj_matrix.Rank, mst_adjacency_matrix.Rank);
-                        Assert.AreEqual(expected_adj_matrix.GetLength(0), mst_adjacency_matrix.GetLength(0));
-                        Assert.AreEqual(expected_adj_matrix.GetLength(1), mst_adjacency_matrix.GetLength(1));
+                        // Assert that the generated MST size is expected
+                        Assert.AreEqual(test_vector.Item1.Length, mst.Size);
 
-                        // Compare the actual against the expected adjacency matrix
+                        // Compare the MST against the expected adjacency matrix
                         for (int i = 0; i < expected_adj_matrix.GetLength(0); ++i)
                         {
                             for (int j = 0; j < expected_adj_matrix.GetLength(1); ++j)
                             {
-                                Assert.AreEqual(Convert.ToBoolean(expected_adj_matrix[i, j]), mst_adjacency_matrix[i, j]);
+                                Assert.AreEqual(Convert.ToBoolean(expected_adj_matrix[i, j]), mst.EdgeExists(i, j));
                             }
                         }
                     }

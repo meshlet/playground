@@ -162,6 +162,23 @@ namespace datastructuresalgorithms
         }
 
         /**
+         * Constructs a graph instance.
+         *
+         * @param edges  An instance of IEdgeCollection interface
+         *               that will store edges for this graph.
+         * @param graph  A graph from which to copy the vertices.
+         */
+        protected GraphBase(IEdgeCollection edges, GraphBase<VertexT, EdgeT> graph)
+        {
+            Debug.Assert(edges != null);
+
+            Vertices = new VertexT[graph.Vertices.Length];
+            graph.Vertices.CopyTo(Vertices, 0);
+            Edges = edges;
+            Size = graph.Size;
+        }
+        
+        /**
          * Removes the vertex and its edges from the graph.
          *
          * The vertex  is removed from the Vertices array by moving all the
@@ -453,6 +470,148 @@ namespace datastructuresalgorithms
         }
 
         /**
+         * Uses DFS to find all vertices connected to the vertex at the start_index.
+         *
+         * TODO: describe the algorithm
+         *
+         * This is an iterator method that yields the control to the
+         * caller each time a new vertex is visited.
+         *
+         * @param start_index  The vertex index where DFS is started from.
+         *
+         * @return An iterator interface type used to iterate over the vertices
+         * produced by the DFS algorithm.
+         *
+         * @note The method returns a vertex index and not the vertex itself.
+         * The caller can use GetVertex() to get access the vertex.
+         *
+         * @throws @throws ArgumentException exception if vertex_index is negative
+         * or greater-or-equal to the number of vertices in the graph.
+         */
+        public IEnumerable<int> DepthFirstSearch(int start_index)
+        {
+            if (start_index < 0 || start_index >= Size)
+            {
+                throw new ArgumentException();
+            }
+
+            // Tracks which vertices are visited during the DFS search
+            BitArray visited_vertices = new BitArray(Size, false);
+
+            // Once visited, vertex indicies are pushed onto the stack
+            StackViaLinkedList<int> stack = new StackViaLinkedList<int>();
+
+            // Visit the starting vertex
+            yield return start_index;
+            stack.Push(start_index);
+            visited_vertices[start_index] = true;
+
+            // The adjacency matrix column from which to start checking for
+            // adjacent vertices of the vertex at the top of the stack.
+            int column = 0;
+
+            // DFS algorithm is done once stack becomes empty
+            while (!stack.IsEmpty())
+            {
+                // Scan the adjacency matrix row corresponding to the vertex
+                // at the top of the stack
+                for (; column < Size; ++column)
+                {
+                    if (Edges.EdgeExists(stack.Peak(), column) && !visited_vertices[column])
+                    {
+                        // Found an adjecent vertex that hasn't been visited yet.
+                        // Visit it and push it to the stack
+                        yield return column;
+                        stack.Push(column);
+                        visited_vertices[column] = true;
+                        break;
+                    }
+                }
+
+                if (column == Size)
+                {
+                    // This means that the for-loop didn't find an unvisited
+                    // adjecent vertex of the vertex at the stack's top. Pop
+                    // the stack and assign the (stack.Pop() + 1) to the column
+                    // variable. This make sure that the next iteration scans
+                    // the row corresponding to the vertex at the top of the
+                    // stack from the index that it reached earlier, instead
+                    // of re-scaning the entire row.
+                    column = stack.Pop() + 1;
+                }
+                else
+                {
+                    // The previous for-loop found an unvisited adjecent vertex
+                    // of the vertex at the top of the stack. Reset column to
+                    // 0 as the next iteration needs to scan the row that
+                    // corresponds to the new stack's top from the start.
+                    column = 0;
+                }
+            }
+        }
+
+        /**
+         * Uses BFS to find all vertices connected to the vertex at the start_index.
+         *
+         * TODO: describe the algorithm
+         *
+         * This is an iterator method that yields the control to the
+         * caller each time a new vertex is visited.
+         *
+         * @param start_index  The vertex index where BFS is started from.
+         *
+         * @return An iterator interface type used to iterate over the vertices
+         * produced by the BFS algorithm.
+         *
+         * @note The method returns a vertex index and not the vertex itself.
+         * The caller can use GetVertex() to get access the vertex.
+         *
+         * @throws ArgumentException exception if vertex_index is negative
+         * or greater-or-equal to the number of vertices in the graph.
+         */
+        public IEnumerable<int> BreadthFirstSearch(int start_index)
+        {
+            if (start_index < 0 || start_index >= Size)
+            {
+                throw new ArgumentException();
+            }
+
+            // Tracks which vertices are visited during the BFS search
+            BitArray visited_vertices = new BitArray(Size, false);
+
+            // Once visited, vertex indices are added to the queue
+            QueueViaLinkedList<int> queue = new QueueViaLinkedList<int>();
+
+            // Visit the initial node and add it to the queue
+            yield return start_index;
+            queue.Enqueue(start_index);
+            visited_vertices[start_index] = true;
+
+            // BFS algorithm is done once the queue becomes empty
+            while (!queue.IsEmpty())
+            {
+                for (int column = 0; column < Size; ++column)
+                {
+                    if (Edges.EdgeExists(queue.Peak(), column) && !visited_vertices[column])
+                    {
+                        // Found an adjacent unvisited vertex. Visit it and push it
+                        // to the queue so that its adjecent vertices will be visited
+                        // later
+                        yield return column;
+                        queue.Enqueue(column);
+                        visited_vertices[column] = true;
+                    }
+                }
+
+                // At this point we have visited all the adjecent vertices of
+                // the vertex currently at the head of the queue. Thus, remove
+                // this vertex from the queue so that next iteration will visit
+                // the adjacent vertices of the next vertex in the queue
+                queue.Dequeue();
+            }
+        }
+
+        /**
          * The topological sort helper.
          *
          * @param vertex_index                 The index of the vertex to process.
@@ -603,13 +762,14 @@ namespace datastructuresalgorithms
          * two vertices a and b in graph G', b is reacheable from a
          * if graph G' has the a -> b edge.
          *
-         * @param transitive_closure  The edge collection that will define the
-         *                            transitive closure at end end of the
-         *                            algorithm. The edge collection must not
-         *                            contain any edges when calling this method.
+         * @return The adjacency matrix that defines the transitive
+         * closure of the graph. The matrix has Size rows and columns,
+         * Size being the current graph size (the number of vertices).
          */
-        protected void ComputeTransitiveClosure(IEdgeCollection transitive_closure)
+        public bool[,] ComputeTransitiveClosure()
         {
+            bool[,] transitive_closure = new bool[Size, Size];
+            
             // Copy the current graph's edge collection to the transitive_closure
             // edge collection. The algorithm works by continuously modifying the
             // edge collection until it is transformed into the transitive closure
@@ -625,7 +785,7 @@ namespace datastructuresalgorithms
                 {
                     if (Edges.EdgeExists(i, j))
                     {
-                        transitive_closure.SetEdge(i, j, Edges.GetEdge(i, j));
+                        transitive_closure[i, j] = true;
                     }
                 }
             }
@@ -636,22 +796,23 @@ namespace datastructuresalgorithms
                 // Find vertices that have an edge from 'i' to 'j'
                 for (int j = 0; j < Size; ++j)
                 {
-                    if (transitive_closure.EdgeExists(i, j))
+                    if (transitive_closure[i, j])
                     {
                         // An i -> j edge exists. Next, find the vertices
                         // that have an from 'k' to 'i'
                         for (int k = 0; k < Size; ++k)
                         {
-                            if (transitive_closure.EdgeExists(k, i))
+                            if (transitive_closure[k, i])
                             {
                                 // As edges k -> i and i -> j exist, add the
                                 // k -> j edge to the edge collection
-                                transitive_closure.SetEdge(k, j);
+                                transitive_closure[k, j] = true;
                             }
                         }
                     }
                 }
             }
+            return transitive_closure;
         }
 
         /**
@@ -698,10 +859,6 @@ namespace datastructuresalgorithms
         /**
          * The following methods must be implemented by concrete classes.
          */
-        public abstract IEnumerable<int> DepthFirstSearch(int start_index);
-        public abstract IEnumerable<int> BreadthFirstSearch(int start_index);
         public abstract ICollection<int> FindShortestPath(int start_index, int end_index);
-        public abstract bool[,] FindMinimumSpanningTree(int start_index);
-        public abstract bool[,] ComputeTransitiveClosure();
     }
 }

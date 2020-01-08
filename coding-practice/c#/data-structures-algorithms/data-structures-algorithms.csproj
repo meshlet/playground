@@ -57,6 +57,8 @@
     <Compile Include="Sources\DirectedUnweightedGraph.cs" />
     <Compile Include="Sources\UnweightedGraphBase.cs" />
     <Compile Include="Sources\IDirectedGraph.cs" />
+    <Compile Include="Sources\WeightedGraphBase.cs" />
+    <Compile Include="Sources\UndirectedWeightedGraph.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

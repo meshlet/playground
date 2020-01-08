@@ -147,22 +147,6 @@ namespace datastructuresalgorithms
         ICollection<int> FindShortestPath(int start_index, int end_index);
 
         /**
-         * Finds a minimum spanning tree in the graph.
-         *
-         * @param start_index  The index of the vertex where search starts at.
-         *
-         * @return An adjacency matrix that defines the minimum spanning tree.
-         * The matrix has Size rows and columns, Size being the current graph
-         * size (the number of vertices). Note that NULL is returned if there
-         * is no path from the vertex at start_index to one or more vertices
-         * in the graph.
-         *
-         * @throws ArgumentException exception if start_index is negative
-         * or greater-or-equal to the number of vertices in the graph.
-         */
-        bool[,] FindMinimumSpanningTree(int start_index);
-
-        /**
          * Computes a transitive closure for a given graph.
          *
          * Transitive closure of a given graph G is a graph G' with the

@@ -1,11 +1,13 @@
-﻿namespace datastructuresalgorithms
+﻿using System;
+using System.Collections.Generic;
+
+namespace datastructuresalgorithms
 {
-    // TODO: go through and update briefs
     /**
-     * Undirected and unweighted graph.
+     * Undirected and wweighted graph.
      *
-     * Implements a graph where all edge are bidirectional and have no
-     * cost (weight) associated with them.
+     * Implements a graph where edges are bidirectional and have a const
+     * (weight) associated with them.
      *
      * @note This implementation uses an adjacency matrix to keep track of
      * the edge in the graph.
@@ -21,26 +23,26 @@
      * method. Otherwise, the default implementation is used by which no
      * two vertices will be considered equal.    
      */
-    public class UndirectedUnweightedGraph<VertexT> : UnweightedGraphBase<VertexT>
+    public class UndirectedWeightedGraph<VertexT> : WeightedGraphBase<VertexT>
     {
         /**
-         * Implementation of the undirected unweighted edge collection.
+         * Implementation of the directed unweighted edge collection.
          *
-         * Edges are bidirectional in this implementation. Hence, if adding/removing
-         * the i -> j (where i and j and vertex indices) edge, the j -> i edge is
-         * also added/removed.
+         * Edges are unidirection in this implementation. Hence, if adding/removing
+         * the i -> j (where i and j and vertex indices) edge, only that edge is
+         * added/removed.
          */
-        private class UndirectedUnweightedEdgeCollection : UnweightedEdgeCollectionBase
+        private class UndirectedWeightedEdgeCollection : WeightedEdgeCollectionBase
         {
             /**
-             * Create an instance of UndirectedEdgeCollection.
+             * Create an instance of DirectedEdgeCollection.
              *
              * @param initial_capacity  Determines the initial size of the
              *                          adjacency matrix. This value must match
              *                          the initial_capacity passed to the graph
              *                          constructor.
              */
-            public UndirectedUnweightedEdgeCollection(int initial_capacity)
+            public UndirectedWeightedEdgeCollection(int initial_capacity)
                 : base(initial_capacity)
             {
             }
@@ -50,17 +52,15 @@
              *
              * @param start_index  The index of the start vertex.
              * @param end_index    The index of the end_vertex.
-             * @param edge         The value to assign to the new edge. In this
-             *                     implementation this parameter is always true
-             *                     and can be ignored.
+             * @param edge         The value to assign to the new edge.
              *
              * @note As this is the undirected edge collection, if this method
              * is called with indices i and j, the method must add the edge
              * i -> j but also the edge j -> i.
              */
-            public override void AddEdge(int start_index, int end_index, bool edge)
+            public override void AddEdge(int start_index, int end_index, float? edge)
             {
-                AdjacencyMatrix[start_index, end_index] = AdjacencyMatrix[end_index, start_index] = true;
+                AdjacencyMatrix[start_index, end_index] = AdjacencyMatrix[end_index, start_index] = edge;
             }
 
             /**
@@ -75,7 +75,7 @@
              */
             public override void RemoveEdge(int start_index, int end_index)
             {
-                AdjacencyMatrix[start_index, end_index] = AdjacencyMatrix[end_index, start_index] = false;
+                AdjacencyMatrix[start_index, end_index] = AdjacencyMatrix[end_index, start_index] = null;
             }
 
             /**
@@ -89,7 +89,7 @@
             public override void Resize(int new_capacity, int vertex_count)
             {
                 // Allocate an adjacency matrix with new capacity
-                bool[,] new_adjacency_matrix = new bool[new_capacity, new_capacity];
+                float?[,] new_adjacency_matrix = new float?[new_capacity, new_capacity];
 
                 // Copy the existing edges to the new adjacency matrix. Note that
                 // the loop iterates over the lower-triangular matrix only. As this
@@ -106,7 +106,7 @@
                 AdjacencyMatrix = new_adjacency_matrix;
             }
         }
-        
+
         /**
          * Constructs a graph instance.
          *
@@ -117,42 +117,30 @@
          *
          * @throws ArgumentException if initial_capacity is negative or zero.
          */
-        public UndirectedUnweightedGraph(int initial_capacity = 10)
-            : base(new UndirectedUnweightedEdgeCollection(initial_capacity), initial_capacity)
+        public UndirectedWeightedGraph(int initial_capacity = 10)
+            : base(new UndirectedWeightedEdgeCollection(initial_capacity), initial_capacity)
         {
         }
 
         /**
-         * Constructs a graph instance.
+         * Finds the shortest path between the vertices at the start_index
+         * and end_index.
          *
-         * @param graph  A graph from which to copy the vertices.
+         * @param start_index  The index of the start vertex.
+         * @param end_index    The index of the end vertex.
+         *
+         * @return A collection of vertex indices tracing the path from the
+         * start_index to end_index, or NULL if these two vertices are
+         * not connected. If start_index == end_index, a collection with a
+         * single element (start_index) is returned.
+         *
+         * @throws ArgumentException exception if start_index or end_index
+         * is negative or greater-or-equal to the number of vertices in the
+         * graph.
          */
-        protected UndirectedUnweightedGraph(UndirectedUnweightedGraph<VertexT> graph)
-            : base(new UndirectedUnweightedEdgeCollection(graph.Size), graph)
+        public override ICollection<int> FindShortestPath(int start_index, int end_index)
         {
-        }
-
-        /**
-         * Finds a minimum spanning tree in the graph.
-         *
-         * The MST is found using a modifed DFS algorithm. The only difference
-         * to the algorithm implemented by DepthFirstSearch() method, is that
-         * here we record the edges that were crossed throughout the algorithm.
-         * These edges make up the MST at the end of the DFS search.
-         *
-         * @param start_index  The index of the vertex where search starts at.
-         *
-         * @return The unweighted graph instance representing the MST. Note
-         * that NULL is returned if there is no path from the vertex at
-         * start_index to one or more vertices in the graph.
-         *
-         * @throws ArgumentException exception if start_index is negative
-         * or greater-or-equal to the number of vertices in the graph.
-         */
-        public override IUnweightedGraph<VertexT> FindMinimumSpanningTree(int start_index)
-        {
-            return FindMinimumSpanningTree(
-                start_index, new UndirectedUnweightedGraph<VertexT>(this));
-        }
+            throw new NotImplementedException();
+        }   
     }
 }
