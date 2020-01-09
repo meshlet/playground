@@ -128,7 +128,7 @@ namespace datastructuresalgorithms
          *
          * @param graph  A graph from which to copy the vertices.
          */
-        protected DirectedUnweightedGraph(DirectedUnweightedGraph<VertexT> graph)
+        private DirectedUnweightedGraph(DirectedUnweightedGraph<VertexT> graph)
             : base(new DirectedUnweightedEdgeCollection(graph.Size), graph)
         {
         }

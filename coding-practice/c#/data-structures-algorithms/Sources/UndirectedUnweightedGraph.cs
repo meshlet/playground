@@ -127,7 +127,7 @@
          *
          * @param graph  A graph from which to copy the vertices.
          */
-        protected UndirectedUnweightedGraph(UndirectedUnweightedGraph<VertexT> graph)
+        private UndirectedUnweightedGraph(UndirectedUnweightedGraph<VertexT> graph)
             : base(new UndirectedUnweightedEdgeCollection(graph.Size), graph)
         {
         }

@@ -803,7 +803,7 @@ namespace datastructuresalgorithmstest
         /**
          * Tests finding a minimum spanning tree in a graph.
          */
-        [Test()]
+        [Test]
         public void TestFindingMinimumSpanningTree()
         {
             // Item1 - the vertices to add to the graph

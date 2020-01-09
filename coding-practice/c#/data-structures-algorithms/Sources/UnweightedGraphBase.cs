@@ -153,11 +153,11 @@ namespace datastructuresalgorithms
         /**
          * Constructs a graph instance.
          *
-         * @param edges  An instance of IEdgeCollection interface
+         * @param edges  An instance of UnweightedEdgeCollectionBase
          *               that will store edges for this graph.
          * @param graph  A graph from which to copy the vertices.
          */
-        protected UnweightedGraphBase(IEdgeCollection edges, UnweightedGraphBase<VertexT> graph)
+        protected UnweightedGraphBase(UnweightedEdgeCollectionBase edges, UnweightedGraphBase<VertexT> graph)
             : base(edges, graph)
         {
         }

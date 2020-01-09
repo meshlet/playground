@@ -626,5 +626,187 @@ namespace datastructuresalgorithmstest
                 }
             }
         }
+        
+        /**
+         * Asserts that an exception is thrown if FindMinimumSpanningTree
+         * is called on an empty graph.
+         */
+        [Test]
+        public void AssertFindMinimumSpanningTreeThrowsExceptionIfGraphEmpty()
+        {
+            var graph = new UndirectedWeightedGraph<int>();
+            Assert.Throws<InvalidOperationException>(() => graph.FindMinimumSpanningTree());
+        }
+
+        /**
+         * Tests finding a minimum spanning tree in a graph.
+         */
+        [Test]
+        public void TestFindingMinimumSpanningTree()
+        {
+            // Item1 - the vertices to add to the graph
+            // Item2 - the adjacency matrix that defines the edges
+            //         of the graph.
+            // Item3 - the expected MST adjacency matrix. Both
+            //         dimensions of this adjacency matrix must
+            //         be equal to Item1.Length
+            Tuple<string[], float?[,], float?[,]>[] test_vectors =
+            {
+                new Tuple<string[], float?[,], float?[,]>(
+                    new string[] { "A" },
+                    new float?[,] { { null } },
+                    new float?[,] { { null } }),
+
+                new Tuple<string[], float?[,], float?[,]>(
+                    new string[] { "A", "B" },
+                    new float?[,]
+                    {
+                        { null, 5.0f },
+                        { 5.0f, null }
+                    },
+                    new float?[,]
+                    {
+                        { null, 5.0f },
+                        { 5.0f, null }
+                    }),
+
+                new Tuple<string[], float?[,], float?[,]>(
+                    new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" },
+                    new float?[,]
+                    {
+                        { null,  2f,    4f,    4f,    null,  null,  null,  null,  null,  null },
+                        { 2f,    null,  3f,    null,  7f,    null,  null,  null,  null,  null },
+                        { 4f,    3f,    null,  1f,    8f,    9f,    null,  null,  null,  null },
+                        { 4f,    null,  1f,    null,  null,  10f,   null,  null,  null,  null },
+                        { null,  7f,    8f,    null,  null,  null,  3f,    11f,   null,  null },
+                        { null,  null,  9f,    10f,   null,  null,  null,  null,  6f,    null },
+                        { null,  null,  null,  null,  3f,    null,  null,  null,  6f,    null },
+                        { null,  null,  null,  null,  11f,   null,  null,  null,  1f,    2f   },
+                        { null,  null,  null,  null,  null,  6f,    6f,    1f,    null,  5f   },
+                        { null,  null,  null,  null,  null,  null,  null,  2f,    5f,    null }
+                    },
+                    new float?[,]
+                    {
+                        { null,  2f,    null,  null,  null,  null,  null,  null,  null,  null },
+                        { 2f  ,  null,  3f,    null,  7f,    null,  null,  null,  null,  null },
+                        { null,  3f  ,  null,  1f,    null,  null,  null,  null,  null,  null },
+                        { null,  null,  1f,    null,  null,  null,  null,  null,  null,  null },
+                        { null,  7f,    null,  null,  null,  null,  3f,    null,  null,  null },
+                        { null,  null,  null,  null,  null,  null,  null,  null,  6f,    null },
+                        { null,  null,  null,  null,  3f,    null,  null,  null,  6f,    null },
+                        { null,  null,  null,  null,  null,  null,  null,  null,  1f,  2f   },
+                        { null,  null,  null,  null,  null,  6f,    6f,    1f,    null,  null },
+                        { null,  null,  null,  null,  null,  null,  null,  2f,    null,  null }
+                    }),
+
+                new Tuple<string[], float?[,], float?[,]>(
+                    new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" },
+                    new float?[,]
+                    {
+                        { null,  null,  3f,    null,  null,  2f,    null,  null,  null,  null,  1f   },
+                        { null,  null,  7f,    null,  3f,    3f,    null,  null,  null,  8f,    null },
+                        { 3f,    7f,    null,  null,  null,  10f,   null,  null,  2f,    null,  1f   },
+                        { null,  null,  null,  null,  null,  null,  null,  null,  null,  5f,    null },
+                        { null,  3f,    null,  null,  null,  null,  null,  4f,    1f,    null,  7f   },
+                        { 2f,    3f,    10f,   null,  null,  null,  null,  null,  null,  4f,    null },
+                        { null,  null,  null,  null,  null,  null,  null,  7f,    5f,    null,  9f   },
+                        { null,  null,  null,  null,  4f,    null,  7f,    null,  null,  null,  null },
+                        { null,  null,  2f,    null,  1f,    null,  5f,    null,  null,  null,  null },
+                        { null,  8f,    null,  5f,    null,  4f,    null,  null,  null,  null,  null },
+                        { 1f,    null,  1f,    null,  7f,    null,  9f,    null,  null,  null,  null }
+                    },
+                    new float?[,]
+                    {
+                        { null,  null,  null,  null,  null,  2f,    null,  null,  null,  null,  1f   },
+                        { null,  null,  null,  null,  null,  3f,    null,  null,  null,  null,  null },
+                        { null,  null,  null,  null,  null,  null,  null,  null,  2f,    null,  1f   },
+                        { null,  null,  null,  null,  null,  null,  null,  null,  null,  5f,    null },
+                        { null,  null,  null,  null,  null,  null,  null,  4f,    1f,    null,  null },
+                        { 2f,    3f,    null,  null,  null,  null,  null,  null,  null,  4f,    null },
+                        { null,  null,  null,  null,  null,  null,  null,  null,  5f,    null,  null },
+                        { null,  null,  null,  null,  4f,    null,  null,  null,  null,  null,  null },
+                        { null,  null,  2f,    null,  1f,    null,  5f,    null,  null,  null,  null },
+                        { null,  null,  null,  5f,    null,  4f,    null,  null,  null,  null,  null },
+                        { 1f,    null,  1f,    null,  null,  null,  null,  null,  null,  null,  null }
+                    })
+            };
+            
+            foreach (var test_vector in test_vectors)
+            {
+                UndirectedWeightedGraph<string> graph = new UndirectedWeightedGraph<string>(3);
+
+                // Sanity check
+                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(0));
+                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(1));
+                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item3.GetLength(0));
+                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item3.GetLength(1));
+
+                // Add vertices
+                foreach (var vertex in test_vector.Item1)
+                {
+                    graph.AddVertex(vertex);
+                }
+
+                // Assert that the graph size is as expected
+                Assert.AreEqual(test_vector.Item1.Length, graph.Size);
+
+                // Add edges. Iterate over the upper triangular matrix only
+                // as the lower triangular matrix (below the diagonal) must
+                // be its mirror.
+                for (int row = 0; row < test_vector.Item1.Length; ++row)
+                {
+                    for (int col = row + 1; col < test_vector.Item1.Length; ++col)
+                    {
+                        // Sanity check
+                        Assert.AreEqual(test_vector.Item2[row, col], test_vector.Item2[col, row]);
+
+                        if (test_vector.Item2[row, col] != null)
+                        {
+                            graph.AddEdge(row, col, test_vector.Item2[row, col].Value);
+                        }
+                    }
+                }
+
+                // Compute the MST
+                IWeightedGraph<string> mst = graph.FindMinimumSpanningTree();
+
+                var expected_mst_adjacency_matrix = test_vector.Item3;
+                if (expected_mst_adjacency_matrix == null)
+                {
+                    Assert.IsNull(mst);
+                }
+                else
+                {
+                    // Assert that the size of the produced MST is expected
+                    Assert.AreEqual(test_vector.Item1.Length, mst.Size);
+                    
+                    // Assert that the expected MST adjacency matrix matches
+                    // the computed MST
+                    for (int row = 0; row < test_vector.Item1.Length; ++row)
+                    {
+                        for (int col = 0; col < test_vector.Item1.Length; ++col)
+                        {
+                            // Sanity check
+                            Assert.AreEqual(
+                                expected_mst_adjacency_matrix[row, col],
+                                expected_mst_adjacency_matrix[col, row]);
+
+                            // Assert that only expected edges are found in the MST
+                            Assert.AreEqual(
+                                expected_mst_adjacency_matrix[row, col] != null,
+                                mst.EdgeExists(row, col));
+
+                            if (expected_mst_adjacency_matrix[row, col] != null)
+                            {
+                                // Assert that edge weight is expected
+                                Assert.AreEqual(
+                                    expected_mst_adjacency_matrix[row, col].Value,
+                                    mst.GetEdgeWeight(row, col));
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

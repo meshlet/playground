@@ -123,24 +123,28 @@ namespace datastructuresalgorithms
         }
 
         /**
-         * Finds the shortest path between the vertices at the start_index
-         * and end_index.
+         * Constructs a graph instance.
          *
-         * @param start_index  The index of the start vertex.
-         * @param end_index    The index of the end vertex.
-         *
-         * @return A collection of vertex indices tracing the path from the
-         * start_index to end_index, or NULL if these two vertices are
-         * not connected. If start_index == end_index, a collection with a
-         * single element (start_index) is returned.
-         *
-         * @throws ArgumentException exception if start_index or end_index
-         * is negative or greater-or-equal to the number of vertices in the
-         * graph.
+         * @param graph  A graph from which to copy the vertices.
          */
-        public override ICollection<int> FindShortestPath(int start_index, int end_index)
+        private UndirectedWeightedGraph(UndirectedWeightedGraph<VertexT> graph)
+            : base(new UndirectedWeightedEdgeCollection(graph.Size), graph)
         {
-            throw new NotImplementedException();
-        }   
+        }
+
+        /**
+         * Finds a minimum spanning tree in the graph.
+         *
+         * @return The weighted graph instance representing the MST. Note
+         * that NULL is returned if the graph is disconnected (in other
+         * words, there is not path from any given vertex to all other
+         * vertices in the graph).
+         *
+         * @throws InvalidOperationException if graph is empty.
+         */
+        public override IWeightedGraph<VertexT> FindMinimumSpanningTree()
+        {
+            return FindMinimumSpanningTree(new UndirectedWeightedGraph<VertexT>(this));
+        }
     }
 }

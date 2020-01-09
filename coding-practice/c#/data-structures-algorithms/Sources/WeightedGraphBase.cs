@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace datastructuresalgorithms
 {
@@ -148,6 +149,18 @@ namespace datastructuresalgorithms
         }
 
         /**
+         * Constructs a graph instance.
+         *
+         * @param edges  An instance of UnweightedEdgeCollectionBase
+         *               that will store edges for this graph.
+         * @param graph  A graph from which to copy the vertices.
+         */
+        protected WeightedGraphBase(WeightedEdgeCollectionBase edges, WeightedGraphBase<VertexT> graph)
+            : base(edges, graph)
+        {
+        }
+
+        /**
          * Adds a new edge between the vertices at specified indices.
          *
          * Implementation does nothing if start_vertex is equal to end_vertex.
@@ -229,7 +242,7 @@ namespace datastructuresalgorithms
                 Weight = weight;
             }
         }
-        
+
         /**
          * Finds a minimum spanning tree in the graph.
          *
@@ -237,30 +250,29 @@ namespace datastructuresalgorithms
          * algorithm.
          * TODO: describe the algorithm
          *
-         * @param start_index           The index of the vertex where search starts at.
          * @param mst                   Unweighted tree instance that will become
          *                              an MST in this method. The MST instance must
          *                              already contain all the original's graph
          *                              vertices.
          *
          * @return The weighted graph instance representing the MST. Note
-         * that NULL is returned if there is no path from the vertex at
-         * start_index to one or more vertices in the graph.
+         * that NULL is returned if the graph is disconnected (in other
+         * words, there is not path from any given vertex to all other
+         * vertices in the graph).
          *
-         * @throws ArgumentException exception if start_index is negative
-         * or greater-or-equal to the number of vertices in the graph.
+         * @throws InvalidOperationException if graph is empty.
          */
-        protected IWeightedGraph<VertexT> FindMinimumSpanningTree(
-            int start_index, IWeightedGraph<VertexT> mst)
+        protected IWeightedGraph<VertexT> FindMinimumSpanningTree(IWeightedGraph<VertexT> mst)
         {
-            if (start_index < 0 || start_index >= Size)
+            if (Size == 0)
             {
-                throw new ArgumentException();
+                // It is illegal to call this method on an empty graph
+                throw new InvalidOperationException();
             }
             
             // Priority queue that orders the edges in ascending order
             // by their weight. The next edge to place into MST is
-            // always taken from the priority queue.
+            // taken from the priority queue.
             ArrayHeap<Edge> priority_queue =
                 new ArrayHeap<Edge>(
                     Size,
@@ -283,12 +295,13 @@ namespace datastructuresalgorithms
 
             // A vertex is 'marked' once an edge ending in that vertex
             // has been added to MST. This ensures that we don't add
-            // two edges ending in the same vertex.
+            // two edges ending in the same vertex. The algorithm starts
+            // from the vertex at index 0;
             BitArray marked_vertices = new BitArray(Size, false);
-            marked_vertices[start_index] = true;
+            marked_vertices[0] = true;
 
             // The vertex whose outward edges will be processed next
-            int vertex_index = start_index;
+            int vertex_index = 0;
             
             // The following loop will run Size - 1 times, as we need
             // to select Size - 1 edges
@@ -337,5 +350,31 @@ namespace datastructuresalgorithms
 
             return mst;
         }
+
+        /**
+         * Finds the shortest path between the vertices at the start_index
+         * and end_index.
+         *
+         * @param start_index  The index of the start vertex.
+         * @param end_index    The index of the end vertex.
+         *
+         * @return A collection of vertex indices tracing the path from the
+         * start_index to end_index, or NULL if these two vertices are
+         * not connected. If start_index == end_index, a collection with a
+         * single element (start_index) is returned.
+         *
+         * @throws ArgumentException exception if start_index or end_index
+         * is negative or greater-or-equal to the number of vertices in the
+         * graph.
+         */
+        public override ICollection<int> FindShortestPath(int start_index, int end_index)
+        {
+            throw new NotImplementedException();
+        }
+        
+        /**
+         * To be implemented by concrete classes.
+         */
+        public abstract IWeightedGraph<VertexT> FindMinimumSpanningTree();
     }
 }
