@@ -1,7 +1,7 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using datastructuresalgorithms;
+using NUnit.Framework;
 
 namespace datastructuresalgorithmstest
 {
@@ -640,6 +640,15 @@ namespace datastructuresalgorithmstest
 
         /**
          * Tests finding a minimum spanning tree in a graph.
+         *
+         * As there might be multiple valid MSTs for a given graph,
+         * this test will verify the produced graph indirectly. If
+         * it includes all the vertices, the number of edges in it
+         * is equal to the number of vertices minus 1 and the MST
+         * weight is equal to the expected weight than the the
+         * produced graph represents a MST of the original graph.
+         *
+         * @note The graphs in this test must be connected.
          */
         [Test]
         public void TestFindingMinimumSpanningTree()
@@ -647,30 +656,24 @@ namespace datastructuresalgorithmstest
             // Item1 - the vertices to add to the graph
             // Item2 - the adjacency matrix that defines the edges
             //         of the graph.
-            // Item3 - the expected MST adjacency matrix. Both
-            //         dimensions of this adjacency matrix must
-            //         be equal to Item1.Length
-            Tuple<string[], float?[,], float?[,]>[] test_vectors =
+            // Item3 - expected MST weight
+            Tuple<string[], float?[,], float>[] test_vectors =
             {
-                new Tuple<string[], float?[,], float?[,]>(
+                new Tuple<string[], float?[,], float>(
                     new string[] { "A" },
                     new float?[,] { { null } },
-                    new float?[,] { { null } }),
+                    0f),
 
-                new Tuple<string[], float?[,], float?[,]>(
+                new Tuple<string[], float?[,], float>(
                     new string[] { "A", "B" },
                     new float?[,]
                     {
                         { null, 5.0f },
                         { 5.0f, null }
                     },
-                    new float?[,]
-                    {
-                        { null, 5.0f },
-                        { 5.0f, null }
-                    }),
+                    5f),
 
-                new Tuple<string[], float?[,], float?[,]>(
+                new Tuple<string[], float?[,], float>(
                     new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" },
                     new float?[,]
                     {
@@ -685,21 +688,9 @@ namespace datastructuresalgorithmstest
                         { null,  null,  null,  null,  null,  6f,    6f,    1f,    null,  5f   },
                         { null,  null,  null,  null,  null,  null,  null,  2f,    5f,    null }
                     },
-                    new float?[,]
-                    {
-                        { null,  2f,    null,  null,  null,  null,  null,  null,  null,  null },
-                        { 2f  ,  null,  3f,    null,  7f,    null,  null,  null,  null,  null },
-                        { null,  3f  ,  null,  1f,    null,  null,  null,  null,  null,  null },
-                        { null,  null,  1f,    null,  null,  null,  null,  null,  null,  null },
-                        { null,  7f,    null,  null,  null,  null,  3f,    null,  null,  null },
-                        { null,  null,  null,  null,  null,  null,  null,  null,  6f,    null },
-                        { null,  null,  null,  null,  3f,    null,  null,  null,  6f,    null },
-                        { null,  null,  null,  null,  null,  null,  null,  null,  1f,  2f   },
-                        { null,  null,  null,  null,  null,  6f,    6f,    1f,    null,  null },
-                        { null,  null,  null,  null,  null,  null,  null,  2f,    null,  null }
-                    }),
+                    31f),
 
-                new Tuple<string[], float?[,], float?[,]>(
+                new Tuple<string[], float?[,], float>(
                     new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" },
                     new float?[,]
                     {
@@ -715,20 +706,7 @@ namespace datastructuresalgorithmstest
                         { null,  8f,    null,  5f,    null,  4f,    null,  null,  null,  null,  null },
                         { 1f,    null,  1f,    null,  7f,    null,  9f,    null,  null,  null,  null }
                     },
-                    new float?[,]
-                    {
-                        { null,  null,  null,  null,  null,  2f,    null,  null,  null,  null,  1f   },
-                        { null,  null,  null,  null,  null,  3f,    null,  null,  null,  null,  null },
-                        { null,  null,  null,  null,  null,  null,  null,  null,  2f,    null,  1f   },
-                        { null,  null,  null,  null,  null,  null,  null,  null,  null,  5f,    null },
-                        { null,  null,  null,  null,  null,  null,  null,  4f,    1f,    null,  null },
-                        { 2f,    3f,    null,  null,  null,  null,  null,  null,  null,  4f,    null },
-                        { null,  null,  null,  null,  null,  null,  null,  null,  5f,    null,  null },
-                        { null,  null,  null,  null,  4f,    null,  null,  null,  null,  null,  null },
-                        { null,  null,  2f,    null,  1f,    null,  5f,    null,  null,  null,  null },
-                        { null,  null,  null,  5f,    null,  4f,    null,  null,  null,  null,  null },
-                        { 1f,    null,  1f,    null,  null,  null,  null,  null,  null,  null,  null }
-                    })
+                    28f)
             };
             
             foreach (var test_vector in test_vectors)
@@ -738,8 +716,6 @@ namespace datastructuresalgorithmstest
                 // Sanity check
                 Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(0));
                 Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(1));
-                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item3.GetLength(0));
-                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item3.GetLength(1));
 
                 // Add vertices
                 foreach (var vertex in test_vector.Item1)
@@ -769,44 +745,90 @@ namespace datastructuresalgorithmstest
 
                 // Compute the MST
                 IWeightedGraph<string> mst = graph.FindMinimumSpanningTree();
+                
+                // Assert that the size of the produced MST is expected
+                Assert.AreEqual(test_vector.Item1.Length, mst.Size);
 
-                var expected_mst_adjacency_matrix = test_vector.Item3;
-                if (expected_mst_adjacency_matrix == null)
+                // A vertex is 'marked' when we encounter an edge that starts
+                // or ends in a given vertex. All vertices must be marked in
+                // the end.
+                bool[] marked_vertices = new bool[test_vector.Item1.Length];
+
+                // The number of discovered edges (bidirectional edges are
+                // count only once). The number of edges in an MST must be
+                // equal to the number of vertices minus one.
+                int edge_count = 0;
+
+                // The total weight of the MST.
+                float mst_weight = 0.0f;
+                
+                // Iterate over the upper triangular matrix only. The lower
+                // triangular matrix must be a mirror of it.
+                for (int row = 0; row < test_vector.Item1.Length; ++row)
                 {
-                    Assert.IsNull(mst);
-                }
-                else
-                {
-                    // Assert that the size of the produced MST is expected
-                    Assert.AreEqual(test_vector.Item1.Length, mst.Size);
-                    
-                    // Assert that the expected MST adjacency matrix matches
-                    // the computed MST
-                    for (int row = 0; row < test_vector.Item1.Length; ++row)
+                    for (int col = row + 1; col < test_vector.Item1.Length; ++col)
                     {
-                        for (int col = 0; col < test_vector.Item1.Length; ++col)
+                        // If (row, col) edge exists in MST, (col, row) must exist
+                        // as well as this is an undirected graph
+                        Assert.AreEqual(mst.EdgeExists(row, col), mst.EdgeExists(col, row));
+                        
+                        if (mst.EdgeExists(row, col))
                         {
-                            // Sanity check
-                            Assert.AreEqual(
-                                expected_mst_adjacency_matrix[row, col],
-                                expected_mst_adjacency_matrix[col, row]);
+                            // If the edge exists in MST, it must also exist in the
+                            // original graph
+                            Assert.IsTrue(graph.EdgeExists(row, col));
+                            
+                            // Assert that the weight of (row, col) edge equals
+                            // the weight of that edge in the original graph
+                            Assert.AreEqual(graph.GetEdgeWeight(row, col), mst.GetEdgeWeight(row, col));
 
-                            // Assert that only expected edges are found in the MST
-                            Assert.AreEqual(
-                                expected_mst_adjacency_matrix[row, col] != null,
-                                mst.EdgeExists(row, col));
+                            // Assert that (col, row) edge weight matches the (row, col)
+                            // edge weight (must be the case as this is an undirected
+                            // graph).
+                            Assert.AreEqual(mst.GetEdgeWeight(row, col), mst.GetEdgeWeight(col, row));
 
-                            if (expected_mst_adjacency_matrix[row, col] != null)
-                            {
-                                // Assert that edge weight is expected
-                                Assert.AreEqual(
-                                    expected_mst_adjacency_matrix[row, col].Value,
-                                    mst.GetEdgeWeight(row, col));
-                            }
+                            // 'Mark' the start and end vertices
+                            marked_vertices[row] = marked_vertices[col] = true;
+
+                            // Add to the total mst weight
+                            mst_weight += mst.GetEdgeWeight(row, col);
+
+                            // Increment the number of discovered edges
+                            ++edge_count;
                         }
                     }
                 }
+                
+                // If all of the following asserts pass, the generated graph
+                // is in fact a MST
+                
+                if (test_vector.Item1.Length > 1)
+                {
+                    // Assert that every vertex has been marked
+                    foreach (var marked in marked_vertices)
+                    {
+                        Assert.IsTrue(marked);
+                    }
+                }
+
+                // Assert that the number of discovered edges is one less than
+                // the number of vertices in the graph
+                Assert.AreEqual(test_vector.Item1.Length - 1, edge_count);
+
+                // Assert that the total MST weight matches the expected weight
+                Assert.That(
+                    test_vector.Item3,
+                    Is.EqualTo(mst_weight).Within(1).Ulps);
             }
+        }
+        
+        /**
+         * Tests the FindMinimumSpanningTree() with disconnected graphs.
+         */
+        [Test]
+        public void TestFindingMinimumSpanningTreeWithDisconnectedGraph()
+        {
+            Assert.Fail("Implement this test");
         }
     }
 }

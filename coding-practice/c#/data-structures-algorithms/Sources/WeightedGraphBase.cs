@@ -294,9 +294,10 @@ namespace datastructuresalgorithms
                     });
 
             // A vertex is 'marked' once an edge ending in that vertex
-            // has been added to MST. This ensures that we don't add
-            // two edges ending in the same vertex. The algorithm starts
-            // from the vertex at index 0;
+            // has been added to MST, that is once vertex becomes part
+            // of the MST. This helps ensure that we never add two edges
+            // that end in the same vertex, which in turn makes sure
+            // that generated graph is in fact a MST.
             BitArray marked_vertices = new BitArray(Size, false);
             marked_vertices[0] = true;
 
