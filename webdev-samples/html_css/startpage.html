@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> A Page With Links </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A simple web-page with links">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            a.pretty_link:link {
+                color: blueviolet;
+                text-decoration: none;
+            }
+            
+            a.pretty_link:visited {
+                color: aqua;
+                text-decoration: none;
+                background-color: transparent;
+            }
+            
+            a.pretty_link:hover {
+                color: aqua;
+                text-decoration: none;
+            }
+            
+            a.pretty_link:active {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <h1> Contains links </h1>
+        <p><a href="https://goal.com/en" title="Open goal.com in new tab" target="_blank"> Link to goal.com </a></p>
+        <p><a href="secondpage.html" title="Open second page in current tab"> Go to second page </a></p>
+        <p><a href="secondpage.html" title="Open second page in new tab" target="_blank"> Open second page in new tab </a></p>
+        <p><a class="pretty_link" href="https://www.google.com" title="Open google.com in new table" target="_blank"> Open google.com in new tab </a></p>
+    </body>
+</html>
