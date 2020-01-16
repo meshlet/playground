@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> An Image Map </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page with an image mpa">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            area {
+                outline: none;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <img src="workplace_table.jpg" alt="Workplace table" usemap="#workplace_table_map"
+             style="width: 800px; height: 534px;">
+        <map name="workplace_table_map">
+            <!-- Define the smartphone area -->
+            <area shape="poly" coords="113, 333, 91, 268, 151, 257, 180, 316" title="Smartphone"
+                  href="https://en.wikipedia.org/wiki/Smartphone" target="_blank">
+            
+            <!-- Define the laptop area -->
+            <area shape="poly" coords="216, 355, 254, 245, 246, 47, 543, 47, 545, 246, 573, 356" title="Laptop"
+                  onclick="(function() { alert('You clicked on the laptop'); }());">
+            
+            <!-- Define the glasses area -->
+            <area shape="circle" coords="590, 244, 26" title="Glasses"
+                  onclick="(function() { alert('You clicked on the glasses'); }());">
+            <area shape="circle" coords="620, 253, 12" title="Glasses"
+                  onclick="(function() { alert('You clicked on the glasses'); }());">
+            <area shape="circle" coords="649, 267, 26" title="Glasses"
+                  onclick="(function() { alert('You clicked on the glasses'); }());">
+            
+            <!-- Define the notebook area -->
+            <area shape="poly" coords="640, 376, 708, 274, 715, 298, 799, 393, 799, 427" title="Notebook"
+                  onclick="(function() { alert('You clicked on the notebook'); }());">
+            <area shape="poly" coords="733, 283, 799, 359, 799, 297" title="Notebook"
+                  onclick="(function() { alert('You clicked on the notebook'); }());">
+            
+            <!-- Define the pencil area -->
+            <area shape="poly" coords="720, 292, 799, 383, 799, 369, 726, 289" title="Pencil" target="_blank"
+                  href="https://en.wikipedia.org/wiki/Pencil">
+        </map>
+    </body>
+</html>
