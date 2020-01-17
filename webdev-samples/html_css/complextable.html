@@ -5,17 +5,52 @@
         <meta charset="utf-8">
         <meta name="description" content="A page containing a complex table">
         <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            table#complex_table {
+                width: 60%;
+            }
+            table#complex_table, th, td {
+                border: 2px solid black;
+                border-collapse: collapse;
+            }
+            
+            table#complex_table th, td {
+                padding: 5px;
+            }
+            
+            table#complex_table th {
+                text-align: left;
+            }
+            
+            table#complex_table tr:nth-child(even) {
+                background-color: aquamarine;
+            }
+            
+            table#complex_table tr:nth-child(odd) {
+                background-color: aqua;
+            }
+            
+            table#complex_table th {
+                background-color: coral;
+                color: darkblue;
+            }
+            
+            table#complex_table caption {
+                font-size: large;
+                color: coral;
+            }
+        </style>
     </head>
     <body>
-        <table border="1">
+        <table id="complex_table">
             <caption> A complex table </caption>
             <thead>
                 <tr>
-                    <th colspan="3">Invoice #123456789</th>
+                    <th colspan="3" style="width: 70%;">Invoice #123456789</th>
                     <th>14 January 2019</th>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td colspan="2" style="width: 50%;">
                         <strong>Pay to:</strong><br>
                         Acme Billing Co.<br>
                         123 Main St.<br>
