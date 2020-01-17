@@ -711,7 +711,7 @@ namespace datastructuresalgorithmstest
             
             foreach (var test_vector in test_vectors)
             {
-                UndirectedWeightedGraph<string> graph = new UndirectedWeightedGraph<string>(3);
+                var graph = new UndirectedWeightedGraph<string>(3);
 
                 // Sanity check
                 Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(0));
@@ -821,14 +821,100 @@ namespace datastructuresalgorithmstest
                     Is.EqualTo(mst_weight).Within(1).Ulps);
             }
         }
-        
+
         /**
          * Tests the FindMinimumSpanningTree() with disconnected graphs.
+         *
+         * @note All the graphs in this test are disconnected.
          */
         [Test]
         public void TestFindingMinimumSpanningTreeWithDisconnectedGraph()
         {
-            Assert.Fail("Implement this test");
+            // Item1 - the vertices to add to the graph
+            // Item2 - the adjacency matrix that defines the edges
+            //         of the graph.
+            Tuple<string[], float?[,]>[] test_vectors =
+            {
+                new Tuple<string[], float?[,]>(
+                    new string[] { "A", "B" },
+                    new float?[,]
+                    {
+                        { null,  null },
+                        { null,  null }
+                    }),
+
+                new Tuple<string[], float?[,]>(
+                    new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" },
+                    new float?[,]
+                    {
+                        { null,  2f,    4f,    4f,    null,  null,  null,  null,  null,  null },
+                        { 2f,    null,  3f,    null,  null,  null,  null,  null,  null,  null },
+                        { 4f,    3f,    null,  1f,    null,  null,  null,  null,  null,  null },
+                        { 4f,    null,  1f,    null,  null,  null,  null,  null,  null,  null },
+                        { null,  null,  null,  null,  null,  null,  3f,    11f,   null,  null },
+                        { null,  null,  null,  null,  null,  null,  null,  null,  6f,    null },
+                        { null,  null,  null,  null,  3f,    null,  null,  null,  6f,    null },
+                        { null,  null,  null,  null,  11f,   null,  null,  null,  1f,    2f   },
+                        { null,  null,  null,  null,  null,  6f,    6f,    1f,    null,  5f   },
+                        { null,  null,  null,  null,  null,  null,  null,  2f,    5f,    null }
+                    }),
+
+                new Tuple<string[], float?[,]>(
+                    new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" },
+                    new float?[,]
+                    {
+                        { null,  null,  3f,    null,  null,  2f,    null,  null,  null,  null,  1f   },
+                        { null,  null,  null,  null,  null,  3f,    null,  null,  null,  8f,    null },
+                        { 3f,    null,  null,  null,  null,  10f,   null,  null,  null,  null,  1f   },
+                        { null,  null,  null,  null,  null,  null,  null,  null,  null,  5f,    null },
+                        { null,  null,  null,  null,  null,  null,  null,  4f,    1f,    null,  null },
+                        { 2f,    3f,    10f,   null,  null,  null,  null,  null,  null,  4f,    null },
+                        { null,  null,  null,  null,  null,  null,  null,  7f,    5f,    null,  null },
+                        { null,  null,  null,  null,  4f,    null,  7f,    null,  null,  null,  null },
+                        { null,  null,  null,  null,  1f,    null,  5f,    null,  null,  null,  null },
+                        { null,  8f,    null,  5f,    null,  4f,    null,  null,  null,  null,  null },
+                        { 1f,    null,  1f,    null,  null,  null,  null,  null,  null,  null,  null }
+                    })
+            };
+
+            foreach (var test_vector in test_vectors)
+            {
+                var graph = new UndirectedWeightedGraph<string>(3);
+
+                // Sanity check
+                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(0));
+                Assert.AreEqual(test_vector.Item1.Length, test_vector.Item2.GetLength(1));
+
+                // Add vertices
+                foreach (var vertex in test_vector.Item1)
+                {
+                    graph.AddVertex(vertex);
+                }
+
+                // Assert that the graph size is as expected
+                Assert.AreEqual(test_vector.Item1.Length, graph.Size);
+
+                // Add edges. Iterate over the upper triangular matrix only
+                // as the lower triangular matrix (below the diagonal) must
+                // be its mirror.
+                for (int row = 0; row < test_vector.Item1.Length; ++row)
+                {
+                    for (int col = row + 1; col < test_vector.Item1.Length; ++col)
+                    {
+                        // Sanity check
+                        Assert.AreEqual(test_vector.Item2[row, col], test_vector.Item2[col, row]);
+
+                        if (test_vector.Item2[row, col] != null)
+                        {
+                            graph.AddEdge(row, col, test_vector.Item2[row, col].Value);
+                        }
+                    }
+                }
+
+                // Compute the MST. The method must return a NULL value as the
+                // graph is disconnected.
+                Assert.IsNull(graph.FindMinimumSpanningTree());
+            }
         }
     }
 }

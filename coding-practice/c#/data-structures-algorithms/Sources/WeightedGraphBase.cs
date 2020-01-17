@@ -322,18 +322,18 @@ namespace datastructuresalgorithms
                 // an edge at the head of the priority queue because the end
                 // vertex of that edge might already be 'marked', hence edges
                 // towards it must not be considered
-                Edge min_weight_edge = priority_queue.Remove();
-                while (marked_vertices[min_weight_edge.EndVertex])
+                Edge min_weight_edge = null;
+                do
                 {
                     if (priority_queue.IsEmpty)
                     {
                         // This means that we're unable to reach all vertices
-                        // of the graph. Return NULL
+                        // of the graph (disconnected graph). Return NULL.
                         return null;
                     }
-                    
+
                     min_weight_edge = priority_queue.Remove();
-                }
+                } while (marked_vertices[min_weight_edge.EndVertex]);
 
                 // Add the edge to the MST
                 mst.AddEdge(
