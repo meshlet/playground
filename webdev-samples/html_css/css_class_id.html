@@ -27,11 +27,48 @@
                 background-color: aquamarine;
                 color: green;
             }
+            
+            button {
+                padding: 10px;
+                background-color: cornflowerblue;
+                border: 2px solid green;
+                color: firebrick;
+                font-size: medium;
+                width: 10%;
+            }
+            
+            button:hover {
+                cursor: pointer;
+            }
         </style>
+        <script>
+            function toggleVisibility() {
+                var elems = document.getElementsByClassName("visible");
+                
+                for (var i = 0; i < elems.length; ++i) {
+                    if (elems[i].style.visibility === "hidden") {
+                        elems[i].style.visibility = "visible";
+                        
+                    }
+                    else {
+                        elems[i].style.visibility = "hidden";
+                    }
+                }
+                
+                var btn = document.getElementById("visibility_btn");
+                if (btn.innerHTML === "Unhide") {
+                    btn.innerHTML = "Hide";
+                }
+                else {
+                    btn.innerHTML = "Unhide";
+                }
+            }
+        </script>
     </head>
     <body>
-        <p class="error"> This is an error!</p>
-        <p id="warning"> This is a warning!</p>
-        <p class="info"> This is info message.</p>
+        <p class="error visible"> This is an error!</p>
+        <p class="visible" id="warning"> This is a warning!</p>
+        <p class="info visible"> This is info message.</p>
+        <button id="visibility_btn" onclick="toggleVisibility()"> Hide </button>
     </body>
 </html>

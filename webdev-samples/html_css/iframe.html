@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Inline Frames </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A page using inline frames">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            iframe {
+                width: 100%;
+                height: 40vh;
+                border: 2px solid tomato;
+            }
+            
+            .link_div {
+                background-color: #333333;
+                display: inline-block;
+                padding: 1.5%;
+            }
+            
+            .link_div:hover {
+                background-color: #111111;
+                cursor: pointer;
+            }
+            
+            a {
+                color: white;
+                font-size: large;
+                text-decoration: none;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <iframe src="background_images.html" name="container"></iframe>
+        <div class="link_div">
+            <a href="image_map.html" target="container"> Open image_map.html</a>
+        </div>
+        <div class="link_div">
+            <a href="complextable.html" target="container"> Open complextable.html </a>
+        </div>
+    </body>
+</html>
