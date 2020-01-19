@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Layout With CSS Floats </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A page whose layout is defined using CSS float property">
+        <meta name="author" content="Dzanan Bajgoric">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            * {
+              box-sizing: border-box;
+            }
+            
+            header {
+                background-color: #333333;
+                text-align: center;
+                color: white;
+                font-size: 25px;
+                padding: 15px;
+            }
+            
+            section {
+                background-color: #ededfe;
+            }
+            
+            section:after {
+                content: ".";
+                visibility: hidden; 
+                display: block; 
+                height: 0; 
+                clear: both;
+            }
+            
+            nav {
+                float: left;
+                width: 30%;
+                padding: 5px;
+                background-color:dodgerblue;
+            }
+            
+            nav ul {
+                list-style-type: none;
+                padding: 0;
+            }
+            
+            nav ul li a {
+                text-decoration: none;
+                display: block;
+                text-align: center;
+                padding: 15px;
+                background-color: #dedede;
+                margin: 10px;
+                color: cornflowerblue;
+                font-size: large;
+            }
+            
+            nav ul li a:hover {
+                background-color: #bcbcbc;
+            }
+            
+            article {
+                float: left;
+                width: 70%;
+                padding: 0;
+            }
+            
+            article h2 {
+                font-size: 34px;
+                text-align: center;
+                color: tomato;
+            }
+            
+            article p {
+                text-align: justify;
+                padding-left: 10px;
+                padding-right: 10px;
+                padding-bottom: 15px;
+                color:red;
+                display: none;
+            }
+            
+            footer {
+                background-color: #333333;
+                color: white;
+                font-size: 25px;
+                padding: 10px;
+                text-align: center;
+            }
+            
+            @media (max-width: 800px) {
+                nav, article {
+                    width: 100%;
+                    height: auto;
+                }
+            }
+        </style>
+        
+        <script>
+            var active_city = "london";
+            
+            function preparePage() {
+                // Select london link and unhide its paragraph
+                document.getElementById("london_link").style.backgroundColor = "#bcbcbc";
+                document.getElementById("london_paragraph").style.display = "block";
+            }
+            
+            function handleLinkClick(clicked_city) {
+                if (clicked_city === active_city) {
+                    return;
+                }
+                
+                // Change the background of the currentlly selected city
+                // and hide its paragraph
+                document.getElementById(active_city + "_link").style.backgroundColor = "#dedede";
+                document.getElementById(active_city + "_paragraph").style.display = "none";
+                
+                // Highlight the clicked city link and unhide its paragraph
+                document.getElementById(clicked_city + "_link").style.backgroundColor = "#bcbcbc";
+                document.getElementById(clicked_city + "_paragraph").style.display = "block";
+                
+                // Update the heading that shows the currently selected city
+                switch (clicked_city) {
+                    case "london":
+                        var city_heading_text = "London";
+                        break;
+                        
+                    case "newyork":
+                        var city_heading_text = "New York";
+                        break;
+                        
+                    case "tokyo":
+                        var city_heading_text = "Tokyo";
+                        break;
+                        
+                    case "paris":
+                        var city_heading_text = "Paris";
+                        break;
+                        
+                    default:
+                        break;
+                }
+                document.getElementById("city_heading").innerHTML = city_heading_text;
+                
+                // Update the active city
+                active_city = clicked_city;
+            }
+        </script>
+    </head>
+    
+    <body onload="preparePage(); return false;">
+        <!-- Define the header -->
+        <header>
+            <h1> Cities </h1>
+        </header>
+        
+        <section>
+            <!-- Define the navigation panel -->
+            <nav>
+                <ul>
+                    <li> <a href="" id="london_link" onclick="handleLinkClick('london'); return false;"> London </a> </li>
+                    <li> <a href="" id="newyork_link" onclick="handleLinkClick('newyork'); return false;"> New York </a> </li>
+                    <li> <a href="" id="tokyo_link" onclick="handleLinkClick('tokyo'); return false;"> Tokyo </a> </li>
+                    <li> <a href="" id="paris_link" onclick="handleLinkClick('paris'); return false;"> Paris </a> </li>
+                </ul>
+            </nav>
+
+            <!-- Define the article panel -->
+            <article>
+                <h2 id="city_heading"> London</h2>
+                <p id="london_paragraph">
+                    London is the capital and largest city of England and the United Kingdom. Standing on the River Thames in the south-east of England, at the head of its 50-mile (80 km) estuary leading to the North Sea, London has been a major settlement for two millennia. Londinium was founded by the Romans. The City of London, London's ancient core − an area of just 1.12 square miles (2.9 km2) and colloquially known as the Square Mile − retains boundaries that follow closely its medieval limits. The City of Westminster is also an Inner London borough holding city status. Greater London is governed by the Mayor of London and the London Assembly.<br><br>
+                    
+                    London is considered to be one of the world's most important global cities and has been termed the world's most powerful, most desirable, most influential, most visited, most expensive, innovative, sustainable, most investment friendly, and most popular for work city in the world. London exerts a considerable impact upon the arts, commerce, education, entertainment, fashion, finance, healthcare, media, professional services, research and development, tourism and transportation. London ranks 26 out of 300 major cities for economic performance. It is one of the largest financial centres[33] and has either the fifth or sixth largest metropolitan area GDP.<br><br>
+                    
+                    It is the most-visited city as measured by international arrivals and has the busiest city airport system as measured by passenger traffic. It is the leading investment destination, hosting more international retailers and ultra high-net-worth individuals than any other city. London's universities form the largest concentration of higher education institutes in Europe, and is home to highly ranked institutions such as Imperial College London in natural and applied sciences, the London School of Economics in social sciences, and the comprehensive University College London. In 2012, London became the first city to have hosted three modern Summer Olympic Games.
+                </p>
+                
+                <p id="newyork_paragraph">
+                    New York City (NYC), also known as the City of New York or simply New York (NY), is the most populous city in the United States. With an estimated 2018 population of 8,398,748 distributed over a land area of about 302.6 square miles (784 km2), New York is also the most densely populated major city in the United States. Located at the southern tip of the state of New York, the city is the center of the New York metropolitan area, the largest metropolitan area in the world by urban landmass and one of the world's most populous megacities, with an estimated 19,979,477 people in its 2018 Metropolitan Statistical Area and 22,679,948 residents in its Combined Statistical Area.<br><br>
+                    
+                    A global power city, New York City has been described as the cultural, financial, and media capital of the world, and exerts a significant impact upon commerce, entertainment, research, technology, education, politics, tourism, art, fashion, and sports. The city's fast pace has inspired the term New York minute. Home to the headquarters of the United Nations, New York is an important center for international diplomacy.<br><br>
+                    
+                    Situated on one of the world's largest natural harbors, New York City consists of five boroughs, each of which is a separate county of the State of New York. The five boroughs – Brooklyn, Queens, Manhattan, The Bronx, and Staten Island – were consolidated into a single city in 1898. The city and its metropolitan area constitute the premier gateway for legal immigration to the United States. As many as 800 languages are spoken in New York, making it the most linguistically diverse city in the world. New York City is home to 3.2 million residents born outside the United States, the largest foreign born population of any city in the world as of 2016. As of 2019, the New York metropolitan area is estimated to produce a gross metropolitan product (GMP) of US$1.9 trillion. If greater New York City were a sovereign state, it would have the 12th highest GDP in the world. New York is home to the highest number of billionaires of any city in the world.
+                </p>
+                
+                <p id="tokyo_paragraph">
+                    Tokyo (東京, Tōkyō, English: /ˈtoʊkioʊ/, Japanese: [toːkʲoː]), officially Tokyo Metropolis (東京都, Tōkyō-to), is one of the 47 prefectures of Japan. It has served as the Japanese capital since 1869, its urban area housing the Emperor of Japan and the Japanese government. Tokyo forms part of the Kantō region on the southeastern side of Japan's main island, Honshu, and includes the Izu Islands and Ogasawara Islands. Tokyo was formerly named Edo when Shōgun Tokugawa Ieyasu made the city his headquarters in 1603. It became the capital after Emperor Meiji moved his seat to the city from Kyoto in 1868; at that time Edo was renamed Tokyo. The Tokyo Metropolis formed in 1943 from the merger of the former Tokyo Prefecture (東京府, Tōkyō-fu) and the city of Tokyo (東京市, Tōkyō-shi). Tokyo is often referred to as a city but is officially known and governed as a "metropolitan prefecture", which differs from and combines elements of a city and a prefecture, a characteristic unique to Tokyo.<br><br>
+                    
+                    Tokyo is considered to be one of the world's most important and powerful global cities. The 23 Special Wards of Tokyo were formerly Tokyo City. On July 1, 1943, it merged with Tokyo Prefecture and became Tokyo Metropolis with an additional 26 municipalities in the western part of the prefecture, and the Izu islands and Ogasawara islands south of Tokyo. As of October 1, 2015, the population of Tokyo is estimated to be over 13.4 million, or about 11% of Japan's total population, making it Japan's most populous city. The latest estimate in 2019 shows the growing population of Tokyo with 13.9 million people, with the special wards 9.6 million, the Tama area 4.2 million, and the Islands 25,147.<br><br>
+                    
+                    The prefecture is part of the world's most populous metropolitan area called the Greater Tokyo Area with over 40 million people and the world's largest urban agglomeration economy. As of 2011, Tokyo hosted 51 of the Fortune Global 500 companies, the highest number of any city in the world at that time. Tokyo ranked third (twice) in the International Financial Centres Development Index. The city is home to various television networks such as Fuji TV, Tokyo MX, TV Tokyo, TV Asahi, Nippon Television, NHK and the Tokyo Broadcasting System.
+                </p>
+                
+                <p id="paris_paragraph">
+                    Paris is the capital and most populous city of France, with a population of 2,140,526 residents (official estimate, 1 January 2019) in an area of 105 square kilometres (41 square miles). Since the 17th century, Paris has been one of Europe's major centres of finance, diplomacy, commerce, fashion, science and the arts. The City of Paris is the centre and seat of government of the Île-de-France, or Paris Region, which has an estimated official 2019 population of 12,213,364, or about 18 percent of the population of France. The Paris Region had a GDP of €709 billion ($808 billion) in 2017. According to the Economist Intelligence Unit Worldwide Cost of Living Survey in 2018, Paris was the second most expensive city in the world, after Singapore, and ahead of Zürich, Hong Kong, Oslo and Geneva. Another source ranked Paris as most expensive, on a par with Singapore and Hong Kong, in 2018.<br><br>
+                    
+                    The city is a major railway, highway and air-transport hub served by two international airports: Paris-Charles de Gaulle (the second busiest airport in Europe) and Paris-Orly. Opened in 1900, the city's subway system, the Paris Métro, serves 5.23 million passengers daily; it is the second busiest metro system in Europe after the Moscow Metro. Gare du Nord is the 24th busiest railway station in the world, but the first located outside Japan, with 262 million passengers in 2015. Paris is especially known for its museums and architectural landmarks: the Louvre was among most visited art museums in the world in 2019, with 9.6 million visitors. The Musée d'Orsay, Musée Marmottan Monet, and Musée de l'Orangerie are noted for their collections of French Impressionist art, the Pompidou Centre Musée National d'Art Moderne has the largest collection of modern and contemporary art in Europe, and the Musée Rodin and Musée Picasso exhibit the works of the two noted Parisians.<br><br>
+                    
+                    The historical district along the Seine in the city centre is classified as a UNESCO Heritage Site, and popular landmarks in the city centre included the Cathedral of Notre Dame de Paris, now closed for renovation after the April 15, 2019 fire. Other popular tourist sites include the Gothic royal chapel of Sainte-Chapelle, both on the Île de la Cité; the Eiffel Tower, constructed for the Paris Universal Exposition of 1889; the Grand Palais and Petit Palais, built for the Paris Universal Exposition of 1900; the Arc de Triomphe on the Champs-Élysées, and the Basilica of Sacré-Coeur on the hill of Montmartre.
+                </p>
+            </article>
+        </section>
+        
+        <!-- Define the footer -->
+        <footer>
+            <h2> Page footer </h2>
+        </footer>
+    </body>
+</html>
