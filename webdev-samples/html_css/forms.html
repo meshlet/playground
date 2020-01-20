@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> HTML Forms </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page using HTML forms">
+        <meta name="author" content="Dzanan Bajgoric">
+    </head>
+    <body>
+        <h3> Simple form: </h3>
+        <form>
+            First name:<br>
+            <input type="text" name="first_name" size="25"><br>
+            Last name:<br>
+            <input type="text" name="last_name" size="25"><br><br>
+            <input type="submit">
+        </form>
+        <hr>
+        <h3>Form with radio buttons:</h3>
+        <form>
+            <div style="overflow: hidden;">
+                Gender:<br>
+                Male <input type="radio" name="gender" checked>&nbsp;&nbsp;&nbsp;
+                Female <input type="radio" name="gender"><br><br>
+                Age range:<br>
+                <div style="text-align: left; float: left; margin-right: 5px;">
+                    Younger than 18<br>
+                    Between 19 and 30<br>
+                    Between 31 and 60<br>
+                    61 and above
+                </div>
+                <div style="float: left;">
+                    <input type="radio" name="age_range" checked><br>
+                    <input type="radio" name="age_range"><br>
+                    <input type="radio" name="age_range"><br>
+                    <input type="radio" name="age_range">
+                </div>
+            </div>
+            <input type="submit">
+        </form>
+        <hr>
+        <h3>Uses fieldset to group form elements</h3>
+        <form>
+            <fieldset>
+                <legend>Personal Information</legend>
+                <input type="text" name="first_name" size="25"><br>
+            Last name:<br>
+            <input type="text" name="last_name" size="25"><br>
+            Email:<br>
+            <input type="text" name="email" autocomplete="email"><br><br>
+            <input type="submit">
+            </fieldset>
+        </form>
+    </body>
+</html>
