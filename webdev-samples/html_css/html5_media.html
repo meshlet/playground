@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> HTML5 Media </title>
+        <meta charset="utf-8">
+        <meta name="description" content="Web-site that uses HTML5 media functionality">
+        <meta name="author" content="Dzanan Bajgoric">
+        <script>
+            function handlePlayPause() {
+                var video = document.getElementById("video");
+                if (video.paused) {
+                    video.play();
+                }
+                else {
+                    video.pause();
+                }
+            }
+            
+            function setVolume() {
+                document.getElementById("video").volume =
+                    document.getElementById("volume_control").value;
+            }
+            
+            function setLoopState() {
+                document.getElementById("video").loop = document.getElementById("should_loop").checked;
+            }
+        </script>
+    </head>
+    <body>
+        <button id="play_pause" onclick="handlePlayPause()"> Play/Pause </button><br>
+        Volume: <input type="range" id="volume_control" min="0" max="1" step="0.1" value="1.0" onchange="setVolume()"><br>
+        Auto replay: <input id="should_loop" type="checkbox" onchange="setLoopState()"><br><br>
+        <video id="video" width="420" controls>
+            <source src="multimedia/mov_bbb.mp4" type="video/mp4">
+            Your browser doesn't support the HTML5 video element.
+        </video>
+        <hr>
+        <iframe width="420" height="320" src="https://www.youtube.com/embed/_3x6_doymmw"
+                frameBorder="0" allow="fullscreen">
+        </iframe>
+        <hr>
+        <audio id="audio" controls>
+            <source src="multimedia/horse.ogg" type="audio/ogg">
+            Your browser doesn't support the HTML5 audio element.
+        </audio>
+    </body>
+</html>

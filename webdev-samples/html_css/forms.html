@@ -7,49 +7,101 @@
         <meta name="author" content="Dzanan Bajgoric">
     </head>
     <body>
-        <h3> Simple form: </h3>
-        <form>
-            First name:<br>
-            <input type="text" name="first_name" size="25"><br>
-            Last name:<br>
-            <input type="text" name="last_name" size="25"><br><br>
+        <h3> Uses HTML5 output element: </h3>
+        <form oninput="x.value = parseInt(a.value) + parseInt(b.value)">
+            0
+            <input type="range" id="a" name="a" min="0" max="100" value="50">
+            100 +
+            <input type="number" id="b" name="b" value="50" style="width: 50px;" readonly>
+            =
+            <output name="x" for="a b">100</output><br><br>
+            <input type="password" autofocus><br><br>
             <input type="submit">
         </form>
         <hr>
-        <h3>Form with radio buttons:</h3>
-        <form>
-            <div style="overflow: hidden;">
-                Gender:<br>
-                Male <input type="radio" name="gender" checked>&nbsp;&nbsp;&nbsp;
-                Female <input type="radio" name="gender"><br><br>
-                Age range:<br>
-                <div style="text-align: left; float: left; margin-right: 5px;">
-                    Younger than 18<br>
-                    Between 19 and 30<br>
-                    Between 31 and 60<br>
-                    61 and above
-                </div>
-                <div style="float: left;">
-                    <input type="radio" name="age_range" checked><br>
-                    <input type="radio" name="age_range"><br>
-                    <input type="radio" name="age_range"><br>
-                    <input type="radio" name="age_range">
-                </div>
-            </div>
+        <h3>Uses various elements and attributes:</h3>
+        <form id="various_elems">
+            Gender:<br>
+            Male <input type="radio" name="gender" checked>&nbsp;&nbsp;&nbsp;
+            Female <input type="radio" name="gender"><br><br>
+            Check your favorite car brands:<br>
+            <input type="checkbox" name="mercedes"> Mercedes<br>
+            <input type="checkbox" name="bmw"> BMW<br>
+            <input type="checkbox" name="audi"> Audi<br><br>
+            Pick a color: <input type="color" name="color" value="#ff0000" style="margin-bottom: 5px;"><br>
+            Pick a data: <input type="date" name="date" value="2019-11-05" max="2020-01-31" style="margin-bottom: 5px;"><br>
+            Select a file: <input type="file" name="file" style="margin-bottom: 5px;"><br>
+            Pick a month and year: <input type="month" name="month" style="margin-bottom: 5px;"><br>
+            Pick a time: <input type="time" name="time" style="margin-bottom: 5px;" required><br>
+            Disabled textfield: <input type="text" name="disabledtext" value="Disabled" style="margin-bottom: 5px;" disabled><br>
             <input type="submit">
+            <input type="submit" formaction="" formmethod="post" formtarget="_blank" value="Submit2">
+            
         </form>
+        <input type="text" form="various_elems" name="moretext" style="margin-top: 5px;" placeholder="Part of the form above"><br>
         <hr>
-        <h3>Uses fieldset to group form elements</h3>
+        <h3>Use fieldset and HTML5 datalist:</h3>
         <form>
             <fieldset>
-                <legend>Personal Information</legend>
-                <input type="text" name="first_name" size="25"><br>
-            Last name:<br>
-            <input type="text" name="last_name" size="25"><br>
-            Email:<br>
-            <input type="text" name="email" autocomplete="email"><br><br>
-            <input type="submit">
+                <legend>Countries</legend>
+                Type your favorite browser:<br>
+                <input type="text" list="browsers"><br><br>
+                <datalist id="browsers">
+                    <option value="Mozilla Firefox"></option>
+                    <option value="Google Chrome"></option>
+                    <option value="Internet Explorer"></option>
+                    <option value="Safari"></option>
+                    <option value="Opera"></option>
+                    <option value="Microsoft Edge"></option>
+                </datalist>
+                <input type="submit">
             </fieldset>
+        </form>
+        <hr>
+        <h3> Form using drop-down lists: </h3>
+        <form style="overflow: hidden; margin-bottom: 20px;">
+            <select name="cars" style="width: 100px; float: left; margin-right: 5px;">
+                <optgroup label="German cars">
+                    <option value="mercedes">Mercedes</option>
+                    <option value="bmw">BMW</option>
+                    <option value="audi">Audi</option>
+                </optgroup>
+                <optgroup label="British cars">
+                    <option value="bentley">Bentley</option>
+                    <option value="jaguar" selected>Jaguar</option>
+                </optgroup>
+                <optgroup label="American cars">
+                    <option value="ford">Ford</option>
+                    <option value="dodge">Dodge</option>
+                    <option value="chevrolet">Chevrolet</option>
+                </optgroup>
+                <optgroup label="Italian cars">
+                    <option value="ferrari">Ferrari S.p.A.</option>
+                    <option value="fiat">Fiat S.p.A.</option>
+                    <option value="maserati">Maserati</option>
+                </optgroup>
+            </select>
+            <select name="cities" size="3" style="width: 100px; float: left; margin-right: 5px;">
+                <option value="london">London</option>
+                <option value="newyork">New York</option>
+                <option value="Paris">Paris</option>
+                <option value="Tokyo">Tokyo</option>
+                <option value="Sarajevo" selected>Sarajevo</option>
+            </select>
+            <select name="countries" size="5" style="width: 100px; float: left" multiple>
+                <option value="Norway">Norway</option>
+                <option value="USA">USA</option>
+                <option value="France">France</option>
+                <option value="bih" selected>Bosnia and Herzegovina</option>
+                <option value="spain">Spain</option>
+            </select>
+        </form>
+        <hr>
+        <h3> Form using a textarea and a button</h3>
+        <form>
+            <textarea id="comment" name="comment" style="width: 200px; height: 100px; max-height: 150px;">Comment goes here</textarea><br>
+            <button type="button" onclick="document.getElementById('comment').value = '';" style="width: 75px;">Clear</button>
+            <button type="reset" style="width: 75px;">Reset</button>
         </form>
     </body>
 </html>

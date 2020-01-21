@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> HTML5 APIs </title>
+        <meta charset="utf-8">
+        <meta name="description" content="Web-page utilizing some common HTML5 APIs">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            .container {
+                background-color: #9aab49;
+                width: 25%;
+                height: 25px;
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+            
+            #draggable {
+                background-color: white;
+                width: 100%;
+                height: 100%;
+                color: darkslategrey;
+                text-align: center;
+            }
+        </style>
+        <script>
+            var dragged;
+            
+            /**
+             * Triggers on the draggable element once dragging is started.
+             */
+            document.addEventListener("dragstart", function(event) {
+                // Save the reference to the dragged element
+                dragged = event.target;
+            }, false);
+            
+            /**
+             * Triggers on the potential drop when an element is being
+             * dragged over the target (once every fiew hundred ms).
+             */
+            document.addEventListener("dragover", function(event) {
+                if (event.target.className === "container") {
+                    // Prevent the default to allow drop
+                    event.preventDefault();
+                }
+            }, false);
+            
+            /**
+             * Triggers on the potential drop target once draggable element
+             * enters its area.
+             */
+            document.addEventListener("dragenter", function(event) {
+                // Highlight the drop target
+                if (event.target.className === "container") {
+                    event.target.style.backgroundColor = "#1aa1bc";
+                }
+            }, false);
+            
+            /**
+             * Triggers on the potential drop target once draggable element
+             * leavs its area.
+             */
+            document.addEventListener("dragleave", function(event) {
+                // Reset the background of the drop target
+                if (event.target.className === "container") {
+                    event.target.style.background = "";
+                }
+            }, false);
+            
+            /**
+             * Triggers on the target once the dragging action ends within
+             * its area.
+             */
+            document.addEventListener("drop", function(event) {
+                // Prevent the default action (the dropped element might be openned
+                // as link)
+                event.preventDefault();
+                
+                if (event.target.className === "container") {
+                    // Remove the child from the previous and add it to the new container
+                    event.target.style.background = "";
+                    dragged.parentNode.removeChild(dragged);
+                    event.target.appendChild(dragged);
+                }
+            }, false);
+            
+            var count_worker;
+            
+            function startCounting() {
+                if (typeof(Worker) !== "undefined") {
+                    if (typeof(count_worker) === "undefined") {
+                        count_worker = new Worker("scripts/counter_worker.js");
+                    }
+                    
+                    count_worker.onmessage = function(event) {
+                        document.getElementById("counter").innerHTML = event.data;
+                    }
+                }
+                else {
+                    document.getElementById("counter").innerHTML = "Your browser doesn't support WebWorker API.";
+                }
+            }
+            
+            function stopCounting() {
+                if (typeof(count_worker) !== "undefined") {
+                    count_worker.terminate();
+                    count_worker = undefined;
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h3>Drag the white rectangle to one of 4 boxes:</h3>
+        <div class="container">
+            <div id="draggable" draggable="true" ondragstart="event.dataTransfer.setData('text/plain', null)">
+                Drag me!
+            </div>
+        </div>
+        <div class="container"></div>
+        <div class="container"></div>
+        <div class="container"></div>
+        <hr>
+        <p>Counter value: <output id="counter"></output><br></p>
+        <button onclick="startCounting()" style="width: 120px;">Start Counting</button>
+        <button onclick="stopCounting()" style="width: 120px;">Stop Counting</button>
+    </body>
+</html>
