@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Background Images </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-site using background images">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            .div_style {
+                margin-bottom: 2%;
+                border: 1px solid tomato;
+                width: 192px;
+                height: 128px;
+            }
+        </style>
+        <script>
+            function stretchImageAcrossPage() {
+                var body = document.getElementsByTagName("body")[0];
+                body.style.backgroundImage = "url(multimedia/background_img.jpg)";
+                body.style.backgroundSize = "100% 100%";
+                body.style.backgroundAttachment = "fixed";
+            }
+            
+            function placeFixedImageInMiddle() {
+                var body = document.getElementsByTagName("body")[0];
+                body.style.backgroundImage = "url(multimedia/square_img.png)";
+                body.style.backgroundSize = "50px 50px";
+                body.style.backgroundAttachment = "fixed";
+                body.style.backgroundPosition = "center center";
+            }
+            
+            function placeScrollImageInMiddle() {
+                var body = document.getElementsByTagName("body")[0];
+                body.style.backgroundImage = "url(multimedia/square_img.png)";
+                body.style.backgroundSize = "50px 50px";
+                body.style.backgroundAttachment = "scroll";
+                body.style.backgroundPosition = "center center";
+            }
+        </script>
+    </head>
+    <!-- The background image is stretched to cover the entire width and height of
+         the page (background-size: 100% 100%; background-attachment: fixed). -->
+    <body style="background-image: url(multimedia/background_img.jpg); background-repeat: no-repeat;
+                background-size: 100% 100%; background-attachment: fixed;">
+        <button type="button" style="margin-right: 5px;" onclick="stretchImageAcrossPage()">Stretch Image Across Page</button>
+        <button type="button" style="margin-right: 5px;" onclick="placeFixedImageInMiddle()">Fixed Image in Middle of the Page</button>
+        <button type="button" onclick="placeScrollImageInMiddle()">Scroll Image in Middle of the Page</button>
+        
+        <!-- The image is repeated as many times as needed to fill up the div -->
+        <div class="div_style" style=" background-image: url(multimedia/arrow_icon.png);"></div>
+        
+        <!-- The image is not repeated in the div and is placed in the right top part
+             of the div -->
+        <div class="div_style" style="background-image: url(multimedia/arrow_icon.png); background-repeat: no-repeat;
+                    background-position: right top;"></div>
+        
+        <!-- The imge covers the entire div, the image is scaled without changing its
+             ratio. If image propotions differ from the div, the image is cropped
+             vertically or horizontally so that it fills up the entire div. -->
+        <div class="div_style" style="background-image: url(multimedia/square_img.png); background-repeat: no-repeat;
+                    background-size: cover;"></div>
+        
+        <!-- The image is scaled to try to cover as much of the div as possible without
+             changing its ratio. If div ratio is different than that of the image, parts
+             of the div will not be covered. -->
+        <div class="div_style" style="background-image: url(multimedia/square_img.png); background-repeat: no-repeat;
+                    background-size: contain;"></div>
+        
+        <!-- Using different background-origin values -->
+        <div style="overflow: hidden;">
+            <div class="div_style" style="border: 10px double red; background-color: white; background-image: url(multimedia/square_img.png);
+                                          background-repeat: no-repeat; background-origin: padding-box; padding: 10px; float: left;
+                                          margin-right: 10px;">
+                <p> background-origin:padding-box</p>
+            </div>
+            
+            <div class="div_style" style="border: 10px double red; background-color: white; background-image: url(multimedia/square_img.png);
+                        background-repeat: no-repeat; background-origin: border-box; padding: 10px; float: left; margin-right: 10px;">
+                <p> background-origin:border-box</p>
+            </div>
+            
+            <div class="div_style" style="border: 10px double red; background-color: white; background-image: url(multimedia/square_img.png);
+                                          background-repeat: no-repeat; background-origin: content-box; padding: 10px; float: left;">
+                <p> background-origin:content-box</p>
+            </div>
+        </div>
+        
+        <!-- Using different background-clip values -->
+        <div style="overflow: hidden;">
+            <div class="div_style" style="border: 10px double red; background-color: yellow; float: left; margin-right: 10px;
+                                          background-clip: padding-box; padding: 10px;">
+                <p>background-clip: padding-box</p>
+            </div>
+            
+            <div class="div_style" style="border: 10px double red; background-color: yellow; float: left; margin-right: 10px;
+                                          background-clip: border-box; padding: 10px;">
+                <p>background-clip: padding-box</p>
+            </div>
+            
+            <div class="div_style" style="border: 10px double red; background-color: yellow; float: left; margin-right: 10px;
+                                          background-clip: content-box; padding: 10px;">
+                <p>background-clip: padding-box</p>
+            </div>
+        </div>
+    </body>
+</html>
