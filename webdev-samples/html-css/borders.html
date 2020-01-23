@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Borders </title>
+        <meta charset="utf-8">
+        <meta name="description" content="Uses various CSS border features">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            p {
+                padding: 5px;
+                border-color: red;
+            }
+            
+            p.dotted { border-style: dotted; }
+            p.dashed { border-style: dashed; }
+            p.solid { border-style: solid; border-width: 4px 2px 7px 1px }
+            p.double { border-style: double; border-width: 5px;}
+            p.groove { border-style: groove; border-radius: 10px; }
+            p.ridge { border-style: ridge; border-left-width: 4px;}
+            p.inset { border-style: inset; }
+            p.outset { border-style: outset; border-bottom-width: thick; }
+            p.none { border-style: none; }
+            p.hidden { border-style: hidden; }
+            p.mix { border-style: solid double dashed dotted; }
+            p.individual {
+                border-left-style: hidden;
+                border-top-style: dashed;
+                border-right-style: dotted;
+                border-bottom-style: solid;
+            }
+        </style>
+    </head>
+    <body>
+        <p class="dotted"> Dotted border.</p>
+        <p class="dashed"> Dashed border.</p>
+        <p class="solid"> Solid border </p>
+        <p class="double"> Double border </p>
+        <p class="groove"> Groove border </p>
+        <p class="ridge"> Ridge border </p>
+        <p class="inset"> Inset border </p>
+        <p class="outset"> Outset border </p>
+        <p class="none"> No border </p>
+        <p class="hidden"> Hidden border </p>
+        <p class="mix"> Mixed border </p>
+        <p class="individual"> Individually set border styles </p>
+    </body>
+</html>

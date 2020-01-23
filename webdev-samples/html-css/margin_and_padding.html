@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Margin and Padding </title>
+        <meta charset="utf-8">
+        <meta name="description" content="Exercises CSS margin and padding">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            div.auto_margin {
+                width: 300px;
+                border: 2px solid green;
+                margin: auto;
+                padding: 10px;
+                text-align: center;
+            }
+            
+            div.top_div {
+                width: 300px;
+                border: 2px solid green;
+                margin: 10px 10px 50px 10px;
+                padding: 10px;
+                text-align: center;
+            }
+            
+            div.bottom_div {
+                width: 300px;
+                border: 2px solid green;
+                margin: 40px 10px 10px 10px;
+                padding: 10px;
+                text-align: center;
+            }
+            
+            div.left_div {
+                width: 200px;
+                border: 2px solid green;
+                margin: 10px 40px 10px 10px;
+                padding: 10px;
+                text-align: center;
+                display: inline-block;
+            }
+            
+            div.right_div {
+                width: 200px;
+                border: 2px solid green;
+                margin: 10px 10px 10px 50px;
+                padding: 10px;
+                text-align: center;
+                display: inline-block;
+            }
+            
+            div.no_padding {
+                width: 300px;
+                background-color: yellow;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            
+            div.padding {
+                width: 300px;
+                padding: 15px;
+                background-color: green;
+                color: white;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            
+            div.padding_border_box {
+                width: 300px;
+                padding: 15px;
+                margin-bottom: 10px;
+                background-color: green;
+                color: white;
+                text-align: center;
+                box-sizing: border-box;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="auto_margin">
+            <p> This div is centered as it uses margin:auto</p>
+        </div>
+        <hr>
+        
+        <!-- The margin between the following two divs is collaped,
+             so that only the larger of top div's bottom margin
+             and bottom div's top margin is kept (in this case the
+             top div's bottom margin is larger). -->
+        <h3>The margin between top and bottom divs is collapsed:</h3>
+        <div class="top_div">
+            <p> Top div (margin-bottom: 50px) </p>
+        </div>
+        <div class="bottom_div">
+            <p> Bottom div (margin-top: 10px) </p>
+        </div>
+        <hr>
+        
+        <!-- The left and right margins of the following divs is
+             not collapsed. Collapsing happens only between top
+             and bottom margins. -->
+        <h3>The margin between the following two divs is not collapsed</h3>
+        <div class="left_div">
+            <p>Left div (margin-right: 40px)</p>
+        </div>
+        <div class="right_div">
+            <p>Right div (margin-left: 50px)</p>
+        </div>
+        <hr>
+        
+        <!-- Illustrates how padding increases element size and how the border-box
+             value for the box-sizing CSS property can be used to avoid this. -->
+        <div class="no_padding">
+            <p> No padding (width: 300px) </p>
+        </div>
+        <div class="padding_border_box">
+            <p> Padding (width: 300px; padding-left:15px; padding-right:15px; box-sizing:border-box)</p>
+        </div>
+        <div class="padding">
+            <p> Padding (width: 300px; padding-left:15px; padding-right:15px; box-sizing:content-box)</p>
+        </div>
+    </body>
+</html>
