@@ -6,43 +6,81 @@
         <meta name="description" content="A page containing a complex table">
         <meta name="author" content="Dzanan Bajgoric">
         <style>
-            table#complex_table {
+            /* Complex table 1 */
+            table#complex_table_1 {
                 width: 100%;
-            }
-            table#complex_table, th, td {
-                border: 2px solid black;
+                margin-bottom: 15px;
                 border-collapse: collapse;
             }
+            table#complex_table_1 th, table#complex_table_1 td {
+                border: 3px solid hsl(265, 25%, 65%);
+            }
             
-            table#complex_table th, td {
+            table#complex_table_1 th, table#complex_table_1 td {
                 padding: 5px;
             }
             
-            table#complex_table th {
+            table#complex_table_1 th {
                 text-align: left;
             }
             
-            table#complex_table tr:nth-child(even) {
+            table#complex_table_1 tr:nth-child(even) {
                 background-color: aquamarine;
             }
             
-            table#complex_table tr:nth-child(odd) {
+            table#complex_table_1 tr:nth-child(odd) {
                 background-color: aqua;
             }
             
-            table#complex_table th {
+            table#complex_table_1 th {
                 background-color: coral;
                 color: darkblue;
             }
             
-            table#complex_table caption {
+            table#complex_table_1 caption {
                 font-size: large;
                 color: coral;
+            }
+            
+            /* Complext table 2 */
+            div#table_container {
+                overflow-x: auto;
+            }
+            
+            table#complex_table_2 {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 25px;
+            }
+            
+            table#complex_table_2 tr:nth-child(odd) {
+                background-color: hsl(100, 0%, 95%);
+            }
+            
+            table#complex_table_2 tr:hover {
+                background-color: hsl(100, 0%, 85%);
+            }
+            
+            table#complex_table_2 th, table#complex_table_2 td {
+                border-bottom: 1px solid hsl(110, 15%,  70%);
+                padding: 10px;
+            }
+            
+            table#complex_table_2 th {
+                background-color: hsl(130, 55%, 40%);
+                color: white;
+                text-align: left;
+            }
+            
+            table#complex_table_2 caption {
+                color: hsl(130, 55%, 40%);
+                font-size: 1.3em;
+                caption-side: bottom;
             }
         </style>
     </head>
     <body>
-        <table id="complex_table">
+        <table id="complex_table_1">
             <caption> A complex table </caption>
             <thead>
                 <tr>
@@ -101,5 +139,103 @@
                 </tr>
             </tfoot>
         </table>
+        <hr style="margin-bottom: 20px;">
+        
+        <div id="table_container">
+            <table id="complex_table_2">
+                <caption> Another complex table </caption>
+                <tr>
+                    <th> Company </th>
+                    <th> Contact </th>
+                    <th> Country </th>
+                    <th> Heading </th>
+                    <th> Heading </th>
+                    <th> Heading </th>
+                    <th> Heading </th>
+                    <th> Heading </th>
+                    <th> Heading </th>
+                    <th> Heading </th>
+                    <th> Heading </th>
+                </tr>
+                <tr>
+                    <td> Arm Holding </td>
+                    <td> Simon Anders </td>
+                    <td> UK </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                </tr>
+                <tr>
+                    <td> Mozilla Foundation </td>
+                    <td> Roland James </td>
+                    <td> Mexico </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                </tr>
+                <tr>
+                    <td> Intel </td>
+                    <td> Dzanan Bajgoric </td>
+                    <td> Germany </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                </tr>
+                <tr>
+                    <td> Ferrari </td>
+                    <td> Giovani Vieri </td>
+                    <td> Italy </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                </tr>
+                <tr>
+                    <td> New York Times </td>
+                    <td> Jimmy Pitt </td>
+                    <td> USA </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                </tr>
+                <tr>
+                    <td> AMD </td>
+                    <td> Robert Bennett </td>
+                    <td> France </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                    <td> Some Text </td>
+                </tr>
+            </table>
+        </div>
     </body>
 </html>

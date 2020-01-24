@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> A Page With Links </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A page illustrating the usage and styling of HTML links">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            a.pretty_link:link {
+                color: blueviolet;
+                text-decoration: none;
+            }
+            
+            a.pretty_link:visited {
+                color: aqua;
+                text-decoration: none;
+                background-color: transparent;
+            }
+            
+            a.pretty_link:hover {
+                color: aqua;
+                text-decoration: none;
+            }
+            
+            a.pretty_link:active {
+                text-decoration: underline;
+            }
+            
+            a.link_button_1:link, a.link_button_1:visited {
+                text-decoration: none;
+                text-align: center;
+                color: white;
+                background-color: hsl(140, 70%, 50%);
+                padding: 8px;
+                border-radius: 6px;
+                display: inline-block;
+            }
+            
+            a.link_button_1:hover {
+                background-color: hsl(140, 70%, 65%);
+            }
+            
+            a.link_button_1:active {
+                background-color: hsl(140, 70%, 35%);
+            }
+            
+            a.link_button_2:link, a.link_button_2:visited {
+                text-decoration: none;
+                text-align: center;
+                color: hsl(100, 65%, 35%);
+                border: 2px solid hsl(100, 65%, 50%);
+                padding: 8px;
+                border-radius: 6px;
+                display: inline-block;
+            }
+            
+            a.link_button_2:hover {
+                background-color: hsl(100, 65%, 50%);
+                color: white;
+            }
+            
+            a.link_button_2:active {
+                background-color: hsl(100, 65%, 30%);
+                border-color: hsl(100, 65%, 30%);
+            }
+        </style>
+    </head>
+    <body>
+        <p><a href="https://goal.com/en" title="Open goal.com in new tab" target="_blank"> Link to www.goal.com </a></p>
+        <p><a href="float_layout.html" title="Open the float_layout.html"> Go to float_layout.html </a></p>
+        <p><a href="float_layout.html" title="Open the float_layout.html in new tab" target="_blank"> Open float_layout.html in new tab </a></p>
+        <p><a class="pretty_link" href="https://www.google.com" title="Open google.com in new table" target="_blank"> Open google.com in new tab </a></p>
+        <hr>
+        <a class="link_button_1" href="">Link Button</a>
+        <a class="link_button_2" href="">LinkButton</a>
+    </body>
+</html>

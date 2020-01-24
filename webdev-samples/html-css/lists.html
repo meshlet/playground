@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Lists </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A page illustrating usage and styling of HTML lists">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            #nav {
+                background: lightgray;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                padding-right: 5px;
+                border-left: 10px solid hsl(90, 65%, 35%);
+            }
+            
+            #nav li {
+                padding: 10px;
+                margin: 5px;
+                background-color: hsla(90, 65%, 45%, 0.3);
+            }
+            
+            #nav li:hover {
+                background: lightblue;
+            }
+            
+            #border_list {
+                padding: 0;
+                list-style-type: none;
+                border: 1px solid lightgrey;
+            }
+            
+            ul#border_list li {
+                border-bottom: 1px solid lightgrey;
+                padding: 5px;
+            }
+            
+            ul#border_list li:last-child {
+                border-bottom: none;
+            }
+        </style>
+    </head>
+    <body>
+        <h3> An unordered list: </h3>
+        <ul style="list-style-image: url(multimedia/green_arrow.png);">
+            <li>
+                The first item.<br>The second line is aligned to the first because list-style-position:outside is the default.
+            </li>
+            <li> The second item </li>
+            <li> The third item </li>
+        </ul>
+        <hr>
+        
+        <h3> Pretty unordered list: </h3>
+        <ul id="nav">
+            <li><a href="">Home</a></li>
+            <li><a href="">Shop</a></li>
+            <li><a href="">About</a></li>
+            <li><a href="">Contact</a></li>
+        </ul>
+        <hr>
+        
+        <h3> An unordered list without bullets and with borders: </h3>
+        <ul id="border_list">
+            <li> First item </li>
+            <li> Second item </li>
+            <li> Third item </li>
+        </ul>
+        
+        <h3> An ordered list: </h3>
+        <ol style="list-style-type: upper-roman; list-style-position: inside;">
+            <li>
+                The first item<br>The second line is not aligned to the first because of list-style-position:inside
+            </li>
+            <li> The second item </li>
+            <li> The third item </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li> Bla bla </li>
+            <li> alb alb </li>
+        </ol>
+        <ol start="10">
+            <li> 10th Item </li>
+            <li> 11th Item </li>
+        </ol>
+        <hr>
+        
+        <h3> A definition list: </h3>
+        <dl>
+            <dt> Item1 </dt>
+            <dd> Item1 definition goes here </dd>
+            <dt> Item2 </dt>
+            <dd> Item2 definition goes here </dd>
+            <dt> Item3 </dt>
+            <dd> Item3 definition goes here </dd>
+        </dl>
+    </body>
+</html>
