@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Display Attribute </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating different CSS display values">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            body {
+                font-size: 100%;
+            }
+            
+            #show_hide_div, #panel_div {
+                background-color: hsl(120, 65%, 40%);
+                border: 1px solid hsl(60, 20%, 75%);
+                color: white;
+                text-align: center;
+            }
+            
+            #show_hide_div {
+                font-weight: bold;
+                font-size: 1.20em;
+                cursor: pointer;
+            }
+            
+            #show_hide_div:hover {
+                background-color: hsl(120, 65%, 45%);
+            }
+            
+            #show_hide_div:active {
+                background-color: hsl(120, 65%, 35%);
+            }
+            
+            #panel_div {
+                display: none;
+            }
+            
+            ul.li_inline li {
+                display: inline;
+            }
+            
+            .image_box {
+                border: 1px solid hsl(180, 15%, 60%);
+                float: left;
+                width: 230px;
+                padding: 10px 15px;
+                text-align: center;
+                margin: 0px 5px 5px 0px;
+            }
+            
+            .image_box p {
+                color: tomato;
+                margin: 0px 0px 10px 0px;
+            }
+            
+            .image_box p.display_attr span {
+                background-color: hsl(160, 15%, 90%);
+            }
+            
+            .image_box img {
+                width: 100%;
+                height: 200px;
+            }
+            
+            button {
+                border: none;
+                font-weight: bold;
+                width: 100%;
+                padding: 5px;
+                color: white;
+                background-color: hsl(120, 65%, 35%)
+            }
+            
+            button:hover {
+                background-color: hsl(120, 65%, 43%);
+            }
+            
+            button:active {
+                background-color: hsl(120, 65%, 30%);
+            }
+        </style>
+        <script>
+            function togglePanelDisplayMode() {
+                var panel = document.getElementById("panel_div");
+                if (panel.style.display === "none") {
+                    panel.style.display = "block";
+                }
+                else {
+                    panel.style.display = "none";
+                }
+            }
+            
+            function resetImageBoxes() {
+                document.getElementById("image_box_1").style.display = "block";
+                document.getElementById("image_box_2").style.visibility = "visible";
+            }
+            
+            function removeImageBox() {
+                document.getElementById("image_box_1").style.display = "none";
+            }
+            
+            function hideImageBox() {
+                document.getElementById("image_box_2").style.visibility = "hidden";
+            }
+        </script>
+    </head>
+    <body>
+        <div id="show_hide_div" onclick="togglePanelDisplayMode()">
+            <p> Add/Remove panel </p>
+        </div>
+        <div id="panel_div">
+            <p> This div is hidden by default using display:none. </p>
+            <p>
+                When user clicks the above panel the div is shown using display:block. The next
+                click will set the panel's display attribute to none and so on.
+            </p>
+            <p>
+                This is accomplished by binding a Javascript function to the onclick even of the
+                above div. When the user clicks the above div, this function will toggle the state
+                of the display attribute of this panel (will set it to display:block if it is
+                currently set to display:none or to display:none if it is currently set to
+                display:block).
+            </p>
+        </div>
+        <hr>
+        <h3> The items in this list are all in single line because of display:inline: </h3>
+        <ul class="li_inline">
+            <li> <a href=""> First </a> </li>
+            <li> <a href=""> Second </a></li>
+            <li> <a href=""> Third </a></li>
+        </ul>
+        <hr>
+        <h3> Illustrates the difference between CSS display and visibility attributes </h3>
+        <div id="image_box_1" class="image_box">
+            <p class="display_attr"> <span> display:block </span></p>
+            <img src="multimedia/rotating_earth.gif" width="200" height="200">
+            <button onclick="removeImageBox()"> Remove </button>
+        </div>
+        <div id="image_box_2" class="image_box">
+            <p class="display_attr"> <span> visibility:visible </span></p>
+            <img src="multimedia/rotating_earth.gif" width="200" height="200">
+            <button onclick="hideImageBox()"> Hide </button>
+        </div>
+        <div class="image_box">
+            <p> <span> Reset </span></p>
+            <img src="multimedia/rotating_earth.gif" width="200" height="200">
+            <button onclick="resetImageBoxes()"> Reset</button>
+        </div>
+    </body>
+</html>

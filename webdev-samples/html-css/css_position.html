@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Position Attribute </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating different CSS position values">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            body {
+                overflow-x: hidden;
+            }
+            
+            div.green_border {
+                border: 3px solid hsl(120, 45%, 50%);
+            }
+            
+            #static {
+                position: static;
+            }
+            
+            #relative {
+                position: relative;
+                left: 30px;
+                top: 20px;
+            }
+            
+            #fixed {
+                position: fixed;
+                bottom: 0px;
+                right: 0px;
+            }
+            
+            #absolute {
+                position: absolute;
+                top: 300px;
+                right: 0px;
+            }
+            
+            #sticky_div_container {
+                border: 4px solid lightgray;
+                position: relative;
+                top: 40px;
+                padding: 0px 20px;
+                overflow-y: auto;
+                max-height: 150px;
+            }
+            
+            #sticky {
+                position: -webkit-sticky; /* Safari */
+                position: sticky;
+                top: 0;
+                border: 2px solid hsl(100, 60%, 40%);
+                background-color: hsl(100, 60%, 80%);
+            }
+            
+            #image {
+                position: absolute;
+                top: 280px;
+                z-index: 0;
+            }
+            
+            #div_on_top_of_image {
+                position: absolute;
+                top: 300px;
+                z-index: 1;
+            }
+            
+            #img_and_text_container {
+                position: absolute;
+                top: 450px;
+                right: 5px;
+                left: 5px;
+                height: 250px;
+            }
+            
+            #background_image {
+                width: 100%;
+                height: 100%;
+                opacity: 0.75;
+            }
+            
+            div.white_bold {
+                font-weight: bold;
+                color: white;
+            }
+            
+            #top_left {
+                position: absolute;
+                left: 5px;
+                top: 5px;
+            }
+            
+            #bottom_left {
+                position: absolute;
+                left: 5px;
+                bottom: 5px;
+            }
+            
+            #centered {
+                position: absolute;
+                left: 0;
+                top: 50%;
+                width: 100%;
+                text-align: center;
+            }
+            
+            #top_right {
+                position: absolute;
+                right: 5px;
+                top: 5px;
+            }
+            
+            #bottom_right {
+                position: absolute;
+                right: 5px;
+                bottom: 5px;
+            }
+            
+            #clipped_image {
+                position: absolute;
+                top: 720px;
+                clip: rect(0px, 256px, 384px, 0px);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="static" class="green_border">
+            This div uses position:static.
+        </div>
+        <div id="relative" class="green_border">
+            This div uses position:relative, left:30px and top 20px;
+        </div>
+        <div id="fixed" class="green_border">
+            This div uses position:fixed, bottom:0px and right:0px.
+        </div>
+        <div id="absolute" class="green_border">
+            This div uses position:absolute, top:300px and right:0px.<br>Shrink the browser window so that it's height becomes<br>too small for this div too be visible. Then scroll the<br>browser window and see how this div scrolls with the<br>page.
+        </div>
+        <div id="sticky_div_container">
+            <div>
+                <p style="font-weight: bold;">
+                    Try scrolling this div to see how sticky positioning works.
+                </p>
+                <p>
+                    IE/Edge 15 and earlier don't support sticky positioning.
+                </p>
+            </div>
+            
+            <div id="sticky">
+                I am sticky (will stick to the top of the parent div when parent div is scrolled down).
+            </div>
+            
+            <div style="padding-bottom: 100px;">
+                <p>
+                    Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.
+                </p>
+
+                <p>
+                    Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.
+                </p>
+
+                <p>
+                    Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum, altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et. Inciderint efficiantur his ad. Eum no molestiae voluptatibus.
+                </p>
+            </div>
+        </div>
+        <img  id="image" src="multimedia/square_img.png" width="64" height="64">
+        <div id="div_on_top_of_image" class="green_border">
+            This text is on top of the image.
+        </div>
+        
+        <div id="img_and_text_container">
+            <img id="background_image" src="multimedia/background_img.jpg" width="2452" height="1142">
+            <div id="top_left" class="white_bold">
+                Top left
+            </div>
+            <div id="bottom_left" class="white_bold">
+                Bottom left
+            </div>
+            <div id="centered" class="white_bold">
+                Center
+            </div>
+            <div id="top_right" class="white_bold">
+                Top right
+            </div>
+            <div id="bottom_right" class="white_bold">
+                Bottom right
+            </div>
+        </div>
+        <img id="clipped_image" src="multimedia/gmail_icon.png" width="512" height="512">
+    </body>
+</html>

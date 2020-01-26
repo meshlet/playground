@@ -7,7 +7,15 @@
         <meta name="author" content="Dzanan Bajgoric">
         <style>
             div.auto_margin {
-                width: 300px;
+                width: 600px;
+                border: 2px solid green;
+                margin: auto;
+                padding: 10px;
+                text-align: center;
+            }
+            
+            div.auto_margin_max_width {
+                max-width: 600px;
                 border: 2px solid green;
                 margin: auto;
                 padding: 10px;
@@ -77,7 +85,21 @@
     </head>
     <body>
         <div class="auto_margin">
-            <p> This div is centered as it uses margin:auto</p>
+            <p>
+                This div is centered as it uses margin:auto. However, width is
+                fixed so browser will add horizontal scrollbar when the parent's
+                width (in this case the browser window width) becomes too small
+                to contain the div.
+            </p>
+        </div>
+        <hr>
+        <div class="auto_margin_max_width">
+            <p>
+                This div is centered as it uses margin:auto. It's width is limited
+                using the max-width attribute. If parent's width (in this case the
+                width of the browser window) becomes too small to contain it, the
+                div is shrinked.
+            </p>
         </div>
         <hr>
         
