@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Float and Clear </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating the usage of CSS float and clear attributes">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            .clearfix:after {
+                content: ".";
+                visibility: hidden; 
+                display: block; 
+                height: 0; 
+                clear: both;
+            }
+            
+            div {
+                margin-bottom: 10px;
+                border: 2px solid hsl(120, 55%, 45%);
+                padding: 5px;
+            }
+            
+            hr {
+                border: 2px solid blue;
+            }
+            
+            #img_txt_div img#image_no_float {
+                width: 100px;
+                height: 90px;
+                margin-right: 10px;
+                float: none;
+            }
+            
+            #img_txt_div img#image_float_left {
+                width: 100px;
+                height: 80px;
+                margin: 0px 10px 20px 0px;
+                float: left;
+            }
+            
+            #img_txt_div img#image_float_right {
+                width: 100px;
+                height: 80px;
+                margin: 0px 0px 20px 10px;
+                float: right;
+            }
+            
+            #div1, #div3 {
+                float: left;
+                width: 100px;
+                height: 50px;
+                text-align: center;
+                margin: 10px;
+            }
+            
+            #div2 {
+                border: 2px solid tomato;
+            }
+            
+            #div4 {
+                border: 2px solid tomato;
+                clear: left;
+            }
+            
+            div.box {
+                box-sizing: border-box;
+                float: left;
+                width: 33.33%;
+                text-align: center;
+                margin: 0;
+                padding: 50px;
+                border: none;
+            }
+            
+            #box1 {
+                background-color: hsl(0, 0%, 65%);
+            }
+            
+            #box2 {
+                background-color: hsl(0, 0%, 75%);
+            }
+            
+            #box3 {
+                background-color: hsl(0, 0%, 85%);
+            }
+            
+            span.text_float_left {
+                float: left;
+                width: 0.85em;
+                font-size: 400%;
+                line-height: 80%;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <div id="img_txt_div" class="clearfix">
+            <img id="image_no_float" src="multimedia/sinusoidal_waves.gif" alt="Sinusoidal waves" width="900" height="600">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum augue ut aliquet. Mauris ante ligula, facilisis sed ornare eu, lobortis in odio. Praesent convallis urna a lacus interdum ut hendrerit risus congue. Nunc sagittis dictum nisi, sed ullamcorper ipsum dignissim ac...
+        </div>
+        
+        <div id="img_txt_div" class="clearfix">
+            <img id="image_float_left" src="multimedia/sinusoidal_waves.gif" alt="Sinusoidal waves" width="900" height="600">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum augue ut aliquet. Mauris ante ligula, facilisis sed ornare eu, lobortis in odio. Praesent convallis urna a lacus interdum ut hendrerit risus congue. Nunc sagittis dictum nisi, sed ullamcorper ipsum dignissim ac... Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum augue ut aliquet. Mauris ante ligula, facilisis sed ornare eu, lobortis in odio. Praesent convallis urna a lacus interdum ut hendrerit risus congue. Nunc sagittis dictum nisi, sed ullamcorper ipsum dignissim ac...
+        </div>
+        
+        <div id="img_txt_div" class="clearfix">
+            <img id="image_float_right" src="multimedia/sinusoidal_waves.gif" alt="Sinusoidal waves" width="900" height="600">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum augue ut aliquet. Mauris ante ligula, facilisis sed ornare eu, lobortis in odio. Praesent convallis urna a lacus interdum ut hendrerit risus congue. Nunc sagittis dictum nisi, sed ullamcorper ipsum dignissim ac... Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum augue ut aliquet. Mauris ante ligula, facilisis sed ornare eu, lobortis in odio. Praesent convallis urna a lacus interdum ut hendrerit risus congue. Nunc sagittis dictum nisi, sed ullamcorper ipsum dignissim ac...
+        </div>
+        <hr>
+        
+        <h3> Without clear: </h3>
+        <div id="div1"> <p> Div1 </p> </div>
+        <div id="div2"> <p> Div2: note that Div2 comes after Div1 in the HTML code. However, as Div1 floats to the left Div2 floats around it. </p> </div>
+        <br>
+        <h3> With clear: </h3>
+        <div id="div3"> <p> Div3 </p> </div>
+        <div id="div4"> <p> Div4 is rendered below the Div3 which floats to the left. This is accomplished by setting clear:left on Div4, which forbids any floating elements on its left side. </p> </div>
+        <hr>
+        
+        <div style="border: none;" class="clearfix">
+            <div class="box" id="box1"> Box 1 </div>
+            <div class="box" id="box2"> Box 2 </div>
+            <div class="box" id="box3"> Box 3 </div>
+        </div>
+        <hr>
+        
+        <p>
+            <span class="text_float_left"> T </span>his is some text. This is some text. This is some text. This is some text. This is some text. This is some text. This is some text. This is some text. This is some text. This is some text. This is some text. This is some text. This is some text. This is some text. This is some text. This is some text. This is some text. This is some text. This is some text. This is some text. This is some text.
+        </p>
+    </body>
+</html>
