@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Combinators </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating the usage of different CSS combinators">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            hr {
+                border: 2px solid blue;
+            }
+            
+            div#descendant_selector p {
+                background-color: yellow;
+            }
+            
+            div#child_selector > p {
+                background-color: yellow;
+            }
+            
+            div#adjacent_sibling_selector + p {
+                background-color: yellow;
+            }
+            
+            div#general_sibling_selector ~ p {
+                background-color: yellow;
+            }
+        </style>
+    </head>
+    <body>
+        <h3> Descendant Selector (matches descendants at any level) </h3>
+        <section>
+            <div id="descendant_selector">
+                <p> This paragraph is div's child. </p>
+                <section>
+                    <p> This paragraph is a descendant of a div (two levels down).</p>
+                </section>
+            </div>
+            <p> This paragraph is not a descendant of a div.</p>
+        </section>
+        <hr>
+        
+        <h3> Child Selector (matches all children of the element) </h3>
+        <section>
+            <div id="child_selector">
+                <p> This paragraph is div's child. </p>
+                <section>
+                    <p> This paragraph is a descendant but not a child of the div.</p>
+                </section>
+            </div>
+            <p> This paragraph is not a descendant of a div.</p>
+        </section>
+        <hr>
+        
+        <h3> Adjacent Sibling Selector (matches the sibling that immediatelly follows it, where both elements have same parent) </h3>
+        <section>
+            <div id="adjacent_sibling_selector">
+                <p> This paragraph is div's child. </p>
+            </div>
+            <p> This paragraph is div's adjacent sibling. </p>
+            <p> This paragraph is div's sibling (but not adjacent). </p>
+        </section>
+        <hr>
+        
+        <h3> General Sibling Selector (matches any sibling that comes after it, where both elements have same parent) </h3>
+        <section>
+            <div id="general_sibling_selector">
+                <p> This paragraph is div's child. </p>
+            </div>
+            <p> This paragraph is div's adjacent sibling. </p>
+            <p> This paragraph is div's sibling (but not adjacent). </p>
+            <section>
+                <p> This paragraph sits in a 'section' element that is div's sibling (but paragraph is not div's sibling).</p>
+            </section>
+        </section>
+    </body>
+</html>

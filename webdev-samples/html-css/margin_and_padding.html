@@ -6,6 +6,10 @@
         <meta name="description" content="Exercises CSS margin and padding">
         <meta name="author" content="Dzanan Bajgoric">
         <style>
+            hr {
+                border: 2px solid blue;
+            }
+            
             div.auto_margin {
                 width: 600px;
                 border: 2px solid green;
@@ -81,6 +85,45 @@
                 text-align: center;
                 box-sizing: border-box;
             }
+            
+            .centered_image {
+                display: block;
+                width: 20vw;
+                height: 20vh;
+                /* Looks like margin:auto works as well (tested on Chrome only) */
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .vertically_centered {
+                padding: 30px 5px;
+                border: 2px solid hsl(120, 50%, 35%);
+                margin-bottom: 10px;
+            }
+            
+            .horizontally_vertically_centered_using_padding {
+                padding: 30px 5px;
+                border: 2px solid hsl(120, 50%, 35%);
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            
+            .horizontally_vertically_centered_using_line_height {
+                height: 100px;
+                line-height: 100px;
+                border: 2px solid hsl(120, 50%, 35%);
+                text-align: center;
+            }
+            
+            .horizontally_vertically_centered_using_line_height p {
+                border: 1px solid lightgray;
+                /* Must override the line-height, otherwise it will inherit the
+                   line-height from the parent */
+                line-height: 1.0;
+                
+                display: inline-block;
+                vertical-align: middle;
+            }
         </style>
     </head>
     <body>
@@ -138,6 +181,40 @@
         </div>
         <div class="padding">
             <p> Padding (width: 300px; padding-left:15px; padding-right:15px; box-sizing:content-box)</p>
+        </div>
+        <hr>
+        
+        <!-- Illustrates how to center an image -->
+        <img class="centered_image" src="multimedia/shapes.gif" width="640" height="640">
+        <hr>
+        
+        <!-- Vertically centered text in a div -->
+        <div class="vertically_centered">
+            <p> I am vertically centered</p>
+        </div>
+        
+        <!-- Text centered both vertically and horizontally using equal top and bottom padding
+             for vertical and text-align:center for horizontal alignment. -->
+        <div class="horizontally_vertically_centered_using_padding">
+            <p>
+                I am both vertically and horizontally centered.
+                I am both vertically and horizontally centered.
+                I am both vertically and horizontally centered
+                I am both vertically and horizontally centered
+                I am both vertically and horizontally centered
+                I am both vertically and horizontally centered
+            </p>
+        </div>
+        
+        <!-- Text centered both vertically and horizontally using line-height equal to the div
+             height for vertical and text-align:center for horizontal alignment. -->
+        <div class="horizontally_vertically_centered_using_line_height">
+            <p>
+                I am both vertically and horizontally centered.
+                I am both vertically and horizontally centered.
+                I am both vertically and horizontally centered
+                I am both vertically and horizontally centered
+            </p>
         </div>
     </body>
 </html>

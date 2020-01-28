@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Pseudo Classes/Elements </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating the usage of CSS pseudo classes/elements">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            hr {
+                border: 2px solid blue;
+            }
+            
+            p.tooltip {
+                display: none;
+                background-color: hsl(60, 70%, 65%);
+                padding: 20px;
+            }
+            
+            div:hover p.tooltip {
+                display: block;
+            }
+            
+            a.link_button_1:link, a.link_button_1:visited {
+                text-decoration: none;
+                text-align: center;
+                color: white;
+                background-color: hsl(140, 70%, 50%);
+                padding: 8px;
+                border-radius: 6px;
+                display: inline-block;
+            }
+            
+            a.link_button_1:hover {
+                background-color: hsl(140, 70%, 65%);
+            }
+            
+            a.link_button_1:active {
+                background-color: hsl(140, 70%, 35%);
+            }
+            
+            a.link_button_2:link, a.link_button_2:visited {
+                text-decoration: none;
+                text-align: center;
+                color: hsl(100, 65%, 35%);
+                border: 2px solid hsl(100, 65%, 50%);
+                padding: 8px;
+                border-radius: 6px;
+                display: inline-block;
+            }
+            
+            a.link_button_2:hover {
+                background-color: hsl(100, 65%, 50%);
+                color: white;
+            }
+            
+            a.link_button_2:active {
+                background-color: hsl(100, 65%, 30%);
+                border-color: hsl(100, 65%, 30%);
+            }
+            
+            div#first_child_pseudo *:first-child {
+                background-color: yellow;
+            }
+            
+            p#first_span span:first-child {
+                background-color: yellow;
+            }
+            
+            p:first-child span {
+                background-color: yellow;
+            }
+            
+            q:lang(no) {
+                quotes: "`" "`";
+            }
+            
+            input[type=text]:focus {
+                background-color: yellow;
+            }
+            
+            p#highlight_first_line::first-line {
+                background-color: yellow;
+            }
+            
+            p#highlight_first_letter::first-letter {
+                background-color: yellow;
+                font-size: 1.5em;
+            }
+            
+            ul#custom_bullets {
+                list-style: none;
+            }
+            
+            ul#custom_bullets li:before {
+                content: "►";
+                color: tomato;
+            }
+            
+            p#text_after {
+                margin: 0;
+            }
+            
+            p#text_after::after {
+                content: "Very Important!";
+                background-color: yellow;
+                color: red;
+                font-weight: bold;
+                font-size: large;
+            }
+            
+            p#selection_pseudo_el::-moz-selection { /* Firefox */
+                color: red;
+                background-color: yellow;
+            }
+            
+            p#selection_pseudo_el::selection {
+                color: red;
+                background-color: yellow;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="font-weight: bold; color: hsl(10, 90%, 60%)">
+            Hover over me to show the &lt;p&gt; tooltip element.
+            <p class="tooltip">
+                I am a tooltip.
+            </p>
+        </div>
+        <hr>
+        
+        <a class="link_button_1" href="">Link Button</a>
+        <a class="link_button_2" href="">LinkButton</a>
+        <hr>
+        
+        <h3> The first child of the following div is selected: </h3>
+        <div id="first_child_pseudo">
+            <p> This is the first child of the div </p>
+            <p> This is the second child of the div </p>
+            <p> This is the third child of the div </p>
+        </div>
+        <h3> The first &lt;span&gt; descendent of &lt;p&gt; is selected: </h3>
+        <p id="first_span">
+            This is a paragraph with a <span> span </span> element. So it contains a <span> span </span> element.
+        </p>
+        <p id="first_span">
+            This is another paragraph with a <span> span </span> element. So it also contains a <span> span </span> element.
+        </p>
+        <h3> Selects all &lt;span&gt; elements that are descendants of a &lt;p&gt; that is itself a first-child:</h3>
+        <div>
+            <p>
+                This is a paragraph with <span> span </span> elements. So it contains some <span> span </span> elements.
+            </p>
+            <p>
+                This is also a paragraph with <span> span </span> elements. So it contains some <span> span </span> elements.
+            </p>
+        </div>
+        <hr>
+        
+        <h3> Redefines quotation marks for lang=no to ``: </h3>
+        <p>
+            Some text: <q lang="no"> This is some quoted text.</q>
+        </p>
+        <hr>
+        
+        <h3> Changes input's background color when it gets focus: </h3>
+        <form action="" method="get">
+            First name: <input type="text" name="first_name"><br>
+            <input type="submit" value="Submit">
+        </form>
+        <hr>
+        
+        <h3> The following paragraph has first line highlighted: </h3>
+        <p id="highlight_first_line">
+            This is the first line.<br>This is the second line.<br>This is the third line.
+        </p>
+        <h3> The first letter of the following paragraph is highlighted: </h3>
+        <p id="highlight_first_letter"> This is some text.</p>
+        
+        <h3> The following list has custom bullet points (using ::before pseudo element): </h3>
+        <ul id="custom_bullets">
+            <li> Item 1 </li>
+            <li> Item 2 </li>
+            <li> Item 3 </li>
+        </ul>
+        
+        <h3> The following paragraphs are followed by highlighted text (using the ::after pseudo element): </h3>
+        <p id="text_after"> I am a paragraph. </p>
+        <p id="text_after"> I am also a paragraph. </p>
+        
+        <h3> Select parts of the following paragraph: </h3>
+        <p id="selection_pseudo_el"> I am a very nice paragraph. Select parts of me and see what happens. </p>
+    </body>
+</html>

@@ -10,6 +10,10 @@
                 font-size: 100%;
             }
             
+            hr {
+                border: 2px solid blue;
+            }
+            
             #show_hide_div, #panel_div {
                 background-color: hsl(120, 65%, 40%);
                 border: 1px solid hsl(60, 20%, 75%);
@@ -78,6 +82,36 @@
             button:active {
                 background-color: hsl(120, 65%, 30%);
             }
+            
+            .span_inline {
+                display: inline;
+                width: 100px;
+                height: 100px;
+                padding: 15px 40px 15px 40px;
+                margin: 50px;
+                background-color: hsla(60, 100%, 50%, 50%);
+                border: 1px solid lightgray;
+            }
+            
+            .span_inline_block {
+                display: inline-block;
+                width: 100px;
+                height: 100px;
+                padding: 15px 40px 15px 40px;
+                margin: 50px;
+                background-color: hsla(60, 100%, 50%, 50%);
+                border: 1px solid lightgray;
+            }
+            
+            .span_block {
+                display: block;
+                width: 100px;
+                height: 100px;
+                padding: 15px 40px 15px 40px;
+                margin: 50px;
+                background-color: hsla(60, 100%, 50%, 50%);
+                border: 1px solid lightgray;
+            }
         </style>
         <script>
             function togglePanelDisplayMode() {
@@ -131,20 +165,48 @@
         </ul>
         <hr>
         <h3> Illustrates the difference between CSS display and visibility attributes </h3>
-        <div id="image_box_1" class="image_box">
-            <p class="display_attr"> <span> display:block </span></p>
-            <img src="multimedia/rotating_earth.gif" width="200" height="200">
-            <button onclick="removeImageBox()"> Remove </button>
+        <div style="overflow: hidden">
+            <div id="image_box_1" class="image_box">
+                <p class="display_attr"> <span> display:block </span></p>
+                <img src="multimedia/rotating_earth.gif" width="200" height="200">
+                <button onclick="removeImageBox()"> Remove </button>
+            </div>
+            <div id="image_box_2" class="image_box">
+                <p class="display_attr"> <span> visibility:visible </span></p>
+                <img src="multimedia/rotating_earth.gif" width="200" height="200">
+                <button onclick="hideImageBox()"> Hide </button>
+            </div>
+            <div class="image_box">
+                <p> <span> Reset </span></p>
+                <img src="multimedia/rotating_earth.gif" width="200" height="200">
+                <button onclick="resetImageBoxes()"> Reset</button>
+            </div>
         </div>
-        <div id="image_box_2" class="image_box">
-            <p class="display_attr"> <span> visibility:visible </span></p>
-            <img src="multimedia/rotating_earth.gif" width="200" height="200">
-            <button onclick="hideImageBox()"> Hide </button>
+        <hr>
+        
+        <h3> display: inline (top/bottom margin/padding don't push away other content; width/height ignored) </h3>
+        <div>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequat scelerisque
+            elit sit amet consequat. Aliquam erat volutpat. <span class="span_inline"> Aliquam </span>
+            <span class="span_inline">venenatis</span> gravida nisl sit amet facilisis. Nullam cursus fermentum
+            velit sed laoreet.
         </div>
-        <div class="image_box">
-            <p> <span> Reset </span></p>
-            <img src="multimedia/rotating_earth.gif" width="200" height="200">
-            <button onclick="resetImageBoxes()"> Reset</button>
+        
+        <h3> display: inline-block (margin/padding push other content; width/height respected) </h3>
+        <div>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequat scelerisque
+            elit sit amet consequat. Aliquam erat volutpat. <span class="span_inline_block"> Aliquam </span>
+            <span class="span_inline_block">venenatis</span> gravida nisl sit amet facilisis. Nullam cursus fermentum
+            velit sed laoreet.
         </div>
+        
+        <h3> display: block (similar to inline-block but also breaks line)</h3>
+        <div>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consequat scelerisque
+            elit sit amet consequat. Aliquam erat volutpat. <span class="span_block"> Aliquam </span>
+            <span class="span_block">venenatis</span> gravida nisl sit amet facilisis. Nullam cursus fermentum
+            velit sed laoreet.
+        </div>
+        <hr>
     </body>
 </html>
