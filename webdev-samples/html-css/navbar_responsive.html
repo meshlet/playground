@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Responsive Navigation Bar </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating a responsive nagivation bar">
+        <meta name="author" content="Dzanan Bajgoric">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                margin: 0;
+            }
+            
+            ul#responsive_menu {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                background-color: hsl(0, 0%, 90%);
+                width: 180px;
+                position: fixed;
+                height: 100%;
+                overflow-y: auto;
+            }
+            
+            ul#responsive_menu li a {
+                text-decoration: none;
+                color: black;
+                display: block;
+                padding: 10px 16px;
+            }
+            
+            ul#responsive_menu li a:hover:not(.active) {
+                background-color: hsl(120, 0%, 35%);
+            }
+            
+            ul#responsive_menu li a.active {
+                background-color: hsl(120, 65%, 40%);
+                color: white;
+            }
+            
+            article {
+                margin-left: 180px;
+                padding: 1px 15px;
+                overflow: auto;
+            }
+            
+            h2 {
+                text-align: center;
+            }
+            
+            p {
+                text-align: justify;
+            }
+            
+            /*
+             * The navigation bar becomes horizontal on devices whose screen
+             * width is smaller or equal than 900 pixels.
+             */
+            @media screen and (max-width: 800px) {
+                ul#responsive_menu {
+                    position: static;
+                    width: 100%;
+                    height: auto;
+                }
+                
+                ul#responsive_menu li a {
+                    box-sizing: border-box;
+                    float: left;
+                    width: 80px;
+                    padding: 12px;
+                    text-align: center;
+                }
+                
+                article {
+                    margin-left: 0;
+                }
+            }
+            
+            /*
+             * The navigation bar becomes a stack of links on devices whose screen
+             * width is smaller or equal to 300 pixels.
+             */
+            @media screen and (max-width: 300px) {
+                ul#responsive_menu li a {
+                    float: none;
+                    width: 100%;
+                    text-align: center;
+                }
+                
+                p {
+                    text-align: left;
+                }
+            }
+        </style>
+        <script>
+            function handleFixedVerticalMenuClick(event) {
+                var list_items = document.getElementById("responsive_menu").children;
+                for (list_item of list_items) {
+                    list_item.children[0].className = "";
+                }
+                
+                event.target.className = "active";
+            }
+        </script>
+    </head>
+    <body>
+        <ul id="responsive_menu">
+            <li> <a class="active" href="#home" onclick="handleFixedVerticalMenuClick(event)"> Home </a> </li>
+            <li> <a href="#news" onclick="handleFixedVerticalMenuClick(event)"> News </a> </li>
+            <li> <a href="#contact" onclick="handleFixedVerticalMenuClick(event)"> Contact </a> </li>
+            <li> <a href="#about" onclick="handleFixedVerticalMenuClick(event)"> About </a> </li>
+        </ul>
+        <article>
+            <h2> Responsive Navigation Bar </h2>
+            <p style="font-weight: bold;">
+                Resize the browser window to see how the page layout changes with the viewport size.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+            </p>
+        </article>
+    </body>
+</html>

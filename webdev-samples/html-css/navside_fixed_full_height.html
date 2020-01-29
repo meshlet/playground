@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Fixed Full-Height Navigation Bar </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating a fixed full-height navigation bar">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            body {
+                margin: 0;
+            }
+            
+            ul#fixed_vertical_menu {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                background-color: hsl(0, 0%, 90%);
+                width: 180px;
+                position: fixed;
+                height: 100%;
+                overflow-y: auto;
+            }
+            
+            ul#fixed_vertical_menu li a:link, ul#fixed_vertical_menu li a:visited {
+                text-decoration: none;
+                color: black;
+                display: block;
+                padding: 8px 16px;
+            }
+            
+            ul#fixed_vertical_menu li a:hover:not(.active) {
+                background-color: hsl(120, 0%, 35%);
+            }
+            
+            ul#fixed_vertical_menu li a.active {
+                background-color: hsl(120, 65%, 40%);
+                color: white;
+            }
+            
+            article {
+                margin-left: 180px;
+                padding: 1px 15px;
+                overflow: auto;
+            }
+            
+            h2 {
+                text-align: center;
+            }
+            
+            p {
+                text-align: justify;
+            }
+            
+        </style>
+        <script>
+            function handleFixedVerticalMenuClick(event) {
+                var links = document.getElementById("fixed_vertical_menu").children;
+                for (link of links) {
+                    link.children[0].className = "";
+                }
+                
+                event.target.className = "active";
+            }
+        </script>
+    </head>
+    <body>
+        <ul id="fixed_vertical_menu">
+            <li> <a class="active" href="#home" onclick="handleFixedVerticalMenuClick(event)"> Home </a> </li>
+            <li> <a href="#news" onclick="handleFixedVerticalMenuClick(event)"> News </a> </li>
+            <li> <a href="#contact" onclick="handleFixedVerticalMenuClick(event)"> Contact </a> </li>
+            <li> <a href="#about" onclick="handleFixedVerticalMenuClick(event)"> About </a> </li>
+        </ul>
+        <article>
+            <h2> This is some important heading </h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+            </p>
+        </article>
+    </body>
+</html>
