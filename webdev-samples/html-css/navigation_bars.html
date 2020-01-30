@@ -30,45 +30,117 @@
             }
             
             /*
-             * Horizontal navigation bar 1
+             * Horizontal navigation bar
              */
-            ul#horizontal_menu_1 {
+            ul#horizontal_menu {
                 list-style-type: none;
                 margin: 0;
                 padding: 0;
                 background-color: #333333;
             }
             
-            ul#horizontal_menu_1 li a {
+            ul#horizontal_menu li a {
                 float: left;
                 width: 60px;
                 text-align: center;
-            }
-            
-            /* Last child floats to the right */
-            ul#horizontal_menu_1 li:last-child {
-                
-            }
-            
-            ul#horizontal_menu_1 li a {
                 text-decoration: none;
                 display: block;
                 color: white;
                 padding: 16px;
             }
             
-            ul#horizontal_menu_1 li a:hover:not(.active) {
+            /* Last child floats to the right */
+            ul#horizontal_menu li:last-child a {
+                float: right;
+            }
+            
+            ul#horizontal_menu li a:hover:not(.active) {
                 background-color: #111111;
             }
             
-            ul#horizontal_menu_1 li a.active {
+            ul#horizontal_menu li a.active {
                 background-color: hsl(120, 80%, 38%);
             }
             
             /*
-             * Vertical navigation bar 1
+             * Horizontal navigation bar with dropdown lists
+             *
+             * Relative positioning on dropdown and absolute positioning on
+             * dropdown content is used se that content doesn't push the
+             * rest of the page downwards. Content also has z-index set to
+             * 1 to make sure it's rendered on top of any elements that it
+             * might cover that come after it in the page.
              */
-            ul#vertical_menu_1 {
+            ul#horizontal_dropdown_menu {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                background-color: #333333;
+            }
+            
+            ul#horizontal_dropdown_menu li#dropdown {
+                position: relative;
+                float: left;
+                
+                /* Using inline-block so that div takes only as much width as it needs */
+                display:inline-block;
+            }
+            
+            ul#horizontal_dropdown_menu li#dropdown:last-child {
+                float: right;
+            }
+            
+            ul#horizontal_dropdown_menu li#dropdown a {
+                display: block;
+                color: white;
+                text-decoration: none;
+                padding: 16px;
+                width: 60px;
+                text-align: center;
+            }
+            
+            ul#horizontal_dropdown_menu li#dropdown:hover {
+                background-color: hsl(0, 80%, 50%);
+            }
+            
+            ul#horizontal_dropdown_menu li#dropdown > ul#dropdown_content {
+                position: absolute;
+                display: none;
+                min-width: 150px;
+                margin: 0;
+                padding: 0;
+                list-style-type: none;
+                background-color: hsl(0, 0%, 99%);
+                box-shadow: 0px 8px 16px hsla(0, 0%, 0%, 0.3);
+                -moz-box-shadow: 0px 8px 16px hsla(0, 0%, 0%, 0.2); /* For Firefox */
+            }
+            
+            ul#horizontal_dropdown_menu li#dropdown:last-child > ul#dropdown_content {
+                right: 0;
+            }
+            
+            ul#horizontal_dropdown_menu li#dropdown:hover > ul#dropdown_content {
+                display: block;
+            }
+            
+            ul#horizontal_dropdown_menu li#dropdown > ul#dropdown_content li a {
+                box-sizing: border-box;
+                text-decoration: none;
+                display: block;
+                padding: 15px 10px;
+                color: black;
+                width: 100%;
+                text-align: left;
+            }
+            
+            ul#horizontal_dropdown_menu li#dropdown > ul#dropdown_content li a:hover {
+                background-color: hsl(0, 0%, 85%);
+            }
+            
+            /*
+             * Vertical navigation bar
+             */
+            ul#vertical_menu {
                 list-style-type: none;
                 margin: 0;
                 padding: 0;
@@ -76,32 +148,32 @@
                 width: 150px;
             }
             
-            ul#vertical_menu_1 li {
+            ul#vertical_menu li {
                 border-bottom: 1px solid white;
             }
             
-            ul#vertical_menu_1 li:last-child {
+            ul#vertical_menu li:last-child {
                 border-bottom: none;
             }
             
-            ul#vertical_menu_1 li a:link, ul#vertical_menu_1 li a:visited {
+            ul#vertical_menu li a:link, ul#vertical_menu li a:visited {
                 text-decoration: none;
                 color: white;
                 display: block;
                 padding: 8px 16px;
             }
             
-            ul#vertical_menu_1 li a:hover:not(.active) {
+            ul#vertical_menu li a:hover:not(.active) {
                 background-color: hsl(120, 75%, 35%);
             }
             
-            ul#vertical_menu_1 li a.active {
+            ul#vertical_menu li a.active {
                 background-color: hsl(120, 75%, 15%);
             }
             
         </style>
         <script>
-            function handleVerticalMenu1Click(event) {
+            function handleMenuClick(event) {
                 // The list itself is two levels up from the link (event.target)
                 var links = event.target.parentNode.parentNode.children;
                 for (link of links) {
@@ -114,20 +186,57 @@
     </head>
     <body>
         <!-- A horizontal navigation bar -->
-        <ul id="horizontal_menu_1" class="clearfix">
-            <li> <a class="active" href="#home" onclick="handleVerticalMenu1Click(event)"> Home </a> </li>
-            <li> <a href="#news" onclick="handleVerticalMenu1Click(event)"> News </a> </li>
-            <li> <a href="#contact" onclick="handleVerticalMenu1Click(event)"> Contact </a> </li>
-            <li> <a href="#about" onclick="handleVerticalMenu1Click(event)"> About </a> </li>
+        <ul id="horizontal_menu" class="clearfix">
+            <li> <a class="active" href="#home" onclick="handleMenuClick(event)"> Home </a> </li>
+            <li> <a href="#news" onclick="handleMenuClick(event)"> News </a> </li>
+            <li> <a href="#contact" onclick="handleMenuClick(event)"> Contact </a> </li>
+            <li> <a href="#about" onclick="handleMenuClick(event)"> About </a> </li>
+        </ul>
+        <hr>
+        
+        <!-- A horizontal navigation bar with dropdown lists -->
+        <ul id="horizontal_dropdown_menu" class="clearfix">
+            <li id="dropdown">
+                <a href="javascript:void(0)"> Home </a>
+                <ul id="dropdown_content">
+                    <li> <a> Link 1 </a></li>
+                    <li> <a> Link 2 </a></li>
+                    <li> <a> Link 3 </a></li>
+                </ul>
+            </li>
+            <li id="dropdown">
+                <a href="javascript:void(0)"> News </a>
+                <ul id="dropdown_content">
+                    <li> <a> Link 1 </a></li>
+                    <li> <a> Link 2 </a></li>
+                    <li> <a> Link 3 </a></li>
+                </ul>
+            </li>
+            <li id="dropdown">
+                <a href="javascript:void(0)"> Contact </a>
+                <ul id="dropdown_content">
+                    <li> <a> Link 1 </a></li>
+                    <li> <a> Link 2 </a></li>
+                    <li> <a> Link 3 </a></li>
+                </ul>
+            </li>
+            <li id="dropdown">
+                <a href="javascript:void(0)"> About </a>
+                <ul id="dropdown_content">
+                    <li> <a> Link 1 </a></li>
+                    <li> <a> Link 2 </a></li>
+                    <li> <a> Link 3 </a></li>
+                </ul>
+            </li>
         </ul>
         <hr>
         
         <!-- A vertical navigation bar -->
-        <ul id="vertical_menu_1">
-            <li> <a class="active" href="#home" onclick="handleVerticalMenu1Click(event)"> Home </a> </li>
-            <li> <a href="#news" onclick="handleVerticalMenu1Click(event)"> News </a> </li>
-            <li> <a href="#contact" onclick="handleVerticalMenu1Click(event)"> Contact </a> </li>
-            <li> <a href="#about" onclick="handleVerticalMenu1Click(event)"> About </a> </li>
+        <ul id="vertical_menu">
+            <li> <a class="active" href="#home" onclick="handleMenuClick(event)"> Home </a> </li>
+            <li> <a href="#news" onclick="handleMenuClick(event)"> News </a> </li>
+            <li> <a href="#contact" onclick="handleMenuClick(event)"> Contact </a> </li>
+            <li> <a href="#about" onclick="handleMenuClick(event)"> About </a> </li>
         </ul>
         <hr>
         

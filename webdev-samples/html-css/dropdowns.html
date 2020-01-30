@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Dropdowns </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating various dropdown boxes">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            hr {
+                border: 2px solid blue;
+            }
+            
+            .clearfix:after {
+                content: ".";
+                visibility: hidden; 
+                display: block; 
+                height: 0; 
+                clear: both;
+            }
+            
+            /*
+             * Relative positioning on dropdown and absolute positioning on
+             * dropdown content is used se that content doesn't push the
+             * rest of the page downwards. Content also has z-index set to
+             * 1 to make sure it's rendered on top of any elements that it
+             * might cover that come after it in the page.
+             */
+            div#dropdown {
+                position: relative;
+                
+                /* Using inline-block so that div takes only as much width as it needs */
+                display:inline-block;
+            }
+            
+            div#dropdown > div#dropdown_content {
+                position: absolute;
+                display: none;
+                padding: 15px 10px;
+                background-color: hsl(0, 0%, 98%);
+                box-shadow: 0px 8px 16px hsla(0, 0%, 0%, 0.2);
+                -moz-box-shadow: 0px 8px 16px hsla(0, 0%, 0%, 0.2); /* For Firefox */
+                min-width: 160px;
+                text-align: center;
+                z-index: 1;
+            }
+            
+            div#dropdown:hover div#dropdown_content {
+                display: block;
+            }
+            
+            /* Dropdown menu */
+            button#dropdown_btn {
+                background-color: hsl(120, 70%, 40%);
+                color: white;
+                padding: 16px;
+                border: none;
+                font-size: 15px;
+                min-width: 150px;
+            }
+            
+            div#dropdown > ul#dropdown_menu_content {
+                position: absolute;
+                display: none;
+                width: 100%;
+                background-color: hsl(0, 0%, 97%);
+                box-shadow: 0px 8px 16px hsla(0, 0%, 0%, 0.2);
+                -moz-box-shadow: 0px 8px 16px hsla(0, 0%, 0%, 0.2); /* For Firefox */
+                z-index: 1;
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                
+            }
+            
+            div#dropdown:hover ul#dropdown_menu_content {
+                display: block;
+            }
+            
+            div#dropdown:hover button#dropdown_btn {
+                background-color: hsl(120, 70%, 30%);
+                cursor: pointer;
+            }
+            
+            div#dropdown > ul#dropdown_menu_content li a {
+                text-decoration: none;
+                display: block;
+                padding: 13px;
+                color: black;
+            }
+            
+            div#dropdown > ul#dropdown_menu_content li a:hover {
+                background-color: hsl(0, 0%, 90%);
+            }
+            
+            /* Dropdown image */
+            div#dropdown > img#small_img {
+                width: 150px;
+                height: 100px;
+                display: block;
+            }
+            
+            div#dropdown div#dropdown_img_content {
+                position: absolute;
+                display: none;
+                z-index: 1;
+                background-color: hsl(0, 0%, 98%);
+            }
+            
+            div#dropdown:hover div#dropdown_img_content {
+                display: block;
+            }
+            
+            div#dropdown div#dropdown_img_content > img#big_img {
+                display: block;
+                width: 300px;
+                height: 200px;
+            }
+            
+            div#dropdown div#dropdown_img_content > p#img_text {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="dropdown">
+            <span> Hover over me. </span>
+            <div id="dropdown_content">
+                <p> Hello world! </p>
+            </div>
+        </div>
+        <hr>
+        
+        <div id="dropdown">
+            <button type="button" id="dropdown_btn"> Dropdown Menu</button>
+            <ul id="dropdown_menu_content">
+                <li> <a href="#home"> Home </a> </li>
+                <li> <a href="#news"> News </a> </li>
+                <li> <a href="#contact"> Contact </a> </li>
+                <li> <a href="#about"> About </a> </li>
+            </ul>
+        </div>
+        <hr>
+        
+        <div class="clearfix">
+            <!-- The left side of the dropdown content is aligned to the left side of the
+                 dropdown button. -->
+            <div id="dropdown" style="float: left;">
+                <button type="button" id="dropdown_btn" style="min-width: 0;"> Left </button>
+                <ul id="dropdown_menu_content" style="min-width: 150px;">
+                    <li> <a href="#home"> Home </a> </li>
+                    <li> <a href="#news"> News </a> </li>
+                    <li> <a href="#contact"> Contact </a> </li>
+                    <li> <a href="#about"> About </a> </li>
+                </ul>
+            </div>
+            
+            <!-- The right side of the dropdown content is aligned to the right side of the
+                 dropdown button. -->
+            <div id="dropdown" style="float: right;">
+                <button type="button" id="dropdown_btn" style="min-width: 0;"> Right </button>
+                <ul id="dropdown_menu_content" style="min-width: 150px; right: 0;">
+                    <li> <a href="#home"> Home </a> </li>
+                    <li> <a href="#news"> News </a> </li>
+                    <li> <a href="#contact"> Contact </a> </li>
+                    <li> <a href="#about"> About </a> </li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        
+        <h4> Hover over the image: </h4>
+        <div id="dropdown">
+            <img id="small_img" src="multimedia/cinque_terre.jpg" width="800" height="800">
+            <div id="dropdown_img_content">
+                <img id="big_img" src="multimedia/cinque_terre.jpg" width="800" height="800">
+                <p id="img_text">
+                    Cinque Terre, Italy
+                </p>
+            </div>
+        </div>
+    </body>
+</html>
