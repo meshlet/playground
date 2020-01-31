@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Sprites </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page that illustrates CSS sprites">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            hr {
+                border: 2px solid blue;
+            }
+            
+            #home, #left, #right {
+                background-image: url(multimedia/img_navsprites.gif);
+                background-repeat: no-repeat;
+                height: 44px;
+                margin-right: 20px;
+            }
+            
+            #home {
+                background-position: 0 0;
+                width: 46px;
+            }
+            
+            #left {
+                background-position: -47px 0;
+                width: 43px;
+            }
+            
+            #right {
+                background-position: -91px 0;
+                width: 43px;
+            }
+            
+            /* Navigation bar using background images from the image sprite */
+            ul#navigation_bar {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+            
+            ul#navigation_bar li {
+                float: left;
+                padding: 10px;
+            }
+            
+            ul#navigation_bar li a {
+                display: block;
+                background-image: url(multimedia/img_navsprites.gif);
+                background-repeat: no-repeat;
+                height: 44px;
+            }
+            
+            ul#navigation_bar li a#go_home {
+                background-position: 0 0;
+                width: 46px;
+            }
+            
+            ul#navigation_bar li a#previous {
+                background-position: -47px 0;
+                width: 43px;
+            }
+            
+            ul#navigation_bar li a#next {
+                background-position: -91px 0;
+                width: 43px;
+            }
+            
+            ul#navigation_bar li a#go_home:hover {
+                background-position: 0 -45px;
+            }
+            
+            ul#navigation_bar li a#previous:hover {
+                background-position: -47px -45px;
+            }
+            
+            ul#navigation_bar li a#next:hover {
+                background-position: -91px -45px;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <h3> Background images taken from the image sprite:</h3>
+        <img id="home" src="multimedia/dummy_transparent.gif" alt="Home icon"
+             width="1" height="1">
+        <img id="left" src="multimedia/dummy_transparent.gif" alt="Left arrow"
+             width="1" height="1">
+        <img id="right" src="multimedia/dummy_transparent.gif" alt="Right arrow"
+             width="1" height="1">
+        <hr>
+        
+        <!-- Navigation bar using images from the image sprite -->
+        <ul id="navigation_bar">
+            <li>
+                <a id="go_home" href="javascript:void(0)"></a>
+            </li>
+            <li>
+                <a id="previous" href="javascript:void(0)"></a>
+            </li>
+            <li>
+                <a id="next" href="javascript:void(0)"></a>
+            </li>
+        </ul>
+    </body>
+</html>
