@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Counters </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating the usage of CSS counters">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            hr {
+                border: 2px solid blue;
+            }
+            
+            p {
+                margin: 0;
+            }
+            
+            div#example_1 {
+                counter-reset: h4_count p_count;
+            }
+            
+            div#example_1 h4::before {
+                counter-increment: h4_count;
+                content: "Section " counter(h4_count) ".";
+            }
+            
+            div#example_1 p::after {
+                counter-increment: p_count;
+                content: counter(p_count);
+            }
+            
+            div#example_2 {
+                counter-reset: h3_count;
+            }
+            
+            div#example_2 h3 {
+                counter-reset: h4_count;
+            }
+            
+            div#example_2 h3::before {
+                counter-increment: h3_count;
+                content: "Section " counter(h3_count) ".";
+            }
+            
+            div#example_2 h4 {
+                margin: 0;
+            }
+            
+            div#example_2 h4::before {
+                counter-increment: h4_count;
+                content: "Subsection " counter(h3_count) "." counter(h4_count) ".";
+            }
+            
+            div#example_3 ol {
+                list-style-type: none;
+                counter-reset: section;
+            }
+            
+            div#example_3 li::before {
+                counter-increment: section;
+                content: counters(section, ".");
+            }
+        </style>
+    </head>
+    <body>
+        <h3> Uses CSS counters to count h4 headings and paragraphs: </h3>
+        <div id="example_1">
+            <h4></h4>
+            <p> This is paragraph number: </p>
+            <p> This is paragraph number: </p>
+            <h4></h4>
+            <p> This is paragraph number: </p>
+        </div>
+        <hr>
+        
+        <h3> The following uses CSS counters in h3 and h4 scopes: </h3>
+        <div id="example_2">
+            <h3></h3>
+            <h4></h4>
+            <h4></h4>
+            <h4></h4>
+            
+            <h3></h3>
+            <h4></h4>
+            <h4></h4>
+            
+            <h3></h3>
+            <h4></h4>
+        </div>
+        <hr>
+        
+        <h3> The following example shows how to use nested CSS counters with ordered lists: </h3>
+        <div id="example_3">
+            <ol>
+                <li>
+                    Item
+                    <ol>
+                        <li> Item </li>
+                        <li>
+                            Item
+                            <ol>
+                                <li> Item </li>
+                                <li> Item </li>
+                                <li> Item </li>
+                            </ol>
+                        </li>
+                        <li> Item </li>
+                    </ol>
+                </li>
+                <li> Item </li>
+                <li>
+                    Item
+                    <ol>
+                        <li>
+                            Item
+                            <ol>
+                                <li> Item </li>
+                                <li> Item </li>
+                                <li> Item </li>
+                            </ol>
+                        </li>
+                        <li>
+                            Item
+                            <ol>
+                                <li> Item </li>
+                                <li> Item </li>
+                            </ol>
+                        </li>
+                        <li>
+                            Item
+                            <ol>
+                                <li> Item </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    Item
+                    <ol>
+                        <li> Item </li>
+                        <li> Item </li>
+                        <li>
+                            Item
+                            <ol>
+                                <li>
+                                    Item
+                                    <ol>
+                                        <li> Item </li>
+                                        <li> Item </li>
+                                        <li>
+                                            Item
+                                            <ol>
+                                                <li> Item </li>
+                                                <li> Item </li>
+                                            </ol>
+                                        </li>
+                                    </ol>
+                                </li>
+                                <li> Item </li>
+                            </ol>
+                        </li>
+                        <li> Item </li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+    </body>
+</html>

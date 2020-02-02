@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Attribute Selectors </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating usage of CSS attribute selectors">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            hr {
+                border: 2px solid blue;
+            }
+            
+            p {
+                margin: 0px 0px 4px 0px;
+            }
+            
+            div#example_1 a[target] {
+                background-color: yellow;
+            }
+            
+            div#example_2 a[target="_blank"] {
+                background-color: yellow;
+            }
+            
+            div#example_3 {
+                text-align: center;
+            }
+            div#example_3 img {
+                display: inline-block;
+                width: 25%;
+                height: auto;
+                margin-right: 10px;
+            }
+            
+            div#example_3 img[title~="France"] {
+                border: 5px solid yellow;
+            }
+            
+            div#example_4 p[class|="example4"] {
+                background-color: yellow;
+            }
+            
+            div#example_5 p[class^="example5"] {
+                background-color: yellow;
+            }
+            
+            div#example_6 p[class$="example6"] {
+                background-color: yellow;
+            }
+            
+            div#example_7 p[class*="example7"] {
+                background-color: yellow;
+            }
+        </style>
+    </head>
+    <body>
+        <h3> Links with 'target' attribute have yellow background: </h3>
+        <div id="example_1">
+            <a href="https://www.google.com"> www.google.com </a><br>
+            <a href="https://www.goal.com/en" target="_blank"> www.goal.com </a><br>
+            <a href="https://www.gmail.com" target="_top"> www.gmail.com </a>
+        </div>
+        <hr>
+        
+        <h3> Links with 'target="_blank"' have yellow background:</h3>
+        <div id="example_2">
+            <a href="https://www.google.com"> www.google.com </a><br>
+            <a href="https://www.goal.com/en" target="_blank"> www.goal.com </a><br>
+            <a href="https://www.gmail.com" target="_top"> www.gmail.com </a>
+        </div>
+        <hr>
+        
+        <h3> Images whose title contains the word 'France' have yellow border: </h3>
+        <div id="example_3">
+            <img src="multimedia/corsica_france.jpeg" title="Corsica, France" width="300" height="168">
+            <img src="multimedia/lake_como.jpg" title="Lake Como, Italy" width="1129" height="752">
+            <img src="multimedia/french_riviera.jpg" title="French Riviera, France" width="3000" height="2002">
+        </div>
+        <hr>
+        
+        <h3> Paragraphs whose class name starts with 'example4' followed by a space or hyphen have yellow background: </h3>
+        <div id="example_4">
+            <p class="example4"> The class name is 'example4'. </p>
+            <p class="example4-class"> The class name is 'example4-class'. </p>
+            <p class="example4class"> The class name is 'example4class'. </p>
+            <p class="example4_class"> The class name is 'example4_class'.</p>
+        </div>
+        <hr>
+        
+        <h3> Paragraphs whose class name begins with 'example5', regardless of what characters follows, have yellow background:</h3>
+        <div id="example_5">
+            <p class="example5"> The class name is 'example5'. </p>
+            <p class="example5-class"> The class name is 'example5-class'. </p>
+            <p class="example5class"> The class name is 'example5class'. </p>
+            <p class="example5_class"> The class name is 'example5_class'.</p>
+        </div>
+        
+        <h3> Paragraphs whose class name ends with 'example5', regardless of what character preceeds, have yellow background:</h3>
+        <div id="example_6">
+            <p class="example6"> The class name is 'example6'. </p>
+            <p class="example6-class"> The class name is 'example6-class'. </p>
+            <p class="classexample6"> The class name is 'classexample6'. </p>
+            <p class="class_example6"> The class name is 'class_example5'.</p>
+        </div>
+        <hr>
+        
+        <h3> Paragraphs whose class name contains text 'example7' have yellow background: </h3>
+        <div id="example_7">
+            <p class="example7"> The class name is 'example7'. </p>
+            <p class="sometext_example7-class"> The class name is 'sometext_example7-class'. </p>
+            <p class="example_7"> The class name is 'example_7'. </p>
+            <p class="sometext-example7"> The class name is 'sometext-example7'.</p>
+        </div>
+    </body>
+</html>
