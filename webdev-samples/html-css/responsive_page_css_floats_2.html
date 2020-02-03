@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Responsive Web-page  </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A responsive web-page using CSS floats">
+        <meta name="author" content="Dzanan Bajgoric">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            
+            .clearfix:after {
+                content: ".";
+                visibility: hidden; 
+                display: block; 
+                height: 0; 
+                clear: both;
+            }
+            
+            body {
+                margin: 20px;
+                background-color: hsl(0, 0%, 92%);
+            }
+            
+            header {
+                text-align: center;
+                background-color: white;
+                padding: 20px;
+                margin: 0;
+            }
+            
+            header > h1 {
+                font-size: xxx-large;
+            }
+            
+            header > p {
+                font-size: large;
+            }
+            
+            #navbar {
+                margin-top: 0;
+                padding: 0;
+                list-style-type: none;
+                background-color: hsl(0, 0%, 20%);
+                position: sticky;
+                position: -webkit-sticky; /* Safari */
+                top: 0;
+            }
+            
+            #navbar li a {
+                text-decoration: none;
+                display: block;
+                float: left;
+                color: white;
+                padding: 12px 2.5%;
+            }
+            
+            #navbar li:last-child a {
+                float: right;
+            }
+            
+            #navbar li a:hover {
+                background-color: hsl(0, 0%, 85%);
+                color: black;
+            }
+            
+            #main {
+                float: left;
+                width: 75%;
+                padding-right: 10px;
+            }
+            
+            #main > article {
+                background-color: white;
+                padding: 10px 15px;
+                margin-bottom: 20px;
+            }
+            
+            #main > article > h1 {
+                font-size: xx-large;
+            }
+            
+            #main > article > .title_desc {
+                font-weight: bold;
+            }
+            
+            #main > article > div.main_img_placeholder {
+                background-color: hsl(0, 0%, 70%);
+                padding: 10px;
+                height: 150px;
+            }
+            
+            #side {
+                float: right;
+                width: 25%;
+                padding-left: 10px;
+            }
+            
+            #side > aside {
+                background-color: white;
+                padding: 10px 15px;
+                margin-bottom: 20px;
+            }
+            
+            #side > aside > div.side_img_placeholder {
+                background-color: hsl(0, 0%, 70%);
+                padding: 10px;
+                height: 100px;
+            }
+            
+            footer {
+                clear: both;
+                background-color: hsl(0, 0%, 80%);
+                text-align: center;
+                padding: 5px;
+                font-size: x-large;
+            }
+            
+            @media screen and (max-width: 800px) {
+                #main {
+                    float: none;
+                    width: 100%;
+                    padding: 0;
+                }
+                
+                #side {
+                    float: none;
+                    width: 100%;
+                    padding: 0;
+                }
+            }
+            
+            @media screen and (max-width: 400px) {
+                #navbar li a {
+                    float: none;
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Header -->
+        <header>
+            <h1> My Responsive Page</h1>
+            <p>
+                Resize the browser to see the effect.
+            </p>
+        </header>
+        
+        <!-- Navigation bar -->
+        <ul id="navbar" class="clearfix">
+            <li> <a href="javascript:void(0)"> Link 1 </a> </li>
+            <li> <a href="javascript:void(0)"> Link 2 </a> </li>
+            <li> <a href="javascript:void(0)"> Link 3 </a> </li>
+            <li> <a href="javascript:void(0)"> Link 4 </a> </li>
+            <li> <a href="javascript:void(0)"> Link 5 </a> </li>
+        </ul>
+        
+        <!-- Main section -->
+        <section id="main">
+            <article>
+                <h1> Title Heading </h1>
+                <p class="title_desc"> Title description, January 3rd, 2020 </p>
+                <div class="main_img_placeholder"> Image </div>
+                <p> Some text... </p>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum augue ut aliquet. Mauris ante ligula, facilisis sed ornare eu, lobortis in odio. Praesent convallis urna a lacus interdum ut hendrerit risus congue. Nunc sagittis dictum nisi, sed ullamcorper ipsum dignissim ac...
+                </p>
+            </article>
+            
+            <article>
+                <h1> Title Heading </h1>
+                <p class="title_desc"> Title description, November 11th, 2019 </p>
+                <div class="main_img_placeholder"> Image </div>
+                <p> Some text... </p>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem egestas odio, vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae massa. Fusce luctus vestibulum augue ut aliquet. Mauris ante ligula, facilisis sed ornare eu, lobortis in odio. Praesent convallis urna a lacus interdum ut hendrerit risus congue. Nunc sagittis dictum nisi, sed ullamcorper ipsum dignissim ac...
+                </p>
+            </article>
+        </section>
+        
+        <!-- Side section -->
+        <section id="side">
+            <aside>
+                <h2> About Me </h2>
+                <div class="side_img_placeholder"> Image </div>
+                <p>
+                    Some text text text text text text text text text text text text text text text text text
+                    text text text text.
+                </p>
+            </aside>
+            
+            <aside>
+                <h2> Popular Posts </h2>
+                <ul>
+                    <li> <a href="javascript:void(0)"> Post 1 </a> </li>
+                    <li> <a href="javascript:void(0)"> Post 2 </a> </li>
+                    <li> <a href="javascript:void(0)"> Post 3 </a> </li>
+                    <li> <a href="javascript:void(0)"> Post 4 </a> </li>
+                </ul>
+            </aside>
+            
+            <aside>
+                <h2> Follow Me </h2>
+                <p> Some text... </p>
+            </aside>
+        </section>
+        
+        <!-- Footer -->
+        <footer>
+            <p> Footer </p>
+        </footer>
+    </body>
+</html>
