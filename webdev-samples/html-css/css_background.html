@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html class="multiple_background_images">
+    <head>
+        <title> Background </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-site illustrating styling backgrounds">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            .clearfix:after {
+                content: ".";
+                visibility: hidden; 
+                display: block; 
+                height: 0; 
+                clear: both;
+            }
+            
+            .multiple_background_images {
+                background-image: url(multimedia/square_img.png), url(multimedia/profilepic.png), url(multimedia/background_img.jpg);
+                background-repeat: no-repeat, no-repeat, no-repeat;
+                background-size: 100px 100px, 100px 100px, 100% 100%;
+                background-position: right top, right center, center center;
+                background-attachment: fixed, fixed, fixed;
+            }
+            
+            .fullscreen_fixed_centered_cover_image {
+                background-image: url(multimedia/background_img.jpg);
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center center;
+                background-attachment: fixed;
+            }
+            
+            .small_fixed_images_in_top_right_and_top_center {
+                background-image: url(multimedia/square_img.png), url(multimedia/profilepic.png);
+                background-repeat: no-repeat, no-repeat;
+                background-size: 100px 100px, 100px 100px;
+                background-position: right top, right center;
+                background-attachment: fixed, fixed;
+            }
+            
+            .small_fixed_centered_image {
+                background-image: url(multimedia/square_img.png);
+                background-size: 50px 50px;
+                background-attachment: fixed;
+                background-position: center center;
+                background-repeat: no-repeat;
+            }
+            
+            .small_scrollable_centered_image {
+                background-image: url(multimedia/square_img.png);
+                background-size: 50px 50px;
+                background-attachment: scroll;
+                background-position: center center;
+                background-repeat: no-repeat;
+            }
+            
+            .div_style {
+                margin-bottom: 2%;
+                border: 1px solid tomato;
+                width: 192px;
+                height: 128px;
+            }
+            
+            button[type="button"] {
+                margin-right: 5px;
+            }
+            
+            div#example_1 {
+                background-image: url(multimedia/arrow_icon.png);
+            }
+            
+            div#example_2 {
+                background-image: url(multimedia/arrow_icon.png);
+                background-repeat: no-repeat;
+                background-position: right top;
+            }
+            
+            div#example_3 {
+                background-image: url(multimedia/square_img.png);
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+            }
+            
+            div#example_4 {
+                background-image: url(multimedia/square_img.png);
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position: right;
+            }
+            
+            div#example_5 {
+                border: 10px double red;
+                background-color: white;
+                background-image: url(multimedia/square_img.png);
+                background-repeat: no-repeat;
+                background-origin: padding-box;
+                padding: 10px;
+                float: left;
+                margin-right: 10px;
+            }
+            
+            div#example_6 {
+                border: 10px double red;
+                background-color: white;
+                background-image: url(multimedia/square_img.png);
+                background-repeat: no-repeat;
+                background-origin: border-box;
+                padding: 10px;
+                float: left;
+                margin-right: 10px;
+            }
+            
+            div#example_7 {
+                border: 10px double red;
+                background-color: white;
+                background-image: url(multimedia/square_img.png);
+                background-repeat: no-repeat;
+                background-origin: content-box;
+                padding: 10px;
+                float: left;
+            }
+            
+            div#example_8 {
+                border: 10px double red;
+                background-color: yellow;
+                float: left;
+                margin-right: 10px;
+                background-clip: padding-box;
+                padding: 10px;
+            }
+            
+            div#example_9 {
+                border: 10px double red;
+                background-color: yellow;
+                float: left;
+                margin-right: 10px;
+                background-clip: border-box;
+                padding: 10px;
+            }
+            
+            div#example_10 {
+                border: 10px double red;
+                background-color: yellow;
+                float: left;
+                margin-right: 10px;
+                background-clip: content-box;
+                padding: 10px;
+            }
+        </style>
+        <script>
+            function setMultipleBackgroundImages() {
+                var html = document.getElementsByTagName("html")[0];
+                html.className = "multiple_background_images";
+            }
+            
+            function setFullscreenFixedCenteredCoverImage() {
+                var html = document.getElementsByTagName("html")[0];
+                html.className = "fullscreen_fixed_centered_cover_image";
+            }
+            
+            function setSmallFixedCenteredImage() {
+                var html = document.getElementsByTagName("html")[0];
+                html.className = "small_fixed_centered_image";
+            }
+            
+            function setSmallScrollableCenteredImage() {
+                var html = document.getElementsByTagName("html")[0];
+                html.className = "small_scrollable_centered_image";
+            }
+        </script>
+    </head>
+    <!-- The background image is stretched to cover the entire width and height of
+         the page (background-size: 100% 100%; background-attachment: fixed). -->
+    <body>
+        <button type="button" onclick="setMultipleBackgroundImages()">Multiple Background Images</button>
+        <button type="button" onclick="setFullscreenFixedCenteredCoverImage()"> Fullscreen Centered Cover Image </button>
+        <button type="button" onclick="setSmallFixedCenteredImage()">Fixed Image in Center</button>
+        <button type="button" onclick="setSmallScrollableCenteredImage()">Scrollable Image in Center</button><br><br>
+        
+        <!-- The image is repeated as many times as needed to fill up the div -->
+        <div class="div_style" id="example_1"></div>
+        
+        <!-- The image is not repeated in the div and is placed in the right top part
+             of the div -->
+        <div class="div_style" id="example_2"></div>
+        
+        <!-- The imge covers the entire div, the image is scaled without changing its
+             ratio. If image propotions differ from the div, the image is cropped
+             vertically or horizontally so that it fills up the entire div. Moreover,
+             the image is centered so cropping will affect the image equally from each
+             side (the image is cropped by the same amount from top, right, bottom and
+             left). -->
+        <div class="div_style" id="example_3"></div>
+        
+        <!-- The image is scaled to try to cover as much of the div as possible without
+             changing its ratio. If div ratio is different than that of the image, parts
+             of the div will not be covered. Moreover, the is aligned to the right so
+             that it covers the right part of the element. -->
+        <div class="div_style" id="example_4"></div>
+        
+        <!-- Using different background-origin values -->
+        <div class="clearfix">
+            <div class="div_style" id="example_5">
+                <p> background-origin:padding-box</p>
+            </div>
+            
+            <div class="div_style" id="example_6">
+                <p> background-origin:border-box</p>
+            </div>
+            
+            <div class="div_style" id="example_7">
+                <p> background-origin:content-box</p>
+            </div>
+        </div>
+        
+        <!-- Using different background-clip values -->
+        <div class="clearfix">
+            <div class="div_style" id="example_8">
+                <p>background-clip: padding-box</p>
+            </div>
+            
+            <div class="div_style" id="example_9">
+                <p>background-clip: padding-box</p>
+            </div>
+            
+            <div class="div_style" id="example_10">
+                <p>background-clip: content-box</p>
+            </div>
+        </div>
+    </body>
+</html>
