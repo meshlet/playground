@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Border Images </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating CSS border images">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            
+            hr {
+                border: 2px solid blue;
+            }
+            
+            div {
+                text-align: center;
+                border: 15px solid transparent;
+                border-image: url(multimedia/border.png);
+                border-image-slice: 30;
+                margin-bottom: 20px;
+            }
+            
+            #example_1 {
+                border-image-repeat: round;
+            }
+            
+            #example_2 {
+                border-image-repeat: stretch;
+            }
+            
+            #example_3 {
+                border-image-repeat: repeat;
+            }
+            
+            #example_4 {
+                border-image-repeat: space;
+            }
+            
+            #example_5 {
+                border-image-repeat: round stretch;
+            }
+            
+            #example_6 {
+                border: 20px solid transparent;;
+                border-image: url(multimedia/border.png);
+                border-image-repeat: round;
+                border-image-slice: 23;
+                border-image-width: 15px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="example_1">
+            <p> border-image-repeat: round;</p>
+        </div>
+        
+        <div id="example_2">
+            <p> border-image-repeat: stretch; </p>
+        </div>
+        
+        <div id="example_3">
+            <p> border-image-repeat: repeat; </p>
+        </div>
+        
+        <div id="example_4">
+            <p> border-image-repeat: space; </p>
+        </div>
+        
+        <div id="example_5">
+            <p> border-image-repeat: round stretch; </p>
+        </div>
+        
+        <div id="example_6">
+            <p> border-image-repeat: round; border-image-slice: 23; border-image-width: 15px; </p>
+        </div>
+    </body>
+</html>

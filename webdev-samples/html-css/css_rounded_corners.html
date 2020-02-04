@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Rounded Corners </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating CSS border-radius property">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            body > div {
+                margin-bottom: 10px;
+            }
+            
+            #example_1 p {
+                background-color: green;
+                display: inline-block;
+                margin: 0;
+                padding: 20px;
+                border-radius: 10px;
+                color: white;
+            }
+            
+            #example_2 p {
+                display: inline-block;
+                border: 2px solid green;
+                margin: 0;
+                padding: 20px;
+                border-radius: 10px;
+            }
+            
+            #example_3 p {
+                display: inline-block;
+                margin: 0;
+                border-radius: 10px;
+                background-image: url(multimedia/background_img.jpg);
+                background-size: 100% 100%;
+                padding: 20px;
+                color: white;
+            }
+            
+            #example_4 p {
+                display: inline-block;
+                border-radius: 15px 50px 30px 5px;
+                margin: 0;
+                padding: 50px 20px;
+                background-color: green;
+                color: white;
+            }
+            
+            #example_5 p {
+                display: inline-block;
+                border-radius: 20px 40px 10px;
+                margin: 0;
+                padding: 50px 20px;
+                background-color: green;
+                color: white;
+            }
+            
+            #example_6 p {
+                display: inline-block;
+                border-radius: 20px 40px;
+                margin: 0;
+                padding: 50px 20px;
+                background-color: green;
+                color: white;
+            }
+            
+            #example_7 p {
+                display: inline-block;
+                border-top-left-radius: 50px 15px;
+                margin: 0;
+                padding: 50px 20px;
+                background-color: green;
+                color: white;
+            }
+            
+            #example_8 p {
+                display: inline-block;
+                border-radius: 50px 10px 40px 25px / 15px 50px 20px 25px;
+                margin: 0;
+                padding: 50px 20px;
+                background-color: green;
+                color: white;
+            }
+            
+            #example_9 p {
+                display: inline-block;
+                border-radius: 50%;
+                margin: 0;
+                padding: 50px 50px;
+                background-color: green;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="example_1">
+            <p>
+                border-radius: 10px; border: none;
+            </p>
+        </div>
+        
+        <div id="example_2">
+            <p>
+                border-radius: 10px; border: 2px solid green;
+            </p>
+        </div>
+        
+        <div id="example_3">
+            <p>
+                border-radius: 10px; background-image: url(multimedia/background_img.jpg)
+            </p>
+        </div>
+        
+        <div id="example_4">
+            <p>
+                border-radius: 15px 50px 30px 5px;
+            </p>
+        </div>
+        
+        <div id="example_5">
+            <p>
+                border-radius: 20px 40px 10px;
+            </p>
+        </div>
+        
+        <div id="example_6">
+            <p>
+                border-radius: 20px 40px;
+            </p>
+        </div>
+        
+        <div id="example_7">
+            <p>
+                border-top-left-radius: 50px 15px;
+            </p>
+        </div>
+        
+        <div id="example_8">
+            <p>
+                border-radius: 50px 10px 40px 25px / 15px 50px 20px 25px;
+            </p>
+        </div>
+        
+        <div id="example_9">
+            <p>
+                border-radius: 50%;
+            </p>
+        </div>
+    </body>
+</html>
