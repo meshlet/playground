@@ -147,6 +147,36 @@
                 background-clip: content-box;
                 padding: 10px;
             }
+            
+            div#example_11 {
+                background-image: url(multimedia/nikola_tesla.jpg);
+                background-size: cover;
+                background-position: center center;
+                width: 40%;
+                height: 350px;
+                line-height: 350px;
+                text-align: center;
+                float: left;
+                margin-bottom: 10px;
+            }
+            
+            div#example_11 > div#text {
+                color: white;
+                line-height: 1.0;
+                display: inline-block;
+                vertical-align: middle;
+            }
+            
+            div#example_11 > div#text > p#name {
+                font-size: xxx-large;
+                font-weight: bold;
+                margin: 0;
+            }
+            
+            div#example_11 > div#text > p#date {
+                font-size: large;
+                font-weight: bold;
+            }
         </style>
         <script>
             function setMultipleBackgroundImages() {
@@ -221,11 +251,20 @@
             </div>
             
             <div class="div_style" id="example_9">
-                <p>background-clip: padding-box</p>
+                <p>background-clip: border-box</p>
             </div>
             
             <div class="div_style" id="example_10">
                 <p>background-clip: content-box</p>
+            </div>
+        </div>
+        
+        <!-- Profile image with centered text over it. Uses line height property on the
+             parent div to accomplish the vertical alignment of the text. -->
+        <div id="example_11">
+            <div id="text">
+                <p id="name"> Nikola Tesla </p>
+                <p id="date"> 10 July 1856 - 7 January 1943 </p>
             </div>
         </div>
     </body>

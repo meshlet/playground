@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Linear Gradients </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating CSS linear gradients">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            
+            .clearfix:after {
+                content: ".";
+                visibility: hidden; 
+                display: block; 
+                height: 0; 
+                clear: both;
+            }
+            
+            hr {
+                border: 2px solid blue;
+            }
+            
+            .container {
+                width: 50%;
+                padding: 0px 10px;
+                float: left;
+            }
+            
+            .graddiv {
+                margin-bottom: 15px;
+                text-align: center;
+            }
+            
+            .graddiv > p {
+                padding: 35px 0px;
+            }
+            
+            div#example_1 {
+                background-image: linear-gradient(red, yellow);
+            }
+            
+            div#example_2 {
+                background-image: linear-gradient(to right, red, yellow);
+            }
+            
+            div#example_3 {
+                background-image: linear-gradient(to top, red, yellow);
+            }
+            
+            div#example_4 {
+                background-image: linear-gradient(to right top, red, yellow);
+            }
+            
+            div#example_5 {
+                background-image: linear-gradient(0deg, red, yellow);
+            }
+            
+            div#example_6 {
+                background-image: linear-gradient(90deg, red, yellow);
+            }
+            
+            div#example_7 {
+                background-image: linear-gradient(180deg, red, yellow);
+            }
+            
+            div#example_8 {
+                background-image: linear-gradient(-90deg, red, yellow);
+            }
+            
+            div#example_9 {
+                background-image: linear-gradient(270deg, red, green, blue);
+                color: white;
+            }
+            
+            div#example_10 {
+                background-image: linear-gradient(to right bottom, red, orange, yellow, green, blue, indigo, violet);
+                color: white;
+                font-weight: bold;
+            }
+            
+            div#example_11 {
+                background-image: linear-gradient(90deg, hsla(0, 100%, 50%, 0), hsla(0, 100%, 50%, 1));
+            }
+            
+            div#example_12 {
+                background-image: linear-gradient(180deg, red 15%, yellow 85%);
+            }
+            
+            div#example_13 {
+                background-image: linear-gradient(-90deg, red, 20%, yellow);
+            }
+            
+            div#example_14 {
+                background-image: repeating-linear-gradient(90deg, red, green, blue 33.33%);
+            }
+            
+            div#example_15 {
+                background-image: linear-gradient(-90deg, lime 20%, red 30% 45%, cyan 55% 70%, yellow 80%);
+            }
+            
+            div#example_16 {
+                background-image: linear-gradient(-90deg, lime 25%, red 25% 50%, cyan 50% 75%, yellow 75%);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="clearfix container">
+            <div id="example_1" class="graddiv"> <p> linear-gradient(red, yellow) -> to bottom is default </p></div>
+            <hr>
+
+            <div id="example_2" class="graddiv"> <p> linear-gradient(to right, red, yellow) </p> </div>
+            <hr>
+
+            <div id="example_3" class="graddiv"> <p> linear-gradient(to top, red, yellow) </p> </div>
+            <hr>
+
+            <div id="example_4" class="graddiv"> <p> linear-gradient(to right top, red, yellow) </p> </div>
+            <hr>
+            
+            <div id="example_9" class="graddiv"> <p> linear-gradient(270deg, red, green, blue)</p> </div>
+            <hr>
+            
+            <div id="example_11" class="graddiv"> <p> linear-gradient(90deg, hsla(0, 100%, 50%, 0), hsla(0, 100%, 50%, 1)) </p> </div>
+            <hr>
+            
+            <div id="example_13" class="graddiv"> <p> linear-gradient(-90deg, red, 20%, yellow) </p> </div>
+            <hr>
+            
+            <div id="example_15" class="graddiv"> <p> linear-gradient(-90deg, lime 20%, red 30% 45%, cyan 55% 70%, yellow 80%) </p> </div>
+        </div>
+        
+        <div class="clearfix container">
+            <div id="example_5" class="graddiv"> <p> linear-gradient(0deg, red, yellow) </p></div>
+            <hr>
+
+            <div id="example_6" class="graddiv"> <p> linear-gradient(90deg, red, yellow) </p> </div>
+            <hr>
+
+            <div id="example_7" class="graddiv"> <p> linear-gradient(180deg, red, yellow) </p> </div>
+            <hr>
+
+            <div id="example_8" class="graddiv"> <p> linear-gradient(-90deg, red, yellow) </p> </div>
+            <hr>
+            
+            <div id="example_10" class="graddiv"> <p> linear-gradient(to right bottom, red, orange, yellow, green, blue, indigo, violet) </p> </div>
+            <hr>
+            
+            <div id="example_12" class="graddiv"> <p> linear-gradient(180deg, red 5%, yellow 95%) </p> </div>
+            <hr>
+            
+            <div id="example_14" class="graddiv"> <p> repeating-linear-gradient(0deg, red, green, blue 33.33%) </p> </div>
+            <hr>
+            
+            <div id="example_16" class="graddiv"> <p> linear-gradient(-90deg, lime 25%, red 25% 50%, cyan 50% 75%, yellow 75%) </p> </div>
+        </div>
+    </body>
+</html>
