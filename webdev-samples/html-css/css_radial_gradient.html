@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Radial Gradients </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating CSS radial gradients">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            
+            .clearfix:after {
+                content: ".";
+                visibility: hidden; 
+                display: block; 
+                height: 0; 
+                clear: both;
+            }
+            
+            hr {
+                border: 2px solid blue;
+                width: 60%;
+                margin: 0;
+            }
+            
+            .container {
+                width: 50%;
+                padding: 0px 10px;
+                float: left;
+            }
+            
+            .graddiv {
+                margin-bottom: 15px;
+                text-align: center;
+                width: 60%;
+            }
+            
+            .graddiv > p {
+                padding: 70px 0px;
+            }
+            
+            #example_1 {
+                background-image: radial-gradient(red, yellow, green);
+            }
+            
+            #example_2 {
+                background-image: radial-gradient(red 5%, yellow 15%, green 60%);
+            }
+            
+            #example_3 {
+                background-image: radial-gradient(circle, red, yellow, green);
+            }
+            
+            #example_4 {
+                background-image: radial-gradient(closest-side at 70% 20%, red, yellow, black);
+                color: white;
+            }
+            
+            #example_5 {
+                background-image: radial-gradient(farthest-side at 70% 20%, red, yellow, black);
+                color: white;
+            }
+            
+            #example_6 {
+                background-image: radial-gradient(closest-corner at 70% 20%, red, yellow, black);
+                color: white;
+            }
+            
+            #example_7 {
+                background-image: radial-gradient(farthest-corner at 70% 20%, red, yellow, black);
+            }
+            
+            #example_8 {
+                background-image: repeating-radial-gradient(red, yellow, green 10%);
+            }
+            
+        </style>
+    </head>
+    <body>
+        <div class="clearfix container">
+            <div id="example_1" class="graddiv">
+                <p> radial-gradient(red, yellow, green) </p>
+            </div>
+            <hr>
+            
+            <div id="example_3" class="graddiv">
+                <p> radial-gradient(circle, red, yellow, green) </p>
+            </div>
+            <hr>
+            
+            <div id="example_5" class="graddiv">
+                <p> radial-gradient(farthest-side at 70% 20%, red, yellow, black) </p>
+            </div>
+            <hr>
+            
+            <div id="example_7" class="graddiv">
+                <p> radial-gradient(farthest-corner at 70% 20%, red, yellow, black) </p>
+            </div>
+        </div>
+        
+        <div class="clearfix container">
+            <div id="example_2" class="graddiv">
+                <p> radial-gradient(red 5%, yellow 15%, green 60%) </p>
+            </div>
+            <hr>
+            
+            <div id="example_4" class="graddiv">
+                <p> radial-gradient(closest-side at 70% 20%, red, yellow, black) </p>
+            </div>
+            <hr>
+            
+            <div id="example_6" class="graddiv">
+                <p> radial-gradient(closest-corner at 70% 20%, red, yellow, black)  </p>
+            </div>
+            <hr>
+            
+            <div id="example_8" class="graddiv">
+                <p> </p>
+            </div>
+        </div>
+    </body>
+</html>

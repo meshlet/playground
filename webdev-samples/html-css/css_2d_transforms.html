@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS 2D Transforms </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page that illustrates CSS 2D transforms">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            body {
+                margin: 0;
+                overflow: hidden;
+            }
+            
+            hr {
+                border: none;
+                height: 2px;
+                background-color: blue;
+            }
+            
+            .clearfix:after {
+                content: ".";
+                visibility: hidden; 
+                display: block; 
+                height: 0; 
+                clear: both;
+            }
+            
+            #example_1 {
+                position: absolute;
+                width: 200px;
+                padding: 10px;
+                -ms-transform: translate(50px, 10px); /* IE 9 */
+                transform: translate(50px, 20px);
+                background-color: yellow;
+            }
+            
+            #example_2 {
+                position: absolute;
+                width: 200px;
+                padding: 10px;
+                -ms-transform: translate(350px, 100px) rotate(45deg);
+                transform: translate(330px, 100px) rotate(45deg);
+                background-color: yellow;
+            }
+            
+            #example_3 {
+                position: absolute;
+                width: 200px;
+                padding: 10px;
+                -ms-transform: translate(500px, 50px) rotate(-70deg);
+                transform: translate(500px, 50px) rotate(-70deg);
+                background-color: yellow;
+            }
+            
+            #example_4 {
+                position: relative;
+                left: 80px;
+                top: 150px;
+            }
+            
+            #example_4 span {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            
+            #example_4 > #original {
+                position: absolute;
+                width: 150px;
+                height: 70px;
+                padding: 10px;
+                background-color: hsla(0, 100%, 50%, 0.5);
+                color: white;
+            }
+            
+            #example_4 > #scaled_up {
+                position: absolute;
+                width: 150px;
+                height: 70px;
+                padding: 10px;
+                background-color: hsla(120, 100%, 50%, 0.5);
+                -ms-transform: scale(1.5, 2.0);
+                transform: scale(1.5, 2.0);
+            }
+            
+            #example_4 > #scaled_down {
+                position: absolute;
+                width: 150px;
+                height: 70px;
+                padding: 10px;
+                background-color: hsla(240, 100%, 50%, 0.5);
+                -ms-transform: scale(0.5, 0.5);
+                transform: scale(0.5, 0.5);
+                font-size: x-large;
+                color: white;
+            }
+            
+            #example_5 {
+                position: relative;
+                left: 730px;
+            }
+            
+            #example_5 > #original {
+                width: 130px;
+                height: 50px;
+                padding: 10px;
+                background-color: hsla(0, 100%, 50%,  0.5);
+                margin-bottom: 15px;
+            }
+            
+            #example_5 > #skewed_x {
+                width: 130px;
+                height: 50px;
+                padding: 10px;
+                background-color: hsla(60, 100%, 50%,  0.9);
+                -ms-transform: skewX(55deg);
+                transform: skewX(55deg);
+                margin-bottom: 15px;
+            }
+            
+            #example_5 > #skewed_y {
+                width: 130px;
+                height: 50px;
+                padding: 10px;
+                background-color: hsla(240, 100%, 50%,  0.4);
+                -ms-transform: skewY(45deg);
+                transform: skewY(45deg);
+            }
+            
+            #example_6 {
+                position: absolute;
+                top: 320px;
+                left: 10px;
+            }
+            
+            #example_6 > div {
+                position: absolute;
+                color: white;
+                float: left;
+                width: 250px;
+                padding: 10px;
+                background-color: green;
+            }
+            
+            #example_6 > #original {
+                left: 15px;
+            }
+            
+            #example_6 > #origin_top_left {
+                left: 320px;
+                transform-origin: top left;
+                transform: rotate(50deg);
+            }
+            
+            #example_6 > #origin_top_right {
+                left: 200px;
+                transform-origin: top right;
+                transform: rotate(50deg);
+            }
+            
+            #example_6 > #origin_bottom_left {
+                left: 500px;
+                transform-origin: bottom left;
+                transform: rotate(50deg);
+            }
+            
+            #example_6 > #origin_bottom_right {
+                left: 400px;
+                transform-origin: bottom right;
+                transform: rotate(50deg);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="example_1">
+            This div is translated by 50 pixesl to the right and 20 pixels down.
+        </div>
+        <div id="example_2">
+            This div is translated by 400 pixels to right and 100 pixels down,
+            and also rotated 45 degrees clocwise.
+        </div>
+        <div id="example_3">
+            This div is translated by 500 pixesl to the right and 50 pixels down,
+            and also rotated by 70 degrees counter-clockwise.
+        </div>
+        <div id="example_4">
+            <div id="original">
+                <span> Original </span>
+            </div>
+            <div id="scaled_up">
+                <span> Scaled up </span>
+            </div>
+            <div id="scaled_down">
+                <span> Scaled down </span>
+            </div>
+        </div>
+        <div id="example_5">
+            <div id="original">
+                <span> Original </span>
+            </div>
+            <div id="skewed_x">
+                <span> SkewX(55deg) </span>
+            </div>
+            <div id="skewed_y">
+                <span> SkewY(45deg) </span>
+            </div>
+        </div>
+        <div id="example_6" class="clearfix">
+            <div id="original">
+                <span> Original </span>
+            </div>
+            <div id="origin_top_left">
+                <span> Origin: Top,Left; Rotate(55deg) </span>
+            </div>
+            <div id="origin_top_right">
+                <span> Origin: Top,Right; Rotate(55deg)</span>
+            </div>
+            <div id="origin_bottom_left">
+                <span> Origin: Bottom,Left: Rotate(55deg)</span>
+            </div>
+            <div id="origin_bottom_right">
+                <span> Origin: Bottom,Right: Rotate(55deg)</span>
+            </div>
+        </div>
+    </body>
+</html>

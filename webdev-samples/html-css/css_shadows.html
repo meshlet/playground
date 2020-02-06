@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Shadows </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating usage of text-shadow and box-shadow CSS properties">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            
+            .clearfix::after {
+                content: ".";
+                visibility: hidden; 
+                display: block; 
+                height: 0; 
+                clear: both;
+            }
+            
+            hr {
+                border: none; 
+                height: 2px; 
+                background-color: blue; 
+            }
+            
+            .container {
+                width: 50%;
+                padding: 0px 10px;
+                float: left;
+            }
+            
+            .container > .text_shadow {
+                border-bottom: 2px solid blue;
+                padding-bottom: 10px;
+            }
+            
+            .container > .text_shadow:last-child {
+                padding-bottom: 0;
+                border-bottom: none;
+            }
+            
+            .text_shadow {
+                font-size: x-large;
+                margin: 10px;
+            }
+            
+            #example_1 {
+                text-shadow: 2px 2px red;
+            }
+            
+            #example_2 {
+                text-shadow: -5px 6px 5px red;
+            }
+            
+            #example_3 {
+                color: white;
+                text-shadow: 2px 3px 4px black;
+            }
+            
+            #example_4 {
+                text-shadow: 0px 0px 5px red;
+            }
+            
+            #example_5 {
+                text-shadow: 0px 0px 3px red, 0px 0px 5px blue;
+            }
+            
+            #example_6 {
+                color: white;
+                text-shadow: 0px 0px 3px black, 0px 0px 25px blue, 0px 0px 5px darkblue;
+            }
+            
+            #example_7 {
+                color: yellow;
+                text-shadow: -1px 0px black, 0px -1px black, 1px 0px black, 0px 1px black;
+                font-size: xx-large;
+            }
+            
+            .box_shadow {
+                margin-left: 10px;
+                margin-bottom: 20px;
+                width: 50%;
+                padding: 30px 15px;
+            }
+            
+            #example_8 {
+                background-color: yellow;
+                -webkit-box-shadow: 10px 10px grey;
+                -moz-box-shadow: 10px 10px grey;
+                box-shadow: 10px 10px grey;
+            }
+            
+            #example_9 {
+                background-color: yellow;
+                -webkit-box-shadow: 10px 10px 5px grey;
+                -moz-box-shadow: 10px 10px 5px grey;
+                box-shadow: 10px 10px 5px grey;
+            }
+            
+            #example_10 {
+                position: relative;
+                -webkit-box-shadow: 1px 2px 4px hsla(0, 0%, 0%, 0.5);
+                -moz-box-shadow: 1px 2px 4px hsla(0, 0%, 0%, 0.5);
+                box-shadow: 1px 2px 4px hsla(0, 0%, 0%, 0.5);
+                padding: 10px;
+                background: white;
+                margin-bottom: 30px;
+            }
+            
+            #example_10 > div {
+                background-image: url(multimedia/bermuda.jpg);
+                background-position: center center;
+                background-size: cover;
+                width: 100%;
+                height: 200px;
+            }
+            
+            #example_10::after {
+                content: "";
+                position: absolute;
+                z-index: -1;
+                width: 70%;
+                left: 15%;
+                bottom: 0;
+                height: 100px;
+                box-shadow: 0 15px 20px hsla(0, 0%, 0%, 0.5);
+            }
+            
+            #example_11 {
+                padding: 0;
+                width: 50%;
+                margin-bottom: 0;
+                -webkit-box-shadow: 0px 5px 25px grey;
+                -moz-box-shadow: 10px 10px grey;
+                box-shadow: 0px 5px 25px grey;
+            }
+            
+            #example_11 > #image {
+                width: 100%;
+                height: 200px;
+                background-image: url(multimedia/cinque_terre.jpg);
+                background-position: center;
+                background-size: cover;
+            }
+            
+            #example_11 > #text {
+                text-align: center;
+                padding: 15px 0px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="clearfix container">
+            <p id="example_1" class="text_shadow"> text-shadow: 2px 2px red </p>
+            <p id="example_2" class="text_shadow"> text-shadow: -5px 6px 5px red </p>
+            <p id="example_3" class="text_shadow"> text-shadow: 2px 2px 4px black </p>
+            <p id="example_4" class="text_shadow"> text-shadow: 0px 0px 5px red </p>
+            <p id="example_5" class="text_shadow"> text-shadow: 0px 0px 3px red, 0px 0px 5px blue </p>
+            <p id="example_6" class="text_shadow"> text-shadow: 0px 0px 3px black, 0px 0px 25px blue, 0px 0px 5px darkblue </p>
+            <p id="example_7" class="text_shadow"> text-shadow </p>
+        </div>
+        
+        <div class="clearfix container">
+            <div id="example_8" class="box_shadow">
+                box-shadow: 5px 10px grey
+            </div>
+            <hr>
+            
+            <div id="example_9" class="box_shadow">
+                box-shadow: 10px 10px 5px grey
+            </div>
+            <hr>
+            
+            <div id="example_10" class="box_shadow">
+                <div></div>
+            </div>
+            <hr>
+            
+            <div id="example_11" class="box_shadow">
+                <div id="image"> </div>
+                <div id="text"> Cinque Terre, Italy </div>
+            </div>
+        </div>
+    </body>
+</html>
