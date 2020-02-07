@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS 3D Transforms </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating CSS 3D transforms">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            
+            body {
+                margin: 0;
+            }
+            
+            .clearfix:after {
+                content: ".";
+                visibility: hidden; 
+                display: block; 
+                height: 0; 
+                clear: both;
+            }
+            
+            .controls_menu {
+                z-index: 1;
+                width: 28%;
+                min-width: 250px;
+                max-width: 280px;
+                float: left;
+                background-color: hsl(0, 0%, 90%);
+                height: 100vh;
+                overflow-y: auto;
+                padding: 5px;
+            }
+            
+            .controls_container {
+                width: 100%;
+                border-bottom: 2px dashed green;
+                margin-bottom: 10px;
+            }
+            
+            .controls_container:first-child {
+                border-bottom: 2px solid black;
+                margin-bottom: 20px;
+            }
+            
+            .controls_container:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
+            }
+            
+            .controls_container .controls {
+                margin-bottom: 10px;
+            }
+            
+            .controls_container .controls .label {
+                display: block;
+                width: 50%;
+                float: left;
+                padding: 5px 5px 5px 0px;
+            }
+            
+            .controls_container .controls input[type="text"] {
+                display: block;
+                width: 50%;
+                float: right;
+                padding: 5px;
+                border-radius: 5px;
+                border: 1px solid green;
+                outline: none;
+            }
+            
+            .controls_container .controls .radio_label {
+                display: block;
+                width: 50%;
+                float: left;
+                padding: 5px 5px 5px 0px;
+            }
+            
+            .controls_container .controls .radio_container {
+                float: right;
+                width: 50%
+            }
+            
+            .controls_container .controls .radio_container input[type="radio"] {
+                display: block;
+                width: 20%;
+                float: left;
+                margin: 8px 0;
+            }
+            
+            .controls_container .controls .radio_container .radio_text {
+                display: block;
+                width: 80%;
+                float: left;
+                padding: 5px 0;
+                text-align: left;
+            }
+            
+            .controls_container .controls .footnote {
+                clear: both;
+                margin: 0;
+                padding-top: 10px;
+                font-size: small;
+            }
+            
+            .controls_container .controls .footnote .first_word {
+                font-weight: bold;
+            }
+            
+            .controls_container .controls button[type="button"] {
+                display: block;
+                width: 50%;
+                float: right;
+                border: none;
+                padding: 7px 10px;
+                background-color: hsl(120, 65%, 40%);
+                color: white;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            
+            .controls_container .controls button[type="button"]:hover {
+                background-color: hsl(120, 65%, 30%);
+            }
+            
+            .shape_container {
+                perspective: 500px;
+                perspective-origin: left top;
+                float: left;
+                width: 72%;
+                height: 100vh;
+                position: relative;
+            }
+            
+            .shape_container > #shape {
+                position: absolute;
+                top: 40%;
+                left: 45%;
+                transform-style: preserve-3d;
+                transform-origin: 50px 50px -50px;
+                z-index: -1;
+            }
+            
+            .shape_container > #shape > .side {
+                position: absolute;
+                border: 1px solid black;
+                width: 100px;
+                height: 100px;
+                font-size: xx-large;
+                text-align: center;
+                line-height: 100px;
+                -webkit-backface-visibility: hidden; /* Safari */
+                backface-visibility: hidden;
+            }
+            
+            .shape_container > #shape > #front {
+                background-color: hsla(0, 100%, 50%, 0.5);
+            }
+            
+            .shape_container > #shape > #back {
+                background-color: hsla(60, 100%, 50%, 0.5);
+                transform: translateZ(-100px) rotateY(180deg);
+            }
+            
+            .shape_container > #shape > #left {
+                background-color: hsla(120, 100%, 50%, 0.5);
+                transform: translateX(-50px) translateZ(-50px) rotateY(-90deg);
+            }
+            
+            .shape_container > #shape > #right {
+                background-color: hsla(180, 100%, 50%, 0.5);
+                transform: translateX(50px) translateZ(-50px) rotateY(90deg);
+            }
+            
+            .shape_container > #shape > #top {
+                background-color: hsla(240, 100%, 50%, 0.5);
+                transform: translateY(-50px) translateZ(-50px) rotateX(90deg);
+            }
+            
+            .shape_container > #shape > #bottom {
+                background-color: hsla(300, 100%, 50%, 0.5);
+                transform: translateY(50px) translateZ(-50px) rotateX(-90deg);
+            }
+            
+            .shape_container > #shape > .side > span {
+                line-height: 1.0;
+                display: inline-block;
+                vertical-align: middle;
+            }
+        </style>
+        <script>
+            function transform(operation) {
+                var shape = document.getElementById("shape");
+                switch (operation) {
+                    case "translate_x":
+                        var x_offset = parseFloat(document.getElementById("x_offset").value);
+                        shape.style.transform += "translateX(" + x_offset + "px)";
+                        break;
+                        
+                    case "translate_y":
+                        var y_offset = parseFloat(document.getElementById("y_offset").value);
+                        shape.style.transform += "translateY(" + y_offset + "px)";
+                        break;
+                        
+                    case "translate_z":
+                        var z_offset = parseFloat(document.getElementById("z_offset").value);
+                        shape.style.transform += "translateZ(" + z_offset + "px)";
+                        break;
+                        
+                    case "translate_3d":
+                        var x_offset = parseFloat(document.getElementById("x_offset").value);
+                        var y_offset = parseFloat(document.getElementById("y_offset").value);
+                        var z_offset = parseFloat(document.getElementById("z_offset").value);
+                        shape.style.transform +=
+                            "translate3d(" + x_offset + "px," + y_offset + "px," + z_offset + "px)"; 
+                        break;
+                        
+                    case "rotate_x":
+                        var angle = parseFloat(document.getElementById("rotate_angle").value);
+                        shape.style.transform += "rotateX(" + angle + "deg)";
+                        break;
+                        
+                    case "rotate_y":
+                        var angle = parseFloat(document.getElementById("rotate_angle").value);
+                        shape.style.transform += "rotateY(" + angle + "deg)";
+                        break;
+                        
+                    case "rotate_z":
+                        var angle = parseFloat(document.getElementById("rotate_angle").value);
+                        shape.style.transform += "rotateZ(" + angle + "deg)";
+                        break;
+                        
+                    case "rotate_3d":
+                        var x = parseFloat(document.getElementById("x").value);
+                        var y = parseFloat(document.getElementById("y").value);
+                        var z = parseFloat(document.getElementById("z").value);
+                        var angle = parseFloat(document.getElementById("rotate_3d_angle").value);
+                        shape.style.transform += "rotate3d(" + x + "," + y + "," + z + "," + angle + "deg)";
+                        break;
+                        
+                    case "scale_x":
+                        var x_scale = parseFloat(document.getElementById("x_scale").value);
+                        shape.style.transform += "scaleX(" + x_scale + ")";
+                        break;
+                        
+                    case "scale_y":
+                        var y_scale = parseFloat(document.getElementById("y_scale").value);
+                        shape.style.transform += "scaleY(" + y_scale + ")";
+                        break;
+                        
+                    case "scale_z":
+                        var z_scale = parseFloat(document.getElementById("z_scale").value);
+                        shape.style.transform += "scaleZ(" + z_scale + ")";
+                        break;
+                        
+                    case "scale_3d":
+                        var x_scale = parseFloat(document.getElementById("x_scale").value);
+                        var y_scale = parseFloat(document.getElementById("y_scale").value);
+                        var z_scale = parseFloat(document.getElementById("z_scale").value);
+                        shape.style.transform += "scale3d(" + x_scale + "," + y_scale + "," + z_scale + ")";
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div class="controls_menu">
+            <!--<div class="controls_container">
+                <div class="controls clearfix">
+                    <span class="radio_label"> Origin: </span>
+                    <div class="radio_container">
+                        <span class="radio_text"> Center Center</span>
+                        <input type="radio" name="origin" checked>
+                        <span class="radio_text"> Top Left</span>
+                        <input type="radio" name="origin">
+                        <span class="radio_text"> Top Right</span>
+                        <input type="radio" name="origin">
+                        <span class="radio_text"> Bottom Right</span>
+                        <input type="radio" name="origin">
+                    </div>
+                    <p class="footnote">
+                        <span class="first_word"> *Note: </span>
+                    The set origin applies to all transformations.
+                    </p>
+                </div>
+            </div>-->
+            <div class="controls_container">
+                <div class="controls clearfix">
+                    <span class="label"> X-offset (px): </span>
+                    <input id="x_offset" type="text" value="20">
+                </div>
+                <div class="controls clearfix">
+                    <span class="label"> Y-offset (px): </span>
+                    <input id="y_offset" type="text" value="-20">
+                </div>
+                <div class="controls clearfix">
+                    <span class="label"> Z-offset (px): </span>
+                    <input id="z_offset" type="text" value="-10">
+                </div>
+                <div class="controls clearfix">
+                    <button type="button" onclick="transform('translate_x')"> Translate X </button>
+                </div>
+                <div class="controls clearfix">
+                    <button type="button" onclick="transform('translate_y')"> Translate Y </button>
+                </div>
+                <div class="controls clearfix">
+                    <button type="button" onclick="transform('translate_z')"> Translate Z</button>
+                </div>
+                <div class="controls clearfix">
+                    <button type="button" onclick="transform('translate_3d')"> Translate 3D</button>
+                </div>
+            </div>
+            <div class="controls_container">
+                <div class="controls clearfix">
+                    <span class="label"> Angle (deg): </span>
+                    <input id="rotate_angle" type="text" value="45">
+                </div>
+                <div class="controls clearfix">
+                    <button type="button" onclick="transform('rotate_x')"> Rotate X</button>
+                </div>
+                <div class="controls clearfix">
+                    <button type="button" onclick="transform('rotate_y')"> Rotate Y </button>
+                </div>
+                <div class="controls clearfix">
+                    <button type="button" onclick="transform('rotate_z')"> Rotate Z</button>
+                </div>
+            </div>
+            <div class="controls_container">
+                <div class="controls clearfix">
+                    <span class="label"> X: </span>
+                    <input id="x" type="text" value="1">
+                </div>
+                <div class="controls clearfix">
+                    <span class="label"> Y: </span>
+                    <input id="y" type="text" value="0">
+                </div>
+                <div class="controls clearfix">
+                    <span class="label"> Z: </span>
+                    <input id="z" type="text" value="1">
+                </div>
+                <div class="controls clearfix">
+                    <span class="label"> Angle (deg): </span>
+                    <input id="rotate_3d_angle" type="text" value="-90">
+                </div>
+                <div class="controls clearfix">
+                    <button type="button" onclick="transform('rotate_3d')"> Rotate 3D</button>
+                </div>
+            </div>
+            <div class="controls_container">
+                <div class="controls clearfix">
+                    <span class="label"> X-scale: </span>
+                    <input id="x_scale" type="text" value="2">
+                </div>
+                <div class="controls clearfix">
+                    <span class="label"> Y-scale: </span>
+                    <input id="y_scale" type="text" value="1.5">
+                </div>
+                <div class="controls clearfix">
+                    <span class="label"> Z-scale: </span>
+                    <input id="z_scale" type="text" value="3">
+                </div>
+                <div class="controls clearfix">
+                    <button type="button" onclick="transform('scale_x')"> Scale X</button>
+                </div>
+                <div class="controls clearfix">
+                    <button type="button" onclick="transform('scale_y')"> Scale Y </button>
+                </div>
+                <div class="controls clearfix">
+                    <button type="button" onclick="transform('scale_z')"> Scale Z</button>
+                </div>
+                <div class="controls clearfix">
+                    <button type="button" onclick="transform('scale_3d')"> Scale 3D</button>
+                </div>
+            </div>
+        </div>
+        <div class="shape_container">
+            <div id="shape">
+                <div id="front" class="side">
+                    <span> 1 </span>
+                </div>
+                <div id="left" class="side">
+                    <span> 2 </span>
+                </div>
+                <div id="right" class="side">
+                    <span> 3 </span>
+                </div>
+                <div id="back" class="side">
+                    <span> 4 </span>
+                </div>
+                <div id="top" class="side">
+                    <span> 5 </span>
+                </div>
+                <div id="bottom" class="side">
+                    <span> 6 </span>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
