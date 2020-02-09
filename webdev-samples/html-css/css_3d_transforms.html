@@ -40,11 +40,6 @@
                 margin-bottom: 10px;
             }
             
-            .controls_container:first-child {
-                border-bottom: 2px solid black;
-                margin-bottom: 20px;
-            }
-            
             .controls_container:last-child {
                 border-bottom: none;
                 margin-bottom: 0;
@@ -69,44 +64,6 @@
                 border-radius: 5px;
                 border: 1px solid green;
                 outline: none;
-            }
-            
-            .controls_container .controls .radio_label {
-                display: block;
-                width: 50%;
-                float: left;
-                padding: 5px 5px 5px 0px;
-            }
-            
-            .controls_container .controls .radio_container {
-                float: right;
-                width: 50%
-            }
-            
-            .controls_container .controls .radio_container input[type="radio"] {
-                display: block;
-                width: 20%;
-                float: left;
-                margin: 8px 0;
-            }
-            
-            .controls_container .controls .radio_container .radio_text {
-                display: block;
-                width: 80%;
-                float: left;
-                padding: 5px 0;
-                text-align: left;
-            }
-            
-            .controls_container .controls .footnote {
-                clear: both;
-                margin: 0;
-                padding-top: 10px;
-                font-size: small;
-            }
-            
-            .controls_container .controls .footnote .first_word {
-                font-weight: bold;
             }
             
             .controls_container .controls button[type="button"] {
@@ -139,6 +96,9 @@
                 top: 40%;
                 left: 45%;
                 transform-style: preserve-3d;
+                
+                /* Transform the origin so that transformations are applied
+                   relative to the center of the box */
                 transform-origin: 50px 50px -50px;
                 z-index: -1;
             }
@@ -155,30 +115,90 @@
                 backface-visibility: hidden;
             }
             
+            /*
+             * The CSS uses left-hand coordinate system with x-axis to the right,
+             * y-axis downwards and z-axis towards the viewer. To determine the
+             * positive rotation (rotation by a positive angle) for an axis, look
+             * from a positive side of the axis towards the origin - the rotation
+             * by a positive angle will rotate the object clockwise around that axis
+             * and the rotation by a negative angle will rotate the object counter
+             * clockwise around that axis.
+             */
             .shape_container > #shape > #front {
                 background-color: hsla(0, 100%, 50%, 0.5);
             }
             
+            /*
+             * The back side is formed by translating the front side by -100
+             * pixels down the z-axis (the depth of the box) and flipping the
+             * two faces of the front side by 180 degrees y-axis rotation. Note
+             * that it would make no difference if we rotated by -180 degrees in
+             * this case. The surface vector (he vector that is perpendicular to
+             * the surface and faces the viewer when camera is aimed at the
+             * surface) of the back side would still point outward of the box
+             * which makes sure that backface culling (which will cull only those
+             * surfaces whose surface vector faces away from the viewer).
+             */
             .shape_container > #shape > #back {
                 background-color: hsla(60, 100%, 50%, 0.5);
-                transform: translateZ(-100px) rotateY(180deg);
+                transform: translateZ(-100px) rotateY(-180deg);
             }
             
+            /*
+             * The left side is formed by translating the front side by -50 pixels
+             * left on x-axis and -50 pixels down the z-axis, and then rotating
+             * by -90 degrees around the y-axis. It is important to rotate by the
+             * negative angle here, because this way the surface vector of the left
+             * side points outwards of the box. If rotation was done by 90 degrees,
+             * this vector would point inwards and the left-side would be culled
+             * when it faces the viewer and would be rendered when it faces away
+             * from the viewer.
+             */
             .shape_container > #shape > #left {
                 background-color: hsla(120, 100%, 50%, 0.5);
                 transform: translateX(-50px) translateZ(-50px) rotateY(-90deg);
             }
             
+            /*
+             * The right side is formed by translating the front side by 50 pixels
+             * right on x-axis and -50 pixels down the z-axis, and then rotating
+             * by 90 degrees around the y-axis. It is important to rotate by the
+             * positive angle here, because this way the surface vector of the right
+             * side points outwards of the box. If rotation was done by -90 degrees,
+             * this vector would point inwards and the right-side would be culled
+             * when it faces the viewer and would be rendered when it faces away
+             * from the viewer.
+             */
             .shape_container > #shape > #right {
                 background-color: hsla(180, 100%, 50%, 0.5);
                 transform: translateX(50px) translateZ(-50px) rotateY(90deg);
             }
             
+            /*
+             * The top side is formed by translating the front side by -50 pixels
+             * up on y-axis and -50 pixels down the z-axis, and then rotating
+             * by 90 degrees around the x-axis. It is important to rotate by the
+             * positive angle here, because this way the surface vector of the top
+             * side points outwards of the box. If rotation was done by -90 degrees,
+             * this vector would point inwards and the top-side would be culled
+             * when it faces the viewer and would be rendered when it faces away
+             * from the viewer.
+             */
             .shape_container > #shape > #top {
                 background-color: hsla(240, 100%, 50%, 0.5);
                 transform: translateY(-50px) translateZ(-50px) rotateX(90deg);
             }
             
+            /*
+             * The bottom side is formed by translating the front side by 50 pixels
+             * down the y-axis and -50 pixels down the z-axis, and then rotating
+             * by -90 degrees around the x-axis. It is important to rotate by the
+             * negative angle here, because this way the surface vector of the bottom
+             * side points outwards of the box. If rotation was done by 90 degrees,
+             * this vector would point inwards and the bottom-side would be culled
+             * when it faces the viewer and would be rendered when it faces away
+             * from the viewer.
+             */
             .shape_container > #shape > #bottom {
                 background-color: hsla(300, 100%, 50%, 0.5);
                 transform: translateY(50px) translateZ(-50px) rotateX(-90deg);
@@ -270,25 +290,6 @@
     </head>
     <body>
         <div class="controls_menu">
-            <!--<div class="controls_container">
-                <div class="controls clearfix">
-                    <span class="radio_label"> Origin: </span>
-                    <div class="radio_container">
-                        <span class="radio_text"> Center Center</span>
-                        <input type="radio" name="origin" checked>
-                        <span class="radio_text"> Top Left</span>
-                        <input type="radio" name="origin">
-                        <span class="radio_text"> Top Right</span>
-                        <input type="radio" name="origin">
-                        <span class="radio_text"> Bottom Right</span>
-                        <input type="radio" name="origin">
-                    </div>
-                    <p class="footnote">
-                        <span class="first_word"> *Note: </span>
-                    The set origin applies to all transformations.
-                    </p>
-                </div>
-            </div>-->
             <div class="controls_container">
                 <div class="controls clearfix">
                     <span class="label"> X-offset (px): </span>

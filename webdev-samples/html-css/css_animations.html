@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Animations </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating CSS animations">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            .container {
+                position: relative;
+                width: 100%;
+                height: 100px;
+                border-bottom: 2px solid blue;
+            }
+            
+            .container:last-child {
+                border-bottom: none;
+            }
+            
+            .animated_square {
+                position: absolute;
+                width: 50px;
+                height: 50px;
+                left: 0;
+                top: 5px;
+                background-color: hsl(0, 100%, 50%);
+            }
+            
+            #example_1 {
+                animation-name: example_1;
+                animation-duration: 5s;
+                animation-timing-function: linear;
+                animation-fill-mode: forwards;
+            }
+            
+            @keyframes example_1 {
+                from {
+                    background-color: hsl(0, 100%, 50%);
+                    left: 0;
+                }
+                
+                to {
+                    background-color: blue;
+                    left: calc(100% - 50px);
+                }
+            }
+            
+            #example_2 {
+                animation-name: example_2;
+                animation-duration: 5s;
+                animation-delay: 2s;
+                animation-timing-function: ease-in;
+                animation-fill-mode: backwards;
+            }
+            
+            @keyframes example_2 {
+                0% {
+                    background-color: hsl(300, 100%, 50%);
+                    left: 0;
+                }
+                
+                25% {
+                    background-color: hsl(60, 100%, 50%);
+                }
+                
+                50% {
+                    background-color: hsl(120, 100%, 50%);
+                }
+                
+                75% {
+                    background-color: hsl(180, 100%, 50%);
+                }
+                
+                100% {
+                    background-color: hsl(240, 100%, 50%);
+                    left: calc(100% - 50px);
+                }
+            }
+            
+            #example_3 {
+                animation-name: example_3;
+                animation-duration: 5s;
+                animation-timing-function: ease-out;
+                
+                /* Using negative delay will make the animation start at the:
+                   animation-duration - animation-delay. The first animation-delay
+                   seconds will not be rendered. */
+                animation-delay: -1s;
+            }
+            
+            @keyframes example_3 {
+                0% {
+                    background-color: hsl(0, 100%, 50%);
+                    left: 0;
+                }
+                
+                25% {
+                    background-color: hsl(60, 100%, 50%);
+                }
+                
+                50% {
+                    background-color: hsl(120, 100%, 50%);
+                }
+                
+                75% {
+                    background-color: hsl(180, 100%, 50%);
+                }
+                
+                100% {
+                    background-color: hsl(240, 100%, 50%);
+                    left: calc(100% - 50px);
+                }
+            }
+            
+            #example_4 {
+                animation-name: example_4;
+                animation-duration: 6s;
+                animation-iteration-count: infinite;
+                animation-timing-function: ease-in-out;
+            }
+            
+            @keyframes example_4 {
+                0% {
+                    background-color: hsl(0, 100%, 50%);
+                    top: 5px;
+                    left: 0;
+                }
+                
+                40% {
+                    background-color: hsl(60, 100%, 50%);
+                    left: calc(100% - 50px);
+                    top: 5px
+                }
+                
+                50% {
+                    background-color: hsl(120, 100%, 50%);
+                    top: calc(100% - 55px);
+                    left: calc(100% - 50px);
+                }
+                
+                90% {
+                    background-color: hsl(180, 100%, 50%);
+                    top: calc(100% - 55px);
+                    left: 0;
+                }
+                
+                100% {
+                    background-color: hsl(0, 100%, 50%);
+                    top: 5px;
+                    left: 0;
+                }
+            }
+            
+            #example_5 {
+                animation-name: example_5;
+                animation-duration: 15s;
+                animation-direction: alternate;
+                animation-iteration-count: 2;
+                animation-timing-function: steps(30, jump-both);
+            }
+            
+            @keyframes example_5 {
+                0% {
+                    background-color: hsl(0, 100%, 50%);
+                    left: 0;
+                }
+                
+                40% {
+                    background-color: hsl(60, 100%, 50%);
+                    left: calc(100% - 50px);
+                    top: 5px
+                }
+                
+                50% {
+                    background-color: hsl(120, 100%, 50%);
+                    top: calc(100% - 55px);
+                    left: calc(100% - 50px);
+                }
+                
+                90% {
+                    background-color: hsl(180, 100%, 50%);
+                    top: calc(100% - 55px);
+                    left: 0;
+                }
+                
+                100% {
+                    background-color: hsl(0, 100%, 50%);
+                    top: 5px;
+                    left: 0;
+                }
+            }
+            
+            #example_6 {
+                animation-name: example_6;
+                animation-duration: 6s;
+                animation-direction: reverse;
+            }
+            
+            @keyframes example_6 {
+                0% {
+                    background-color: hsl(0, 100%, 50%);
+                    left: 0;
+                }
+                
+                40% {
+                    background-color: hsl(60, 100%, 50%);
+                    left: calc(100% - 50px);
+                    top: 5px
+                }
+                
+                50% {
+                    background-color: hsl(120, 100%, 50%);
+                    top: calc(100% - 55px);
+                    left: calc(100% - 50px);
+                }
+                
+                90% {
+                    background-color: hsl(180, 100%, 50%);
+                    top: calc(100% - 55px);
+                    left: 0;
+                }
+                
+                100% {
+                    background-color: hsl(0, 100%, 50%);
+                    top: 5px;
+                    left: 0;
+                }
+            }
+            
+            #example_7 {
+                animation-name: example_7;
+                animation-duration: 6s;
+                animation-direction: alternate-reverse;
+                animation-iteration-count: 3;
+                animation-fill-mode: both;
+                animation-delay: 2s;
+                animation-timing-function: ease-in-out;
+            }
+            
+            @keyframes example_7 {
+                0% {
+                    background-color: hsl(320, 100%, 50%);
+                    left: 0;
+                }
+                
+                45% {
+                    background-color: hsl(60, 100%, 50%);
+                    left: calc(100% - 50px);
+                    top: 5px
+                }
+                
+                55% {
+                    background-color: hsl(120, 100%, 50%);
+                    top: calc(100% - 55px);
+                    left: calc(100% - 50px);
+                }
+                
+                100% {
+                    background-color: hsl(180, 100%, 50%);
+                    top: calc(100% - 55px);
+                    left: 0;
+                }
+            }
+            
+            button {
+                border: 2px solid hsl(120, 65%, 35%);
+                min-width: 300px;
+                padding: 20px 30px;
+                font-size: x-large;
+                background-color: white;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            
+            button:hover {
+                background-color: hsl(120, 65%, 35%);
+                color: white;
+            }
+        </style>
+        
+        <script>
+            function playPauseAnimation() {
+                if (typeof(this.animation_state) === "undefined") {
+                    this.animation_state = "running";
+                }
+                
+                // Update the animation state
+                var btn = document.getElementById("play_pause_button");
+                if (this.animation_state === "running") {
+                    this.animation_state = "paused";
+                    btn.innerHTML = "Play Animation";
+                }
+                else {
+                    this.animation_state = "running";
+                    btn.innerHTML = "Pause Animation";
+                }
+                
+                var animated_squares = document.getElementsByClassName("animated_square");
+                for (var animated_square of animated_squares) {
+                    animated_square.style.animationPlayState = this.animation_state;
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <button type="button" id="play_pause_button" onclick="playPauseAnimation()"> Pause Animation </button>
+        </div>
+        <div class="container">
+            <div class="animated_square" id="example_1"></div>
+        </div>
+        <div class="container">
+            <div class="animated_square" id="example_2"></div>
+        </div>
+        <div class="container">
+            <div class="animated_square" id="example_3"></div>
+        </div>
+        <div class="container">
+            <div class="animated_square" id="example_4"></div>
+        </div>
+        <div class="container">
+            <div class="animated_square" id="example_5"></div>
+        </div>
+        <div class="container">
+            <div class="animated_square" id="example_6"></div>
+        </div>
+        <div class="container">
+            <div class="animated_square" id="example_7"></div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Transitions </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page that illustrates CSS transitions">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            hr {
+                border: none;
+                height: 2px;
+                background-color: blue;
+            }
+            
+            body > div {
+                font-size: x-large;
+                padding: 10px;
+            }
+            
+            #example_1 {
+                width: 30%;
+                height: 50px;
+                background-color: hsl(0, 55%, 45%);
+                transition-property: width;
+                transition-duration: 2s;
+                transition-delay: 1s;
+            }
+            
+            #example_1:hover {
+                width: 50%;
+            }
+            
+            #example_2 {
+                width: 20%;
+                height: 50px;
+                background-color: hsl(120, 45%, 35%);
+                transition: width 3s, height 2s, background-color 3s;
+            }
+            
+            #example_2:hover {
+                width: 50%;
+                height: 150px;
+                background-color: aqua;
+            }
+            
+            #example_3 {
+                width: 100%;
+            }
+            
+            #example_3 > div {
+                width: 20%;
+                height: 50px;
+                background-color: green;
+                color: white;
+                transition-property: width;
+                transition-duration: 2s;
+                margin-bottom: 10px;
+            }
+            
+            #example_3 > div:hover {
+                width: 50%;
+            }
+            
+            #example_3 > div:last-child {
+                margin-bottom: 5px;
+            }
+            
+            #example_3 > #linear {
+                transition-timing-function: linear;
+            }
+            
+            #example_3 > #ease {
+                transition-timing-function: ease;
+            }
+            
+            #example_3 > #ease_in {
+                transition-timing-function: ease-in;
+            }
+            
+            #example_3 > #ease_out {
+                transition-timing-function: ease-out;
+            }
+            
+            #example_3 > #ease_in_out {
+                transition-timing-function: ease-in-out;
+            }
+            
+            #example_3 > #steps_jump_none {
+                transition-timing-function: steps(5, jump-none);
+            }
+            
+            #example_3 > #steps_jump_start {
+                transition-timing-function: steps(5, jump-start);
+            }
+            
+            #example_3 > #steps_jump_end {
+                transition-timing-function: steps(5, jump-end);
+            }
+            
+            #example_3 > #steps_jump_both {
+                transition-timing-function: steps(5, jump-both);
+            }
+            
+            #example_4 {
+                position: absolute;
+                width: 100px;
+                height: 100px;
+                left: 50%;
+                top: 35%;
+                background-color: hsl(0, 60%, 35%);
+                transition: transform 2s;
+            }
+            
+            #example_4:hover {
+                -ms-transform: scale(2, 2) rotate(180deg); /* IE 9 */
+                transform: scale(2, 2) rotate(180deg);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="example_1">
+            transition-property: width; transition-duration: 2s; transition-delay: 1s;
+        </div>
+        <hr>
+        
+        <div id="example_2">
+            transition: width 3s, height 2s, background-color 3s
+        </div>
+        <hr>
+        
+        <div id="example_3">
+            <div id="linear">
+                <p> transition-timing-function: linear </p>
+            </div>
+            <div id="ease">
+                <p> transition-timing-function: ease </p>
+            </div>
+            <div id="ease_in">
+                <p> transition-timing-function: ease-in </p>
+            </div>
+            <div id="ease_out">
+                <p> transition-timing-function: ease-out </p>
+            </div>
+            <div id="ease_in_out">
+                <p> transition-timing-function: ease-in-out </p>
+            </div>
+            <div id="steps_jump_none">
+                <p> transition-timing-function: steps(5, jump-none) </p>
+            </div>
+            <div id="steps_jump_start">
+                <p> transition-timing-function: steps(5, jump-start) </p>
+            </div>
+            <div id="steps_jump_end">
+                <p> transition-timing-function: steps(5, jump-end) </p>
+            </div>
+            <div id="steps_jump_both">
+                <p> transition-timing-function: steps(5, jump-both) </p>
+            </div>
+        </div>
+        
+        <div id="example_4"></div>
+    </body>
+</html>
