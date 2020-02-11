@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Tooltips </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating how to implement tooltips">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            body {
+                text-align: center;
+            }
+            
+            hr {
+                border: none;
+                height: 2px;
+                background-color: blue;
+            }
+            
+            .tooltip_container_base {
+                position: relative;
+                display: inline-block;
+                border-bottom: 1px dashed black;
+            }
+            
+            .tooltip_container_base > .tooltip_base {
+                visibility: hidden;
+                background-color: hsl(0, 0%, 25%);
+                color: white;
+                text-align: center;
+                width: 120px;
+                padding: 5px 0px;
+                border-radius: 6px;
+                
+                /*
+                 * position: absolute makes sure the tooltip is positioned relative to its parent.
+                 * z-index:1          makes sure the tooltip is rendered on top of its parent (and
+                 *                    other elements which may have z-index <= 0).
+                 */
+                position: absolute;
+                z-index: 1;
+                
+                /* Make the tooltip gradually fade-in */
+                opacity: 0;
+                transition: opacity 1s;
+            }
+            
+            .tooltip_container_base:hover > .tooltip_base {
+                visibility: visible;
+                opacity: 1;
+            }
+            
+            #example_1 > #example_1_tooltip {
+                /*
+                 * top:-5px  vertically aligns the tooltip with the parent div (this cancels out
+                 *           the tooltip's top padding which is 5 pixels high).
+                 * left:105% pushes the tooltip slightly to the right of its parent div.
+                 */
+                top: -5px;
+                left: 110%;
+            }
+            
+            #example_1 > #example_1_tooltip::after {
+                /*
+                 * top:50%         vertically aligns the content with the middle of the tooltip.
+                 * right:100%      aligns the right corner of the content (and as the content
+                 *                 is empty, its right border) to the left edge of the tooltip.
+                 * margin-top:-7px vertically centers the content's right border (arrow) together
+                 *                 with top:50%. This must be set to the negative value of the 
+                 *                 border-width: property.
+                 * border-color    sets the right border to the tooltip's color while other borders
+                 *                 are left transparent. This makes sure the border is rendered as
+                 *                 an arrow of sorts.
+                 */
+                content: "";
+                position: absolute;
+                top: 50%;
+                right: 100%;
+                margin-top: -7px;
+                border-width: 7px;
+                border-style: solid;
+                border-color: transparent hsl(0, 0%, 25%) transparent transparent;
+            }
+            
+            #example_2 > #example_2_tooltip {
+                /*
+                 * top:-5px    vertically aligns the tooltip with the parent div (this cancels out
+                 *             the tooltip's top padding which is 5 pixels high).
+                 * right: 105% places the tooltip's right edge slightly to the right of its parent's
+                 *             left edge.
+                 */
+                top: -5px;
+                right: 110%;
+            }
+            
+            #example_2 > #example_2_tooltip::after {
+                /*
+                 * top:50%         vertically aligns the content with the middle of the tooltip.
+                 * left:100%       aligns the left corner of the content (and as the content
+                 *                 is empty, its left border) to the right edge of the tooltip.
+                 * margin-top:-7px vertically centers the content's right border (arrow) together
+                 *                 with top:50%. This must be set to the negative value of the 
+                 *                 border-width: property.
+                 * border-color    sets the left border to the tooltip's color while other borders
+                 *                 are left transparent. This makes sure the border is rendered as
+                 *                 an arrow of sorts.
+                 */
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 100%;
+                margin-top: -7px;
+                border-width: 7px;
+                border-style: solid;
+                border-color: transparent transparent transparent hsl(0, 0%, 25%);
+            }
+            
+            #example_3 > #example_3_tooltip {
+                /*
+                 * bottom: 115%      positions the tooltip right above the parent div.
+                 * left: 50%         aligns the left edge of the tooltip with the middle
+                 *                   of its parent div.
+                 * margin-left:-60px in combination with left:50% horizontally centers the
+                 *                   tooltip relative to its parent div. Note that left:0
+                 *                   can't be used for this as that would only align the
+                 *                   left edge of the tooltip with the left edge of the
+                 *                   parent div. Additionally, -60 pixels is used here
+                 *                   because that's half of the parent's div width (120 px).
+                 */
+                bottom: 115%;
+                left: 50%;
+                margin-left: -60px;
+            }
+            
+            #example_3 > #example_3_tooltip::after {
+                /*
+                 * left:50%         horizontally aligns the content with the middle of the tooltip.
+                 * top:100%         aligns the top corner of the content (and as the content
+                 *                  is empty, its top border) to the bottom edge of the tooltip.
+                 * margin-left:-7px horizontally centers the content's top border (arrow) together
+                 *                  with left:50%. This must be set to the negative value of the 
+                 *                  border-width: property.
+                 * border-color     sets the top border to the tooltip's color while other borders
+                 *                  are left transparent. This makes sure the border is rendered as
+                 *                  an arrow of sorts.
+                 */
+                content: "";
+                position: absolute;
+                left: 50%;
+                top: 100%;
+                margin-left: -7px;
+                border-width: 7px;
+                border-style: solid;
+                border-color: hsl(0, 0%, 25%) transparent transparent transparent;
+            }
+            
+            #example_4 > #example_4_tooltip {
+                /*
+                 * top: 125%         positions the tooltip right below the parent div.
+                 * left: 50%         aligns the left edge of the tooltip with the middle
+                 *                   of its parent div.
+                 * margin-left:-60px in combination with left:50% horizontally centers the
+                 *                   tooltip relative to its parent div. Note that left:0
+                 *                   can't be used for this as that would only align the
+                 *                   left edge of the tooltip with the left edge of the
+                 *                   parent div. Additionally, -60 pixels is used here
+                 *                   because that's half of the parent's div width (120 px).
+                 */
+                top: 125%;
+                left: 50%;
+                margin-left: -60px;
+            }
+            
+            #example_4 > #example_4_tooltip::after {
+                /*
+                 * left:50%         horizontally aligns the content with the middle of the tooltip.
+                 * bottom:100%      aligns the bottom corner of the content (and as the content
+                 *                  is empty, its top border) to the top edge of the tooltip.
+                 * margin-left:-7px horizontally centers the content's top border (arrow) together
+                 *                  with left:50%. This must be set to the negative value of the 
+                 *                  border-width: property.
+                 * border-color     sets the bottom border to the tooltip's color while other borders
+                 *                  are left transparent. This makes sure the border is rendered as
+                 *                  an arrow of sorts.
+                 */
+                content: "";
+                position: absolute;
+                left: 50%;
+                bottom: 100%;
+                margin-left: -7px;
+                border-width: 7px;
+                border-style: solid;
+                border-color: transparent transparent hsl(0, 0%, 25%) transparent;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="example_1" class="tooltip_container_base">
+            Hover over me!
+            <span id="example_1_tooltip" class="tooltip_base"> I'm a tooltip </span>
+        </div>
+        <hr>
+        
+        <div id="example_2" class="tooltip_container_base">
+            Hover over me!
+            <span id="example_2_tooltip" class="tooltip_base"> I'm a tooltip </span>
+        </div>
+        <hr>
+        
+        <div id="example_3" class="tooltip_container_base">
+            Hover over me!
+            <span id="example_3_tooltip" class="tooltip_base"> I'm a tooltip </span>
+        </div>
+        <hr>
+        
+        <div id="example_4" class="tooltip_container_base">
+            Hover over me!
+            <span id="example_4_tooltip" class="tooltip_base"> I'm a tooltip </span>
+        </div>
+        <hr>
+        
+        
+    </body>
+</html>
