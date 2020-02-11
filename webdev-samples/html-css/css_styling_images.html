@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Styling Images </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating how to style images using CSS">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            
+            .clearfix:after {
+                content: ".";
+                visibility: hidden; 
+                display: block; 
+                height: 0; 
+                clear: both;
+            }
+            
+            hr {
+                border: none; 
+                height: 2px; 
+                background-color: blue; 
+            }
+            
+            #example_1 {
+                width: 150px;
+                height: 150px;
+                margin-right: 10px;
+                border-radius: 50%;
+            }
+            
+            #example_2 {
+                width: 150px;
+                height: 150px;
+            }
+            
+            #example_3 {
+                border: 1px solid lightgray;
+                width: 150px;
+                height: 150px;
+                padding: 5px;
+                margin-right: 10px;
+            }
+            
+            #example_4 {
+                display: inline-block;
+            }
+            
+            #example_4 > img {
+                border: 1px solid lightgray;
+                width: 150px;
+                height: 150px;
+                padding: 5px;
+            }
+            
+            #example_4 > img:hover {
+                -webkit-box-shadow: 0px 0px 5px hsla(200, 85%, 45%, 0.6);
+                -moz-box-shadow: 0px 0px 5px hsla(200, 85%, 45%, 0.6);
+                box-shadow: 0px 0px 5px hsla(200, 85%, 45%, 0.6);
+            }
+            
+            #example_5 {
+                margin-left: auto;
+                margin-right: auto;
+                display: block;
+            }
+            
+            #example_6 {
+                margin: 10px;
+                width: 30%;
+                text-align: center;
+                -webkit-box-shadow: 0px 0px 5px grey;
+                -moz-box-shadow: 0px 0px 5px grey;
+                box-shadow: -3px 0px 8px hsla(0, 0%, 0%, 0.3), 3px 0px 8px hsla(0, 0%, 0%, 0.3), 0px 3px 20px hsla(0, 0%, 0%, 0.3);
+            }
+            
+            #example_6 > img {
+                width: 100%;
+                height: auto;
+            }
+            
+            #example_6 > span {
+                display: inline-block;
+                padding: 10px;
+            }
+            
+            #example_7 {
+                margin-bottom: 20px;
+            }
+            #example_7 > img {
+                width: 20%;
+                height: auto;
+                float: left;
+            }
+            
+            #example_7 > img.blur {
+                filter: blur(4px);
+            }
+            
+            #example_7 > img.brightness {
+                filter: brightness(250%);
+            }
+            
+            #example_7 > img.contrast {
+                filter: contrast(180%);
+            }
+            
+            #example_7 > img.grayscale {
+                filter: grayscale(100%);
+            }
+            
+            #example_7 > img.hue_rotate {
+                filter: hue-rotate(180deg);
+            }
+            
+            #example_7 > img.invert {
+                filter: invert(100%);
+            }
+            
+            #example_7 > img.opacity {
+                filter: opacity(50%);
+            }
+            
+            #example_7 > img.saturate {
+                filter: saturate(7);
+            }
+            
+            #example_7 > img.sepia {
+                filter: sepia(100%);
+            }
+            
+            #example_7 > img.shadow {
+                filter: drop-shadow(8px 8px 10px green);
+            }
+            
+            #example_8 {
+                margin-left: auto;
+                margin-right: auto;
+                width: 60%;
+                background-color: hsl(0, 0%, 85%);
+                font-size: large;
+                padding: 0 10px;
+            }
+            
+            #example_8 > .container {
+                padding: 5px;
+                float: left;
+                width: 33.33%;
+                text-align: center;
+            }
+            
+            #example_8 > .container > .img_box {
+                position: relative;
+                width: 100%;
+            }
+            
+            #example_8 > .container > .img_box > img {
+                display: block;
+                width: 100%;
+                height: auto;
+            }
+            
+            #example_8 > .container > .img_box > .overlay_base {
+                position: absolute;
+                color: white;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                right: 0;
+            }
+            
+            #example_8 > .container > .img_box > .overlay_base > .overlay_content_base {
+                position: absolute;
+                
+                /*
+                 * Left and right slide-in overlays with text look weird if text wraps
+                 * while overlay changes width. Hence disable wrapping to make transitions
+                 * smooth.
+                 */
+                white-space: nowrap;
+                
+                /* Aligns the top-left corner of the text with the center of the parent */
+                left: 50%;
+                top: 50%;
+                
+                /*
+                 * Horizontally and vertically aligns the text with the parent element. Note
+                 * that transformation is applied relative to the element itself, hence
+                 * translation by -50% horizontally and -50% vertically will move the text
+                 * to the left by half the text element width and up by half the text element
+                 * hight.
+                 */
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+            }
+            
+            #example_8 > .container > .img_box > #fadein_text_overlay {
+                background-color: hsl(201, 67%, 41%);
+                color: white;
+                opacity: 0;
+                transition: opacity 1s;
+            }
+            
+            #example_8 > .container > .img_box:hover > #fadein_text_overlay {
+                opacity: 1;
+            }
+            
+            #example_8 > .container > .img_box > #fadein_box_overlay {
+                background-color: hsla(201, 10%, 61%, 0.67);
+                opacity: 0;
+                transition: opacity 1s;
+            }
+            
+            #example_8 > .container > .img_box:hover > #fadein_box_overlay {
+                opacity: 1;
+            }
+            
+            #example_8 > .container > .img_box > #fadein_box_overlay > .text_box {
+                color: white;
+                background-color: hsl(120, 52%, 41%);
+                padding: 10px 15px;
+            }
+            
+            #example_8 > .container > .img_box > #slidein_top_overlay {
+                bottom: 100%;
+                height: 0;
+                overflow: hidden;
+                background-color: hsl(201, 67%, 41%);
+                color: white;
+                transition: all 0.5s;
+            }
+            
+            #example_8 > .container > .img_box:hover > #slidein_top_overlay {
+                bottom: 0;
+                height: 100%;
+            }
+            
+            #example_8 > .container > .img_box > #slidein_bottom_overlay {
+                top: 100%;
+                height: 0;
+                overflow: hidden;
+                background-color: hsl(201, 67%, 41%);
+                color: white;
+                transition: all 0.5s;
+            }
+            
+            #example_8 > .container > .img_box:hover > #slidein_bottom_overlay {
+                top: 0;
+                height: 100%;
+            }
+            
+            #example_8 > .container > .img_box > #slidein_left_overlay {
+                right: 100%;
+                width: 0;
+                overflow: hidden;
+                background-color: hsl(201, 67%, 41%);
+                color: white;
+                transition: all 0.5s;
+            }
+            
+            #example_8 > .container > .img_box:hover > #slidein_left_overlay {
+                right: 0;
+                width: 100%;
+            }
+            
+            #example_8 > .container > .img_box > #slidein_right_overlay {
+                left: 100%;
+                width: 0;
+                overflow: hidden;
+                background-color: hsl(201, 67%, 41%);
+                color: white;
+                transition: all 0.5s;
+            }
+            
+            #example_8 > .container > .img_box:hover > #slidein_right_overlay {
+                left: 0;
+                width: 100%;
+            }
+            
+            #example_8 > .container > .title_text {
+                display: inline-block;
+                padding: 10px;
+            }
+            
+            #example_9 {
+                display: inline-block;
+                padding: 0 5px;
+                width: 170px;
+                height: 150px;
+                text-align: center;
+            }
+            
+            #example_9 > img {
+                width: 100%;
+                height: 80%;
+            }
+            
+            #example_9 > img:hover {
+                transform: scaleX(-1);
+            }
+            
+            /*#example_4 {
+                max-width: 100%;
+            }*/
+        </style>
+    </head>
+    <body>
+        <div id="example_8" class="clearfix">
+            <div class="container">
+                <span class="title_text"> Fade-in Text </span>
+                <div class="img_box">
+                    <img src="multimedia/avatar.png" alt="Avatar" width="499" height="498">
+                    <div id="fadein_text_overlay" class="overlay_base">
+                        <div class="overlay_content_base"> Hello World! </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <span class="title_text"> Fade-in Box </span>
+                <div class="img_box">
+                    <img src="multimedia/avatar.png" alt="Avatar" width="499" height="498">
+                    <div id="fadein_box_overlay" class="overlay_base">
+                        <div class="text_box overlay_content_base"> John Doe </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <span class="title_text"> Slide-in Top </span>
+                <div class="img_box">
+                    <img src="multimedia/avatar.png" alt="Avatar" width="499" height="498">
+                    <div id="slidein_top_overlay" class="overlay_base">
+                        <div class="overlay_content_base"> Hello World! </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <span class="title_text"> Slide-in Bottom </span>
+                <div class="img_box">
+                    <img src="multimedia/avatar.png" alt="Avatar" width="499" height="498">
+                    <div id="slidein_bottom_overlay" class="overlay_base">
+                        <div class="overlay_content_base"> Hello World! </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <span class="title_text"> Slide-in Left </span>
+                <div class="img_box">
+                    <img src="multimedia/avatar.png" alt="Avatar" width="499" height="498">
+                    <div id="slidein_left_overlay" class="overlay_base">
+                        <div class="overlay_content_base"> Hello World! </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <span class="title_text"> Slide-in Right </span>
+                <div class="img_box">
+                    <img src="multimedia/avatar.png" alt="Avatar" width="499" height="498">
+                    <div id="slidein_right_overlay" class="overlay_base">
+                        <div class="overlay_content_base"> Hello World! </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <p>
+            <img id="example_1" src="multimedia/rotating_earth.gif" alt="Rotating earth">
+            <a href="https://www.gmail.com" title="Go to www.gmail.com">
+                <img id="example_2" src="multimedia/gmail_icon.png" alt="Gmail icon">
+            </a>
+        </p>
+        <hr>
+        <img id="example_3" src="multimedia/french_riviera.jpg" alt="French Riviera" width="3000" height="2002">
+        <a id="example_4" href="https://en.wikipedia.org/wiki/Cinque_Terre" title="Cinque Terre" target="_blank">
+            <img src="multimedia/cinque_terre.jpg" alt="Cinque Terre" width="800" height="800">
+        </a>
+        <div id="example_9">
+            <span> Hover over me!</span>
+            <img id="example_9" src="multimedia/sandals_resorts.jpg" alt="Sandals Resorts" width="800" height="420">
+        </div>
+        <hr>
+        <img id="example_5" src="multimedia/corsica_france.jpeg" alt="Corsica France" width="300" height="168">
+        <hr>
+        <div id="example_6">
+            <img src="multimedia/mostar_bih.jpg" alt="Mostar" width="1300" height="867">
+            <span> Mostar, BiH </span>
+        </div>
+        <hr>
+        <div id="example_7" class="clearfix">
+            <img src="multimedia/praiano.jpg" alt="Praiano" width="1024" height="599">
+            <img class="blur" src="multimedia/praiano.jpg" alt="Praiano" width="1024" height="599">
+            <img class="brightness" src="multimedia/praiano.jpg" alt="Praiano" width="1024" height="599">
+            <img class="contrast" src="multimedia/praiano.jpg" alt="Praiano" width="1024" height="599">
+            <img class="grayscale" src="multimedia/praiano.jpg" alt="Praiano" width="1024" height="599">
+            <img class="hue_rotate" src="multimedia/praiano.jpg" alt="Praiano" width="1024" height="599">
+            <img class="invert" src="multimedia/praiano.jpg" alt="Praiano" width="1024" height="599">
+            <img class="opacity" src="multimedia/praiano.jpg" alt="Praiano" width="1024" height="599">
+            <img class="saturate" src="multimedia/praiano.jpg" alt="Praiano" width="1024" height="599">
+            <img class="sepia" src="multimedia/praiano.jpg" alt="Praiano" width="1024" height="599">
+            <img class="shadow" src="multimedia/praiano.jpg" alt="Praiano" width="1024" height="599">
+        </div>
+        <hr>
+        <!--<p>
+            <strong>The following image scales with the page size but only up to the image size:</strong>
+            <img id="example_4" src="multimedia/sandals_resorts.jpg" alt="Sandals Resorts">
+        </p>-->
+    </body>
+</html>
