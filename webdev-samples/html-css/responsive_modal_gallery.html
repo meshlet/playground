@@ -70,42 +70,91 @@
                 height: 100%;
                 background-color: hsla(0, 0%, 0%, 0.9);
                 color: white;
-                overflow: auto;
+                overflow-x: hidden;
+                overflow-y: auto;
                 visibility: hidden;
             }
             
             div.modal_window > div.responsive_modal_container {
-                margin-top: 10%;
-                width: 60%;
-                margin-left: auto;
-                margin-right: auto;
+                position: absolute;
                 text-align: center;
+                left: 20%;
+                right: 20%;
+                top: 10%;
+                bottom: 0%;
             }
             
             div.modal_window > div.responsive_modal_container > .modal_image {
-                width: 100%;
-                height: 60vh;
-                min-height: 300px;
+                margin-bottom: 20px;
+            }
+            
+            div.modal_window > div.responsive_modal_container > .responsive_image_animation {
+                animation-name: modal_image_animation;
+                animation-duration: 1.5s;
+                animation-iteration-count: 1;
+                animation-fill-mode: both;
+            }
+            
+            @keyframes modal_image_animation {
+                from {
+                    width: 0;
+                    height: 0;
+                }
+                
+                to {
+                    width: 100%;
+                    height: 60%;
+                }
             }
             
             div.modal_window > div.responsive_modal_container > .modal_text {
                 display: block;
-                padding: 15px 5px;
                 font-size: x-large;
             }
             
-            div.modal_window > div.exit_button {
+            div.modal_window > div.responsive_modal_container > .responsive_text_animation {
+                animation-name: modal_text_animation;
+                animation-delay: 1s;
+                animation-duration: 1s;
+                animation-iteration-count: 1;
+                animation-fill-mode: both;
+            }
+            
+            @keyframes modal_text_animation {
+                from {
+                    opacity: 0;
+                }
+                
+                to {
+                    opacity: 1;
+                }
+            }
+            
+            div.modal_window > .navigation_button {
                 position: absolute;
-                font-family: 'Comic Sans MS', cursive, sans-serif;
-                top: 10px;
-                right: 20px;
-                font-weight: 900;
-                font-size: 40px;
+                font-size: 35px;
                 cursor: pointer;
             }
             
-            div.modal_window > div.exit_button:hover {
+            div.modal_window > div.navigation_button:hover {
                 color: hsl(0, 0%, 65%);
+            }
+            
+            div.modal_window > div.exit_button {
+                top: 0px;
+                right: 10px;
+            }
+            
+            div.modal_window > div.left_button {
+                top: 50%;
+                left: 15px;
+                transform: translate(0, -50%);
+            }
+            
+            div.modal_window > div.right_button {
+                top: 50%;
+                right: 15px;
+                transform: translate(0, -50%);
             }
             
             @media screen and (min-width: 1101px) {
@@ -137,9 +186,33 @@
                 }
                 
                 div.modal_window > div.responsive_modal_container {
-                    margin: none;
-                    margin-top: 20%;
-                    width: 100%;
+                    left: 0;
+                    right: 0;
+                    top: 40px;
+                }
+                
+                @keyframes modal_image_animation {
+                    from {
+                        width: 0;
+                        height: 0;
+                    }
+
+                    to {
+                        width: 100%;
+                        height: 40%;
+                    }
+                }
+                
+                div.modal_window > div.left_button {
+                    top: 100%;
+                    left: 15px;
+                    transform: translate(0, -150%);
+                }
+
+                div.modal_window > div.right_button {
+                    top: 100%;
+                    right: 15px;
+                    transform: translate(0, -150%);
                 }
                 
                 div.modal_window > div.responsive_modal_container > .modal_image {
@@ -149,33 +222,125 @@
         </style>
         <script>
             window.addEventListener("load", () => {
-                // Register event listeners for the gallery images
                 var gallery_img_containers = document.getElementsByClassName("inner_container");
                 var modal_window = document.getElementsByClassName("modal_window")[0];
                 var modal_img = document.getElementsByClassName("modal_image")[0];
                 var modal_text = document.getElementsByClassName("modal_text")[0];
+                var opened_image_index = 0;
                 
+                // Sets up modal window content
+                var openImageInModalWindow = function(gallery_img_container) {
+                    // Setup the image to be shown in the modal window
+                    var gallery_img = gallery_img_container.getElementsByClassName("gallery_img")[0];
+                    modal_img.src = gallery_img.src;
+                    modal_img.alt = gallery_img.alt;
+                    modal_img.width = gallery_img.width;
+                    modal_img.height = gallery_img.height;
+
+                    // Copy over the text that's written below the image
+                    modal_text.innerHTML =
+                        gallery_img_container.getElementsByClassName("text_container")[0].innerHTML;
+                };
+                
+                // Register event listeners for the gallery images
+                var i = 0;
                 for (var container of gallery_img_containers) {
-                    container.addEventListener("click", (event) => {
-                        // Setup the image to be shown in the modal window
-                        var gallery_img = event.target.parentElement.getElementsByClassName("gallery_img")[0];
-                        modal_img.src = gallery_img.src;
-                        modal_img.alt = gallery_img.alt;
-                        modal_img.width = gallery_img.width;
-                        modal_img.height = gallery_img.height;
-                        
-                        // Copy over the text that's written below the image
-                        modal_text.innerHTML =
-                            event.target.parentElement.getElementsByClassName("text_container")[0].innerHTML;
-                        
-                        // Show the modal window
-                        modal_window.style.visibility = "visible";
-                    });
+                    (function(img_index) {
+                        container.addEventListener("click", (event) => {
+                            // Open the image in the modal window
+                            openImageInModalWindow(event.target.parentElement);
+
+                            // Show the modal window
+                            modal_window.style.visibility = "visible";
+                            
+                            // Save the image index for the navigation within the modal window
+                            opened_image_index = img_index;
+                            
+                            // Start the animation that will result in showing the image and text
+                            document.getElementsByClassName("modal_image")[0].classList.add("responsive_image_animation");
+                            document.getElementsByClassName("modal_text")[0].classList.add("responsive_text_animation");
+                        });
+                    })(i++);
                 }
                 
                 // Register event listener for the modal window exit button
-                document.getElementsByClassName("exit_button")[0].addEventListener("click", () => {
+                var exit_button = document.getElementsByClassName("exit_button")[0];
+                exit_button.addEventListener("click", () => {
                     modal_window.style.visibility = "hidden";
+                    
+                    // Clear up the animation classes so that animation can be run again later
+                    document.getElementsByClassName("modal_image")[0].classList.remove("responsive_image_animation");
+                    document.getElementsByClassName("modal_text")[0].classList.remove("responsive_text_animation");
+                });
+                
+                // Handles modal window left button click
+                var handleLeftButtonClick = function() {
+                    // Calculate the previous image index
+                    if (opened_image_index == 0) {
+                        opened_image_index = gallery_img_containers.length - 1;
+                    }
+                    else {
+                        --opened_image_index;
+                    }
+                    
+                    // Open the previous image in the modal window
+                    openImageInModalWindow(gallery_img_containers[opened_image_index]);
+                };
+                
+                // Handles modal window right button click
+                var handleRightButtonClick = function() {
+                    // Calculate the next image index
+                    opened_image_index = (opened_image_index + 1) % gallery_img_containers.length;
+                    
+                    // Open the next image in the modal window
+                    openImageInModalWindow(gallery_img_containers[opened_image_index]);
+                };
+                
+                // Register event listener for the modal window left button
+                var left_button = document.getElementsByClassName("left_button")[0];
+                left_button.addEventListener("click", handleLeftButtonClick);
+                
+                // Register event listener for the modal window right button
+                var right_button = document.getElementsByClassName("right_button")[0];
+                right_button.addEventListener("click", handleRightButtonClick);
+                
+                // Register the listener for the keydown event
+                document.addEventListener("keydown", (event) => {
+                    if (event.key == "ArrowLeft") {
+                        handleLeftButtonClick();
+                        
+                        // Change the color of the left button
+                        left_button.style.color = "hsl(0, 0%, 65%)";
+                    }
+                    else if (event.key == "ArrowRight") {
+                        handleRightButtonClick();
+                        
+                        // Change the color of the right button
+                        right_button.style.color = "hsl(0, 0%, 65%)";
+                    }
+                    else if (event.key == "Escape") {
+                        // Hide the modal window
+                        modal_window.style.visibility = "hidden";
+                        
+                        // Change the color of the exit button
+                        exit_button.style.color = "hsl(0, 0%, 65%)";
+                    }
+                });
+                
+                // Register the listener for the keyup event
+                document.addEventListener("keyup", (event) => {
+                    if (event.key == "ArrowLeft") {
+                        // Clear the left button to its default color specified by CSS
+                        left_button.style.color = "";
+                    }
+                    else if (event.key == "ArrowRight") {
+                        // Clear the right button to its default color specified by CSS
+                        right_button.style.color = "";
+                    }
+                    else if (event.key == "Escape") {
+                        // Clear the exit button to its default color specified by CSS
+                        exit_button.style.color = "";
+                    }
                 });
             });
         </script>
@@ -263,7 +428,9 @@
                 <img class="modal_image">
                 <div class="modal_text"></div>
             </div>
-            <div class="exit_button"> &times; </div>
+            <div class="navigation_button exit_button"> &#10005; </div>
+            <div class="navigation_button left_button"> &#10092; </div>
+            <div class="navigation_button right_button"> &#10093; </div>
         </div>
     </body>
 </html>
