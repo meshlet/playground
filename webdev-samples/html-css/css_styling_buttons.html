@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Styling Buttons </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating buttons using CSS">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            
+            .clearfix:after {
+                content: ".";
+                visibility: hidden; 
+                display: block; 
+                height: 0; 
+                clear: both;
+            }
+            
+            hr {
+                border: none;
+                border-bottom: 2px solid blue;
+            }
+            
+            #example_1 {
+                display: inline-block;
+                background-color: hsl(120, 52%, 44%);
+                color: white;
+                font-size: large;
+                width: 20%;
+                padding: 10px 15px;
+                border: none;
+                cursor: pointer;
+                border-radius: 7px;
+                transition-duration: 0.5s;
+            }
+            
+            #example_1:hover {
+                background-color: hsl(120, 52%, 35%);
+            }
+            
+            #example_2 {
+                display: inline-block;
+                background-color: inherit;
+                border: 3px solid hsl(0, 85%, 35%);
+                border-radius: 4px;
+                width: 20%;
+                padding: 10px 15px;
+                cursor: pointer;
+                font-size: large;
+                transition-duration: 0.5s;
+            }
+            
+            #example_2:hover {
+                color: white;
+                background-color: hsl(0, 85%, 35%);
+            }
+            
+            #example_3 {
+                display: inline-block;
+                background-color: hsl(194, 80%, 40%);
+                color: white;
+                font-size: large;
+                width: 20%;
+                padding: 10px 15px;
+                border: none;
+                cursor: pointer;
+                transition-duration: 0.5s;
+            }
+            
+            #example_3:hover {
+                box-shadow: 0px 4px 16px hsla(0, 0%, 0%, 0.2), 0px 6px 20px hsla(0, 0%, 0%, 0.3);
+            }
+            
+            #example_4 {
+                display: inline-block;
+                background-color: hsl(120, 52%, 44%);
+                opacity: 0.6;
+                color: white;
+                font-size: large;
+                width: 20%;
+                padding: 10px 15px;
+                border: none;
+                cursor: not-allowed;
+            }
+            
+            div#example_5 > button[type="button"] {
+                display: block;
+                background-color: hsl(194, 80%, 40%);
+                color: white;
+                float: left;
+                padding: 10px 20px;
+                font-size: large;
+                border: none;
+                cursor: pointer;
+                transition-duration: 0.5s;
+            }
+            
+            div#example_5 > button[type="button"]:hover {
+                background-color: hsl(194, 80%, 20%);
+            }
+            
+            div#example_6 > button[type="button"] {
+                display: block;
+                background-color: hsl(194, 80%, 40%);
+                color: white;
+                float: left;
+                padding: 10px 20px;
+                font-size: large;
+                border: none;
+                border-right: 1px solid white;
+                cursor: pointer;
+                transition-duration: 0.5s;
+            }
+            
+            div#example_6 > button[type="button"]:last-child {
+                border: none;
+            }
+            
+            div#example_6 > button[type="button"]:hover {
+                background-color: hsl(194, 80%, 20%);
+            }
+            
+            div#example_7 {
+                width: 20%;
+            }
+            
+            div#example_7 > button[type="button"] {
+                display: block;
+                width: 100%;
+                background-color: hsla(7, 60%, 52%, 1);
+                color: white;
+                font-size: large;
+                padding: 15px 20px;
+                cursor: pointer;
+                transition-duration: 0.5s;
+                border: none;
+                border-bottom: 1px solid white;
+            }
+            
+            div#example_7 > button[type="button"]:last-child {
+                border: none;
+            }
+            
+            div#example_7 > button[type="button"]:hover {
+                background-color: hsl(7, 60%, 25%);
+            }
+            
+            #example_8 {
+                display: inline-block;
+                width: 20%;
+                background-color: hsl(16, 100%, 57%);
+                color: white;
+                font-size: 30px;
+                padding: 20px 20px;
+                cursor: pointer;
+                transition-duration: 0.5s;
+                border: none;
+                border-radius: 7px;
+            }
+            
+            #example_8 > span {
+                position: relative;
+                display: inline-block;
+                transition-duration: 0.5s;
+            }
+            
+            #example_8 > span::after {
+                position: absolute;
+                content: "\00bb";
+                opacity: 0;
+                top: 0;
+                right: -25px;
+                transition-duration: 0.5s;
+            }
+            
+            #example_8:hover > span {
+                padding-right: 25px;
+            }
+            
+            #example_8:hover > span::after {
+                opacity: 1;
+                right: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <button type="button" id="example_1">I'm a button!</button>
+        <button type="button" id="example_2">I'm a button!</button>
+        <button type="button" id="example_3">I'm a button!</button>
+        <button type="button" id="example_4">Disabled button!</button>
+        <hr>
+        
+        <div id="example_5" class="clearfix">
+            <button type="button"> Button 1 </button>
+            <button type="button"> Button 2 </button>
+            <button type="button"> Button 3 </button>
+            <button type="button"> Button 4 </button>
+        </div>
+        <hr>
+        
+        <div id="example_6" class="clearfix">
+            <button type="button"> Button 1 </button>
+            <button type="button"> Button 2 </button>
+            <button type="button"> Button 3 </button>
+            <button type="button"> Button 4 </button>
+        </div>
+        <hr>
+        
+        <div id="example_7">
+            <button type="button"> Button 1 </button>
+            <button type="button"> Button 2 </button>
+            <button type="button"> Button 3 </button>
+            <button type="button"> Button 4 </button>
+        </div>
+        <hr>
+        
+        <button type="button" id="example_8">
+            <span> Hover</span>
+        </button>
+    </body>
+</html>

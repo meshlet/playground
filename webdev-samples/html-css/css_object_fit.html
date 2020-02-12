@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Object-Fit </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page that illustrates CSS object-fit property">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            hr {
+                border: none;
+                border-bottom: 2px solid blue;
+            }
+            
+            img {
+                border: 1px solid blue;
+                width: 45%;
+                height: 200px;
+            }
+            
+            #fill {
+                object-fit: fill;
+            }
+            
+            #contain {
+                object-fit: contain;
+            }
+            
+            #cover {
+                object-fit: cover;
+            }
+            
+            #scale_down {
+                object-fit: scale-down;
+            }
+            
+            #none {
+                object-fit: none;
+            }
+        </style>
+    </head>
+    <body>
+        <h3> No object fit: </h3>
+        <img src="multimedia/mostar_bih.jpg" alt="Mostar, Bosnia and Herzegovina" width="1300" height="867">
+        <hr>
+        
+        <h3> Object-fit: fill </h3>
+        <img id="fill" src="multimedia/mostar_bih.jpg" alt="Mostar, Bosnia and Herzegovina" width="1300" height="867">
+        <hr>
+        
+        <h3> Object-fit: contain </h3>
+        <img id="contain" src="multimedia/mostar_bih.jpg" alt="Mostar, Bosnia and Herzegovina" width="1300" height="867">
+        <hr>
+        
+        <h3> Object-fit: scale-down </h3>
+        <img id="scale_down" src="multimedia/mostar_bih.jpg" alt="Mostar, Bosnia and Herzegovina" width="1300" height="867">
+        <hr>
+        
+        <h3> Object-fit: cover </h3>
+        <img id="cover" src="multimedia/mostar_bih.jpg" alt="Mostar, Bosnia and Herzegovina" width="1300" height="867">
+        <hr>
+        
+        <h3> Object-fit: none </h3>
+        <img id="none" src="multimedia/mostar_bih.jpg" alt="Mostar, Bosnia and Herzegovina" width="1300" height="867">
+    </body>
+</html>
