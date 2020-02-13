@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Flexbox </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating CSS flexbox">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            
+            hr {
+                border: 1.5px solid blue;
+            }
+            
+            .clearfix:after {
+                content: ".";
+                visibility: hidden; 
+                display: block; 
+                height: 0; 
+                clear: both;
+            }
+            
+            #example_1 {
+                display: flex;
+                flex-direction: row;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+            }
+            
+            #example_1 > div {
+                padding: 10px 25px;
+                font-size: 24px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_2 {
+                display: flex;
+                flex-direction: row-reverse;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+            }
+            
+            #example_2 > div {
+                padding: 10px 25px;
+                font-size: 24px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_3 {
+                display: flex;
+                float: left;
+                width: 75px;
+                flex-direction: column;
+                background-color: hsl(201, 100%, 49%);
+                margin-right: 5px;
+            }
+            
+            #example_3 > div {
+                padding: 5px 5px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 5px;
+                text-align: center;
+            }
+            
+            #example_4 {
+                display: flex;
+                float: left;
+                width: 75px;
+                flex-direction: column-reverse;
+                background-color: hsl(201, 100%, 49%);
+            }
+            
+            #example_4 > div {
+                padding: 5px 5px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 5px;
+                text-align: center;
+            }
+            
+            #example_5 {
+                display: flex;
+                flex-wrap: nowrap;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 10px;
+                text-align: center;
+                width: 30%;
+            }
+            
+            #example_5 > div {
+                padding: 10px 0px;
+                width: 50px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_6 {
+                display: flex;
+                flex-wrap: wrap;
+                background-color: hsl(201, 100%, 49%);
+                width: 30%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            
+            #example_6 > div {
+                padding: 10px 0px;
+                width: 50px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_7 {
+                display: flex;
+                flex-wrap: wrap-reverse;
+                background-color: hsl(201, 100%, 49%);
+                width: 30%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            
+            #example_7 > div {
+                padding: 10px 0px;
+                width: 50px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_8 {
+                display: flex;
+                justify-content: flex-start;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+            }
+            
+            #example_8 > div {
+                padding: 5px 10px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_9 {
+                display: flex;
+                justify-content: center;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+            }
+            
+            #example_9 > div {
+                padding: 5px 10px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_10 {
+                display: flex;
+                justify-content: flex-end;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+            }
+            
+            #example_10 > div {
+                padding: 5px 10px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_11 {
+                display: flex;
+                justify-content: space-between;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+            }
+            
+            #example_11 > div {
+                padding: 5px 10px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_12 {
+                display: flex;
+                justify-content: space-around;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+            }
+            
+            #example_12 > div {
+                padding: 5px 10px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_13 {
+                display: flex;
+                align-items: stretch;
+                height: 120px;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+            }
+            
+            #example_13 > div {
+                padding: 5px 10px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_14 {
+                display: flex;
+                align-items: flex-start;
+                height: 120px;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+            }
+            
+            #example_14 > div {
+                padding: 5px 10px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_15 {
+                display: flex;
+                align-items: flex-end;
+                height: 120px;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+            }
+            
+            #example_15 > div {
+                padding: 5px 10px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_16 {
+                display: flex;
+                align-items: center;
+                height: 120px;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+            }
+            
+            #example_16 > div {
+                padding: 5px 10px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_17 {
+                display: flex;
+                align-items: baseline;
+                height: 120px;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+            }
+            
+            #example_17 > div {
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+                padding: 10px;
+            }
+            
+            #example_17 > #div_1 {
+                font-size: 55px;
+            }
+            
+            #example_17 > #div_2 {
+                font-size: 20px;
+            }
+            
+            #example_17 > #div_3 {
+                font-size: 35px;
+            }
+            
+            #example_17 > #div_4 {
+                font-size: 10px;
+            }
+            
+            #example_18 {
+                display: flex;
+                flex-wrap: wrap;
+                align-content: stretch;
+                width: 50%;
+                height: 250px;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+                text-align: center;
+            }
+            
+            #example_18 > div {
+                width: 50px;
+                padding: 10px;
+                font-size: 30px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_19 {
+                display: flex;
+                flex-wrap: wrap;
+                align-content: flex-start;
+                width: 50%;
+                height: 250px;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+                text-align: center;
+            }
+            
+            #example_19 > div {
+                width: 50px;
+                padding: 10px;
+                font-size: 30px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_20 {
+                display: flex;
+                flex-wrap: wrap;
+                align-content: flex-end;
+                width: 50%;
+                height: 250px;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+                text-align: center;
+            }
+            
+            #example_20 > div {
+                width: 50px;
+                padding: 10px;
+                font-size: 30px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_21 {
+                display: flex;
+                flex-wrap: wrap;
+                align-content: center;
+                width: 50%;
+                height: 250px;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+                text-align: center;
+            }
+            
+            #example_21 > div {
+                width: 50px;
+                padding: 10px;
+                font-size: 30px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_22 {
+                display: flex;
+                flex-wrap: wrap;
+                align-content: space-between;
+                width: 50%;
+                height: 250px;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+                text-align: center;
+            }
+            
+            #example_22 > div {
+                width: 50px;
+                padding: 10px;
+                font-size: 30px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_23 {
+                display: flex;
+                flex-wrap: wrap;
+                align-content: space-around;
+                width: 50%;
+                height: 250px;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+                text-align: center;
+            }
+            
+            #example_23 > div {
+                width: 50px;
+                padding: 10px;
+                font-size: 30px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_24 {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 50%;
+                height: 250px;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+                text-align: center;
+            }
+            
+            #example_24 > div {
+                width: 50px;
+                padding: 10px;
+                font-size: 30px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_25 {
+                display: flex;
+                width: 50%;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+            }
+            
+            #example_25 > div {
+                padding: 5px 10px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_25 > #div_1 {
+                order: 1;
+            }
+            
+            #example_25 > #div_2 {
+                order: 2;
+            }
+            
+            #example_25 > #div_3 {
+                order: 3;
+            }
+            
+            #example_25 > #div_4 {
+                order: 4;
+            }
+            
+            #example_26 {
+                display: flex;
+                width: 50%;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+            }
+            
+            #example_26 > div {
+                padding: 5px 10px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_26 > #div_1 {
+                flex-grow: 1;
+            }
+            
+            #example_26 > #div_2 {
+                flex-grow: 1;
+            }
+            
+            #example_26 > #div_3 {
+                flex-grow: 8;
+            }
+            
+            #example_27 {
+                display: flex;
+                width: 75%;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+            }
+            
+            #example_27 > div {
+                padding: 5px 10px;
+                font-size: 20px;
+                width: 200px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_27 > #div_1 {
+                flex-shrink: 1;
+            }
+            
+            #example_27 > #div_2 {
+                flex-shrink: 4;
+            }
+            
+            #example_27 > #div_3 {
+                flex-shrink: 2;
+            }
+            
+            #example_27 > #div_4 {
+                flex-shrink: 8;
+            }
+            
+            #example_28 {
+                display: flex;
+                width: 50%;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+            }
+            
+            #example_28 > div {
+                width: 100px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_28 > .div_2 {
+                flex-basis: 200px;
+            }
+            
+            #example_29 {
+                display: flex;
+                height: 120px;
+                background-color: hsl(201, 100%, 49%);
+                margin-bottom: 5px;
+            }
+            
+            #example_29 > div {
+                padding: 5px 10px;
+                font-size: 20px;
+                background-color: hsl(0, 0%, 95%);
+                margin: 10px;
+            }
+            
+            #example_29 > .div_2 {
+                align-self: flex-start;
+            }
+            
+            #example_29 > .div_3 {
+                align-self: flex-end;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="example_1">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+            <div> 4 </div>
+        </div>
+        <div id="example_2">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+            <div> 4 </div>
+        </div>
+        <div class="clearfix">
+            <div id="example_3">
+                <div> 1 </div>
+                <div> 2 </div>
+                <div> 3 </div>
+            </div>
+            <div id="example_4">
+                <div> 1 </div>
+                <div> 2 </div>
+                <div> 3 </div>
+            </div>
+        </div>
+        <hr>
+        
+        <h3> flex-wrap: nowrap </h3>
+        <div id="example_5">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+            <div> 4 </div>
+            <div> 5 </div>
+            <div> 6 </div>
+            <div> 7 </div>
+            <div> 8 </div>
+            <div> 9 </div>
+            <div> 10 </div>
+            <div> 11 </div>
+            <div> 12 </div>
+        </div>
+        
+        <h3> flex-wrap: wrap </h3>
+        <div id="example_6">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+            <div> 4 </div>
+            <div> 5 </div>
+            <div> 6 </div>
+            <div> 7 </div>
+            <div> 8 </div>
+            <div> 9 </div>
+            <div> 10 </div>
+            <div> 11 </div>
+        </div>
+        
+        <h3> flex-wrap: wrap-reverse </h3>
+        <div id="example_7">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+            <div> 4 </div>
+            <div> 5 </div>
+            <div> 6 </div>
+            <div> 7 </div>
+            <div> 8 </div>
+            <div> 9 </div>
+            <div> 10 </div>
+            <div> 11 </div>
+        </div>
+        <hr>
+        
+        <h3> justify-content: flex-left (default) </h3>
+        <div id="example_8">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+        </div>
+        
+        <h3> justify-content: center </h3>
+        <div id="example_9">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+        </div>
+        
+        <h3> justify-content: flex-right </h3>
+        <div id="example_10">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+        </div>
+        
+        <h3> justify-content: space-between </h3>
+        <div id="example_11">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+        </div>
+        
+        <h3> justify-content: space-around </h3>
+        <div id="example_12">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+        </div>
+        <hr>
+        
+        <h3> align-items: stretch (default) </h3>
+        <div id="example_13">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+        </div>
+        
+        <h3> align-items: flex-start </h3>
+        <div id="example_14">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+        </div>
+        
+        <h3> align-items: flex-end </h3>
+        <div id="example_15">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+        </div>
+        
+        <h3> align-items: center </h3>
+        <div id="example_16">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+        </div>
+        
+        <h3> align-items: baseline (vertically aligned by text baseline) </h3>
+        <div id="example_17">
+            <div id="div_1"> 1 </div>
+            <div id="div_2"> 2 </div>
+            <div id="div_3"> 3 </div>
+            <div id="div_4"> 4 </div>
+        </div>
+        <hr>
+        
+        <h3> align-content: stretch (default) </h3>
+        <div id="example_18">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+            <div> 4 </div>
+            <div> 5 </div>
+            <div> 6 </div>
+            <div> 7 </div>
+            <div> 8 </div>
+            <div> 9 </div>
+            <div> 10 </div>
+            <div> 11 </div>
+            <div> 12 </div>
+        </div>
+        
+        <h3> align-content: flex-start </h3>
+        <div id="example_19">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+            <div> 4 </div>
+            <div> 5 </div>
+            <div> 6 </div>
+            <div> 7 </div>
+            <div> 8 </div>
+            <div> 9 </div>
+            <div> 10 </div>
+            <div> 11 </div>
+            <div> 12 </div>
+        </div>
+        
+        <h3> align-content: flex-end </h3>
+        <div id="example_20">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+            <div> 4 </div>
+            <div> 5 </div>
+            <div> 6 </div>
+            <div> 7 </div>
+            <div> 8 </div>
+            <div> 9 </div>
+            <div> 10 </div>
+            <div> 11 </div>
+            <div> 12 </div>
+        </div>
+        
+        <h3> align-content: center </h3>
+        <div id="example_21">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+            <div> 4 </div>
+            <div> 5 </div>
+            <div> 6 </div>
+            <div> 7 </div>
+            <div> 8 </div>
+            <div> 9 </div>
+            <div> 10 </div>
+            <div> 11 </div>
+            <div> 12 </div>
+        </div>
+        
+        <h3> align-content: space_between </h3>
+        <div id="example_22">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+            <div> 4 </div>
+            <div> 5 </div>
+            <div> 6 </div>
+            <div> 7 </div>
+            <div> 8 </div>
+            <div> 9 </div>
+            <div> 10 </div>
+            <div> 11 </div>
+            <div> 12 </div>
+        </div>
+        
+        <h3> align-content: space_around </h3>
+        <div id="example_23">
+            <div> 1 </div>
+            <div> 2 </div>
+            <div> 3 </div>
+            <div> 4 </div>
+            <div> 5 </div>
+            <div> 6 </div>
+            <div> 7 </div>
+            <div> 8 </div>
+            <div> 9 </div>
+            <div> 10 </div>
+            <div> 11 </div>
+            <div> 12 </div>
+        </div>
+        
+        <h3> Perfectly centered flex item (justify-content:center; align-items:center) </h3>
+        <div id="example_24">
+            <div> 1 </div>
+        </div>
+        <hr>
+        
+        <h3> Illustrates 'order' property </h3>
+        <div id="example_25">
+            <div id="div_2"> 1 </div>
+            <div id="div_4"> 2 </div>
+            <div id="div_1"> 3 </div>
+            <div id="div_3"> 4 </div>
+        </div>
+        <hr>
+        
+        <h3> Illustrates 'flex-grow' property (resize window to see the difference in grow rate of flex items) </h3>
+        <div id="example_26">
+            <div id="div_1"> 1 </div>
+            <div id="div_2"> 2 </div>
+            <div id="div_3"> 3 </div>
+        </div>
+        <h3> Illustrates 'flex-shrink' property (resize window to see the difference in shrink rate of flex items) </h3>
+        <div id="example_27">
+            <div id="div_1"> 1 </div>
+            <div id="div_2"> 2 </div>
+            <div id="div_3"> 3 </div>
+            <div id="div_4"> 4 </div>
+        </div>
+        <h3> Illustrates 'flex-basis' property </h3>
+        <div id="example_28">
+            <div> 1 </div>
+            <div class="div_2"> 2 </div>
+            <div> 3 </div>
+        </div>
+        <h3> The second and third item override align-items using align-self </h3>
+        <div id="example_29">
+            <div> 1 </div>
+            <div class="div_2"> 2 </div>
+            <div class="div_3"> 3 </div>
+            <div> 4 </div>
+        </div>
+    </body>
+</html>

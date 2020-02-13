@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Variables </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating CSS variables">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            :root {
+                --example_1_bg_color: hsl(0, 65%, 45%);
+                --example_1_width: 20%;
+                --example_1_height: 50px;
+            }
+            
+            #example_1 {
+                width: var(--example_1_width);
+                height: var(--example_1_height);
+                background-color: var(--example_1_bg_color);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="example_1"></div>
+    </body>
+</html>

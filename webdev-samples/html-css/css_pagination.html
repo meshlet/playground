@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> CSS Pagination </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A web-page illustrating how to implement pagination using CSS">
+        <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            
+            .clearfix:after {
+                content: ".";
+                visibility: hidden; 
+                display: block; 
+                height: 0; 
+                clear: both;
+            }
+            
+            hr {
+                border: none;
+                border-bottom: 2px solid blue;
+            }
+            
+            div {
+                font-size: large;
+            }
+            
+            #example_1 > a {
+                text-decoration: none;
+                background: inherit;
+                color: black;
+                display: block;
+                float: left;
+                padding: 5px 15px;
+                margin: 0;
+            }
+            
+            .example_2 > a {
+                text-decoration: none;
+                color: black;
+                display: block;
+                float: left;
+                padding: 5px 15px;
+                border-radius: 5px;
+                transition-duration: 0.5s;
+            }
+            
+            .example_2 > .active {
+                background-color: hsl(0, 100%, 62%);
+                color: white;
+            }
+            
+            .example_2 > a:hover:not(.active) {
+                background-color: hsl(0, 0%, 80%);
+            }
+            
+            .example_3 > a {
+                text-decoration: none;
+                color: black;
+                display: block;
+                float: left;
+                padding: 5px 15px;
+                transition: background-color 0.5s;
+                border: 1px solid hsl(0, 0%, 65%);
+            }
+            
+            .example_3 > a:first-child {
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+            }
+            
+            .example_3 > a:last-child {
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
+            
+            .example_3 > .active {
+                background-color: hsl(113, 100%, 35%);
+                color: white;
+                border: 1px solid hsl(113, 100%, 35%);
+            }
+            
+            .example_3 > a:hover:not(.active) {
+                background-color: hsl(0, 0%, 80%);
+            }
+            
+            .example_4 {
+                text-align: center;
+            }
+            
+            .example_4 > .container {
+                display: inline-block;
+            }
+            
+            .example_4 > .container > a {
+                text-decoration: none;
+                color: black;
+                float: left;
+                padding: 5px 15px;
+                transition: background-color 0.5s;
+                border: 1px solid hsl(0, 0%, 65%);
+                margin-right: 10px;
+            }
+            
+            .example_4 > .container > a:last-child {
+                margin: none;
+            }
+            
+            .example_4 > .container > .active {
+                background-color: hsl(113, 100%, 35%);
+                color: white;
+                border: 1px solid hsl(113, 100%, 35%);
+            }
+            
+            .example_4 > .container > a:hover:not(.active) {
+                background-color: hsl(0, 0%, 80%);
+            }
+            
+            .example_5 {
+                display: inline-block;
+                margin: 0;
+                padding: 8px 16px;
+                list-style: none;
+            }
+            
+            .example_5 > li {
+                display: block;
+                float: left;
+            }
+            
+            .example_5 > li+li::before {
+                content: "/";
+                padding: 8px;
+            }
+            
+            .example_5 > li > a {
+                color: black;
+            }
+            
+            .example_5 > li > a:hover {
+                color: green;
+            }
+            
+            .example_5 > li:last-child > span {
+                color: green;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="example_1" class="clearfix">
+            <a href="javascript:void(0)"> &laquo; </a>
+            <a href="javascript:void(0)"> 1 </a>
+            <a href="javascript:void(0)"> 2 </a>
+            <a href="javascript:void(0)"> 3 </a>
+            <a href="javascript:void(0)"> 4 </a>
+            <a href="javascript:void(0)"> 5 </a>
+            <a href="javascript:void(0)"> 6 </a>
+            <a href="javascript:void(0)"> 7 </a>
+            <a href="javascript:void(0)"> 8 </a>
+            <a href="javascript:void(0)"> &raquo; </a>
+        </div>
+        <hr>
+        
+        <div class="example_2 clearfix">
+            <a href="javascript:void(0)"> &laquo; </a>
+            <a class="active" href="javascript:void(0)"> 1 </a>
+            <a href="javascript:void(0)"> 2 </a>
+            <a href="javascript:void(0)"> 3 </a>
+            <a href="javascript:void(0)"> 4 </a>
+            <a href="javascript:void(0)"> 5 </a>
+            <a href="javascript:void(0)"> 6 </a>
+            <a href="javascript:void(0)"> 7 </a>
+            <a href="javascript:void(0)"> 8 </a>
+            <a href="javascript:void(0)"> &raquo; </a>
+        </div>
+        <hr>
+        
+        <div class="example_3 clearfix">
+            <a href="javascript:void(0)"> &laquo; </a>
+            <a href="javascript:void(0)"> 1 </a>
+            <a class="active" href="javascript:void(0)"> 2 </a>
+            <a href="javascript:void(0)"> 3 </a>
+            <a href="javascript:void(0)"> 4 </a>
+            <a href="javascript:void(0)"> 5 </a>
+            <a href="javascript:void(0)"> 6 </a>
+            <a href="javascript:void(0)"> 7 </a>
+            <a href="javascript:void(0)"> 8 </a>
+            <a href="javascript:void(0)"> &raquo; </a>
+        </div>
+        <hr>
+        
+        <div class="example_4">
+            <div class="container">
+                <a href="javascript:void(0)"> &laquo; </a>
+                <a href="javascript:void(0)"> 1 </a>
+                <a class="active" href="javascript:void(0)"> 2 </a>
+                <a href="javascript:void(0)"> 3 </a>
+                <a href="javascript:void(0)"> 4 </a>
+                <a href="javascript:void(0)"> 5 </a>
+                <a href="javascript:void(0)"> 6 </a>
+                <a href="javascript:void(0)"> 7 </a>
+                <a href="javascript:void(0)"> 8 </a>
+                <a href="javascript:void(0)"> &raquo; </a>
+            </div>
+        </div>
+        <hr>
+        
+        <ul class="example_5">
+            <li>
+                <a href="#"> Home </a>
+            </li>
+            <li>
+                <a href="#"> Pictures </a>
+            </li>
+            <li>
+                <a href="#"> Summer 19 </a>
+            </li>
+            <li>
+                <span> Montenegro </span>
+            </li>
+        </ul>
+    </body>
+</html>
