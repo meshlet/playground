@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Responsive Image Gallery </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A responsive image gallery implemented using CSS flex layout">
+        <meta name="author" content="Dzanan Bajgoric">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            
+            body {
+                margin: 0;
+            }
+            
+            #header {
+                padding: 30px 0;
+                text-align: center;
+            }
+            
+            #header > h1 {
+                margin: 0;
+                padding-bottom: 20px;
+            }
+            
+            #header > span {
+                font-size: large;
+            }
+            
+            #gallery {
+                display: flex;
+                flex-wrap: wrap;
+                margin-bottom: 5px;
+                padding: 0 4px;
+            }
+            
+            #gallery > .column {
+                flex-basis: 25%;
+                padding: 0 4px;
+            }
+            
+            #gallery > .column > img {
+                display: block;
+                width: 100%;
+                height: auto;
+                margin-bottom: 8px;
+            }
+            
+            #gallery > .column > img:last-child {
+                margin-bottom: 0;
+            }
+            
+            @media screen and (max-width: 750px) {
+                #gallery > .column {
+                    flex-basis: 50%;
+                }
+                
+                #header > h1 {
+                    font-size: 25px;
+                }
+                
+                #header > span {
+                    font-size: 17px;
+                }
+            }
+            
+            @media screen and (max-width: 350px) {
+                #gallery > .column {
+                    flex-basis: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Header -->
+        <header id="header">
+            <h1> Responsive Image Gallery </h1>
+            <span> Resize the browser window to see the effect. </span>
+        </header>
+        
+        <!-- Gallery -->
+        <div id="gallery">
+            <div class="column">
+                <img src="multimedia/bermuda.jpg" alt="Bermuda" width="900" height="600">
+                <img src="multimedia/french_riviera.jpg" alt="French Riviera" width="3000" height="2002">
+                <img src="multimedia/mountainskies.jpg" alt="Mountain skies" width="1000" height="500">
+                <img src="multimedia/praiano.jpg" alt="Praiano" width="1024" height="599">
+                <img src="multimedia/wedding.jpg" alt="Wedding" width="800" height="500">
+                <img src="multimedia/paris.jpg" alt="Paris" width="400" height="300">
+            </div>
+            <div class="column">
+                <img src="multimedia/cinque_terre.jpg" alt="Cinque Terre" width="800" height="800">
+                <img src="multimedia/lake_como.jpg" alt="Lake Como" width="1129" height="752">
+                <img src="multimedia/nature.jpg" alt="Nature" width="600" height="400">
+                <img src="multimedia/rocks.jpg" alt="Rocks" width="500" height="850">
+            </div>
+            <div class="column">
+                <img src="multimedia/corsica_france.jpeg" alt="Corsica" width="300" height="168">
+                <img src="multimedia/mist.jpg" alt="Mist" width="1500" height="380">
+                <img src="multimedia/ocean.jpg" alt="Ocean" width="1000" height="500">
+                <img src="multimedia/sandals_resorts.jpg" alt="Sandals Resorts" width="800" height="420">
+                <img src="multimedia/cinque_terre.jpg" alt="Cinque Terre" width="800" height="800">
+                <img src="multimedia/french_riviera.jpg" alt="French Riviera" width="3000" height="2002">
+                <img src="multimedia/ocean.jpg" alt="Ocean" width="1000" height="500">
+            </div>
+            <div class="column">
+                <img src="multimedia/falls2.jpg" alt="Falls" width="1000" height="500">
+                <img src="multimedia/mostar_bih.jpg" alt="Mostar" width="1300" height="867">
+                <img src="multimedia/paris.jpg" alt="Paris" width="400" height="300">
+                <img src="multimedia/underwater.jpg" alt="Under water" width="800" height="800">
+                <img src="multimedia/cinque_terre.jpg" alt="Cinque Terre" width="800" height="800">
+            </div>
+        </div>
+    </body>
+</html>

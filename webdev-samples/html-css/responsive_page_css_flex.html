@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Responsive Page With Flex Layout </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A responsive web-page implemented using CSS flex layout">
+        <meta name="author" content="Dzanan Bajgoric">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            
+            body {
+                margin: 0;
+            }
+            
+            .bold {
+                font-weight: bold;
+            }
+            
+            #header {
+                background-color: hsla(155, 73%, 45%, 1);
+                color: white;
+                width: 100%;
+                padding: 40px 0;
+                text-align: center;
+            }
+            
+            #header > h1 {
+                margin: 0;
+                padding-bottom: 20px;
+            }
+            
+            #header > span {
+                font-size: large;
+            }
+            
+            #navbar {
+                display: flex;
+                width: 100%;
+                background-color: hsl(0, 0%, 20%);
+            }
+            
+            #navbar > .navitem {
+                background-color: inherit;
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                transition-duration: 0.4s;
+            }
+            
+            #navbar > .navitem:last-child {
+                margin-left: auto;
+            }
+            
+            #navbar > .navitem:hover {
+                background-color: black;
+            }
+            
+            #flex_container {
+                display: flex;
+            }
+            
+            .img_placeholder  {
+                width: 100%;
+                height: 200px;
+                background-color: hsl(0, 0%, 70%);
+                padding: 10px;
+            }
+            
+            .small_img_placeholder {
+                width: 100%;
+                height: 70px;
+                background-color: hsl(0, 0%, 70%);
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .small_img_placeholder:last-child {
+                margin-bottom: 0;
+            }
+            
+            #main_content {
+                flex-basis: 70%;
+                padding: 20px 15px;
+            }
+            
+            #main_content > article {
+                margin-bottom: 50px;
+            }
+            
+            #main_content > article:last-child {
+                margin-bottom: 0;
+            }
+            
+            #main_content > article > h2 {
+                margin: 0;
+            }
+            
+            #main_content > article > .title_desc {
+                font-weight: bold;
+            }
+            
+            #side_content {
+                flex-basis: 30%;
+                padding: 20px 15px;
+                background-color: hsl(0, 0%, 92%);
+            }
+            
+            #side_content > aside {
+                margin-bottom: 40px;
+            }
+            
+            #side_content > aside:last-child {
+                margin-bottom: 0;
+            }
+            
+            #side_content > aside > h2 {
+                margin: 0;
+            }
+            
+            #footer {
+                background-color: hsl(0, 0%, 75%);
+                padding: 30px 0;
+                font-size: x-large;
+                text-align: center;
+                font-weight: bold;
+            }
+            
+            @media screen and (max-width: 750px) {
+                #flex_container {
+                    flex-direction: column;
+                }
+            }
+            
+            @media screen and (max-width: 350px) {
+                #navbar {
+                    flex-direction: column;
+                }
+                
+                #navbar > .navitem:last-child {
+                    margin-left: 0;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Header -->
+        <header id="header">
+            <h1> Responsive Website</h1>
+            <span> With the <span class="bold"> flexible </span> layout.</span>
+        </header>
+        
+        <!-- Navigation bar -->
+        <nav id="navbar">
+            <button type="button" class="navitem"> Link 1 </button>
+            <button type="button" class="navitem"> Link 2 </button>
+            <button type="button" class="navitem"> Link 3 </button>
+            <button type="button" class="navitem"> Link 4 </button>
+            <button type="button" class="navitem"> Link 5 </button>
+        </nav>
+        
+        <div id="flex_container">
+            <!-- Main content -->
+            <div id="main_content">
+                <article>
+                    <h2> Title Heading </h2>
+                    <p class="title_desc"> Title description, April 10, 2019 </p>
+                    <div class="img_placeholder"> An image </div>
+                    <p> Some text... </p>
+                    <p>
+                        Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur
+                        adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+                    </p>
+                </article>
+                <article>
+                    <h2> Title Heading </h2>
+                    <p class="title_desc"> Title description, January 15, 2020 </p>
+                    <div class="img_placeholder"> An image </div>
+                    <p> Some text... </p>
+                    <p>
+                        Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur
+                        adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+                    </p>
+                </article>
+            </div>
+            <div id="side_content">
+                <aside>
+                    <h2> About Me </h2>
+                    <p class="bold"> Photo of me:</p>
+                    <div class="img_placeholder"> An image </div>
+                    <p>
+                        Some text about me in culpa qui officia deserunt mollit anim..
+                    </p>
+                </aside>
+                <aside>
+                    <h2> More Stuff </h2>
+                    <p> Lorem ipsum dolor sit ame. </p>
+                    <div class="small_img_placeholder"> An image </div>
+                    <div class="small_img_placeholder"> An image </div>
+                    <div class="small_img_placeholder"> An image </div>
+                    <div class="small_img_placeholder"> An image </div>
+                </aside>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer id="footer"> Footer </footer>
+    </body>
+</html>
