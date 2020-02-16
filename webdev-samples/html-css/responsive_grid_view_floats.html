@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Responsive Grid View </title>
+        <meta charset="utf-8">
+        <meta name="description" content="A responsive grid view implemented using CSS float property">
+        <meta name="author" content="Dzanan Bajgoric">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            
+            body {
+                margin: 0;
+            }
+            
+            .bold {
+                font-weight: bold;
+            }
+            
+            .header {
+                background-color: hsl(150, 59%, 45%);
+                color: white;
+                text-align: center;
+                padding: 25px 0;
+            }
+            
+            .header > h1 {
+                margin: 0;
+            }
+            
+            .header > p {
+                font-size: large;
+            }
+            
+            /* Clearfix is applied after each row of the grid view */
+            .row::after {
+                content: ".";
+                visibility: hidden; 
+                display: block; 
+                height: 0; 
+                clear: both;
+            }
+            
+            /*
+             * The grid view has 12 columns and the width of each column depends
+             * on the device screen size. The column width on mobile phones is
+             * expected to be 100% of the screen width, hence we define all the
+             * column spans to have 100% width by default. See @media queries
+             * for column span classes used on devices with large screens.
+             */
+            [class*="col_span"] {
+                width: 100%;
+                
+                /* All columns float to the left regardless of the device screen size */
+                float: left;
+            }
+            
+            /* Navigation bar */
+            button.nav_btn {
+                display: block;
+                width: 100%;
+                border: none;
+                border-bottom: 1px solid hsl(0, 0%, 80%);
+                padding: 15px 30px;
+                color: white;
+                background-color: hsl(0, 0%, 15%);
+                font-size: large;
+                text-align: center;
+                cursor: pointer;
+                transition: background-color 0.4s;
+            }
+            
+            button.nav_btn:last-child {
+                border-bottom: none;
+            }
+            
+            button.nav_btn:hover {
+                background-color: hsl(0, 0%, 2%);
+            }
+            
+            /* Main article */
+            .main_article {
+                padding: 15px 10px;
+            }
+            
+            .main_article > .article_title {
+                margin: 0;
+            }
+            
+            .main_article > .image {
+                max-width: 100%;
+                height: auto;
+                display: block;
+                margin-bottom: 10px;
+            }
+            
+            .main_article > .video {
+                width: 100%;
+                height: auto;
+            }
+            
+            /* Side content */
+            .side_content {
+                padding: 15px 45px;
+                background-color: hsl(150, 45%, 60%);
+                color: white;
+                text-align: center;
+            }
+            
+            .side_content > .side_title {
+                margin: 0;
+            }
+            
+            /* Footer */
+            .footer {
+                padding: 30px;
+                text-align: center;
+                font-size: large;
+                background-color: hsl(150, 59%, 45%);
+                color: white;
+                margin-top: 10px;
+            }
+            
+            /*
+             * Define the column span classes for devices with medium sized
+             * screens (tablets). Each column has 100% / 12 = 8.33% width.
+             */
+            @media only screen and (min-width: 600px) {
+                .col_span_medium_screen_1  { width: 8.33%;  }
+                .col_span_medium_screen_2  { width: 16.66%; }
+                .col_span_medium_screen_3  { width: 25%;    }
+                .col_span_medium_screen_4  { width: 33.33%; }
+                .col_span_medium_screen_5  { width: 41.66%; }
+                .col_span_medium_screen_6  { width: 50%;    }
+                .col_span_medium_screen_7  { width: 58.33%; }
+                .col_span_medium_screen_8  { width: 66.66%; }
+                .col_span_medium_screen_9  { width: 75%;    }
+                .col_span_medium_screen_10 { width: 83.33%; }
+                .col_span_medium_screen_11 { width: 91.66%; }
+                .col_span_medium_screen_12 { width: 100%;   }
+                
+                /* Change navigation bar button text alignment on medium and large screens */
+                button.nav_btn {
+                    text-align: left;
+                }
+            }
+            
+            /*
+             * Define the column span classes for devices with large screens
+             * (i.e. laptops or PCs). Note that column spans have the same
+             * width on medium and large screens. The reason we have different
+             * classes for medium and large screens is to be able to span an
+             * HTML element different number of columns depending on the screen
+             * width. For example, the following div
+             *
+             * <div class="col_span_medium_screen_6 col_span_large_screen_9>
+             *
+             * will span 12 columns (width set to 100% because all col_span columns
+             * have with set to 100% on devices with screen width lower than 600 pixels)
+             * on small screens, 6 columns (width set to 50%) on medium screens and 9
+             * columns (width set to 75%) on large screens. This wouldn't be possible
+             * without using different column span classes for different screen sizes.
+             */
+            @media only screen and (min-width: 768px) {
+                .col_span_large_screen_1  { width: 8.33%;  }
+                .col_span_large_screen_2  { width: 16.66%; }
+                .col_span_large_screen_3  { width: 25%;    }
+                .col_span_large_screen_4  { width: 33.33%; }
+                .col_span_large_screen_5  { width: 41.66%; }
+                .col_span_large_screen_6  { width: 50%;    }
+                .col_span_large_screen_7  { width: 58.33%; }
+                .col_span_large_screen_8  { width: 66.66%; }
+                .col_span_large_screen_9  { width: 75%;    }
+                .col_span_large_screen_10 { width: 83.33%; }
+                .col_span_large_screen_11 { width: 91.66%; }
+                .col_span_large_screen_12 { width: 100%;   }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Header -->
+        <div class="header">
+            <h1> Responsive Grid View </h1>
+            <p> With 12 columns implemented using the <span class="bold"> CSS float </span> property. </p>
+        </div>
+        
+        <div class="row">
+            <!-- Navigation bar spans 12 columns on small screens, 3 columns on medium and large screens. -->
+            <nav class="col_span_medium_screen_3">
+                <button class="nav_btn" type="button"> Home </button>
+                <button class="nav_btn" type="button"> News </button>
+                <button class="nav_btn" type="button"> About </button>
+                <button class="nav_btn" type="button"> Contact Us </button>
+            </nav>
+            
+            <!-- Main content spans 12 columns on small, 9 columns on medium and 6 columns on large screens. -->
+            <div class="col_span_medium_screen_9 col_span_large_screen_6 main_article">
+                <h1 class="article_title"> Article Title </h1>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+                </p>
+                <img class="image" src="multimedia/mostar_bih.jpg" alt="Mostar" width="1300" height="867">
+                <video class="video" controls>
+                    <source src="multimedia/mov_bbb.mp4" type="video/mp4">
+                    Your browser doesn't support the HTML5 video element.
+                </video>
+            </div>
+            
+            <!-- Side bar spans 12 columns on small and medium screens, 3 columns on large screens. -->
+            <aside class="col_span_medium_screen_12 col_span_large_screen_3 side_content">
+                <h2 class="side_title"> Title 1 </h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.
+                </p>
+                <h2 class="side_title"> Title 2 </h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.
+                </p>
+                <h2 class="side_title"> Title 3 </h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.
+                </p>
+            </aside>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            Resize the browser window to see how the content adapts.
+        </footer>
+    </body>
+</html>

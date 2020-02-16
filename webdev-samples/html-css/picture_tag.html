@@ -5,13 +5,22 @@
         <meta charset="utf-8">
         <meta name="description" content="A web-site using the HTML5 picture tag">
         <meta name="author" content="Dzanan Bajgoric">
+        <style>
+            img {
+                width: 50%;
+                height: 50%;
+            }
+        </style>
     </head>
     <body>
         <h3> Resize the browser window to change the image: </h3>
         <picture>
             <source media="(min-width: 800px)" srcset="multimedia/workplace_table.jpg">
             <source media="(min-width: 600px)" srcset="multimedia/sinusoidal_waves.gif">
-            <img src="multimedia/rotating_earth.gif" style="width: 50%; height: 50%;">
+            <source srcset="multimedia/rotating_earth.gif">
+            
+            <!-- Define default image to be used by browsers that don't support <picture> element -->
+            <img src="multimedia/workplace_table.jpg">
         </picture>
     </body>
 </html>
