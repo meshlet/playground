@@ -4,5 +4,6 @@
 **/packages
 **/.settings
 **/target
+**/node_modules
 .project
 .classpath
