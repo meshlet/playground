@@ -2,9 +2,15 @@
  * Contains tests for functionality implemented by misc.js.
  */
 describe("MiscellaneousTests", function() {
-    it("array is sorted in descending order", function() {
+    it("sortDescending sorts array in descending order", function() {
         var array = [1, -2, 0, 4, -10, 1, 5, -3];
         sortDescending(array);
+        expect(array).toEqual([5, 4, 1, 1, 0, -2, -3, -10]);
+    });
+
+    it('sortDescendingArrayCallback sorts array in descending order', function () {
+        var array = [1, -2, 0, 4, -10, 1, 5, -3];
+        sortDescendingArrayCallback(array);
         expect(array).toEqual([5, 4, 1, 1, 0, -2, -3, -10]);
     });
 
@@ -76,5 +82,23 @@ describe("MiscellaneousTests", function() {
         expect(-function (a, b) { return a * b; }(3, 9)).toEqual(-27);
         expect(!function (a, b) { return a * b; }(3, 9)).toEqual(!27);
         expect(~function (a, b) { return a * b; }(3, 9)).toEqual(~27);
+    });
+
+    it('illustrates rest parameters', function () {
+        function fnWithRestParameters(first, ...other_params) {
+            return other_params;
+        }
+
+        expect(fnWithRestParameters(-4, 3, 0, 1, 2, -5, 9)).toEqual([3, 0, 1, 2, -5, 9]);
+    });
+
+    it('illustrates default parameters', function () {
+        function fnWithDefaultParameters(a, b = 5, c = a * b) {
+            return [a, b, c];
+        }
+
+        expect(fnWithDefaultParameters(1, 2, 3)).toEqual([1, 2, 3]);
+        expect(fnWithDefaultParameters(4, 7)).toEqual([4, 7, 28]);
+        expect(fnWithDefaultParameters(7)).toEqual([7, 5, 35]);
     });
 });
