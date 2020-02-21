@@ -2,7 +2,7 @@
  * Tests for for_each.js.
  */
 describe('ForEach Function Tests', function () {
-    it('tests forEach function', function () {
+    it('forEeach correctly iterates over an array', function () {
         var result = 0;
         forEach([1, 4, -1, 5, 2, 10], function (currentValue) {
             result += currentValue;
@@ -33,5 +33,18 @@ describe('ForEach Function Tests', function () {
             result += currentValue;
         });
         expect(result).toBe(18);
+    });
+
+    it('should throw TypeError if passed a non-array', function () {
+        expect(forEach.bind(undefined, {}, () => {})).toThrowError(TypeError);
+        expect(forEach.bind(undefined, "ABC", () => {})).toThrowError(TypeError);
+        expect(forEach.bind(undefined, undefined, () => {})).toThrowError(TypeError);
+    });
+
+    it('should throw TypeError if passed a non-function', function () {
+        expect(forEach.bind(undefined, [1, 2], [])).toThrowError(TypeError);
+        expect(forEach.bind(undefined, [1, 2], {})).toThrowError(TypeError);
+        expect(forEach.bind(undefined, [1, 2], "ABC")).toThrowError(TypeError);
+        expect(forEach.bind(undefined, [1, 2], { method: () => {}})).toThrowError(TypeError);
     });
 });
