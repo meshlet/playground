@@ -1,68 +1,8 @@
 /**
- * Contains tests for functionality implemented by misc.js.
- *
- * Note that some tests only illustrate specific features of
- * Javascript and are not related to any particular functionality.
+ * These tests exercise various JavaScript features. They are not
+ * testing any particular functionality.
  */
 describe("MiscellaneousTests", function() {
-    it("sortDescending sorts array in descending order", function() {
-        var array = [1, -2, 0, 4, -10, 1, 5, -3];
-        sortDescending(array);
-        expect(array).toEqual([5, 4, 1, 1, 0, -2, -3, -10]);
-    });
-
-    it('sortDescendingArrayCallback sorts array in descending order', function () {
-        var array = [1, -2, 0, 4, -10, 1, 5, -3];
-        sortDescendingArrayCallback(array);
-        expect(array).toEqual([5, 4, 1, 1, 0, -2, -3, -10]);
-    });
-
-    it("callback collection has no duplicates", function () {
-        var counter = 0;
-        function f1() {
-            ++counter;
-        }
-        function f2() {
-            ++counter;
-        }
-        function f3() {
-            ++counter;
-        }
-
-        var callback_collection = new CallbackCollection();
-        expect(callback_collection.addCallback(f1)).toBeTrue();
-        expect(callback_collection.addCallback(f2)).toBeTrue();
-        expect(callback_collection.addCallback(f3)).toBeTrue();
-
-        // Add the same set of callbacks
-        expect(callback_collection.addCallback(f1)).toBeFalse();
-        expect(callback_collection.addCallback(f2)).toBeFalse();
-        expect(callback_collection.addCallback(f3)).toBeFalse();
-
-        // Execute the callbacks and assert that the counter has
-        // expected value
-        callback_collection.executeCallbacks();
-        expect(counter).toEqual(3);
-    });
-
-    it("prime computation works correctly", function () {
-        var test_vectors = [
-            { value: 1,  is_prime: false },
-            { value: 0,  is_prime: false },
-            { value: 2,  is_prime: true  },
-            { value: 7,  is_prime: true  },
-            { value: 10, is_prime: false },
-            { value: 21, is_prime: false },
-            { value: 19, is_prime: true  },
-            { value: 10, is_prime: false },
-            { value: 2,  is_prime: true  },
-        ];
-
-        for (var test_vector of test_vectors) {
-            expect(isPrimeWithMemoization(test_vector.value)).toBe(test_vector.is_prime);
-        }
-    });
-
     it('illustrates function constructors', function () {
         var add = new Function("a", "b", "return a + b");
         expect(add(5, 9)).toEqual(14);
@@ -105,12 +45,28 @@ describe("MiscellaneousTests", function() {
         expect(fnWithDefaultParameters(7)).toEqual([7, 5, 35]);
     });
 
-    it('sumVariadicArgumentsParam returns expected sum', function () {
+    it('uses arguments parameter to sum all function arguments', function () {
+        function sumVariadicArgumentsParam() {
+            var sum = 0;
+            for (var i = 0; i < arguments.length; ++i) {
+                sum += arguments[i];
+            }
+            return sum;
+        }
+
         expect(sumVariadicArgumentsParam(4, 5, 1)).toEqual(10);
         expect(sumVariadicArgumentsParam(7, -5, 10, -11, -1)).toEqual(0);
     });
 
-    it('sumVariadicRestParam returns expected sum', function () {
+    it('uses rest parameter to sum all function arguments', function () {
+        function sumVariadicRestParam(...args) {
+            var sum = 0;
+            for (var arg of args) {
+                sum += arg;
+            }
+            return sum;
+        }
+
         expect(sumVariadicRestParam(4, 5, 1)).toEqual(10);
         expect(sumVariadicRestParam(7, -5, 10, -11, -1)).toEqual(0);
     });
@@ -232,39 +188,6 @@ describe("MiscellaneousTests", function() {
 
         fn.call(obj2, 5, 9);
         expect(obj2.result).toEqual(14);
-    });
-
-    it('tests forEach function', function () {
-        var result = 0;
-        forEach([1, 4, -1, 5, 2, 10], function (currentValue) {
-            result += currentValue;
-        });
-        expect(result).toBe(21);
-        
-        result = 0;
-        forEach([1, 4, 9, 0, -10, 7, -3], function (currentValue, index, array) {
-            result += array[index];
-        });
-        expect(result).toBe(8);
-
-        var obj = {
-            result: 0
-        };
-        forEach([0, 9, -5, 10, 7, -4], function (currentValue) {
-            this.result += currentValue;
-        }, obj);
-        expect(obj.result).toBe(17);
-
-        result = 0;
-        forEach([0, 8, 10, -10, 5, 4], function (currentValue, index) {
-            if (index > 2) {
-                // We want to sum first 3 elements only
-                return true;
-            }
-
-            result += currentValue;
-        });
-        expect(result).toBe(18);
     });
 
     it('illustrates the context inheritance in arrow functions', function () {
