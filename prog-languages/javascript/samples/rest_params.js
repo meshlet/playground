@@ -1,6 +1,5 @@
 /**
- * Illustrates JavaScript rest parameters. These tests are not related
- * to a specific functionality.
+ * Illustrates JavaScript rest parameters introduced in ES6.
  */
 describe("Rest Parameters", function () {
     it('illustrates rest parameters', function () {

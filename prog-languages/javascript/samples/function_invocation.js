@@ -1,6 +1,5 @@
 /**
- * Illustrates various ways to invoke functions in JavaScript. These
- * tests are not related to a particular functionality.
+ * Illustrates various ways to invoke functions in JavaScript.
  */
 describe("Function Invocation", function () {
     it('illustrates invocation as a function', function () {

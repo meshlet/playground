@@ -1,6 +1,5 @@
 /**
- * Illustrates the JavaScript generator functions. These tests aren't
- * related to a specific functionality.
+ * Illustrates the JavaScript generator functions introduced in ES6.
  */
 describe("Generator Functions", function () {
     it('illustrates generator functions', function () {

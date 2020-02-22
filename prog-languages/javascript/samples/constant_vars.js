@@ -1,6 +1,5 @@
 /**
- * Illustrates constant variables. These tests are not related to
- * a particular functionality.
+ * Illustrates constant variables introduced in ES6.
  */
 describe("Constant Variables", function () {
     it('illustrates constant variables', function () {

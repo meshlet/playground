@@ -1,6 +1,6 @@
 /**
- * Illustrates the default parameters (parameters with a default value).
- * These tests are not related to a particular functionality.
+ * Illustrates the default parameters (parameters with a default value)
+ * introduced in ES6.
  */
 describe("Default Parameters", function () {
     it('illustrates default parameters', function () {

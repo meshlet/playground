@@ -1,6 +1,5 @@
 /**
- * Illustrates various types of JavaScript functions. These
- * tests are not related to a particular functionality.
+ * Illustrates various types of JavaScript functions.
  */
 describe("Function Types", function () {
     it('illustrates function constructors', function () {
