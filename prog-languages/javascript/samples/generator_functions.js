@@ -83,4 +83,63 @@ describe("Generator Functions", function () {
             expect(value).toBe(i++);
         }
     });
+
+    it('illustrates communicating with generator functions', function () {
+        function* generatorFun(initial) {
+            // Value passed to the second call to iterator's next method is
+            // assigned to 'passed_value1'
+            let passed_value1 = yield initial;
+
+            // Yield the value passed in the last next() call. Value passed
+            // to the following next() call is assigned to 'passed_value2'
+            let passed_value2 = yield passed_value1;
+
+            // Yield the value passed in the last next() call.
+            yield passed_value2;
+        }
+
+        // Initialize the generator and pass it initial value
+        let iter = generatorFun(5);
+
+        // Assert that first yield returns the initial value. Note that arguments
+        // passed to the very first next() call are ignored. As there is no yield
+        // waiting at this point (iterator isn't started yet), there's no way for
+        // generator to access this value.
+        expect(iter.next().value).toBe(5);
+
+        // Call the next() method for the second time and pass it a value. This
+        // value becomes the return value of the last yield statement (where the
+        // generator waits to be resumed from).
+        expect(iter.next(10).value).toBe(10);
+
+        // Call the next one last time but do not provide an argument to it. The
+        // return value of the yield statement in which generator is blocked in
+        // should be undefined.
+        expect(iter.next().value).toBe(undefined);
+
+        // Calling next one last time will terminate the iterator (no more yields)
+        expect(iter.next().done).toBeTrue();
+    });
+
+    it('illustrates throwing exceptions to generators', function () {
+        function* generatorFun() {
+            try {
+                yield 0;
+
+                // Don't expect to reach this point
+                expect(true).toBeFalse();
+                yield 1;
+            }
+            catch (e) {}
+        }
+
+        let iter = generatorFun();
+        expect(iter.next().value).toBe(0);
+
+        // Throw the exception to the generator. This should terminate
+        // generator as the catch block (nor the rest of the generator)
+        // has no further yield statements.
+        iter.throw();
+        expect(iter.next().done).toBeTrue();
+    });
 });
