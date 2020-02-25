@@ -39,6 +39,10 @@ describe("Promises", function () {
     });
 
     it('illustrates the order of promise resolve callback invocation', function () {
+        // The promise objects is returned to communicate to the Jasmine framework
+        // that it needs to wait for the asynchronous work to finish before it can
+        // continue running other tests. Only once the promise is resolved (or
+        // rejected) will the Jasmine framework continue.
         return new Promise((outer_resolve, outer_reject) => {
             // Tracks the order of executed actions
             let executionOrder = ["start"];
