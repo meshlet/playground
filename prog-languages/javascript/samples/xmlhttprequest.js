@@ -152,5 +152,113 @@ describe("XMLHttpRequest", function () {
         XHRMock.get("/", () =>  Promise.reject(new Error()));
         return getJsonWithPromise("get", "/")
             .catch(() => {});
-    })
+    });
+
+    it('illustrates how to combine generator functions and promises', function () {
+        // Mock response for the list of scientists request
+        XHRMock.get("/data/scientists.json", (request, response) => {
+            expect(request.header("Content-Type")).toEqual("application/json");
+            return response
+                .status(200)
+                .reason("OK")
+                .body(
+                    '[{"id": 0, "first_name":"Nikola", "last_name":"Tesla"},' +
+                    ' {"id": 1, "first_name":"George", "last_name":"Bool"},' +
+                    ' {"id": 2, "first_name":"Alan", "last_name":"Turing"}]');
+        });
+
+        // Mock response for the request on Alan Turing's info
+        XHRMock.get("/data/alan_turing.json", (request, response) => {
+            expect(request.header("Content-Type")).toEqual("application/json");
+            return response
+                .status(200)
+                .reason("OK")
+                .body('{"born": "23 June 1912", "died": "7 June 1954", "nationality": "English", "birth_place": "London"}');
+        });
+
+        // Mock response for the request on information about London
+        XHRMock.get("/data/london.json", (request, response) => {
+            expect(request.header("Content-Type")).toEqual("application/json");
+            return response
+                .status(200)
+                .reason("OK")
+                .body('{"area": 1572, "population": 8908081, "website": "london.gov.uk"}');
+        });
+
+        // Function that drives the generator function
+        function async(generatorFun) {
+            let iter = generatorFun();
+
+            // The function that handles each value produced by the generator
+            function handle(iterResult) {
+                if (iterResult.done) {
+                    // Return if iterator has no more values to produce
+                    return;
+                }
+
+                if (iterResult.value instanceof Promise) {
+                    // The iterator produced a promise. Register the onFulfilled and
+                    // onRejected callbacks on the promise, so we can handle the
+                    // success or failure at later time.
+                    iterResult.value
+                        .then(result => {
+                            // Promise has been fulfilled. Pass the value it has been fulfilled
+                            // with to the iterator via the next method. At the same time, pass
+                            // the value returned by the next (another generated value if any)
+                            // to another call to handle function.
+                            handle(iter.next(result));
+                        })
+                        .catch(error => {
+                            // Also register the failure callback and pass the failure on to
+                            // the iterator. Any error will terminate the iterator (it will
+                            // make it jump over any remaining yield statements to the end of
+                            // the generator function body).
+                            iter.throw(error);
+                        });
+                }
+            }
+
+            // Kick-start the iterator and pass the first value it yields to the
+            // handle() function
+            handle(iter.next());
+        }
+
+        // Return the promise back to Jasmine framework to make it wait for the
+        // asynchronous actions in this test before it completes the test. Otherwise,
+        // Jasmine might run its afterEach() callback which will teardown XHRMock
+        // which will in turn expose the actual XHR object (and all XHR requests will
+        // fail as there's no server listening).
+        return new Promise(resolve => {
+            // Invoke the async function with the generator function
+            async(function* () {
+                try {
+                    // Get the list of scientists from the server
+                    let scientists = yield getJsonWithPromise("get", "/data/scientists.json");
+                    expect(scientists.length).toBe(3);
+                    expect(scientists[2].first_name.toLowerCase()).toEqual("alan");
+                    expect(scientists[2].last_name.toLowerCase()).toEqual("turing");
+
+                    // Get the info on Alan Turing
+                    let alan_turing_info = yield getJsonWithPromise(
+                        "get",
+                        "/data/" + scientists[2].first_name.toLowerCase() + "_" + scientists[2].last_name.toLowerCase() + ".json");
+                    expect(alan_turing_info.birth_place.toLowerCase()).toEqual("london");
+
+                    // Get the info on London
+                    let london_info = yield getJsonWithPromise(
+                        "get",
+                        "/data/" + alan_turing_info.birth_place.toLowerCase() + ".json");
+                    expect(london_info.website).toEqual("london.gov.uk");
+                }
+                catch (error) {
+                    // We don't expect any errors in this test
+                    expect(true).toBeFalse();
+                }
+
+                // Fulfill the promise returned to the Jasmine framework. This will notify
+                // to Jasmine that it's safe to complete the test.
+                resolve();
+            });
+        });
+    });
 });
