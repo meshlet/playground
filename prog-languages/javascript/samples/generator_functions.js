@@ -142,4 +142,28 @@ describe("Generator Functions", function () {
         iter.throw();
         expect(iter.next().done).toBeTrue();
     });
+
+    it('illustrates terminating the iterator with return statement', function () {
+        function* generatorFun() {
+            yield 0;
+
+            // The return statement terminates the iterator
+            return 1;
+
+            // The execution will never reach here
+            yield 2;
+        }
+
+        let array = [];
+        for (let value of generatorFun()) {
+            array.push(value);
+        }
+
+        // The array will contain a single value 0, returned by the first yield
+        // statement of the iterator. Note that for-of loop doesn't run an
+        // additional iteration once iterator.done becomes true. And when iterator
+        // encounters a 'return' statement it moves to done state. Hence value
+        // returned by 'return' is ignored by the for-of loop.
+        expect(array).toEqual([0]);
+    });
 });
