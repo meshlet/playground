@@ -217,7 +217,7 @@ describe("Prototypes", function () {
     });
 
     /**
-     * The issue with prototype inheritance as illustrates in this example is
+     * The issue with prototype inheritance as illustrated in this example is
      * that each instance of Derived class references the same Base instance
      * as its prototype. If a Base property is modified via one Derived instance
      * all other Derived instances see the change which is unacceptable. The
