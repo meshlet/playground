@@ -84,7 +84,7 @@ describe("Prototypes", function () {
         expect(instance.method()).toEqual("AAAA");
     });
 
-    it('each instance gets copy of properties created in constructor', function () {
+    it('illustrates that each instance gets copy of properties created in constructor', function () {
         function Constructor() {
             this.instanceMethod = function() {
                 return 0;
@@ -173,7 +173,7 @@ describe("Prototypes", function () {
         expect(instance.constructor).toBe(Constructor1);
     });
 
-    it('create instances using the constructor property', function () {
+    it('illustrates creating instances using the constructor property', function () {
         function Constructor1() {}
 
         // Create new instance
@@ -195,7 +195,7 @@ describe("Prototypes", function () {
      * with the same name a new instance property is created. From then on, this instance
      * property hides the prototype property.
      */
-    it('new instance property is created when assigning value to it', function () {
+    it('illustrates that new instance property is created when assigning value to it', function () {
         function Constructor() {}
         Constructor.prototype.aProperty = "ABCD";
 
@@ -223,7 +223,7 @@ describe("Prototypes", function () {
      * all other Derived instances see the change which is unacceptable. The
      * 'improved inheritance with prototypes' example addresses this issue.
      */
-    it('attempting inheritance with prototypes', function () {
+    it('illustrates an attempt at inheritance with prototypes', function () {
         // Person constructor
         function Person() {
             let name = "Charles Murphy";
@@ -296,7 +296,7 @@ describe("Prototypes", function () {
      * this way, modifying Base properties via one Derived instance doesn't affect
      * the other Derived instances.
      */
-    xit('improved inheritance with prototypes', function () {
+    xit('illustrates improved inheritance with prototypes', function () {
 
     });
 });

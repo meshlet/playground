@@ -3,7 +3,7 @@
  * and Object.defineProperties.
  */
 describe("Configure Object Properties", function () {
-    it('default property descriptor created with assignment', function () {
+    it('illustrates the default values of property descriptor created with assignment', function () {
         let obj = {};
 
         // Create a new property using assignment
@@ -22,7 +22,7 @@ describe("Configure Object Properties", function () {
         expect(prop_descriptor.set).toBeUndefined();
     });
 
-    it('property descriptor properties are not writable', function () {
+    it('illustrates that property descriptor properties are not writable', function () {
         let obj = {};
         obj.prop = "ABCD";
 
@@ -282,7 +282,7 @@ describe("Configure Object Properties", function () {
         expect(obj.fullName).toEqual("Bob Doe");
     });
 
-    it('mixing value/writable and get/set attributes is disallowed', function () {
+    it('illustrates that mixing value/writable and get/set attributes is disallowed', function () {
         let obj = {};
 
         // Mixing data (value and writable) and accessor (get/set) attributes is

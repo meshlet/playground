@@ -31,7 +31,7 @@ function forEach(array, callback, thisArg) {
  * Tests forEach implementation.
  */
 describe('ForEach', function () {
-    it('forEeach correctly iterates over an array', function () {
+    it('should correctly iterate over array', function () {
         var result = 0;
         forEach([1, 4, -1, 5, 2, 10], function (currentValue) {
             result += currentValue;

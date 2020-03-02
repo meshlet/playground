@@ -23,7 +23,7 @@ describe("async/await", function () {
         });
     }
 
-    it('async function returns a Promise object', function () {
+    it('illustrates that async function returns a Promise object', function () {
         async function fun() {
             return "ABC";
         }
@@ -55,7 +55,7 @@ describe("async/await", function () {
             .catch((error) => expect(error).toEqual("ABCD"));
     });
 
-    it('await does not suspend execution of the outer function', function () {
+    it('illustrates that await does not suspend the execution of the outer function', function () {
         let array = ["start"];
         let promise = (async () => {
             // the following statement should suspend the immediate async arrow
@@ -211,7 +211,7 @@ describe("async/await", function () {
             .catch((error) => expect(true).toBeFalse());
     });
 
-    it('start asynchronous dependent operations sequentially', async function () {
+    it('illustrates starting async dependent operations sequentially', async function () {
         // Start the asynchronous operations sequentially, the later
         // operation starts only after the previous has completed.
         //
@@ -242,7 +242,7 @@ describe("async/await", function () {
      * are run in parallel, the await operations and their results are still run
      * in series.
      */
-    it('start asynchronous operations concurrently and wait for each in turn', async function () {
+    it('illustrates starting async operations concurrently and wait for each in turn', async function () {
         // Start the asynchronous operations concurrently and then waits
         // for each of the promises to be resolved one after another.
         await (async () => {
@@ -271,7 +271,7 @@ describe("async/await", function () {
      * Check the next test to see how to properly start the parallel operations
      * and wait for them using Promise.all.
      */
-    it('failed attempt to start and process operations in parallel', async function () {
+    it('illustrates unsuccessful attempt to start and process operations in parallel', async function () {
         await (async () => {
             // Note that resolveSlow and resolveStart won't run in parallel in this
             // test. The 'await resolveSlow' will start the slow operation and will
@@ -301,7 +301,7 @@ describe("async/await", function () {
      * processing of results mean that whichever result is first available will be
      * processed first).
      */
-    it('start and process operations in parallel with Promise.all', async function () {
+    it('illustrates starting and processing operations in parallel with Promise.all', async function () {
         // Starts the asynchronous operations concurrently and uses Promise.all
         // to wait for all them.
         await (async () => {

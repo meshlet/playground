@@ -24,7 +24,7 @@ describe("Generator Functions", function () {
         expect(result.value).toBe(undefined);
     });
 
-    it('iterate over values produced by a generator using while loop', function () {
+    it('illustrates iterating over generated values using while loop', function () {
         function* generatorFun() {
             yield 1;
             yield 2;
@@ -42,7 +42,7 @@ describe("Generator Functions", function () {
         }
     });
 
-    it('iterate over values produced by a generator with for-of loop', function () {
+    it('illustrates iterating over generated values with for-of loop', function () {
         function* generatorFun() {
             yield 1;
             yield 2;
@@ -58,7 +58,7 @@ describe("Generator Functions", function () {
         }
     });
 
-    it('using yield* to delegate to another generator', function () {
+    it('illustrates using yield* to delegate to another generator', function () {
         // Uses yield* to delegate calls to another delegator. Once the
         // execution reaches yield*, calls to the generatorFun1 iterator's
         // next method are re-routed to generatorFun2 iterator until that

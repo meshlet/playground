@@ -10,7 +10,7 @@ describe("Rest Parameters", function () {
         expect(fnWithRestParameters(-4, 3, 0, 1, 2, -5, 9)).toEqual([3, 0, 1, 2, -5, 9]);
     });
 
-    it('uses rest parameter to sum all function arguments', function () {
+    it('illustrates using rest parameter to sum all function arguments', function () {
         function sumVariadicRestParam(...args) {
             var sum = 0;
             for (var arg of args) {

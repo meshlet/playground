@@ -62,7 +62,7 @@ describe("ES6 Classes", function () {
         expect("setAge" in Person).toBeFalse();
     });
 
-    it('implementing inheritance', function () {
+    it('illustrates class inheritance', function () {
         // Base class
         class Person {
             constructor(name, surname) {

@@ -86,7 +86,7 @@ function* traverseDomWithGenerator(root) {
  * Tests.
  */
 describe("DOM Traversal", function () {
-    it('traverseDom traverses the DOM subtree correctly', function () {
+    it('illustrates recursive DOM traversal', function () {
         let dom_subtree_desc = createDomSubtree();
         let subtree = dom_subtree_desc.dom_subtree;
         let expected_traversal_order = dom_subtree_desc.traversal_order;
@@ -97,7 +97,7 @@ describe("DOM Traversal", function () {
         });
     });
 
-    it('traverseDomWithGenerator traverses the DOM subtree correctly', function () {
+    it('illustrates DOM traversal via generator function', function () {
         let dom_subtree_desc = createDomSubtree();
         let subtree = dom_subtree_desc.dom_subtree;
         let expected_traversal_order = dom_subtree_desc.traversal_order;

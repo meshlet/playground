@@ -2,7 +2,7 @@
  * Illustrates JavaScript promises introduced in ES6.
  */
 describe("Promises", function () {
-    it('creating a simple promise', function () {
+    it('illustrates creating a simple promise', function () {
         // This promise will pass as we unconditionally call the function
         // passed as the first argument to the executor function. Note
         // that executor function is invoked as part of the Promise

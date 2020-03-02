@@ -35,7 +35,7 @@ function CallbackCollection() {
  * Tests.
  */
 describe("Callback Collection", function () {
-    it("callback collection has no duplicates", function () {
+    it("should contain no duplicates", function () {
         var counter = 0;
         function f1() {
             ++counter;

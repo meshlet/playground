@@ -3,7 +3,7 @@
  * function invocation.
  */
 describe("Arguments Parameter", function () {
-    it('uses arguments parameter to sum all function arguments', function () {
+    it('illustrates using arguments parameter to sum all function arguments', function () {
         function sumVariadicArgumentsParam() {
             var sum = 0;
             for (var i = 0; i < arguments.length; ++i) {

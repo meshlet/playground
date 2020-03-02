@@ -35,7 +35,7 @@ function isPrimeWithMemoization(value) {
  * Tests.
  */
 describe('Memoization', function () {
-    it("prime computation works correctly", function () {
+    it("should correctly classify primes", function () {
         var test_vectors = [
             { value: 1,  is_prime: false },
             { value: 0,  is_prime: false },
