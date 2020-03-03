@@ -125,7 +125,7 @@ describe("Arrays", function () {
             new Person("Bob", "Redford")
         ];
 
-        // Map the array to a new array of string where each string represents the
+        // Map the array to a new array of strings where each string represents the
         // full name of the person
         let personFullNames = persons.map(person => person.name + " " + person.surname);
         expect(personFullNames).toEqual(["Mickey Mouse", "Tony Stark", "Bob Redford"]);
