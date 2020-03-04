@@ -166,4 +166,18 @@ describe("Generator Functions", function () {
         // returned by 'return' is ignored by the for-of loop.
         expect(array).toEqual([0]);
     });
+
+    it('illustrates generating unique IDs using generator function', function () {
+        function* generateUniqueId() {
+            let id = 0;
+            while (true) {
+                yield id++;
+            }
+        }
+
+        let iter = generateUniqueId();
+        for (let i = 0; i < 10; ++i) {
+            expect(iter.next().value).toBe(i);
+        }
+    });
 });
