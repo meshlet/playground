@@ -344,4 +344,81 @@ describe("Regular Expressions", function () {
         expect(regExp2.test("abc")).toBeFalse();
         expect(regExp2.test("<div+>a</div+>")).toBeFalse();
     });
+
+    it('illustrates finding all HTML elements with specified class name', function () {
+        function prepareElements() {
+            let parentDiv = document.createElement("div");
+            let children = [];
+
+            children.push(document.createElement("div"));
+            children[children.length - 1].className = "class1 \tclass2";
+            children.push(document.createElement("div"));
+            children[children.length - 1].className = "class2\t\tclass1";
+            children.push(document.createElement("div"));
+            children.push(document.createElement("span"));
+            children[children.length - 1].className = "class3 class1\tclass2";
+            children.push(document.createElement("div"));
+            children[children.length - 1].className = "class3";
+
+            for (let child of children) {
+                parentDiv.appendChild(child);
+            }
+
+            return parentDiv;
+        }
+
+        // Finds all 'elemType' children elements the 'parent' element that have
+        // 'className' as one of their classes. If 'elemType' is not specified
+        // the function considers elements of any type.
+        function findElementsWithClass(parent, className, elemType) {
+            // The expression 'elemType || "*"' evaluates to 'elemType' if elemType
+            // isn't undefined, otherwise it evaluates to '*' which will return all
+            // children elements regardless of their type.
+            let children = parent.getElementsByTagName(elemType || "*");
+
+            // Matches either the beginning of the string or a whitespace character,
+            // followed by the desired class name, followed by either the of the
+            // the string or a whitespace character
+            let regexp = new RegExp("(^|\\s)" + className + "(\\s|$)");
+
+            // Iterate over all children elements and find those whose className
+            // contains the desired class name
+            let results = [];
+            for (let child of children) {
+                if (regexp.test(child.className)) {
+                    results.push(child);
+                }
+            }
+            return results;
+        }
+
+        let parentContainer = prepareElements();
+
+        expect(findElementsWithClass(parentContainer, "class1", "div").length).toBe(2);
+        expect(findElementsWithClass(parentContainer, "class2", "div").length).toBe(2);
+        expect(findElementsWithClass(parentContainer, "class", "div").length).toBe(0);
+        expect(findElementsWithClass(parentContainer, "class2", "span").length).toBe(1);
+        expect(findElementsWithClass(parentContainer, "class3").length).toBe(2);
+        expect(findElementsWithClass(parentContainer, "class2").length).toBe(3);
+    });
+
+    it('illustrates matching using local regular expressions', function () {
+        // A string representing the CSS transform property that translates
+        // the element 50 pixels down the y-axis.
+        let string = "transform: translateY(40px);";
+
+        // Captures the translation amount (in this case '40px'). The expression
+        // matches a sequence starting with translateY followed by opening parenthesis
+        // followed by one or more characters until closing parenthesis is encountered.
+        // The sequence within the parentheses is captured.
+        let regexp = /translateY\(([^\)]+)\)/;
+
+        // The match is an array of length 2. The entire matched sequence is stored as
+        // the first array element and the captured sequence is stored as the second
+        // element.
+        let match = string.match(regexp);
+        expect(match).not.toBeNull();
+        expect(match.length).toBe(2);
+        expect(match[1]).toEqual("40px");
+    });
 });
