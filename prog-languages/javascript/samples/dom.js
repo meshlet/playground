@@ -87,7 +87,7 @@ describe("Document Object Model", function () {
     });
 
     /**
-     * DOM attributes and properties don't share the same value. For example,
+     * DOM attributes and properties aren't generally the same value. For example,
      * element's ID attribute that can be set with elem.setAttribute("id", value)
      * and elements ID property that can be set with elem.id = value aren't always
      * the same value. However, in this case changing the value of the property
