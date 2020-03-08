@@ -1,10 +1,8 @@
 /**
- * Illustrates different code modularization techniques in JavaScript,
- * including the module pattern (using immediate functions, objects
- * and closure to simulate modules), AMD and CommonJS modules and
- * native JavaScript modules introduced in ES6.
+ * Illustrates the module pattern which uses immediate functions, objects
+ * and closures to simulate modules.
  */
-describe("Modules", function () {
+describe("Module Pattern", function () {
     /**
      * Module pattern uses immediate functions to create module objects
      * which expose the public interface of the module. The private
