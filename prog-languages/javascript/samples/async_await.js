@@ -237,6 +237,85 @@ describe("async/await", function () {
     });
 
     /**
+     * Illustrates how to starting asynchronous dependent operations
+     * sequentially using promises and generators. This test shows
+     * what essentially happens with async/await under the hood.
+     */
+    it('illustrates simulating async/await with promises and generators', function () {
+        // Simulate long-running asynchronous task. The function returns
+        // a promise so that caller can wait for it to complete.
+        function simulateAsyncTask(msDuration, resolveValue) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve(resolveValue);
+                }, msDuration);
+            });
+        }
+
+        // A generator function that performs the series of long-running
+        // dependent asynchronous tasks. Note that generator yields the
+        // promise returned by `simulateAsyncTask` so that caller can
+        // wait for that promise to resolve and pass the resolved result
+        // back to the generator at later point.
+        function* runDependentAsyncTasks() {
+            // Run an async operation that takes 30 ms
+            let name = yield simulateAsyncTask(30, "Mickey");
+
+            // Run an async operation that takes 10 ms
+            let surname = yield simulateAsyncTask(10, "Mouse");
+
+            // Run an async operation that takes 20 ms
+            let age = yield simulateAsyncTask(20, 40);
+
+            // Assert that all variables have expected values
+            expect([name, surname, age]).toEqual(["Mickey", "Mouse", 40]);
+        }
+
+        // Create the iterator
+        let iter = runDependentAsyncTasks();
+
+        // The first call to iter.next() advances the iterator to the first
+        // yield statement (that one that fetches the `name`).
+        // Note that the last promise in the following chain is returned
+        // back to the Jasmine framework to make it wait for async work
+        // to complete. This promise is the last one to be resolved hence
+        // we can be sure that all async work is completed once that happens.
+        return iter.next().value
+            // This `then` call registers the onFulfilled callback for the
+            // promise returned by the first yield statement
+            .then(name => {
+                // The promise returned by the first yield is now resolved.
+                // Pass the value it was resolved with (the name) to the
+                // generator and advance the iterator to the next yield (the
+                // one that fetches the surname). Note that this callback returns
+                // an unresolved promise returned by the second yield
+                return iter.next(name).value;
+            })
+            // This `then` call essentially registers the onFulfilled callback
+            // on the promise returned by the previous then's onFulfilled callback
+            // which is the promise returned by the second yield
+            .then(surname => {
+                // The promise returned by the second yield is now resolved.
+                // Pass the value it was resolved with (the surname) to the
+                // generator and advance the iterator to the next yield (the
+                // one that fetches the age). This callback returns the unresolved
+                // promise returned by the third yield statement
+                return iter.next(surname).value;
+            })
+            // This `then` call registers the onFulfilled callback on the
+            // promise returned by the previous then's callback which is
+            // the promise returned by the third yield
+            .then(age => {
+                // The promise returned by the third yield is now resolved.
+                // Pass the value it was resolved with (the age) back to the
+                // generator and advance the iterator to the end of the
+                // generator function. Note that this callback returns no
+                // value as there's no yield statements left in the generator.
+                iter.next(age);
+            });
+    });
+
+    /**
      * This test illustrates how to start operations concurrently and then wait
      * for each of the in turn. In other words, while the asynchronous operations
      * are run in parallel, the await operations and their results are still run
