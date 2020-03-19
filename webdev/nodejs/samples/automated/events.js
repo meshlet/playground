@@ -5,7 +5,7 @@
  * prog-languages/javascript/samples/events.js.
  */
 const assert = require("assert").strict;
-const EventEmitter = require("events");
+const { once, EventEmitter } = require("events");
 
 describe("NodeJS Events", function () {
     it('illustrates the process.nextTick method', function () {
@@ -552,5 +552,132 @@ describe("NodeJS Events", function () {
         emitter.emit("event");
 
         assert.deepEqual(counter, 2);
+    });
+
+    it('illustrates `listeners` method', function () {
+        const actionLog = [];
+        const emitter = new EventEmitter();
+
+        // Register two listeners for the `event`. Note that both are
+        // `one-time` listeners
+        emitter
+            .once("event", () => {
+                actionLog.push("listener 1");
+            })
+            .once("event", () => {
+                actionLog.push("listener 2");
+            });
+
+        // Retrieve the listeners registered for the `event` and invoke
+        // them directly. Note that invoking the listeners like this isn't
+        // equivalent to firing the `event`. The listeners won't be removed
+        // from the listeners list event though they are `one-time` listeners
+        const listeners = emitter.listeners("event");
+        assert.equal(listeners.length, 2);
+        listeners.forEach(listener => {
+            listener();
+        });
+
+        // Fire the `event` twice. The first firing will cause listeners to
+        // be removed (as they're one-time only) so the second firing won't
+        // execute any listeners
+        emitter.emit("event");
+        emitter.emit("event");
+
+        assert.deepEqual(actionLog, ["listener 1", "listener 2", "listener 1", "listener 2"]);
+    });
+
+    it('illustrates `rawListeners` method', function () {
+        const actionLog = [];
+        const emitter = new EventEmitter();
+
+        // Add two listeners for the `event`, the first is a `one-time`
+        // and the second a regular listener.
+        emitter
+            .once("event", () => {
+                actionLog.push("listener 1");
+            })
+            .on("event", () => {
+                actionLog.push("listener 2");
+            });
+
+        // Get the raw listeners for the `event`
+        const listenerWrappers = emitter.rawListeners("event");
+        assert.equal(listenerWrappers.length, 2);
+
+        // For `one-time` listeners registered with the `once` method,
+        // rawListeners returns a wrapper function that has a listener
+        // property that references the actual listener function.
+        // Invoking the listener via this property won't remove the
+        // `one-time` listener from the listeners list. Invoking it via
+        // the wrapper function is equivalent for firing the event and
+        // will cause the listener to be removed.
+        listenerWrappers[0].listener();
+
+        // Invoking the `one-time` listener via the wrapper unregisters
+        // the listener
+        listenerWrappers[0]();
+
+        // Wrappers returned for the regular listeners (register with
+        // `on` or `addListener`) have no `listener` property
+        assert.deepEqual(listenerWrappers[1].listener, undefined);
+
+        // Invoke the regular listeners via the wrapper
+        listenerWrappers[1]();
+
+        // Emit the `event`. Only the regular listeners is executed as
+        // the `one-time` listeners has already been unregistered.
+        emitter.emit("event");
+
+        assert.deepEqual(actionLog, [
+            "listener 1",
+            "listener 1",
+            "listener 2",
+            "listener 2"
+        ]);
+    });
+
+    /**
+     * `events.once` method returns a promise that is fulfilled when the
+     * given emitter emits the specified event or rejected when the emitter
+     * emits an `error` event.
+     */
+    it('illustrates `events.once` method', async function () {
+        const emitter = new EventEmitter();
+
+        // Schedule the `event` to be fired before the next tick
+        // starts - this will be once this function executes the
+        // first `await` statement and suspends itself
+        process.nextTick(() => {
+            emitter.emit("event", "ABCD");
+        });
+
+        // Use `events.once` to create a promise that is resolved once
+        // `event` is fired. Assert that the value the promise has been
+        // resolved with matches the arguments that event was fired with.
+        // Note that array is returned even though emit was called with
+        // a single listener argument so the following uses destructing
+        // to extract the argument
+        const [arg] = await once(emitter, "event");
+        assert.deepEqual(arg, "ABCD");
+
+        // Schedule the `error` event to be fired before the next
+        // tick starts, which will be once this function reaches
+        // the next `await` statement and suspends itself
+        process.nextTick(() => {
+            emitter.emit("error", new Error("ERROR"));
+        });
+
+        // Use `events.once` to create a promise that will be rejected
+        // because the `error` event is fired before the next tick. The
+        // await statement will throw an exception with exception value
+        // set to the error passed via the emit method
+        try {
+            await once(emitter, "event");
+            assert.fail("Exception should've been thrown");
+        }
+        catch(err) {
+            assert.deepEqual(err, new Error("ERROR"));
+        }
     });
 });
