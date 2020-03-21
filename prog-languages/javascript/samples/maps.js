@@ -1,5 +1,9 @@
 /**
- * Illustrates JavaScript maps introduced in ES6.
+ * Illustrates JavaScript Map and WeakMap collections introduced in
+ * ES6. WeakMap is a collection of key/value pairs where keys must
+ * be objects and they are weakly referenced which means that the
+ * object can be garbage-collected even if it is used as WeakMap
+ * key, provided that it is not referenced elsewhere.
  */
 describe("Maps", function () {
     function Person(name, surname) {
@@ -151,5 +155,109 @@ describe("Maps", function () {
             expect(value).toEqual(persons[i].name + " " + persons[i].surname)
             ++i;
         }
+    });
+
+    it('illustrates that only objects can be WeakMap keys', function () {
+        const weakMap = new WeakMap();
+
+        // Attempting to use primitive type for WeakMap keys throws an error
+        expect(() => {
+            weakMap.set(0, "A");
+        }).toThrowError(TypeError);
+        expect(() => {
+            weakMap.set("key", "A");
+        }).toThrowError(TypeError);
+        expect(() => {
+            weakMap.set(true, "A");
+        }).toThrowError(TypeError);
+        expect(() => {
+            weakMap.set(Symbol("key"), "A");
+        }).toThrowError(TypeError);
+
+        // Only objects can be used as WeakMap keys
+        const KEY = {};
+        expect(() => {
+            weakMap.set(KEY, "0");
+        }).not.toThrow();
+        expect(weakMap.get(KEY)).toEqual("0");
+    });
+
+    it('illustrates using WeakMap', function () {
+        const
+            weakMap1 = new WeakMap(),
+            weakMap2 = new WeakMap(),
+            weakMap3 = new WeakMap();
+
+        // Any object can used as the WeakMap key
+        const
+            obj1 = {},
+            obj2 = function () {},
+            obj3 = window;
+
+        weakMap1.set(obj1, 10);
+        weakMap1.set(obj2, "ABC");
+        weakMap2.set(obj1, obj2);
+        weakMap2.set(obj3, undefined);
+        weakMap2.set(weakMap1, weakMap2);
+
+        expect(weakMap1.get(obj2)).toEqual("ABC");
+        expect(weakMap2.get(obj2)).toBeUndefined();
+        expect(weakMap2.get(obj3)).toBeUndefined();
+
+        expect(weakMap1.has(obj2)).toBeTrue();
+        expect(weakMap2.has(obj2)).toBeFalse();
+        expect(weakMap2.has(obj3)).toBeTrue();
+
+        weakMap3.set(obj1, 55);
+        expect(weakMap3.get(obj1)).toBe(55);
+
+        expect(weakMap1.has(obj1)).toBeTrue();
+        weakMap1.delete(obj1);
+        expect(weakMap1.has(obj1)).toBeFalse();
+    });
+
+    it('illustrates hiding implementation details with WeakMap', function () {
+        // The following weak map stores the private section of the
+        // Person class. Note that if this code was in a module, the
+        // code external to the module wouldn't be able to access the
+        // the weak map and hence the implementation details would be
+        // hidden
+        const privateSegment = new WeakMap();
+
+        class Person {
+            constructor(name, surname, age) {
+                // Add the private segment to the weak map. Note that `this` is
+                // used as a key. This is important as it will make it possible
+                // for the Person instance to be garbage-collected one last
+                // reference to it (except the one in the weak map) is destroyed.
+                privateSegment.set(this, {
+                    name: name,
+                    surname: surname,
+                    age: age
+                });
+            }
+
+            getName() {
+                return privateSegment.get(this).name;
+            }
+
+            getSurname() {
+                return privateSegment.get(this).surname;
+            }
+
+            getAge() {
+                return privateSegment.get(this).age;
+            }
+        }
+
+        const person = new Person("Mickey", "Mouse", 41);
+        expect(person.getName()).toEqual("Mickey");
+        expect(person.getSurname()).toEqual("Mouse");
+        expect(person.getAge()).toEqual(41);
+
+        // Can't access the private segment fields directly
+        expect(person.name).toBeUndefined();
+        expect(person.surname).toBeUndefined();
+        expect(person.age).toBeUndefined();
     });
 });

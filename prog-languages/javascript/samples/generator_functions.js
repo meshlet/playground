@@ -1,5 +1,7 @@
 /**
  * Illustrates the JavaScript generator functions introduced in ES6.
+ * It also illustrates async generators supported starting from ES8
+ * which can be used with `for await...of` loops starting in ES9.
  */
 describe("Generator Functions", function () {
     it('illustrates generator functions', function () {
@@ -179,5 +181,106 @@ describe("Generator Functions", function () {
         for (let i = 0; i < 10; ++i) {
             expect(iter.next().value).toBe(i);
         }
+    });
+
+    it('illustrates using async generators with `for await...of` loop', async function () {
+        // Define an async generator that implements the async iterator protocol
+        async function* asyncGenerator() {
+            for (let i = 0; i < 3; ++i) {
+                yield i;
+            }
+        }
+
+        // Iterate over the values produced by the async iterator using the
+        // for await...of loop
+        const expectedValues = [0, 1, 2];
+        let i = 0;
+        for await(let value of asyncGenerator()) {
+            expect(value).toBe(expectedValues[i++]);
+        }
+    });
+
+    it('illustrates that async generator yield returns a promise', function () {
+        // Define an async generator
+        async function* asyncGenerator() {
+            for (let i = 0; i < 3; ++i) {
+                yield i;
+            }
+        }
+
+        // Create the async iterator object
+        const asyncIter = asyncGenerator();
+
+        // The async generator's yield statements returns a promise
+        expect(asyncIter.next()).toBeInstanceOf(Promise);
+    });
+
+    it('illustrates implementing async iterator protocol using async generators', async function () {
+        class Person {
+            constructor(name, surname) {
+                this.name = name;
+                this.surname = surname;
+            }
+        }
+
+        // A user-defined object implements the async iterator protocol by
+        // defining the method with Symbol.asyncIterator key. This test
+        // implements this method as an async generator function that
+        // yields the Promise object for each value it generates. The
+        // promise is resolved once the value becomes available (or an
+        // error occurs)
+        const personAsyncIterable = {
+            // The array of persons that is iterated over. In real-world scenario
+            // this data would be retrieved from the server
+            persons: [
+                new Person("Mickey", "Mouse"),
+                new Person("Tony", "Stark"),
+                new Person("Rob", "Shawn")
+            ],
+
+            // Defines `asyncIterator` method as an async generator. We can use await
+            // statement within an async generator to suspend the execution of the
+            // generator until the promise resolves
+            async *[Symbol.asyncIterator]() {
+                // The delays in milliseconds used to simulate the delay in retrieving
+                // each person
+                const delays = [30, 10, 20];
+
+                let index = 0;
+
+                for (const person of this.persons) {
+                    // Use await to suspend the execution of the generator until the
+                    // promise resolves
+                    let resolvedPerson = await new Promise(resolve => {
+                        // The person is retrieved with some delay
+                        setTimeout(() => {
+                            // Resolve the promise with the Person object. Note that this
+                            // object is picked up by the await statement and assigned to
+                            // the `resolvedPerson` variable once the generator continues
+                            // executing
+                            resolve(person);
+                        }, delays[index++]);
+                    });
+
+                    // Yield the person back to the caller
+                    yield resolvedPerson;
+                }
+            }
+        };
+
+        // Iterate of the async iterable using the `for await...of` loop. The await
+        // statement within the async generator suspend the generator's execution
+        // returning a promise. The await statement of the `for await...of` loop
+        // then suspends the execution of the test function and returns the same
+        // promise to the Jasmine framework informing it that it needs to wait for
+        // the promise to resolve. The promise resolves with the person object that
+        // generator then yields to the `for await...of` loop. The process repeats
+        // until generator completes.
+        let i = 0;
+        for await (let person of personAsyncIterable) {
+            expect(person).toEqual(personAsyncIterable.persons[i++]);
+        }
+
+        expect(i).toBe(personAsyncIterable.persons.length);
     });
 });

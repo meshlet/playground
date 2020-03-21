@@ -1,8 +1,12 @@
 /**
- * Illustrates the async functions and await keyord introduced in ES7.
- * These are essentially a syntactic sugar on top of promises. They
- * make it possible to write asynchronous code that resembles the
- * structure of synchronous code segments.
+ * Illustrates the async functions and await keyword as well as the
+ * async iterables and `for await...of` loop introduced in ES9. These
+ * are essentially a syntactic sugar on top of promises. They make
+ * it possible to write asynchronous code that resembles the structure
+ * of synchronous code segments.
+ *
+ * @note The async generator functions are illustrated in
+ * prog-languages/javascript/generator_functions.js.
  */
 describe("async/await", function () {
     // Returns a promise that is resolved after 100 ms.
@@ -422,5 +426,175 @@ describe("async/await", function () {
                 })()
             ]);
         })();
+    });
+
+    it('illustrates async iterables and `for await...of` loop', async function () {
+        class Person {
+            constructor(name, surname) {
+                this.name = name;
+                this.surname = surname;
+            }
+        }
+
+        // A user-defined object can implement the async iterator protocol
+        // by defining the method with `Symbol.asyncIterator` key. This method
+        // returns an iterator object that implements the `next` method which
+        // in turn returns a promise to be resolved when the current value
+        // becomes available.
+        // The following is an async iterable object that returns a promise
+        // to be resolved with a Person object.
+        let personAsyncIterable = {
+            // The array of persons that is iterated over. In real-world scenario
+            // this data would be retrieved from the server
+            persons: [
+                new Person("Mickey", "Mouse"),
+                new Person("Tony", "Stark"),
+                new Person("Rob", "Shawn")
+            ],
+
+            // Implements the async iterator protocol
+            [Symbol.asyncIterator]() {
+                // Save the reference to the iterable that is iterated over. This is
+                // needed so that it can be accessed with iterator's next method
+                const self = this;
+
+                // Keeps track of the iteration progress
+                let index = 0;
+
+                // The delays in milliseconds used to simulate the delay in retrieving
+                // each person
+                const delays = [30, 10, 20];
+
+                // Return the iterator object
+                return {
+                    // The next method is invoked to get the iterable's next value
+                    next() {
+                        if (index < self.persons.length) {
+                            // The person is retrieved with some delay
+                            return new Promise(resolve => {
+                                setTimeout(() => {
+                                    // Resolve the promise with the person object. Note that
+                                    // the iterator's return value must be wrapped in an object
+                                    // and the value assigned to object's `value` property
+                                    resolve({
+                                        value: self.persons[index++],
+                                        done: false
+                                    });
+                                }, delays[index]);
+                            });
+                        }
+
+                        // Otherwise, return a promise resolved with an object whose done
+                        // property is set to true indicating that iteration has completed.
+                        // Note that even though the promise is created in resolved state,
+                        // it is processed asynchronously by the JavaScript engine after
+                        // the current event-loop iteration's macrotask has been executed.
+                        return Promise.resolve({ done: true });
+                    }
+                };
+            }
+        };
+
+        // Iterate of the async iterable using the `for await...of` loop. Note that
+        // await keyword will suspend the execution of the current function until
+        // the promise for that particular iterable value is ready. This in practice
+        // mean that the test function is suspended and Jasmine framework informed
+        // that it needs to wait for some async work to complete
+        let i = 0;
+        for await (let person of personAsyncIterable) {
+            expect(person).toEqual(personAsyncIterable.persons[i++]);
+        }
+
+        expect(i).toBe(personAsyncIterable.persons.length);
+    });
+
+    it('illustrates `for await...of` loop and error handling', async function () {
+        class Person {
+            constructor(name, surname) {
+                this.name = name;
+                this.surname = surname;
+            }
+        }
+
+        // A user-defined object can implement the async iterable protocol
+        // by defining the method with `Symbol.asyncIterator` key. This method
+        // returns an iterator object that implements the `next` method which
+        // in turn returns a promise to be resolved when the current value
+        // becomes available
+        // The following is an async iterable object that returns a promise
+        // to be resolved with a Person object. Note that the retrieving the
+        // second person fails
+        let personAsyncIterable = {
+            // The array of persons that is iterated over. In real-world scenario
+            // this data would be retrieved from the server
+            persons: [
+                new Person("Mickey", "Mouse"),
+                new Person("Tony", "Stark"),
+                new Person("Rob", "Shawn")
+            ],
+
+            // Implements the async iterable protocol
+            [Symbol.asyncIterator]() {
+                // Save the reference to the iterable that is iterated over. This is
+                // needed so that it can be accessed with iterator's next method
+                const self = this;
+
+                // Keeps track of the iteration progress
+                let index = 0;
+
+                // Return the iterator object
+                return {
+                    // The next method is invoked to get the iterable's next value
+                    next() {
+                        if (index < self.persons.length) {
+                            // Simulate failure to retrieve the second person
+                            if (index === 1) {
+                                // Return a rejected promise
+                                return Promise.reject(new Error());
+                            }
+                            else {
+                                // Otherwise return a promise resolved with the person
+                                // object. Note that even though the promise is created
+                                // in resolved state, it is processed asynchronously by
+                                // the JavaScript engine after the current event-loop
+                                // iteration's macrotask has been executed.
+                                return Promise.resolve({
+                                    value: self.persons[index++],
+                                    done: false
+                                });
+                            }
+                        }
+
+                        // Otherwise, return a promise resolved with an object whose done
+                        // property is set to true indicating that iteration has completed.
+                        // Note that even though the promise is created in resolved state,
+                        // it is processed asynchronously by the JavaScript engine after
+                        // the current event-loop iteration's macrotask has been executed.
+                        return Promise.resolve({ done: true });
+                    }
+                };
+            }
+        };
+
+        // Iterate of the async iterable using the `for await...of` loop. Note that
+        // await keyword will suspend the execution of the current function until
+        // the promise for that particular iterable value is ready. This in practice
+        // mean that the test function is suspended and Jasmine framework informed
+        // that it needs to wait for some async work to complete
+        let i = 0;
+        try {
+            // The second iteration promise will be rejected which will cause await
+            // statement to thrown an error
+            for await (let person of personAsyncIterable) {
+                expect(person).toEqual(personAsyncIterable.persons[i++]);
+            }
+
+            // Exception should've been thrown
+            expect(true).toBeFalse();
+        }
+        catch (e) {
+            expect(i).toBe(1);
+            expect(e).toBeInstanceOf(Error);
+        }
     });
 });
