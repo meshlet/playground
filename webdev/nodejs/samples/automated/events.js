@@ -5,7 +5,7 @@
  * prog-languages/javascript/samples/events.js.
  */
 const assert = require("assert").strict;
-const { once, EventEmitter } = require("events");
+const { on, once, EventEmitter } = require("events");
 
 describe("NodeJS Events", function () {
     it('illustrates the process.nextTick method', function () {
@@ -679,5 +679,48 @@ describe("NodeJS Events", function () {
         catch(err) {
             assert.deepEqual(err, new Error("ERROR"));
         }
+    });
+
+    /**
+     * `events.on` method returns an AsyncIterator that can be used together
+     * with the `for await...of` loop to iterate over the `eventName` events.
+     * Note that such a loop i.e. for await(const o of on(emitter, "event"))
+     * will never terminate on its own. If there's no more events to process
+     * the await keyword will suspend the execution of the function executing
+     * the loop. The loop can be exited from within its body though, using
+     * the break statement for example. That way the loop exits before the
+     * next iteration's await statement is executed.
+     */
+    it('illustrates using `for await...of` with `events.on` method', async function () {
+        const emitter = new EventEmitter();
+        const eventData = ["DATA1", "DATA2", "DATA3"];
+        const actionLog = [];
+
+        // Delay firing of few `event` events
+        process.nextTick(() => {
+            for (let data of eventData) {
+                emitter.emit("event", data);
+            }
+        });
+
+        // Once the execution reaches this loop and its await statement
+        // the test function will be suspended because there's not events
+        // waiting to be processed yet. Once suspended, the `nextTick`
+        // callback is executed firing several `event` events. This will
+        // awake the for loop which will process the fired events
+        let counter = 0;
+        for await(let value of on(emitter, "event")) {
+            actionLog.push(...value);
+
+            // If we processed all the fired events break the loop before
+            // the next iteration's await statement is executed. This
+            // prevents the loop from suspending forever and block the
+            // test indefinitely
+            if (++counter == eventData.length) {
+                break;
+            }
+        }
+
+        assert.deepEqual(actionLog, ["DATA1", "DATA2", "DATA3"]);
     });
 });
