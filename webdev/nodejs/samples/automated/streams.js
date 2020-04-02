@@ -2471,9 +2471,9 @@ describe("Streams", function () {
     });
 
     it('illustrates piping to Writable stream from Async iterators', async function () {
-        // An async generator that yields a value with at least the specified
+        // A generator that yields a value with at least the specified
         // amount of milliseconds
-        async function * generateData(delay) {
+        function * generateData(delay) {
             // The array of chunks that will be generated one by one
             // every `delay` milliseconds
             const chunks = [
