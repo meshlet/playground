@@ -1,0 +1,29 @@
+{
+  "name": "fileserver",
+  "version": "1.0.0",
+  "description": "A static file server",
+  "main": "file_server.js",
+  "scripts": {
+    "start": "nodemon file_server",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dbajgoric/toptalprep.git"
+  },
+  "keywords": [
+    "express",
+    "file",
+    "server"
+  ],
+  "author": "Dzanan Bajgoric",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dbajgoric/toptalprep/issues"
+  },
+  "homepage": "https://github.com/dbajgoric/toptalprep#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "perf_hooks": "0.0.1"
+  }
+}

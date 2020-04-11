@@ -1,0 +1,140 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+.clearfix:after {
+    content: ".";
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+header {
+    text-align: center;
+    background-color: hsl(0, 35%, 15%);
+}
+
+header h1 {
+    margin: 0;
+    padding: 20px 0;
+    color: white;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 2px solid white;
+    background-color: hsl(120, 60%, 35%);
+}
+
+nav ul li {
+    float: left;
+}
+
+nav ul li a {
+    text-decoration: none;
+    display: block;
+    padding: 10px 0;
+    width: 100px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    background-color: hsl(120, 60%, 25%);
+}
+
+#no_entries_panel {
+    margin: 10px;
+    padding: 10px 0;
+    text-align: center;
+    background-color: hsl(55, 75%, 59%, 0.7);
+    border-radius: 8px;
+}
+
+#goto_new_entry {
+    text-decoration: none;
+    font-weight: bold;
+    color: hsla(9, 90%, 50%, 1);
+}
+
+#goto_new_entry:hover {
+    color: hsla(9, 90%, 30%, 1);
+}
+
+#entry_container {
+    margin: 10px;
+    border: 1px solid hsl(120, 1%, 75%);
+    border-radius: 3px;
+}
+
+#entry_container .entry {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#entry_container .entry .head_row {
+    background-color: hsl(120, 1%, 95%);
+}
+
+#entry_container .entry th {
+    padding: 8px;
+    font-weight: normal;
+    border-bottom: 1px solid hsl(120, 1%, 75%);
+}
+
+#entry_container .entry .head_row #title {
+    text-align: left;
+}
+
+#entry_container .entry .head_row #date {
+    text-align: right;
+}
+
+#entry_container .entry td {
+    padding: 15px 8px;
+}
+
+#new_entry {
+    margin: 10px
+}
+
+label {
+    font-weight: bold;
+}
+
+.form_fields {
+    margin: 5px 0 15px 0;
+    padding: 10px;
+    display: block;
+    width: 100%;
+    border: 1px solid hsl(120, 1%, 60%);
+    border-radius: 4px;
+    background-color: hsla(120, 1%, 80%, 0.2);
+    font-family: sans-serif;
+    font-style: normal;
+}
+
+#post_entry {
+    border: none;
+    display: inline-block;
+    padding: 15px 10px;
+    width: 25%;
+    max-width: 250px;
+    background-color: hsl(0, 20%, 35%);
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+#post_entry:hover {
+    background-color: hsl(0, 50%, 45%);
+    cursor: pointer;
+}

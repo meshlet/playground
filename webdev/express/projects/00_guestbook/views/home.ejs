@@ -1,0 +1,30 @@
+<%- include("header"); %>
+<% if (entries.length > 0) { %>
+    <% entries.forEach(entry => { %>
+        <article id="entry_container">
+            <table class="entry">
+                <tr class="head_row">
+                    <th id="title">
+                        <%= entry.title %>
+                    </th>
+                    <th id="date">
+                        <%= entry.date %>
+                    </th>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <%= entry.text %>
+                    </td>
+                </tr>
+            </table>
+        </article>
+    <% }); %>
+<% } else { %>
+    <div id="no_entries_panel">
+        No entries yet.
+        <a id="goto_new_entry" href="/new_entry">
+            Add a new one!
+        </a>
+    </div>
+<% } %>
+<%- include("footer"); %>

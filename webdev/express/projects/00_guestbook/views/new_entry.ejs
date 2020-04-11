@@ -1,0 +1,12 @@
+<%- include("header"); %>
+<article id="new_entry">
+    <h2> Write a new entry </h2>
+    <form method="post" action="/new_entry">
+        <label for="entry_title"> Title</label>
+        <input type="text" class="form_fields" name="entry_title" id="entry_title" placeholder="Entry title...">
+        <label for="entry_text"> Entry</label>
+        <textarea name="entry_text" id="entry_text" class="form_fields" placeholder="Entry text..."></textarea>
+        <input type="submit" id="post_entry" value="Post Entry">
+    </form>
+</article>
+<%- include("footer"); %>
