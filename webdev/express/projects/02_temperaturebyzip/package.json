@@ -1,31 +1,27 @@
 {
-  "name": "express-samples",
+  "name": "temperature-by-zip",
   "version": "1.0.0",
-  "description": "Samples illustrating various features of the Express framework",
-  "main": "index.js",
+  "description": "Returns the current temperature for the given USA ZIP code",
+  "main": "temperature_by_zip.js",
   "scripts": {
+    "start": "nodemon temperature_by_zip",
     "test": "mocha"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dbajgoric/toptalprep.git"
   },
-  "keywords": [
-    "express"
-  ],
   "author": "Dzanan Bajgoric",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/dbajgoric/toptalprep/issues"
   },
   "homepage": "https://github.com/dbajgoric/toptalprep#readme",
-  "devDependencies": {
-    "mocha": "^7.1.1",
-    "perf_hooks": "0.0.1"
-  },
   "dependencies": {
     "ejs": "^3.0.2",
     "express": "^4.17.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "openweather-apis": "^4.2.0",
+    "zippity-do-dah": "0.0.3"
   }
 }

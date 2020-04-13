@@ -8,6 +8,7 @@ const { once } = require("events");
 const logger = require("morgan");
 const fs = require("fs");
 const path = require("path");
+const { performance } = require("perf_hooks");
 const helpers = require("./helpers");
 
 describe("Middleware", function () {
@@ -392,5 +393,204 @@ describe("Middleware", function () {
 
         // Wait for the server to close
         await once(httpServer, "close");
+    });
+
+    it('illustrates mounting middleware at URL with given prefix', async function () {
+        const app = express();
+
+        // The following function creates a dummy middleware that simply sends
+        // the requested URL back to the client
+        function dummyMiddleware() {
+            return (req, res) => {
+                res.send(req.url);
+            };
+        }
+
+        // Mount the dummy middleware at an URL with /dummy prefix. Note that
+        // the URL seen by the dummy middleware will have this /dummy prefix
+        // removed. So /dummy/path/to/resource will be seen as /path/to/resource
+        // by the dummy middleware
+        app.use("/dummy", dummyMiddleware());
+
+        // Define a 404 middleware
+        app.use((req, res) => {
+            res.sendStatus(404);
+        });
+
+        // Start the HTTP server
+        const httpServer = await helpers.startHttpServer(app);
+
+        // URLs to request along with the expected response status code and
+        // response data in case the status code is 200
+        const testVectors = [
+            {
+                url: "/",
+                statusCode: 404
+            },
+            {
+                url: "/dummy/user/100",
+                statusCode: 200,
+                responseData: "/user/100"
+            },
+            {
+                url: "/dummy",
+                statusCode: 200,
+                responseData: "/"
+            },
+            {
+                url: "/home/dummy",
+                statusCode: 404
+            }
+        ];
+
+        for (let i = 0; i < testVectors.length; ++i) {
+            http.request({
+                    hostname: "localhost",
+                    port: httpServer.address().port,
+                    path: testVectors[i].url,
+                    method: "GET"
+                },
+                res => {
+                    // Verify the response status code
+                    assert.equal(res.statusCode, testVectors[i].statusCode);
+
+                    // Set encoding used to encode received data to strings
+                    res.setEncoding("utf8");
+
+                    // Attach listener for `data` event
+                    let receivedData = "";
+                    res.on("data", chunk => {
+                        receivedData += chunk;
+                    });
+
+                    // Attach listener for `end` event
+                    res.once("end", () => {
+                        if (testVectors[i].statusCode === 200) {
+                            // Verify the response data
+                            assert.deepEqual(receivedData, testVectors[i].responseData);
+                        }
+
+                        // Close the server if this is the last response
+                        if (i === testVectors.length - 1) {
+                            httpServer.close();
+                        }
+                    });
+                })
+                .end();
+        }
+
+        // Wait for the server to close
+        await once(httpServer, "close");
+    });
+
+    it('illustrates serving static files from multiple directories', async function () {
+        // Create another directory where static files reside
+        const ANOTHER_SERVER_PATH = helpers.generateSeverRootPath();
+        helpers.createServerRootDir(ANOTHER_SERVER_PATH);
+
+        // Create Express app instance
+        const app = express();
+
+        // Mount express.static middleware at an URL with /public1 prefix. This middleware
+        // will serve files from SERVER_ROOT_PATH
+        app.use("/public1", express.static(SERVER_ROOT_PATH));
+
+        // Mount another express.static middleware at an URL with /public2 prefix. This
+        // middleware will server files from ANOTHER_SERVER_PATH
+        app.use("/public2", express.static(ANOTHER_SERVER_PATH));
+
+        // Define a 404 middleware
+        app.use((req, res) => {
+            res.sendStatus(404);
+        });
+
+        const httpServer = await helpers.startHttpServer(app);
+
+        // Enumerate all files to be retrieved from the SERVER_ROOT_PATH and
+        // ANOTHER_SERVER_PATH directories.
+        // The `testVectors` also store the expected status code for the request as
+        // well as the expected response data in case the status code is 200
+        const testVectors = [];
+        for (const serverDirObj of [
+            {
+                serverDirPath: SERVER_ROOT_PATH,
+                urlPrefix: "/public1/"
+            },
+            {
+                serverDirPath: ANOTHER_SERVER_PATH,
+                urlPrefix: "/public2/"
+            }]) {
+
+            const serverDir = fs.opendirSync(serverDirObj.serverDirPath);
+            for await (const dirEntry of serverDir) {
+                if (dirEntry.isFile()) {
+                    testVectors.push({
+                        url: serverDirObj.urlPrefix + dirEntry.name,
+                        statusCode: 200,
+                        responseData: fs.readFileSync(
+                            path.join(serverDirObj.serverDirPath, dirEntry.name), "utf8")
+                    });
+                }
+            }
+        }
+
+        // Request an unknown file from SERVER_ROOT_PATH and ANOTHER_SERVER_PATH
+        testVectors.push({
+            url: "/public1/" + performance.now() + ".html",
+            statusCode: 404
+        });
+        testVectors.push({
+            url: "/public2/" + performance.now() + ".css",
+            statusCode: 404
+        });
+
+        // Request an URL that is not handled by neither of the express.static
+        // middleware instances
+        testVectors.push({
+            url: "/picture.jpg",
+            statusCode: 404
+        });
+
+        for (let i = 0; i < testVectors.length; ++i) {
+            http.request({
+                    hostname: "localhost",
+                    port: httpServer.address().port,
+                    path: testVectors[i].url,
+                    method: "GET"
+                },
+                res => {
+                    // Verify the response status code
+                    assert.equal(res.statusCode, testVectors[i].statusCode);
+
+                    // Set encoding used to encode received data to strings
+                    res.setEncoding("utf8");
+
+                    // Attach listener for `data` event
+                    let receivedData = "";
+                    res.on("data", chunk => {
+                        receivedData += chunk;
+                    });
+
+                    // Attach listener for `end` event
+                    res.once("end", () => {
+                        if (testVectors[i].statusCode === 200) {
+                            // Verify the response data
+                            assert.deepEqual(receivedData, testVectors[i].responseData);
+                        }
+
+                        // Close the server if this is the last response
+                        if (i === testVectors.length - 1) {
+                            httpServer.close();
+                        }
+                    });
+                })
+                .end();
+        }
+
+        // Wait for the server to close
+        await once(httpServer, "close");
+
+        // Remove the ANOTHER_SERVER_PATH directory
+        await helpers.removeServerRootDir(ANOTHER_SERVER_PATH);
     });
 });

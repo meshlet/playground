@@ -1,0 +1,17 @@
+//- Illustrates how to create a layout file with Jade/Pug. This
+//- layout defines two blocks that can be filled by views extending
+//- this layout
+doctype html
+html(lang="en")
+    head
+        meta(charset="utf-8")
+        title Pug Layout Example
+
+        //- The extending views will fill this block
+        block header
+
+    body
+        h1 An example of a Pug layout
+
+        //- The extending views will fill this block
+        block body

@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
-// Add the express.static middleware that will server static assets
+// Add the express.static middleware that will serve static assets
 // (in this case only CSS stylesheets)
 app.use(express.static(path.join(__dirname, "public")));
 

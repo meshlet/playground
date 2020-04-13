@@ -6,6 +6,7 @@ const express = require("express");
 const http = require("http");
 const assert = require("assert").strict;
 const { once } = require("events");
+const path = require("path");
 const helpers = require("../helpers");
 
 describe("Template Engines", function () {
@@ -14,7 +15,7 @@ describe("Template Engines", function () {
 
         // Inform Express that views are contained in the current directory
         // and that it should use EJS as the templating engine
-        app.set("views", __dirname);
+        app.set("views", path.join(__dirname, "ejs_views"));
         app.set("view engine", "ejs");
 
         // Define a route that will handle /view URLs
@@ -50,7 +51,7 @@ describe("Template Engines", function () {
         // Views to request. The first one exists on the server, the second
         // one doesn't
         const urlsToGet = [
-            "/view1",
+            "/simple",
             "/" + Date.now()
         ];
 

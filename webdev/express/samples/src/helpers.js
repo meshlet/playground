@@ -18,12 +18,13 @@ module.exports = {
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const { performance } = require("perf_hooks");
 
 /**
  * Generate temporary web-server root directory pathname.
  */
 function generateSeverRootPath() {
-    return path.resolve(__dirname, Date.now() + "_public");
+    return path.resolve(__dirname, performance.now() + "_public");
 }
 
 /**
