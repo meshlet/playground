@@ -1,0 +1,56 @@
+<%# A page that shows user profile information. %>
+<%- include("_header"); %>
+<article class="profile_body clearfix">
+    <div id="profile_header">
+        <img class="profile_pic" src="/images/<%= user.profilePic.basename %>" alt="Profile picture">
+        <span class="profile_name"> <%= (user.firstName + " " + user.lastName) %> </span>
+        <% if (loggedInUser && loggedInUser._id.equals(user._id)) { %>
+            <%# Display the 'Update Profile' button if user is logged in and the %>
+            <%# this is the profile of that logged in user %>
+            <a id="update_profile_link" href="/update"> Update Profile </a>
+        <% } %>
+    </div>
+    <div id="profile_details">
+        <div class="profile_container">
+            <% if(user.residence) { %>
+                <div class="profile_details_entry clearfix">
+                    <span class="profile_details_label"> Lives in: </span>
+                    <span class="profile_details_field"> <%= user.residence %> </span>
+                </div>
+            <% } %>
+            <% if (user.birthplace) { %>
+                <div class="profile_details_entry clearfix">
+                    <span class="profile_details_label"> Birthplace: </span>
+                    <span class="profile_details_field"> <%= user.birthplace %> </span>
+                </div>
+            <% } %>
+            <% if (user.work) { %>
+                <div class="profile_details_entry clearfix">
+                    <span class="profile_details_label"> Work: </span>
+                    <span class="profile_details_field"> <%= user.work %> </span>
+                </div>
+            <% } %>
+            <% if (user.education) { %>
+                <div class="profile_details_entry clearfix">
+                    <span class="profile_details_label"> Education: </span>
+                    <span class="profile_details_field"> <%= user.education %> </span>
+                </div>
+            <% } %>
+            <div class="profile_details_entry clearfix">
+                <span class="profile_details_label"> Date of birth: </span>
+                <span class="profile_details_field"> <%= user.birthDate.toISOString().split("T")[0] %> </span>
+            </div>
+        </div>
+    </div>
+    <% if (user.biography.length > 0) { %>
+        <div id="profile_bio">
+            <div class="profile_container">
+                <h2> Biography</h2>
+                <% user.biography.forEach(str => { %>
+                    <p><%= str %></p>
+                <% }); %>
+            </div>
+        </div>
+    <% } %>
+</article>
+<%- include("_footer"); %>

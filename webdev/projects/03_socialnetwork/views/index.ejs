@@ -1,0 +1,17 @@
+<%# The site's homepage. %>
+<%- include("_header"); %>
+<article class="content_container clearfix">
+    <h1> Welcome to Social Network</h1>
+    <% users.forEach(user => { %>
+    <div class="account_summary_container">
+        <a class="account_summary" href="/users/<%= user._id %>">
+            <img class="account_summary_img" src="/images/<%= user.profilePic.basename %>"
+                 alt="Profile picture">
+            <p class="account_summary_header">
+                <%= (user.firstName + " " + user.lastName) %>
+            </p>
+        </a>
+    </div>
+    <% });%>
+</article>
+<%- include("_footer"); %>

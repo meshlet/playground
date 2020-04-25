@@ -1,0 +1,60 @@
+<%# A page that allows user to update its profile information. %>
+<%- include("_header"); %>
+<article class="clearfix">
+    <form id="update_profile_form" method="post" action="/update" enctype="multipart/form-data">
+        <div id="update_profile_pic_container">
+            <div class="update_profile_container">
+                <input type="file" accept="image/*" id="selected_profile_pic" name="selected_profile_pic"
+                       accept=".jpg, .jpeg, .png">
+                <img src="/images/<%= loggedInUser.profilePic.basename %>" id="profile_pic_preview"
+                     alt="Profile picture">
+                <input type="button" id="select_profile_pic" value="Select Image">
+            </div>
+        </div>
+        <div id="update_profile_details_container">
+            <div class="update_profile_details_entry clearfix">
+                <label for="update_first_name"> First name:</label>
+                <input type="text" name="first_name" id="update_first_name"
+                       value="<%= loggedInUser.firstName || '' %>">
+            </div>
+            <div class="update_profile_details_entry clearfix">
+                <label for="update_last_name"> Last name:</label>
+                <input type="text" name="last_name" id="update_last_name"
+                       value="<%= loggedInUser.lastName || '' %>">
+            </div>
+            <div class="update_profile_details_entry clearfix">
+                <label for="update_birth_date"> Date of birth:</label>
+                <input type="date" name="birth_date" id="update_birth_date"
+                       value="<%= loggedInUser.birthDate ? loggedInUser.birthDate.toISOString().split("T")[0] : '' %>">
+            </div>
+            <div class="update_profile_details_entry clearfix">
+                <label for="update_work"> Work:</label>
+                <input type="text" name="work" id="update_work"
+                       value="<%= loggedInUser.work || '' %>">
+            </div>
+            <div class="update_profile_details_entry clearfix">
+                <label for="update_education"> Education:</label>
+                <input type="text" name="education" id="update_education"
+                       value="<%= loggedInUser.education || '' %>">
+            </div>
+            <div class="update_profile_details_entry clearfix">
+                <label for="update_residence"> Residence:</label>
+                <input type="text" name="residence" id="update_residence"
+                       value="<%= loggedInUser.residence || '' %>">
+            </div>
+            <div class="update_profile_details_entry clearfix">
+                <label for="update_birth_place"> Place of birth:</label>
+                <input type="text" name="birth_place" id="update_birth_place"
+                       value="<%= loggedInUser.birthplace || '' %>">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div id="update_bio_container">
+            <label for="update_bio"> Update Biography: </label>
+            <% console.log(loggedInUser.biography); %>
+            <textarea name="biography" id="update_bio"><%= loggedInUser.biography.length > 0 ? loggedInUser.biography.join("\n\n") : '' %></textarea>
+            <input type="submit" id="update_profile_btn" value="Update Profile">
+        </div>
+    </form>
+</article>
+<%- include("_footer"); %>

@@ -1,0 +1,43 @@
+{
+  "name": "socialnetwork",
+  "version": "1.0.0",
+  "description": "A simple social network",
+  "main": "socialnetwork.js",
+  "scripts": {
+    "start": "nodemon socialnetwork.js",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dbajgoric/toptalprep.git"
+  },
+  "keywords": [
+    "express",
+    "social",
+    "network"
+  ],
+  "author": "Dzanan Bajgoric",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dbajgoric/toptalprep/issues"
+  },
+  "homepage": "https://github.com/dbajgoric/toptalprep#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "connect-mongo": "^3.2.0",
+    "dompurify": "^2.0.8",
+    "ejs": "^3.0.2",
+    "express": "^4.17.1",
+    "express-flash": "0.0.2",
+    "express-session": "^1.17.1",
+    "formidable": "^1.2.2",
+    "jsdom": "^16.2.2",
+    "mongoose": "^5.9.9",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "password-validator": "^5.0.3",
+    "validator": "^13.0.0"
+  }
+}

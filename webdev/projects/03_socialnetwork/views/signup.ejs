@@ -1,0 +1,45 @@
+<%# The sign-up page. %>
+<%- include("_header"); %>
+<article class="content_container">
+    <h1> Sign Up </h1>
+    <form id="signup_login_form" method="post" action="/signup" enctype="application/x-www-form-urlencoded">
+        <div class="signup_login_form_entry clearfix">
+            <label for="email">
+                Email address:
+            </label>
+            <input type="email" name="email" id="email" placeholder="Enter email address..."
+                   value="<%= formFields.email || '' %>">
+        </div>
+        <div class="signup_login_form_entry clearfix">
+            <label for="password">
+                Password:
+            </label>
+            <input type="password" name="password" id="password" placeholder="Enter password...">
+        </div>
+        <div class="signup_login_form_entry clearfix">
+            <label for="first_name">
+                First name:
+            </label>
+            <input type="text" name="first_name" id="first_name" placeholder="Enter first name..."
+                   value="<%= formFields.first_name || '' %>">
+        </div>
+        <div class="signup_login_form_entry clearfix">
+            <label for="last_name">
+                Last name:
+            </label>
+            <input type="text" name="last_name" id="last_name" placeholder="Enter last name..."
+                   value="<%= formFields.last_name || '' %>">
+        </div>
+        <div class="signup_login_form_entry clearfix">
+            <label for="birth_date">
+                Date of birth:
+            </label>
+            <input type="date" name="birth_date" id="birth_date"
+                   value="<%= formFields.birth_date || '' %>">
+        </div>
+        <div class="signup_login_form_entry clearfix">
+            <input type="submit" value=" Sign Up">
+        </div>
+    </form>
+</article>
+<%- include("_footer"); %>

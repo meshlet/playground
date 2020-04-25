@@ -1,0 +1,24 @@
+<%# The login page. %>
+<%- include("_header"); %>
+<article class="content_container">
+    <h1> Log In </h1>
+    <form id="signup_login_form" method="post" action="/login" enctype="application/x-www-form-urlencoded">
+        <div class="signup_login_form_entry clearfix">
+            <label for="email">
+                Email address:
+            </label>
+            <input type="email" name="email" id="email" placeholder="Enter email address..."
+                   value="<%= formFields.email || '' %>">
+        </div>
+        <div class="signup_login_form_entry clearfix">
+            <label for="password">
+                Password:
+            </label>
+            <input type="password" name="password" id="password" placeholder="Enter password...">
+        </div>
+        <div class="signup_login_form_entry clearfix">
+            <input type="submit" value=" Log In">
+        </div>
+    </form>
+</article>
+<%- include("_footer"); %>

@@ -1,0 +1,396 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: hsl(0, 10%, 90%);
+}
+
+.clearfix:after {
+    content: ".";
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background-color: hsl(209, 65%, 35%);
+}
+
+nav ul li.float_left {
+    float: left;
+}
+
+nav ul li.float_right {
+    float: right;
+}
+
+nav ul li a {
+    text-decoration: none;
+    display: block;
+    padding: 15px 15px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    color: hsl(0, 100%, 70%);
+}
+
+.flash_message {
+    font-weight: bold;
+    padding: 7px;
+    border: 1px solid;
+    border-left: 12px solid;
+    margin: 10px;
+}
+
+.error_message {
+    border-color: hsla(10, 100%, 45%, 0.6);
+    color: hsla(10, 100%, 45%, 0.6)
+}
+
+.info_message {
+    border-color: hsla(213, 100%, 50%, 0.66);
+    color: hsla(213, 100%, 50%, 0.66);
+}
+
+.content_container {
+    padding: 0 10px;
+}
+
+.account_summary_container {
+    padding: 5px;
+    width: 25%;
+    float: left;
+}
+
+.account_summary {
+    text-decoration: none;
+    display: block;
+    color: hsl(214, 100%, 65%);
+    width: 100%;
+    text-align: center;
+}
+
+.account_summary:hover {
+    -webkit-box-shadow: 0px 5px 25px hsl(214, 35%, 45%);
+    -moz-box-shadow: 10px 10px hsl(214, 35%, 45%);
+    box-shadow: 0px 0px 25px hsl(214, 35%, 45%);
+}
+
+.account_summary_header {
+    margin: 0;
+    font-size: large;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.account_summary_img {
+    width: 100%;
+}
+
+#signup_login_form {
+    background-color: hsla(214, 100%, 83%, 0.3);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#signup_login_form .signup_login_form_entry {
+    margin-bottom: 7px;
+}
+
+#signup_login_form input {
+    float: right;
+    width: 75%;
+    padding: 15px 10px;
+    font-size: 17px;
+    border: none;
+    border-radius: 5px;
+}
+
+#signup_login_form input[type="submit"] {
+    width: 35%;
+    max-width: 300px;
+    padding: 10px 0;
+    margin-top: 5px;
+    border: none;
+    background-color: hsl(100, 74%, 45%);
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+#signup_login_form input[type="submit"]:hover {
+    background-color: hsl(100, 74%, 30%);
+    cursor: pointer;
+}
+
+#signup_login_form label {
+    display: block;
+    float: left;
+    padding: 15px 0;
+}
+
+#profile_header {
+    height: 150px;
+    background-color: hsl(0, 0%, 20%);
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.profile_pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 80px;
+    position: absolute;
+    top: 30px;
+    left: 0;
+}
+
+.profile_name {
+    color: white;
+    position: absolute;
+    bottom: 5px;
+    left: 170px;
+    max-width: 300px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 25px;
+}
+
+#update_profile_link {
+    text-decoration: none;
+    display: block;
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    padding: 8px 10px;
+    background-color: hsl(100, 74%, 45%);
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#update_profile_link:hover {
+    background-color: hsl(100, 74%, 35%);
+    cursor: pointer;
+}
+
+#profile_details {
+    padding: 0 5px 0 5px;
+    margin-bottom: 5px;
+    width: 25%;
+    float: left;
+}
+
+.profile_container {
+    background-color: hsl(0, 1%, 95%);
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    border: 1px solid hsl(0, 10%, 80%);
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.profile_details_label {
+    float: left;
+    width: 30%;
+    font-weight: bold;
+}
+
+.profile_details_field {
+    float: right;
+    width: 65%;
+    text-align: right;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#profile_bio {
+    padding: 0 5px 0 5px;
+    width: 75%;
+    border-radius: 5px;
+    float: right;
+}
+
+#update_profile_form {
+    margin-top: 20px;
+}
+
+.update_profile_container {
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
+    display: inline-block;
+}
+
+#update_profile_pic_container {
+    float: left;
+    padding: 5px;
+    width: 30%;
+}
+
+#selected_profile_pic {
+    display: none;
+}
+
+#select_profile_pic {
+    border: none;
+    padding: 7px 15px;
+    background-color: hsl(100, 74%, 45%);
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+#select_profile_pic:hover {
+    background-color: hsl(100, 74%, 35%);
+    cursor: pointer;
+}
+
+#profile_pic_preview {
+    display: block;
+    width: 100%;
+    min-height: 150px;
+    max-height: 300px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+#update_profile_details_container {
+    float: right;
+    width: 70%;
+    margin-top: 25px;
+    padding: 5px 15px 5px 30px;
+}
+
+.update_profile_details_entry {
+    margin-bottom: 7px;
+    font-size: 15px;
+    width: 100%;
+}
+
+.update_profile_details_entry label {
+    display: block;
+    float: left;
+    padding: 10px 10px 10px 0;
+    width: 30%;
+    font-weight: bold;
+    text-align: right;
+}
+
+.update_profile_details_entry input {
+    float: left;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 70%;
+    border: 1px solid hsl(0, 10%, 80%);
+}
+
+#update_bio_container {
+    float: none;
+    margin-top: 20px;
+    padding: 0 15px;
+}
+
+#update_bio_container label {
+    font-weight: bold;
+}
+
+#update_bio {
+    display: block;
+    margin-top: 7px;
+    resize: vertical;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid hsl(0, 10%, 80%);
+}
+
+#update_profile_btn {
+    margin-top: 10px;
+    border: none;
+    padding: 7px 15px;
+    background-color: hsl(100, 74%, 45%);
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 17px;
+    float: right;
+    width: 25%;
+    max-width: 250px;
+}
+
+#update_profile_btn:hover {
+    background-color: hsl(100, 74%, 35%);
+    cursor: pointer;
+}
+
+@media screen and (min-width: 1051px) {
+    .account_summary_img {
+        height: 200px;
+    }
+}
+
+@media screen and (max-width: 1050px) {
+    .account_summary_img {
+        height: 120px;
+    }
+
+    #profile_details {
+        width: 45%;
+    }
+
+    #profile_bio {
+        width: 55%;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .account_summary_container {
+        width: 50%;
+    }
+
+    .account_summary_img {
+        height: 200px;
+    }
+
+    #profile_details {
+        width: 65%;
+        float: none;
+    }
+
+    #profile_bio {
+        width: 100%;
+        float: none;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .account_summary_container {
+        width: 100%;
+        float: none;
+    }
+
+    #profile_details {
+        width: 100%;
+    }
+}

@@ -1,0 +1,51 @@
+<%# The header displayed by at the top of all pages in the site. %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Social Network</title>
+    <meta name="description" content="A simple social network">
+    <link rel="stylesheet" href="/styles/main.css">
+    <script src="/scripts/main.js"></script>
+</head>
+<body>
+    <nav>
+        <ul class="clearfix">
+            <li class="float_left">
+                <a href="/"> Home </a>
+            </li>
+            <% if (loggedInUser) { %>
+                <%# The user is logged in %>
+                <li class="float_right">
+                    <a href="/logout"> Log out </a>
+                </li>
+                <li class="float_right">
+                    <a href="/users/<%= loggedInUser._id %>">Hi, <%= displayName %></a>
+                </li>
+            <% } else { %>
+                <li class="float_right">
+                    <a href="/login"> Log in </a>
+                </li>
+                <li class="float_right">
+                    <a href="/signup"> Sign up</a>
+                </li>
+            <% } %>
+        </ul>
+    </nav>
+    <%# Show flash error messages %>
+    <% if (messages.error) { %>
+        <% messages.error.forEach(error => { %>
+            <div class="flash_message error_message">
+                <%= error %>
+            </div>
+        <% }); %>
+    <% } %>
+
+    <%# Show flash info messages %>
+    <% if (messages.info) { %>
+        <% messages.info.forEach(info => { %>
+            <div class="flash_message info_message">
+                <%= info %>
+            </div>
+        <% }); %>
+    <% } %>
