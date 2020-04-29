@@ -25,7 +25,7 @@
             <div class="update_profile_details_entry clearfix">
                 <label for="update_birth_date"> Date of birth:</label>
                 <input type="date" name="birth_date" id="update_birth_date"
-                       value="<%= loggedInUser.birthDate ? loggedInUser.birthDate.toISOString().split("T")[0] : '' %>">
+                       value="<%= loggedInUser.birthDate ? loggedInUser.birthDate : '' %>">
             </div>
             <div class="update_profile_details_entry clearfix">
                 <label for="update_work"> Work:</label>

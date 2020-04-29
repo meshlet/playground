@@ -52,19 +52,23 @@ const userSchema = mongoose.Schema({
     firstName: {
         type: "String",
         required: [ true, "First name is required" ],
-        minLength: [1, "First name must not be empty"]
+        minlength: [1, "First name must not be empty"]
     },
     lastName: {
         type: "String",
         required: [ true, "Last name is required" ],
-        minLength: [1, "Last name must not be empty"]
+        minlength: [1, "Last name must not be empty"]
     },
     birthDate: {
-        type: "Date",
+        type: "String",
         required: [ true, "The date of birth is required" ],
         validate: {
             validator: value => {
-                return new Date(value).toString().toLowerCase() !== "invalid date";
+                // The date string must be in ISO 8601 Extended format (i.e.
+                // YYYY-MM-DDTHH:mm:ss:sssZ)
+                return validator.isISO8601(value, {
+                    strict: true
+                });
             },
             message: props => `${props.value} doesn't represent a valid date`
         }
@@ -79,7 +83,12 @@ const userSchema = mongoose.Schema({
         basename: {
             type: "String",
             default: "placeholder-profile-pic.png",
-            minLength: [1, "The profile picture filename must not be empty"]
+            validate: {
+                validator: value => {
+                    return value && value.length > 0;
+                },
+                message: "The profile picture filename must not be empty"
+            }
         },
         type: {
             type: "String",
@@ -168,6 +177,12 @@ userSchema.pre("save", function(next) {
 // returns a promise that is resolved with the true/false boolean value
 // depending on the result of comparison, or rejected in case of an error.
 userSchema.methods.checkPassword = function(passwordGuess) {
+    if (passwordGuess === null || passwordGuess === undefined) {
+        // Return a promise resolved with false if password guess is
+        // null or undefined
+        return Promise.resolve(false);
+    }
+
     // Use bcrypt to compare the passwords. Note that passwordGuess is hashed
     // by the `bcrypt.compare` method before it is compared with the password
     // hash stored in the database

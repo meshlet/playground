@@ -1,0 +1,18 @@
+/**
+ * Inits the environment for test execution.
+ */
+
+// Bootstrap module aliases
+require('module-alias/register');
+
+// Set environment variables
+process.env.NODE_ENV="test";
+process.env.IN_MEMORY_DB="1";
+
+const dbSetup = require("@root/db_setup");
+
+// Establish connection to the MongoDB before tests are run
+before(async () => await dbSetup.connect());
+
+// Destroy the database after all the tests have completed
+after(async() => await dbSetup.destroy());

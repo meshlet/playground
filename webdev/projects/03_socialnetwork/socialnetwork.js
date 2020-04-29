@@ -1,8 +1,13 @@
 /**
  * The starting point for the social network backend.
  */
+
+// Bootstrap module aliases
+require('module-alias/register');
+
 const express = require("express");
 const mongoose = require("mongoose");
+const dbSetup = require("@root/db_setup");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const MongoStore = require("connect-mongo")(session);
@@ -10,29 +15,15 @@ const path = require("path");
 const logger = require("morgan");
 const flash = require("express-flash");
 const passport = require("passport");
-const routes = require("./routes");
-const setupPassport = require("./passport_setup");
+const routes = require("@root/routes");
+const setupPassport = require("@root/passport_setup");
 
 (async () => {
     // Attempt to connect to the MongoDB database
-    try {
-        await mongoose.connect("mongodb://localhost:27017/socialnetwork", {
-            useNewUrlParser: true
-        });
-
-        // Attach a listener for the `error` event that is emitted in case of
-        // errors in communication with the MongoDB database
-        mongoose.connection.on("error", err => {
-            console.log(err.message);
-        });
-    }
-    catch (e) {
-        // Throw an exception which will make the NodeJS process exit gracefully
-        throw new Error("Failed to connect to the MongoDB database");
-    }
+    await dbSetup.connect();
 
     // Wait for the User model indexes to get built
-    await require("./models/user").init();
+    await require("@models/user").init();
 
     // Create an Express app instance
     const app = express();
@@ -68,6 +59,8 @@ const setupPassport = require("./passport_setup");
 
     // Use body-parser middleware to parser URL-encoded form data
     app.use(bodyParser.urlencoded({
+        // The values parsed from the request can only be strings or
+        // arrays
         extended: false
     }));
 
