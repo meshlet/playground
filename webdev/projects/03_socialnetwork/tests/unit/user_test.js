@@ -12,9 +12,6 @@ chai.use(chaiAsPromised);
 const expect = chai.expect;
 
 describe("user", function() {
-    // Clear the database before each test
-    beforeEach(async () => await dbSetup.clearCollections());
-
     it('validation fails if email is not specified', async function () {
         const error = await expect(User.create({
             password: "Validpassword1234_",

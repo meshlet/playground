@@ -1,0 +1,33 @@
+/**
+ * Integration tests bootstrap script.
+ */
+// Bootstrap module aliases
+require('module-alias/register');
+
+// Require the common bootstrap module
+require("@root/tests/common.bootstrap");
+
+const serverStartedPromise = require("@root/socialnetwork");
+const dbSetup = require("@root/db_setup");
+
+// The HTTP server instance
+let httpServer = undefined;
+
+// Wait for the server to start listening for connections before
+// running any tests
+before(async function () {
+    httpServer = await serverStartedPromise;
+});
+
+// Clear the database before each test
+beforeEach(async () => await dbSetup.clearCollections());
+
+// Stop the server after all the tests have completed
+after(function () {
+    httpServer.close();
+});
+
+// Exports
+module.exports.getHttpServer = () => {
+    return httpServer;
+};

@@ -5,9 +5,9 @@
   "main": "socialnetwork.js",
   "scripts": {
     "start": "nodemon socialnetwork.js",
-    "test": "mocha tests/**/*.js",
-    "test:unit": "mocha ./tests/unit/**/*.js",
-    "test:integration": "mocha ./tests/integration/**/*.js"
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "mocha --file ./tests/unit/unit.bootstrap ./tests/unit/**/*.js",
+    "test:integration": "mocha --file ./tests/integration/integration.bootstrap ./tests/integration/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -47,7 +47,8 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "mocha": "^7.1.2",
-    "mongodb-memory-server": "^6.5.2"
+    "mongodb-memory-server": "^6.5.2",
+    "supertest": "^4.0.2"
   },
   "_moduleAliases": {
     "@root": ".",

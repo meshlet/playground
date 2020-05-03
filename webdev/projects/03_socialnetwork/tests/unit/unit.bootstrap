@@ -1,18 +1,19 @@
 /**
- * Inits the environment for test execution.
+ * Unit tests bootstrap script.
  */
-
 // Bootstrap module aliases
 require('module-alias/register');
 
-// Set environment variables
-process.env.NODE_ENV="test";
-process.env.IN_MEMORY_DB="1";
+// Require the common bootstrap module
+require("@root/tests/common.bootstrap");
 
 const dbSetup = require("@root/db_setup");
 
 // Establish connection to the MongoDB before tests are run
 before(async () => await dbSetup.connect());
+
+// Clear the database before each test
+beforeEach(async () => await dbSetup.clearCollections());
 
 // Destroy the database after all the tests have completed
 after(async() => await dbSetup.destroy());

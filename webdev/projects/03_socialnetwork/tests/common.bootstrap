@@ -1,0 +1,7 @@
+/**
+ * Inits the environment for test execution.
+ */
+
+// Set environment variables
+process.env.NODE_ENV="test";
+process.env.IN_MEMORY_DB="1";

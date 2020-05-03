@@ -16,7 +16,7 @@ if (useInMemoryDb) {
     memoryDbServer = new MongoMemoryServer();
 }
 
-// Establishes connection to the Mongo database
+// Establishes connection to the Mongo database.
 exports.connect = async () => {
     try {
         const uri =
@@ -40,10 +40,8 @@ exports.connect = async () => {
     }
 };
 
-// Drops the database, closes the database connection and stops the in-memory
-// mongo server if used
-exports.destroy = async () => {
-    await mongoose.connection.dropDatabase();
+// Closes the database connection
+exports.close = async () => {
     await mongoose.connection.close();
 
     if (useInMemoryDb) {
@@ -51,10 +49,24 @@ exports.destroy = async () => {
     }
 };
 
-// Deletes all documents from all collections
-exports.clearCollections = async () => {
-    Object.getOwnPropertyNames(mongoose.connection.collections).forEach(async collectionKey => {
-        const collection = mongoose.connection.collections[collectionKey];
-        await collection.deleteMany();
-    });
-};
+// The following functions are exported only in 'test' mode
+if (process.env.NODE_ENV === "test") {
+    // Drops the database, closes the database connection and stops the in-memory
+    // mongo server if used
+    exports.destroy = async () => {
+        await mongoose.connection.dropDatabase();
+        await mongoose.connection.close();
+
+        if (useInMemoryDb) {
+            await memoryDbServer.stop();
+        }
+    };
+
+    // Deletes all documents from all collections
+    exports.clearCollections = async () => {
+        Object.getOwnPropertyNames(mongoose.connection.collections).forEach(async collectionKey => {
+            const collection = mongoose.connection.collections[collectionKey];
+            await collection.deleteMany();
+        });
+    };
+}

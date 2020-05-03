@@ -51,7 +51,6 @@
         <div class="clearfix"></div>
         <div id="update_bio_container">
             <label for="update_bio"> Update Biography: </label>
-            <% console.log(loggedInUser.biography); %>
             <textarea name="biography" id="update_bio"><%= loggedInUser.biography.length > 0 ? loggedInUser.biography.join("\n\n") : '' %></textarea>
             <input type="submit" id="update_profile_btn" value="Update Profile">
         </div>

@@ -184,7 +184,7 @@ router.post("/signup",
 
             if (user) {
                 // User with the given email already exists
-                req.flash("error", `User with ${req.formFields.email} email already exists`);
+                req.flash("error", `User with ${req.body.email} email already exists`);
 
                 // Re-render the signup page with the error
                 return res.status(403).render("signup");
@@ -295,7 +295,7 @@ router.post("/update",
 
             // If profile picture has been uploaded, move it to proper location
             const profilePic = req.uploadedFiles.selected_profile_pic;
-            if (profilePic.size > 0) {
+            if (profilePic && profilePic.size > 0) {
                 // Take the uploaded image basename and form the destination
                 // path
                 const basename = path.basename(profilePic.path);
