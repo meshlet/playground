@@ -8,3 +8,6 @@
 **/.idea
 .project
 .classpath
+**/*.png
+**/*.jpeg
+**/*.jpg
