@@ -2,6 +2,7 @@
 <%- include("_header"); %>
 <article class="clearfix">
     <form id="update_profile_form" method="post" action="/update" enctype="multipart/form-data">
+        <input name="_csrf" value="<%= csrfToken %>" type="hidden">
         <div id="update_profile_pic_container">
             <div class="update_profile_container">
                 <input type="file" accept="image/*" id="selected_profile_pic" name="selected_profile_pic"

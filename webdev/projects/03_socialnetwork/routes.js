@@ -6,10 +6,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const User = require("@models/user");
-const formidable = require("formidable");
 const fs = require("fs");
 const path = require("path");
 
+// Create a router instance
 const router = express.Router();
 
 // Returns a middleware function that checks if the user is logged in
@@ -43,42 +43,16 @@ function getEnsureUnauthenticatedMiddleware(getRedirectUrl) {
     };
 }
 
-// Define a middleware that parses multipart form data using formidable
-// module
-router.use((req, res, next) => {
-    if (req.is("multipart/form-data")) {
-        // Create a formidable instance
-        const form = formidable({
-            keepExtensions: true
-        });
-
-        // Parse the form data
-        form.parse(req, (err, fields, files) => {
-            if (err) {
-                // Malformed body
-                return next(err);
-            }
-
-            // Add parsed fields and files to the req object
-            req.body = fields;
-            req.uploadedFiles = files;
-
-            // Proceed to the next middleware
-            next();
-        });
-    }
-    else {
-        // Proceed to the next middleware
-        next();
-    }
-});
-
 // Define a middleware that sets up view-local variables needed by
 // multiple views
 router.use((req, res, next) => {
     res.locals.loggedInUser = req.user;
     res.locals.displayName = req.user ? req.user.firstName : undefined;
     res.locals.formFields = req.body;
+
+    // CSRF token embedded in HTML forms sent to the client
+    res.locals.csrfToken = req.csrfToken();
+
     next();
 });
 
@@ -146,7 +120,7 @@ router.get("/users/:id", async (req, res, next) => {
         return next(err);
     }
 
-    // Call the error-handling middlware
+    // Call the error-handling middleware
     req.flash("error", "User with given ID not found");
     res.redirect("/");
 });
@@ -334,19 +308,6 @@ router.post("/update",
         }
     }
 );
-
-// Define a 404 middleware
-router.use((req, res) => {
-    req.flash("error", "Resource Not Found (404)");
-    res.redirect("/");
-});
-
-// Define the error-handling middleware
-router.use((err, req, res, next) => {
-    console.log(err.message);
-    req.flash("error", "Unable to process the request due to an internal server error");
-    res.redirect("/");
-});
 
 // Export the router
 module.exports = router;

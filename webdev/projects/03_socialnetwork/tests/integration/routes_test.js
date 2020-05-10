@@ -7,6 +7,7 @@ const User = require("@models/user");
 const { getHttpServer } = require("./integration.bootstrap");
 const supertest = require("supertest");
 const querystring = require("querystring");
+const cheerio = require("cheerio");
 const chai = require("chai");
 const chaiAsPromised = require("chai-as-promised");
 
@@ -22,8 +23,9 @@ describe("routes", function () {
     const BIRTH_DATE = "1972-09-21";
 
     // Sign-up helper. It is up to the caller to setup expectations for the
-    // response
-    function signUp(user = {}) {
+    // response. Caller must provide the CSRF token sent by the server in
+    // the response to GET /signup request
+    function signUp(csrfToken, user = {}) {
         return superAgent
             .post("/signup")
             .send(querystring.encode({
@@ -31,26 +33,38 @@ describe("routes", function () {
                 password: user.hasOwnProperty("password") ? user.password : PASSWORD,
                 first_name: user.hasOwnProperty("firstName") ? user.firstName : FIRST_NAME,
                 last_name: user.hasOwnProperty("lastName") ? user.lastName : LAST_NAME,
-                birth_date: user.hasOwnProperty("birthDate") ? user.birthDate : BIRTH_DATE
+                birth_date: user.hasOwnProperty("birthDate") ? user.birthDate : BIRTH_DATE,
+                _csrf: csrfToken
             }));
     }
 
-    // Login helper. The caller should setup the expectations for the response
-    function logIn(user = {}) {
+    // Login helper. The caller should setup the expectations for the response. Caller
+    // must provide the CSRF token sent by the server in the response to GET /login
+    // request
+    function logIn(csrfToken, user = {}) {
         return superAgent
             .post("/login")
             .send(querystring.encode({
                 email: user.hasOwnProperty("email") ? user.email : EMAIL,
-                password: user.hasOwnProperty("password") ? user.password : PASSWORD
+                password: user.hasOwnProperty("password") ? user.password : PASSWORD,
+                _csrf: csrfToken
             }));
     }
 
     // Update profile helper. The caller should setup the expectations for the
-    // response
-    function updateProfile(user = {}) {
+    // response. Caller must provide the CSRF token sent by the server in the
+    // response to GET /login request (unless testing a scenario that is expected
+    // to fail)
+    function updateProfile(csrfToken, user = {}) {
         // This is a multipart request
         const request = superAgent.post("/update");
 
+        // Add CSRF token to the request body
+        if (csrfToken != null) {
+            request.field("_csrf", csrfToken);
+        }
+
+        // Add user fields
         if (user.firstName != null) {
             request.field("first_name", user.firstName);
         }
@@ -85,6 +99,23 @@ describe("routes", function () {
             .exec();
     }
 
+    // Sends a GET request to the specified URL, find the CSRF token in the
+    // response and returns it to the caller. The caller must make sure that
+    // the server will include the CSRF token as a response to the GET for
+    // the specified URL
+    async function getCsrfToken(url) {
+        // Send the GET to /signup to obtain the CSRF token to be sent in POST request
+        // body
+        const res = await superAgent
+            .get(url)
+            .expect("Content-Type", /text\/html/)
+            .expect(200);
+
+        // Get CSRF token from the response using cheerio
+        const $ = cheerio.load(res.text);
+        return $("input[name='_csrf']").val();
+    }
+
     // HTTP server instance
     let httpServer = undefined;
 
@@ -95,7 +126,7 @@ describe("routes", function () {
 
     // Create an instance of a super agent for each test using the
     // `agent()` method. Such agent will persist cookies and include
-    // them in following requests
+    // them in requests
     let superAgent = undefined;
     beforeEach(function () {
         superAgent = supertest.agent(httpServer);
@@ -147,14 +178,14 @@ describe("routes", function () {
     });
 
     it('user redirected to login page after successful POST /signup', async function () {
-        await signUp()
+        await signUp(await getCsrfToken("/signup"))
             .expect("Content-Type", /text\/plain/)
             .expect("Location", "/login")
             .expect(303);
     });
 
     it('database contains new user after successful POST /signup', async function () {
-        await signUp()
+        await signUp(await getCsrfToken("/signup"))
             .expect("Content-Type", /text\/plain/)
             .expect("Location", "/login")
             .expect(303);
@@ -167,14 +198,14 @@ describe("routes", function () {
 
     it('POST /signup fails with 403 if email address already exists', async function () {
         // First sign-up should be successful
-        await signUp()
+        await signUp(await getCsrfToken("/signup"))
             .expect("Content-Type", /text\/plain/)
             .expect("Location", "/login")
             .expect(303);
 
         // The second sign-up with the same email fails with 403 with content type
         // set to HTML (sign-up page re-rendered)
-        await signUp()
+        await signUp(await getCsrfToken("/signup"))
             .expect("Content-Type", /text\/html/)
             .expect(403);
     });
@@ -193,7 +224,7 @@ describe("routes", function () {
         ];
 
         for (const email of invalidEmailAddresses) {
-            await signUp({ email: email })
+            await signUp(await getCsrfToken("/signup"), { email: email })
                 .expect("Content-Type", /text\/html/)
                 .expect(400);
         }
@@ -218,7 +249,7 @@ describe("routes", function () {
         ];
 
         for (const password of invalidPasswords) {
-            await signUp({ password: password })
+            await signUp(await getCsrfToken("/signup"), { password: password })
                 .expect("Content-Type", /text\/html/)
                 .expect(400);
         }
@@ -232,7 +263,7 @@ describe("routes", function () {
         ];
 
         for (const firstName of invalidNames) {
-            await signUp({ firstName: firstName })
+            await signUp(await getCsrfToken("/signup"), { firstName: firstName })
                 .expect("Content-Type", /text\/html/)
                 .expect(400);
         }
@@ -246,7 +277,7 @@ describe("routes", function () {
         ];
 
         for (const lastName of invalidSurnames) {
-            await signUp({ lastName: lastName })
+            await signUp(await getCsrfToken("/signup"), { lastName: lastName })
                 .expect("Content-Type", /text\/html/)
                 .expect(400);
         }
@@ -268,7 +299,7 @@ describe("routes", function () {
         ];
 
         for (const date of invalidDates) {
-            await signUp({ birthDate: date })
+            await signUp(await getCsrfToken("/signup"), { birthDate: date })
                 .expect("Content-Type", /text\/html/)
                 .expect(400);
         }
@@ -276,10 +307,10 @@ describe("routes", function () {
 
     it('successful POST /login redirects to user profile page', async function () {
         // Sign-up
-        await signUp().expect(303);
+        await signUp(await getCsrfToken("/signup")).expect(303);
 
         // Login
-        await logIn()
+        await logIn(await getCsrfToken("/login"))
             .expect("Content-Type", /text\/plain/)
             .expect("Location", "/users/" + (await getUser(EMAIL)).id.toString())
             .expect(302);
@@ -287,35 +318,35 @@ describe("routes", function () {
 
     it('POST /login fails with 401 if email does not match', async function () {
         // Sign-up
-        await signUp().expect(303);
+        await signUp(await getCsrfToken("/signup")).expect(303);
 
         // Login with an email that doesn't match
-        await logIn({ email: "unknown.email@domain.com" })
+        await logIn(await getCsrfToken("/login"), { email: "unknown.email@domain.com" })
             .expect("Content-Type", /text\/html/)
             .expect(401);
     });
 
     it('POST /login fails with 401 if password does not match', async function () {
         // Sign-up
-        await signUp().expect(303);
+        await signUp(await getCsrfToken("/signup")).expect(303);
 
         // Login with a password that doesn't match
-        await logIn({ password: "wrongpassword" })
+        await logIn(await getCsrfToken("/login"), { password: "wrongpassword" })
             .expect("Content-Type", /text\/html/)
             .expect(401);
     });
 
-    it('POST /update redirects to /login if user is logged out', async function () {
+    it('POST /update redirects to / if user is logged out', async function () {
         await updateProfile()
             .expect("Content-Type", /text\/plain/)
-            .expect("Location", "/login")
+            .expect("Location", "/")
             .expect(302);
     });
 
     it('POST /update fails with 400 if first name is empty or missing', async function () {
         // Sign-up & login
-        await signUp().expect(303);
-        await logIn().expect(302);
+        await signUp(await getCsrfToken("/signup")).expect(303);
+        await logIn(await getCsrfToken("/login")).expect(302);
 
         const invalidNames = [
             "",
@@ -324,7 +355,7 @@ describe("routes", function () {
         ];
 
         for (const firstName of invalidNames) {
-            await updateProfile({
+            await updateProfile(await getCsrfToken("/update"), {
                 firstName: firstName,
                 lastName: LAST_NAME,
                 birthDate: BIRTH_DATE
@@ -336,8 +367,8 @@ describe("routes", function () {
 
     it('POST /update fails with 400 if last name is empty or missing', async function () {
         // Sign-up & login
-        await signUp().expect(303);
-        await logIn().expect(302);
+        await signUp(await getCsrfToken("/signup")).expect(303);
+        await logIn(await getCsrfToken("/login")).expect(302);
 
         const invalidSurnames = [
             "",
@@ -346,7 +377,7 @@ describe("routes", function () {
         ];
 
         for (const surname of invalidSurnames) {
-            await updateProfile({
+            await updateProfile(await getCsrfToken("/update"), {
                 firstName: FIRST_NAME,
                 lastName: surname,
                 birthDate: BIRTH_DATE
@@ -358,8 +389,8 @@ describe("routes", function () {
 
     it('POST /update fails with 400 if birth date is invalid', async function () {
         // Sign-up & login
-        await signUp().expect(303);
-        await logIn().expect(302);
+        await signUp(await getCsrfToken("/signup")).expect(303);
+        await logIn(await getCsrfToken("/login")).expect(302);
 
         const invalidDates = [
             "",
@@ -376,7 +407,7 @@ describe("routes", function () {
         ];
 
         for (const date of invalidDates) {
-            await updateProfile({
+            await updateProfile(await getCsrfToken("/update"), {
                 firstName: FIRST_NAME,
                 lastName: LAST_NAME,
                 birthDate: date
@@ -388,8 +419,8 @@ describe("routes", function () {
 
     it('user can successfully update their profile', async function () {
         // Sign-up & login
-        await signUp().expect(303);
-        await logIn().expect(302);
+        await signUp(await getCsrfToken("/signup")).expect(303);
+        await logIn(await getCsrfToken("/login")).expect(302);
 
         // Update user profile
         const user = {
@@ -404,7 +435,7 @@ describe("routes", function () {
         };
 
         // User is redirected to their profile page after successful update
-        await updateProfile(user)
+        await updateProfile(await getCsrfToken("/update"), user)
             .expect("Content-Type", /text\/plain/)
             .expect("Location", "/users/" + (await getUser(EMAIL)).id.toString())
             .expect(303);
@@ -424,10 +455,11 @@ describe("routes", function () {
 
     it('GET /signup redirects to profile page if user is logged in', async function () {
         // Sign-up & login
-        await signUp().expect(303);
-        await logIn().expect(302);
+        await signUp(await getCsrfToken("/signup")).expect(303);
+        await logIn(await getCsrfToken("/login")).expect(302);
 
-        await signUp()
+        await superAgent
+            .get("/signup")
             .expect("Content-Type", /text\/plain/)
             .expect("Location", "/users/" + (await getUser(EMAIL)).id.toString())
             .expect(302);
@@ -435,10 +467,11 @@ describe("routes", function () {
 
     it("GET /login redirects to profile page if user is logged in", async function () {
         // Sign-up & login
-        await signUp().expect(303);
-        await logIn().expect(302);
+        await signUp(await getCsrfToken("/signup")).expect(303);
+        await logIn(await getCsrfToken("/login")).expect(302);
 
-        await logIn()
+        await superAgent
+            .get("/login")
             .expect("Content-Type", /text\/plain/)
             .expect("Location", "/users/" + (await getUser(EMAIL)).id.toString())
             .expect(302);
@@ -446,8 +479,8 @@ describe("routes", function () {
 
     it('GET /update returns 200 if user is logged in', async function () {
         // Sign-up & login
-        await signUp().expect(303);
-        await logIn().expect(302);
+        await signUp(await getCsrfToken("/signup")).expect(303);
+        await logIn(await getCsrfToken("/login")).expect(302);
 
         await superAgent
             .get("/update")
@@ -457,7 +490,7 @@ describe("routes", function () {
 
     it('GET /users/existing-user-id returns 200', async function () {
         // Sign up
-        await signUp().expect(303);
+        await signUp(await getCsrfToken("/signup")).expect(303);
 
         await superAgent
             .get("/users/" + (await getUser(EMAIL)).id.toString())
@@ -467,8 +500,8 @@ describe("routes", function () {
 
     it('GET /logout redirects to / if user is logged in', async function () {
         // Sign-up & login
-        await signUp().expect(303);
-        await logIn().expect(302);
+        await signUp(await getCsrfToken("/signup")).expect(303);
+        await logIn(await getCsrfToken("/login")).expect(302);
 
         await superAgent
             .get("/logout")
@@ -479,8 +512,8 @@ describe("routes", function () {
 
     it('GET /update redirects to /login if requested after user logs out', async function () {
         // Sign-up & login & logout
-        await signUp().expect(303);
-        await logIn().expect(302);
+        await signUp(await getCsrfToken("/signup")).expect(303);
+        await logIn(await getCsrfToken("/login")).expect(302);
         await superAgent.get("/logout").expect(302);
 
         // GET /update now redirects to /login
@@ -491,25 +524,25 @@ describe("routes", function () {
             .expect(302);
     });
 
-    it('POST /signup redirects to profile page if user is logged in', async function () {
+    it('POST /signup redirects to / if user is logged in', async function () {
         // Sign-up & login
-        await signUp().expect(303);
-        await logIn().expect(302);
+        await signUp(await getCsrfToken("/signup")).expect(303);
+        await logIn(await getCsrfToken("/login")).expect(302);
 
         await signUp()
             .expect("Content-Type", /text\/plain/)
-            .expect("Location", "/users/" + (await getUser(EMAIL)).id.toString())
+            .expect("Location", "/")
             .expect(302);
     });
 
-    it('POST /login redirects to profile page if user is logged in', async function () {
+    it('POST /login redirects to / if user is logged in', async function () {
         // Sign-up & login
-        await signUp().expect(303);
-        await logIn().expect(302);
+        await signUp(await getCsrfToken("/signup")).expect(303);
+        await logIn(await getCsrfToken("/login")).expect(302);
 
         await logIn()
             .expect("Content-Type", /text\/plain/)
-            .expect("Location", "/users/" + (await getUser(EMAIL)).id.toString())
+            .expect("Location", "/")
             .expect(302);
     });
 });

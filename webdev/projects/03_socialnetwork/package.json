@@ -4,7 +4,7 @@
   "description": "A simple social network",
   "main": "socialnetwork.js",
   "scripts": {
-    "start": "nodemon socialnetwork.js",
+    "start": "forever socialnetwork.js",
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "mocha --file ./tests/unit/unit.bootstrap ./tests/unit/**/*.js",
     "test:integration": "mocha --file ./tests/integration/integration.bootstrap ./tests/integration/**/*.js"
@@ -28,12 +28,14 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "connect-mongo": "^3.2.0",
+    "csurf": "^1.11.0",
     "dompurify": "^2.0.8",
     "ejs": "^3.0.2",
     "express": "^4.17.1",
     "express-enforces-ssl": "^1.1.0",
     "express-flash": "0.0.2",
     "express-session": "^1.17.1",
+    "forever": "^2.0.0",
     "formidable": "^1.2.2",
     "helmet": "^3.22.0",
     "jsdom": "^16.2.2",
@@ -49,6 +51,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "cheerio": "^1.0.0-rc.3",
     "mocha": "^7.1.2",
     "mongodb-memory-server": "^6.5.2",
     "supertest": "^4.0.2"
