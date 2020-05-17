@@ -1,0 +1,46 @@
+/**
+ * Illustrates SCSS variables.
+ */
+
+// Define some global variables
+$customFont: Helvetica, sans-serif;
+$pageColor: hsl(0, 25%, 80%);
+$containerWidth: 100%;
+$containerPadding: 10px;
+$fontWeight: bold;
+$containerBgColor: green;
+$textColor: red;
+
+body {
+  font-family: $customFont;
+  background-color: $pageColor;
+  font-weight: $fontWeight;
+}
+
+.container_1 {
+  // Define a local variable whose name matches that of a
+  // global variable
+  $containerBgColor: yellow;
+
+  // Change the value of the global $textColor variable to blue
+  $textColor: blue !global;
+
+  width: $containerWidth;
+  padding: $containerPadding;
+  background-color: $containerBgColor; // Resolves to yellow
+  color: $textColor; // Resolves to blue
+}
+
+.container_2 {
+  // Set background-color to $containerBgColor. Note that this
+  // will resolve to the global $containerBgColor variable
+  background-color: $containerBgColor;
+
+  // Resolves to blue as $textColor global variable has been
+  // re-assigned in the container_1 class definition
+  color: $textColor;
+
+  width: $containerWidth;
+  padding: $containerPadding;
+}
+

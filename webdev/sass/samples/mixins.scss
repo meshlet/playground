@@ -1,0 +1,38 @@
+/**
+ * Illustrates Sass mixin feature used to define reusable
+ * CSS components.
+ */
+
+// Define a mixin that describes styled text. Mixing
+// accepts two parameters both of which have default
+// values
+@mixin styled-text($textColor: red, $fontSize: 18px) {
+  color: $textColor;
+  font-size: $fontSize;
+}
+
+// Mixins are commonly used as replacement for CSS properties
+// that require vendor prefixes
+@mixin transform($propertyValue) {
+  -webkit-transform: $propertyValue;
+  -ms-transform: $propertyValue;
+  transform: $propertyValue;
+}
+
+.text_1 {
+  // Use defaults for mixin parameters
+  @include styled-text();
+}
+
+.text_2 {
+  // Pass two values to the mixin
+  @include styled-text(green, 30px);
+}
+
+.text_3 {
+  // Specify font size as a mixin named parameter
+  @include styled-text($fontSize: 25px);
+
+  // Rotate text by 90 degrees
+  @include transform(rotate(-30deg));
+}

@@ -1,0 +1,46 @@
+/**
+ * Illustrates Sass nested rules and properties.
+ */
+
+.clearfix:after {
+  content: ".";
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+body {
+  margin: 0;
+}
+
+// Implements a horizontal nav bar utilizing Sass nested rules
+nav {
+  ul {
+    margin: 0;
+    padding: 0 15px;
+    list-style: none;
+    background-color: hsl(120, 45%, 45%);
+
+    // The following illustrates Sass nested properties. Sets various
+    // CSS properties with the same prefix 'font'
+    font: {
+      family: Helvetica, sans-serif;
+      size: 18px;
+      weight: bold;
+    }
+
+    li {
+      display: inline-block;
+      float: left;
+
+      a {
+        text-decoration: none;
+        display: block;
+        width: 100px;
+        padding: 15px 0;
+        color: white;
+      }
+    }
+  }
+}

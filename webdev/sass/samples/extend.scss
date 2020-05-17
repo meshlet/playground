@@ -1,0 +1,31 @@
+/**
+ * Illustrates the Sass extend feature.
+ */
+
+@mixin borderRadius($propertyValue) {
+  -webkit-border-radius: $propertyValue;
+  -moz-border-radius: $propertyValue;
+  border-radius: $propertyValue;
+}
+
+// Define a common button style.
+.button-common {
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  @include borderRadius(5px);
+}
+
+.button-submit {
+  @extend .button-common;
+  background-color: hsl(108, 53%, 49%);
+  color: white;
+}
+
+.button-cancel {
+  @extend .button-common;
+  background-color: hsl(13, 77%, 48%);
+  color: white;
+}

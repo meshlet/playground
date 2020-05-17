@@ -1,0 +1,17 @@
+/**
+ * Illustrates Sass imports and partials.
+ */
+
+// Import the _colors Sass partial. Note that underscore is
+// excluded from the filename
+@import "colors";
+
+body {
+  background-color: $pageColor;
+}
+
+.container {
+  background-color: $bgColor;
+  color: $textColor;
+  padding: 15px 10px;
+}
