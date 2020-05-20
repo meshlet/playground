@@ -1,0 +1,31 @@
+/**
+ * Sass stylesheet for Bootstrap layout samples.
+ */
+$bgColor: hsl(240, 60%, 80%);
+$border: 1px solid hsl(240, 60%, 50%);
+
+.margin_top {
+  margin-top: 25px;
+}
+
+.themed_container {
+  background-color: $bgColor;
+  border: $border;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.themed_grid_row {
+  background-color: scale-color($bgColor, $lightness: 50%);
+}
+
+.sized_grid_row {
+  min-height: 10rem;
+}
+
+.themed_grid_col {
+  background-color: $bgColor;
+  border: $border;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

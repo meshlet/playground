@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Grid - Order Classes</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../compiled_css/layout.css">
+</head>
+<body>
+    <div class="container">
+        <h3>Fixed order classes</h3>
+        <div class="row">
+            <div class="col themed_grid_col">
+                1st in DOM, no order
+            </div>
+            <div class="col order-12 themed_grid_col">
+                order-12 (2nd in DOM, order 12)
+            </div>
+            <div class="col order-5 themed_grid_col">
+                order-5 (3rd in DOM, order 5)
+            </div>
+            <div class="col order-1 themed_grid_col">
+                order-1 (4th in DOM, order 1)
+            </div>
+        </div>
+        <h3 class="margin_top">Responsive order classes</h3>
+        <div class="row">
+            <div class="col order-7 themed_grid_col">
+                order-7 (1st in DOM, order 7)
+            </div>
+            <div class="col order-last themed_grid_col">
+                order-last (2nd in DOM, order last)
+            </div>
+            <div class="col order-1 themed_grid_col">
+                order-1 (3rd in DOM, order 1)
+            </div>
+            <div class="col order-first themed_grid_col">
+                order-first (4th in DOM, order-first)
+            </div>
+        </div>
+        <h3 class="margin_top">Column order reversed at MD breakpoint</h3>
+        <div class="row">
+            <div class="col order-1 order-md-4 themed_grid_col bg-success">
+                order-1 order-md-4 (1st in DOM)
+            </div>
+            <div class="col order-2 order-md-3 themed_grid_col bg-info">
+                order-2 order-md-3 (2nd in DOM)
+            </div>
+            <div class="col order-3 order-md-2 themed_grid_col bg-danger">
+                order-3 order-md-3 (3rd in DOM)
+            </div>
+            <div class="col order-4 order-md-1 themed_grid_col bg-warning">
+                order-4 order-md-1 (4th in DOM)
+            </div>
+        </div>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+</body>
+</html>
