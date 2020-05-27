@@ -8,8 +8,5 @@
 **/.idea
 .project
 .classpath
-**/*.png
-**/*.jpeg
-**/*.jpg
 **/compiled_css
 **/.sass-cache

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Cards</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        div.container-fluid > h2, div.container-fluid > h4 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <h2>
+            <a href="https://getbootstrap.com/docs/4.4/components/card/" class="text-break">
+                https://getbootstrap.com/docs/4.4/components/card/
+            </a>
+        </h2>
+        <h2>Card body (card-body):</h2>
+        <div class="card">
+            <div class="card-body">
+                Some text within card body.
+            </div>
+        </div>
+        <h2 class="mt-2">
+            Card title, subtitle, text and links (card-title, card-subtitle, card-text, card-link):
+        </h2>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Card Title</h5>
+                <h6 class="card-subtitle text-muted mb-2">Card Subtitle</h6>
+
+                <p class="card-text">
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body.
+                </p>
+
+                <a href="#" class="card-link">Card link 1</a>
+                <a href="#" class="card-link">Card link 2</a>
+            </div>
+        </div>
+        <h2 class="mt-4">Card images</h2>
+        <h4 class="mt-2">Image at the top:</h4>
+        <div class="card" style="width: 15rem;">
+            <img src="../public/images/avatar.png" class="card-img-top" alt="Stock avatar image">
+            <div class="card-body">
+                <h5 class="card-title">Title</h5>
+                <p class="card-text">
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                </p>
+                <p class="card-text"><small class="text-muted">Footnote text</small></p>
+            </div>
+        </div>
+        <h4 class="mt-2">Image at the bottom:</h4>
+        <div class="card" style="width: 15rem;">
+            <div class="card-body">
+                <h5 class="card-title">Title</h5>
+                <p class="card-text">
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                </p>
+                <p class="card-text"><small class="text-muted">Footnote text</small></p>
+            </div>
+            <img src="../public/images/avatar.png" class="card-img-top" alt="Stock avatar image">
+        </div>
+        <h4 class="mt-2">Image overlays:</h4>
+        <div class="card text-white">
+            <img src="../public/images/gray.png" class="card-img" alt="Gray background">
+            <div class="card-img-overlay">
+                <h4 class="card-title">Card Title</h4>
+                <p class="card-text">
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body.
+                </p>
+            </div>
+            <div class="card-footer text-black-50 text-center">
+                Card footer outside the overlay
+            </div>
+        </div>
+
+        <h2 class="mt-4">Cards and list groups:</h2>
+        <div class="card" style="width: 16rem;">
+            <!-- list-group-flush removes duplicate borders from list items -->
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">List item 1</li>
+                <li class="list-group-item">List item 2</li>
+                <li class="list-group-item">List item 3</li>
+                <li class="list-group-item">List item 4</li>
+            </ul>
+        </div>
+        <h2 class="mt-4">Card header &amp; footer:</h2>
+        <div class="card text-center">
+            <div class="card-header">Header</div>
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                </p>
+                <a href="#" class="btn btn-primary">Go Somewhere</a>
+            </div>
+            <div class="card-footer text-muted">
+                Footer
+            </div>
+        </div>
+        <div class="card mt-2">
+            <div class="card-header">Famous Quote</div>
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <p>
+                        Quote quote quote quote quote quote quote quote quote quote quote
+                        quote quote quote quote quote quote quote quote quote quote quote.
+                    </p>
+                    <footer class="blockquote-footer">
+                        Someone famous in <cite title="Source title">Source Title</cite>
+                    </footer>
+                </blockquote>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Mix and match:</h2>
+        <div class="card" style="width: 15rem;">
+            <img src="../public/images/avatar.png" class="card-img-top" alt="Avatar image">
+
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                </p>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">List item 1</li>
+                <li class="list-group-item">List item 2</li>
+                <li class="list-group-item">List item 3</li>
+            </ul>
+
+            <div class="card-body">
+                <a href="#" class="card-link">Link 1</a>
+                <a href="#" class="card-link">Link 2</a>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Sizing</h2>
+        <h4 class="mt-2">Sizing with grid markup</h4>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Card Title</h5>
+                        <p class="card-text">
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                        </p>
+                        <a href="#" class="btn btn-primary">Go Somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Card Title</h5>
+                        <p class="card-text">
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                        </p>
+                        <a href="#" class="btn btn-primary">Go Somewhere</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4 class="mt-2">Sizing with utilities:</h4>
+        <div class="card w-75">
+            <div class="card-body">
+                <h5 class="card-title">Card Title</h5>
+                <p class="card-text">
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                </p>
+                <a href="#" class="btn btn-primary">Go Somewhere</a>
+            </div>
+        </div>
+        <div class="card w-50 mt-2">
+            <div class="card-body">
+                <h5 class="card-title">Card Title</h5>
+                <p class="card-text">
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                </p>
+                <a href="#" class="btn btn-primary">Go Somewhere</a>
+            </div>
+        </div>
+        <h4 class="mt-2">Sizing with custom CSS:</h4>
+        <div class="card" style="width: 15rem;">
+            <div class="card-body">
+                <h5 class="card-title">Card Title</h5>
+                <p class="card-text">
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                </p>
+                <a href="#" class="btn btn-primary">Go Somewhere</a>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Text alignment</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-left">
+                    <div class="card-body">
+                        <h5 class="card-title">Left align</h5>
+                        <p class="card-text">
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                        </p>
+                        <a href="#" class="btn btn-primary">Go Somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Center align</h5>
+                        <p class="card-text">
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                        </p>
+                        <a href="#" class="btn btn-primary">Go Somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-right">
+                    <div class="card-body">
+                        <h5 class="card-title">Right align</h5>
+                        <p class="card-text">
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                        </p>
+                        <a href="#" class="btn btn-primary">Go Somewhere</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Navigation</h2>
+        <h4 class="mt-2">Tabs:</h4>
+        <div class="card text-center">
+            <div class="card-header">
+                <div class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">Tab 1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Tab 2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link disabled" tabindex="-1" aria-disabled="true">Tab 3</a>
+                    </li>
+                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Title</h5>
+                <p class="card-text">
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                </p>
+                <a href="#" class="btn btn-primary">Go Somewhere</a>
+            </div>
+        </div>
+        <h4 class="mt-2">Pills:</h4>
+        <div class="card text-center">
+            <div class="card-header">
+                <div class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">Tab 1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Tab 2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link disabled" tabindex="-1" aria-disabled="true">Tab 3</a>
+                    </li>
+                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Title</h5>
+                <p class="card-text">
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                    Text within card body. Text within card body. Text within card body.
+                </p>
+                <a href="#" class="btn btn-primary">Go Somewhere</a>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Horizontal cards:</h2>
+        <div class="card">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img src="../public/images/avatar.png" class="card-img" alt="Avatar image">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Title</h5>
+                        <p class="card-text">
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                        </p>
+                        <a href="#" class="btn btn-primary">Go Somewhere</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Card Styles</h2>
+        <h4 class="mt-2">Background and color:</h4>
+        <div class="row row-cols-sm-2 row-cols-md-4">
+            <div class="col">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Primary card title</h5>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the
+                            bulk of the card's content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card text-white bg-secondary mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Secondary card title</h5>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the
+                            bulk of the card's content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Primary card title</h5>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the
+                            bulk of the card's content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Secondary card title</h5>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the
+                            bulk of the card's content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card text-white bg-warning mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Primary card title</h5>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the
+                            bulk of the card's content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card text-white bg-info mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Secondary card title</h5>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the
+                            bulk of the card's content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card bg-light mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Primary card title</h5>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the
+                            bulk of the card's content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card text-white bg-dark mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Secondary card title</h5>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the
+                            bulk of the card's content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4 class="mt-2">Border:</h4>
+        <div class="row row-cols-sm-2 row-cols-md-4">
+            <div class="col">
+                <div class="card border-primary mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body text-primary">
+                        <h5 class="card-title">Primary card title</h5>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the
+                            bulk of the card's content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card border-secondary mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body text-secondary">
+                        <h5 class="card-title">Secondary card title</h5>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the
+                            bulk of the card's content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card border-success mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body text-success">
+                        <h5 class="card-title">Primary card title</h5>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the
+                            bulk of the card's content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card border-danger mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body text-danger">
+                        <h5 class="card-title">Secondary card title</h5>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the
+                            bulk of the card's content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card border-warning mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body text-warning">
+                        <h5 class="card-title">Primary card title</h5>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the
+                            bulk of the card's content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card border-info mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body text-info">
+                        <h5 class="card-title">Secondary card title</h5>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the
+                            bulk of the card's content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card border-light mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">Primary card title</h5>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the
+                            bulk of the card's content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card border-dark mb-3">
+                    <div class="card-header">Header</div>
+                    <div class="card-body text-dark">
+                        <h5 class="card-title">Secondary card title</h5>
+                        <p class="card-text">
+                            Some quick example text to build on the card title and make up the
+                            bulk of the card's content.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4 class="mt-2">Mixed header/footer and body style:</h4>
+        <div class="card bg-success border-primary">
+            <div class="card-header bg-light text-center text-success">Card Header</div>
+            <div class="card-body text-white">
+                <h5 class="card-title">Card Title</h5>
+                <p class="card-text">
+                    Some quick example text to build on the card title and make up the
+                    bulk of the card's content.
+                </p>
+            </div>
+            <div class="card-footer bg-light text-center text-success">Card Footer</div>
+        </div>
+
+        <h2 class="mt-4">Card Layout</h2>
+        <h4 class="mt-2">Card groups:</h4>
+        <div class="card-group">
+            <div class="card">
+                <img src="../public/images/gray.png" class="card-img-top" alt="Avatar image">
+                <div class="card-body">
+                    <h4 class="card-title">Card Title</h4>
+                    <p class="card-text">
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                    </p>
+                </div>
+                <div class="card-footer text-muted text-center">Card Footer</div>
+            </div>
+            <div class="card">
+                <img src="../public/images/gray.png" class="card-img-top" alt="Avatar image">
+                <div class="card-body">
+                    <h4 class="card-title">Card Title</h4>
+                    <p class="card-text">
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                    </p>
+                </div>
+                <div class="card-footer text-muted text-center">Card Footer</div>
+            </div>
+            <div class="card">
+                <img src="../public/images/gray.png" class="card-img-top" alt="Avatar image">
+                <div class="card-body">
+                    <h4 class="card-title">Card Title</h4>
+                    <p class="card-text">
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                    </p>
+                </div>
+                <div class="card-footer text-muted text-center">Card Footer</div>
+            </div>
+        </div>
+        <h4 class="mt-2">Card decks:</h4>
+        <div class="card-deck">
+            <div class="card">
+                <img src="../public/images/gray.png" class="card-img-top" alt="Avatar image">
+                <div class="card-body">
+                    <h4 class="card-title">Card Title</h4>
+                    <p class="card-text">
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                    </p>
+                </div>
+                <div class="card-footer text-muted text-center">Card Footer</div>
+            </div>
+            <div class="card">
+                <img src="../public/images/gray.png" class="card-img-top" alt="Avatar image">
+                <div class="card-body">
+                    <h4 class="card-title">Card Title</h4>
+                    <p class="card-text">
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                    </p>
+                </div>
+                <div class="card-footer text-muted text-center">Card Footer</div>
+            </div>
+            <div class="card">
+                <img src="../public/images/gray.png" class="card-img-top" alt="Avatar image">
+                <div class="card-body">
+                    <h4 class="card-title">Card Title</h4>
+                    <p class="card-text">
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                    </p>
+                </div>
+                <div class="card-footer text-muted text-center">Card Footer</div>
+            </div>
+        </div>
+        <h4 class="mt-2">Grid cards with equal height:</h4>
+        <div class="row row-cols-1 row-cols-md-2">
+            <div class="col mb-4">
+                <div class="card h-100">
+                    <img src="../public/images/gray.png" class="card-img-top" alt="Avatar image">
+                    <div class="card-body">
+                        <h4 class="card-title">Card Title</h4>
+                        <p class="card-text">
+                            Text within card body. Text within card body. Text within card body.
+                        </p>
+                    </div>
+                    <div class="card-footer text-muted text-center">Card Footer</div>
+                </div>
+            </div>
+            <div class="col mb-4">
+                <div class="card h-100">
+                    <img src="../public/images/gray.png" class="card-img-top" alt="Avatar image">
+                    <div class="card-body">
+                        <h4 class="card-title">Card Title</h4>
+                        <p class="card-text">
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                        </p>
+                    </div>
+                    <div class="card-footer text-muted text-center">Card Footer</div>
+                </div>
+            </div>
+            <div class="col mb-4">
+                <div class="card h-100">
+                    <img src="../public/images/gray.png" class="card-img-top" alt="Avatar image">
+                    <div class="card-body">
+                        <h4 class="card-title">Card Title</h4>
+                        <p class="card-text">
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                        </p>
+                    </div>
+                    <div class="card-footer text-muted text-center">Card Footer</div>
+                </div>
+            </div>
+            <div class="col mb-4">
+                <div class="card h-100">
+                    <img src="../public/images/gray.png" class="card-img-top" alt="Avatar image">
+                    <div class="card-body">
+                        <h4 class="card-title">Card Title</h4>
+                        <p class="card-text">
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                            Text within card body. Text within card body. Text within card body.
+                        </p>
+                    </div>
+                    <div class="card-footer text-muted text-center">Card Footer</div>
+                </div>
+            </div>
+        </div>
+        <h4 class="mt-2">Card columns:</h4>
+        <div class="card-columns">
+            <div class="card">
+                <img src="../public/images/gray.png" class="card-img-top" alt="Avatar image">
+                <div class="card-body">
+                    <h4 class="card-title">Card Title</h4>
+                    <p class="card-text">
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                        Text within card body. Text within card body. Text within card body.
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Card Title</h4>
+                    <p class="card-text">
+                        Text within card body. Text within card body. Text within card body.
+                    </p>
+                </div>
+            </div>
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Header</div>
+                <div class="card-body">
+                    <h5 class="card-title">Primary card title</h5>
+                    <p class="card-text">
+                        Some quick example text to build on the card title and make up the
+                        bulk of the card's content.
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="../public/images/gray.png" class="card-img-top" alt="Avatar image">
+                <div class="card-body">
+                    <h4 class="card-title">Card Title</h4>
+                    <p class="card-text">
+                        Text within card body. Text within card body. Text within card body.
+                    </p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Card Title</h4>
+                    <p class="card-text">
+                        Text within card body. Text within card body. Text within card body.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+</body>
+</html>
