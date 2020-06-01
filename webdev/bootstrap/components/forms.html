@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Forms</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        div.container-fluid > h2, div.container-fluid > h4 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <h2>
+            <a href="https://getbootstrap.com/docs/4.4/components/forms/" class="text-break">
+                https://getbootstrap.com/docs/4.4/components/forms/
+            </a>
+        </h2>
+        <h2 class="mt-2">Form controls</h2>
+        <form>
+            <div class="form-group">
+                <label for="emailAddress1">Email address</label>
+                <input type="email" id="emailAddress1" class="form-control"
+                       placeholder="email@example.com">
+            </div>
+            <div class="form-group">
+                <label for="select1">Example select</label>
+                <select id="select1" class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="multiSelect1">Example multiple select</label>
+                <select multiple id="multiSelect1" class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="textarea1">Example textarea</label>
+                <textarea id="textarea1" class="form-control" rows="3">
+                </textarea>
+            </div>
+            <div class="form-group">
+                <label for="fileInput1">Example file input</label>
+                <input type="file" id="fileInput1" class="form-control-file">
+            </div>
+        </form>
+        <h4 class="mt-2">Sizing:</h4>
+        <form>
+            <div class="form-group">
+                <input type="text" class="form-control form-control-lg mb-2" placeholder="form-control-lg">
+                <input type="text" class="form-control mb-2" placeholder="default control size">
+                <input type="text" class="form-control form-control-sm" placeholder="form-control-sm">
+            </div>
+        </form>
+        <h4 class="mt-2">Readonly inputs:</h4>
+        <form>
+            <div class="form-group">
+                <input type="text" class="form-control form-control-lg mb-2" readonly
+                       placeholder="readonly input">
+            </div>
+        </form>
+        <h4 class="mt-2">Readonly plain text:</h4>
+        <form>
+            <div class="form-group row">
+                <label for="emailAddress2" class="col-sm-3 col-lg-2 col-form-label">Email address</label>
+                <div class="col-sm-9 col-lg-10">
+                    <input type="text" id="emailAddress2" class="form-control-plaintext"
+                           value="mickey.mouse@disney.com">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password1" class="col-sm-3 col-lg-2 col-form-label">Password</label>
+                <div class="col-sm-9 col-lg-10">
+                    <input type="text" id="password1" class="form-control" placeholder="Password">
+                </div>
+            </div>
+        </form>
+
+        <h2 class="mt-4">Range controls:</h2>
+        <form>
+            <div class="form-group">
+                <label for="rangeCtrl1">Example range control</label>
+                <input type="range" id="rangeCtrl1" class="form-control-range">
+            </div>
+        </form>
+
+        <h2 class="mt-4">Checkboxes and radios</h2>
+        <h4 class="mt-2">Vertically stacked checkboxes (default):</h4>
+        <form>
+            <div class="form-check">
+                <input type="checkbox" id="checkbox1" class="form-check-input">
+                <label for="checkbox1" class="form-check-label">Default checkbox</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" id="checkbox2" class="form-check-input" disabled>
+                <label for="checkbox2" class="form-check-label">Disabled checkbox</label>
+            </div>
+        </form>
+        <h4 class="mt-2">Vertically stacked radio buttons (default):</h4>
+        <form>
+            <div class="form-check">
+                <input type="radio" id="radio1" name="radioButtons" class="form-check-input"
+                       value="option1">
+                <label for="radio1" class="form-check-label">Default radio</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" id="radio2" name="radioButtons" class="form-check-input"
+                       value="option2">
+                <label for="radio2" class="form-check-label">Another default radio</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" id="radio3" name="radioButtons" class="form-check-input"
+                       value="option3" disabled>
+                <label for="radio3" class="form-check-label">Disabled radio</label>
+            </div>
+        </form>
+        <h4 class="mt-2">Inline checkboxes:</h4>
+        <form>
+            <div class="form-check form-check-inline">
+                <input type="checkbox" id="checkbox3" class="form-check-input">
+                <label for="checkbox3" class="form-check-label">1</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="checkbox" id="checkbox4" class="form-check-input">
+                <label for="checkbox4" class="form-check-label">2</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="checkbox" id="checkbox5" class="form-check-input" disabled>
+                <label for="checkbox5" class="form-check-label">Disabled checkbox</label>
+            </div>
+        </form>
+        <h4 class="mt-2">Inline radio buttons:</h4>
+        <form>
+            <div class="form-check form-check-inline">
+                <input type="radio" id="radio4" name="radioButtons" class="form-check-input"
+                       value="option1">
+                <label for="radio4" class="form-check-label">1</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="radio" id="radio5" name="radioButtons" class="form-check-input"
+                       value="option2">
+                <label for="radio5" class="form-check-label">2</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="radio" id="radio6" name="radioButtons" class="form-check-input"
+                       value="option3" disabled>
+                <label for="radio6" class="form-check-label">Disabled radio</label>
+            </div>
+        </form>
+        <h4 class="mt-2">Without labels:</h4>
+        <form>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input position-static" value="option1"
+                       aria-label="Checkbox without label">
+            </div>
+            <div class="form-check">
+                <input type="radio" name="radioButtons" class="form-check-input position-static"
+                       value="option1">
+            </div>
+        </form>
+
+        <h2 class="mt-4">Layout</h2>
+        <h4 class="mt-2">Form groups:</h4>
+        <form>
+            <div class="form-group">
+                <label for="emailAddress3">Email address</label>
+                <input type="email" id="emailAddress3" class="form-control" placeholder="mickey.mouse@disney.com">
+            </div>
+            <div class="form-group">
+                <label for="password2">Password</label>
+                <input type="text" id="password2" class="form-control" placeholder="Password">
+            </div>
+        </form>
+        <h4 class="mt-2">Form grid:</h4>
+        <form>
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="First name" aria-label="First name">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Last name" aria-label="First name">
+                </div>
+            </div>
+        </form>
+        <h4 class="mt-2">form-row class (extends .row class but decreases column gutters):</h4>
+        <form>
+            <div class="form-row">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="First name" aria-label="First name">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Last name" aria-label="First name">
+                </div>
+            </div>
+        </form>
+        <h4 class="mt-2">More complex form layout with grid:</h4>
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="firstName1">First name</label>
+                    <input type="text" id="firstName1" class="form-control" placeholder="First name">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="lastName1">Last name</label>
+                    <input type="text" id="lastName1" class="form-control" placeholder="Last name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address1">Address</label>
+                <input type="text" id="address1" class="form-control" placeholder="Example street address">
+            </div>
+            <div class="form-group">
+                <label for="address2">Address 2</label>
+                <input type="text" id="address2" class="form-control"
+                       placeholder="Apartment, studio or floor">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="country1">Country</label>
+                    <select id="country1" name="country" class="form-control">
+                        <option>Choose...</option>
+                        <option>...</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="city1">City</label>
+                    <select id="city1" name="city" class="form-control">
+                        <option>Choose...</option>
+                        <option>...</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="zip1">ZIP</label>
+                    <input type="text" id="zip1" class="form-control" placeholder="ZIP code">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" id="checkbox6" class="form-check-input">
+                    <label for="checkbox6" class="form-check-label">Check me out</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+        <h4 class="mt-2">Horizontal form (labels and controls in the same row):</h4>
+        <form>
+            <div class="form-group row">
+                <label for="emailAddress4" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-10">
+                    <input type="email" id="emailAddress4" class="form-control"
+                           placeholder="email@example.com">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password3" class="col-sm-2 col-form-label">Password</label>
+                <div class="col-sm-10">
+                    <input type="password" id="password3" class="form-control"
+                           placeholder="Password">
+                </div>
+            </div>
+            <div class="form-group row">
+                <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input type="radio" id="radio7" name="radioButtons" value="option1"
+                               class="form-check-input">
+                        <label for="radio7" class="form-check-label">First radio</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="radio8" name="radioButtons" value="option2"
+                               class="form-check-input">
+                        <label for="radio8" class="form-check-label">Second radio</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="radio9" name="radioButtons" value="option3"
+                               class="form-check-input">
+                        <label for="radio9" class="form-check-label">Third default radio</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2">Checkbox</div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <!-- The manual margin-top on the checkbox is to better align
+                             the label and the checkbox. -->
+                        <input type="checkbox" id="checkbox7" class="form-check-input"
+                               value="option1" style="margin-top: 6px;">
+                        <label for="checkbox7" class="form-check-label">Example checkbox</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Sign In</button>
+            </div>
+        </form>
+        <h4 class="mt-2">Horizontal label sizing:</h4>
+        <form>
+            <div class="form-group row">
+                <label for="textCtrl1" class="col-sm-2 col-form-label col-form-label-sm">Small label</label>
+                <div class="col-sm-10">
+                    <input type="text" id="textCtrl1" class="form-control form-control-sm"
+                           placeholder="Default input control">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="textCtrl2" class="col-sm-2 col-form-label">Normal label</label>
+                <div class="col-sm-10">
+                    <input type="text" id="textCtrl2" class="form-control form-control"
+                           placeholder="Default input control">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="textCtrl3" class="col-sm-2 col-form-label col-form-label-lg">Large label</label>
+                <div class="col-sm-10">
+                    <input type="text" id="textCtrl3" class="form-control form-control-lg"
+                           placeholder="Large input control">
+                </div>
+            </div>
+        </form>
+        <h4 class="mt-2">Auto-sizing:</h4>
+        <form>
+            <!-- align-items-center makes sure that all form elements in the row
+                 are vertically aligned regardless of their height (i.e. the checkbox
+                 will have smaller height than other controls, so this will make sure
+                 it is vertically centered) -->
+            <div class="form-row align-items-center">
+                <div class="col-auto mb-2">
+                    <input type="text" class="form-control" placeholder="John Doe" aria-label="Name">
+                </div>
+                <div class="col-auto mb-2">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">@</div>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Username"
+                               aria-label="Username">
+                    </div>
+                </div>
+                <div class="col-auto mb-2">
+                    <div class="form-check">
+                        <input type="checkbox" id="checkbox8" class="form-check-input" value="option1">
+                        <label for="checkbox8" class="form-check-label">Remember me</label>
+                    </div>
+                </div>
+                <div class="col-auto mb-2">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+        <h4 class="mt-2">Inline forms:</h4>
+        <form class="form-inline">
+            <label for="name1" class="sr-only">Name</label>
+            <input type="text" id="name1" class="form-control mb-2 mr-sm-2" placeholder="John Doe">
+
+            <label for="username1" class="sr-only">Username</label>
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">@</div>
+                </div>
+                <input type="text" id="username1" class="form-control" placeholder="Username">
+            </div>
+            <div class="form-check mb-2 mr-sm-2">
+                <input type="checkbox" id="checkbox9" class="form-check-input" value="option1">
+                <label for="checkbox9" class="form-check-label">Remember me</label>
+            </div>
+            <button type="button" class="btn btn-primary mb-2">Submit</button>
+        </form>
+
+        <h2 class="mt-4">Help text:</h2>
+        <h4 class="mt-2">Help text below control:</h4>
+        <form>
+            <label for="password4">Password</label>
+            <input type="password" id="password4" class="form-control" aria-describedby="helpText1">
+            <small class="form-text text-muted" id="helpText1">
+                Your password must be 8-20 characters long, contain letters and numbers, and
+                must not contain spaces, special characters, or emoji.
+            </small>
+        </form>
+        <h4 class="mt-2">Inline help text:</h4>
+        <form class="form-inline">
+            <label for="password5" class="mb-2 mr-sm-2">Password</label>
+            <input type="password" id="password5" class="form-control mb-2 mr-sm-2"
+                   aria-describedby="helpText2">
+            <small class="text-muted mb-2" id="helpText2">
+                Must be 8-20 characters long.
+            </small>
+        </form>
+
+        <h2 class="mt-4">Disabled forms</h2>
+        <h4 class="mt-2">Disabling single control:</h4>
+        <form>
+            <div class="form-group">
+                <label for="emailAddress5">Email address</label>
+                <input type="email" id="emailAddress5" class="form-control"
+                       placeholder="mickey.mouse@disney.com" disabled>
+            </div>
+            <div class="form-group">
+                <label for="password6">Password</label>
+                <input type="text" id="password6" class="form-control" placeholder="Password">
+            </div>
+        </form>
+        <h4 class="mt-2">Disabling all controls within fieldset:</h4>
+        <form>
+            <fieldset disabled>
+                <div class="form-group">
+                    <label for="emailAddress6">Email address</label>
+                    <input type="email" id="emailAddress6" class="form-control"
+                           placeholder="disabled email field" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="password7">Password</label>
+                    <input type="text" id="password7" class="form-control"
+                           placeholder="disabled password field">
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" id="checkbox10" class="form-check-input">
+                        <label for="checkbox10" class="form-check-label">Disabled checkbox</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Disabled button</button>
+            </fieldset>
+        </form>
+
+        <h2 class="mt-4">Custom forms</h2>
+        <h4 class="mt-2">Checkboxes:</h4>
+        <form>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="checkbox11">
+                <label class="custom-control-label" for="checkbox11">
+                    Check this custom checkbox
+                </label>
+            </div>
+        </form>
+        <h4 class="mt-2">Radios:</h4>
+        <form>
+            <div class="custom-control custom-radio">
+                <input type="radio" id="radio10" name="customRadio" class="custom-control-input">
+                <label class="custom-control-label" for="radio10">
+                    Toggle this custom radio
+                </label>
+            </div>
+            <div class="custom-control custom-radio">
+                <input type="radio" id="radio11" name="customRadio" class="custom-control-input">
+                <label class="custom-control-label" for="radio11">
+                    Or toggle this other custom radio
+                </label>
+            </div>
+        </form>
+        <h4 class="mt-2">Inline:</h4>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="radio12" name="customRadioInline1"
+                   class="custom-control-input">
+            <label class="custom-control-label" for="radio12">
+                Toggle this custom radio
+            </label>
+        </div>
+        <div class="custom-control custom-checkbox custom-control-inline">
+            <input type="checkbox" id="checkbox12" name="customRadioInline1"
+                   class="custom-control-input">
+            <label class="custom-control-label" for="checkbox12">
+                Check this custom checkbox
+            </label>
+        </div>
+        <h4 class="mt-2">Disabled:</h4>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="radio13" name="customRadioInline1"
+                   class="custom-control-input" disabled>
+            <label class="custom-control-label" for="radio13">
+                Toggle this custom radio
+            </label>
+        </div>
+        <div class="custom-control custom-checkbox custom-control-inline">
+            <input type="checkbox" id="checkbox13" name="customRadioInline1"
+                   class="custom-control-input" disabled>
+            <label class="custom-control-label" for="checkbox13">
+                Check this custom checkbox
+            </label>
+        </div>
+        <h4 class="mt-2">Switches:</h4>
+        <form>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="switch1">
+                <label class="custom-control-label" for="switch1">
+                    Custom switch
+                </label>
+            </div>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="switch2">
+                <label class="custom-control-label" for="switch2">
+                    Another custom switch
+                </label>
+            </div>
+        </form>
+        <h4 class="mt-2">Select menu (custom select):</h4>
+        <form>
+            <div class="form-group">
+                <label for="select2">Custom select</label>
+                <select class="custom-select" id="select2">
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select class="custom-select custom-select-lg" id="select3">
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select class="custom-select custom-select-sm" id="select4">
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="select5">Multiple and size attributes</label>
+                <select class="custom-select" id="select5" size="3" multiple>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                    <option value="4">Four</option>
+                    <option value="5">Five</option>
+                </select>
+            </div>
+        </form>
+        <h4 class="mt-2">Range:</h4>
+        <form>
+            <div class="form-group">
+                <label for="rangeCtrl2">Default custom range:</label>
+                <input type="range" class="custom-range" id="rangeCtrl2">
+            </div>
+            <div class="form-group">
+                <label for="rangeCtrl3">Custom range with min=0, max=5 and step=0.5:</label>
+                <input type="range" class="custom-range" id="rangeCtrl3" min="0" max="5" step="0.5">
+            </div>
+        </form>
+        <h4 class="mt-2">File browser:</h4>
+        <form>
+            <div class="custom-file mb-3">
+                <input type="file" class="custom-file-input" id="fileInput2">
+                <label class="custom-file-label" for="fileInput2">Choose file</label>
+            </div>
+            <div class="form-group">
+                <label class="mb-n2">Customize file picker strings with HTML</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="fileInput3">
+                    <label class="custom-file-label" for="fileInput3"
+                           data-browse="Pick file">Select a file to upload...</label>
+                </div>
+            </div>
+        </form>
+
+        <!-- JavaScript that will display the name of the selected file in the custom
+             file picker label. -->
+        <script>
+            (function () {
+                window.addEventListener("load", function () {
+                    const customFilePickerElems = document.getElementsByClassName("custom-file-input");
+                    Array.prototype.forEach.call(customFilePickerElems, function (filePickerElem) {
+                        filePickerElem.addEventListener("change", function (event) {
+                            const selectedFilename = event.target.files[0].name;
+                            event.target.nextElementSibling.innerText = selectedFilename;
+                        })
+                    });
+                });
+            })();
+        </script>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+</body>
+</html>

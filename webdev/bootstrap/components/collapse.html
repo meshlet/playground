@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Collapse</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        div.container-fluid > h2, div.container-fluid > h4 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <h2>
+            <a href="https://getbootstrap.com/docs/4.4/components/collapse/" class="text-break">
+                https://getbootstrap.com/docs/4.4/components/collapse/
+            </a>
+        </h2>
+        <h2 class="mt-2">Single collapse target:</h2>
+        <p>
+            <a class="btn btn-primary btn-lg" href="#collapse1" data-toggle="collapse" role="button"
+               aria-expanded="false" aria-controls="collapse1">
+                Anchor with href
+            </a>
+            <button type="button" class="btn btn-primary btn-lg" data-target="#collapse1"
+                    data-toggle="collapse" aria-expanded="false" aria-controls="collapse1">
+                Button with data-target
+            </button>
+        </p>
+        <div class="collapse" id="collapse1">
+            <div class="card card-body">
+                Text text text text text text text text text text text text text text text
+                text text text text text text text text text text text text text text text
+                Text text text text text text text text text text text text text text text
+                text text text text text text text text text text text text text text text
+            </div>
+        </div>
+
+        <h2 class="mt-4">Multiple collapse targets:</h2>
+        <p>
+            <a class="btn btn-primary btn-lg" href="#collapse2" data-toggle="collapse" role="button"
+               aria-expanded="false" aria-controls="collapse2">
+                Toggle first element
+            </a>
+            <button type="button" class="btn btn-primary btn-lg" data-target="#collapse3"
+                    data-toggle="collapse" aria-expanded="false" aria-controls="collapse3">
+                Toggle second element
+            </button>
+            <!-- Note that this button toggles all elements with 'multi-collapse' class (
+                 in this case the two elements just below). -->
+            <button type="button" class="btn btn-primary btn-lg" data-target=".multi-collapse"
+                    data-toggle="collapse" aria-expanded="false" aria-controls="collapse2 collapse3">
+                Toggle both elements
+            </button>
+        </p>
+        <div class="row">
+            <div class="col">
+                <div class="collapse multi-collapse" id="collapse2">
+                    <div class="card">
+                        <div class="card-body">
+                            Text text text text text text text text text text text text text text text
+                            text text text text text text text text text text text text text text text
+                            Text text text text text text text text text text text text text text text
+                            text text text text text text text text text text text text text text text
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="collapse multi-collapse" id="collapse3">
+                    <div class="card">
+                        <div class="card-body">
+                            Text text text text text text text text text text text text text text text
+                            text text text text text text text text text text text text text text text
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Accordion example:</h2>
+        <div class="accordion" id="accordionParent">
+            <div class="card">
+                <div class="card-header" id="header1">
+                    <button type="button" class="btn btn-link btn-lg" data-target="#collapse4"
+                            data-toggle="collapse" aria-expanded="true" aria-controls="collapse4">
+                        Collapsible Item #1
+                    </button>
+                </div>
+                <!-- data-parent="..." makes sure that all collapsible items within the
+                     specified parent element are closed when this element is expanded.
+                     'show' class expands this element by default. -->
+                <div class="collapse show" id="collapse4" data-parent="#accordionParent"
+                     aria-labelledby="header1">
+                    <div class="card-body">
+                        Text text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text text
+                        Text text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text text
+                        Text text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text text
+                        Text text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text text
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="header2">
+                    <button type="button" class="btn btn-link btn-lg" data-target="#collapse5"
+                            data-toggle="collapse" aria-expanded="false" aria-controls="collapse5">
+                        Collapsible Item #2
+                    </button>
+                </div>
+                <div class="collapse" id="collapse5" data-parent="#accordionParent" aria-labelledby="header2">
+                    <div class="card-body">
+                        Text text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text text
+                        Text text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text text
+                        Text text text text text text text text text text text text text text text
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="header3">
+                    <button type="button" class="btn btn-link btn-lg" data-target="#collapse6"
+                            data-toggle="collapse" aria-expanded="false" aria-controls="collapse6">
+                        Collapsible Item #3
+                    </button>
+                </div>
+                <div class="collapse" id="collapse6" data-parent="#accordionParent" aria-labelledby="header3">
+                    <div class="card-body">
+                        Text text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text text
+                        Text text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text text
+                        Text text text text text text text text text text text text text text text
+                        Text text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text text
+                        Text text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text text
+                        Text text text text text text text text text text text text text text text
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+</body>
+</html>

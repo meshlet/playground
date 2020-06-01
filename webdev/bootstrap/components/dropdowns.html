@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Dropdown</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        div.container-fluid > h2, div.container-fluid > h4 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <h2>
+            <a href="https://getbootstrap.com/docs/4.4/components/dropdowns/" class="text-break">
+                https://getbootstrap.com/docs/4.4/components/dropdowns/
+            </a>
+        </h2>
+        <h2 class="mt-2">Single button dropdown:</h2>
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle btn-lg" id="dropdownBtn1"
+                    data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                Dropdown button
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownBtn1">
+                <a href="#" class="dropdown-item">Action 1</a>
+                <a href="#" class="dropdown-item">Action 2</a>
+                <a href="#" class="dropdown-item">Action 3</a>
+            </div>
+        </div>
+        <div class="dropdown mt-2">
+            <a href="#" class="btn btn-primary dropdown-toggle btn-lg" id="dropdownBtn2"
+               data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                Dropdown link
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownBtn2">
+                <a href="#" class="dropdown-item">Action 1</a>
+                <a href="#" class="dropdown-item">Action 2</a>
+                <a href="#" class="dropdown-item">Action 3</a>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Split button dropdown:</h2>
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with split dropdown buttons">
+            <div class="btn-group mr-2">
+                <button type="button" class="btn btn-primary btn-lg">Primary</button>
+                <button type="button" class="btn btn-primary btn-lg dropdown-toggle dropdown-toggle-split"
+                        id="dropdownBtn3" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownBtn3">
+                    <a href="#" class="dropdown-item">Action 1</a>
+                    <a href="#" class="dropdown-item">Action 2</a>
+                    <a href="#" class="dropdown-item">Action 3</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">Action 4</a>
+                </div>
+            </div>
+            <div class="btn-group mr-2">
+                <button type="button" class="btn btn-secondary btn-lg">Secondary</button>
+                <button type="button" class="btn btn-secondary btn-lg dropdown-toggle dropdown-toggle-split"
+                        id="dropdownBtn4" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownBtn4">
+                    <a href="#" class="dropdown-item">Action 1</a>
+                    <a href="#" class="dropdown-item">Action 2</a>
+                    <a href="#" class="dropdown-item">Action 3</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">Action 4</a>
+                </div>
+            </div>
+            <div class="btn-group mr-2">
+                <button type="button" class="btn btn-success btn-lg">Success</button>
+                <button type="button" class="btn btn-success btn-lg dropdown-toggle dropdown-toggle-split"
+                        id="dropdownBtn5" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownBtn5">
+                    <a href="#" class="dropdown-item">Action 1</a>
+                    <a href="#" class="dropdown-item">Action 2</a>
+                    <a href="#" class="dropdown-item">Action 3</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">Action 4</a>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-info btn-lg">Info</button>
+                <button type="button" class="btn btn-info btn-lg dropdown-toggle dropdown-toggle-split"
+                        id="dropdownBtn6" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownBtn6">
+                    <a href="#" class="dropdown-item">Action 1</a>
+                    <a href="#" class="dropdown-item">Action 2</a>
+                    <a href="#" class="dropdown-item">Action 3</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">Action 4</a>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Dropdown button sizing:</h2>
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with large dropdown buttons">
+            <div class="btn-group mr-2">
+                <button type="button" class="btn btn-danger btn-lg dropdown-toggle"
+                        id="dropdownBtn7" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                    Large button
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownBtn7">
+                    <a href="#" class="dropdown-item">Action 1</a>
+                    <a href="#" class="dropdown-item">Action 2</a>
+                    <a href="#" class="dropdown-item">Action 3</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">Action 4</a>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-warning btn-lg">Large split button</button>
+                <button type="button" class="btn btn-warning btn-lg dropdown-toggle dropdown-toggle-split"
+                        id="dropdownBtn8" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownBtn8">
+                    <a href="#" class="dropdown-item">Action 1</a>
+                    <a href="#" class="dropdown-item">Action 2</a>
+                    <a href="#" class="dropdown-item">Action 3</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">Action 4</a>
+                </div>
+            </div>
+        </div>
+        <div class="btn-toolbar mt-2" role="toolbar" aria-label="Toolbar with large dropdown buttons">
+            <div class="btn-group mr-2">
+                <button type="button" class="btn btn-danger btn-sm dropdown-toggle"
+                        id="dropdownBtn9" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                    Small button
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownBtn9">
+                    <a href="#" class="dropdown-item">Action 1</a>
+                    <a href="#" class="dropdown-item">Action 2</a>
+                    <a href="#" class="dropdown-item">Action 3</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">Action 4</a>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-warning btn-sm">Small split button</button>
+                <button type="button" class="btn btn-warning btn-sm dropdown-toggle dropdown-toggle-split"
+                        id="dropdownBtn10" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownBtn10">
+                    <a href="#" class="dropdown-item">Action 1</a>
+                    <a href="#" class="dropdown-item">Action 2</a>
+                    <a href="#" class="dropdown-item">Action 3</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">Action 4</a>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Dropdown directions</h2>
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with dropdown buttons">
+            <div class="btn-group dropup mr-2" title="Menu appears above dropdown button">
+                <button type="button" class="btn btn-danger btn-lg dropdown-toggle"
+                        id="dropdownBtn11" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                    Dropup
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownBtn11">
+                    <a href="#" class="dropdown-item">Action 1</a>
+                    <a href="#" class="dropdown-item">Action 2</a>
+                    <a href="#" class="dropdown-item">Action 3</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">Action 4</a>
+                </div>
+            </div>
+            <div class="btn-group dropright mr-2">
+                <button type="button" class="btn btn-warning btn-lg"
+                        title="Menu appears to the right of the drop down button">
+                    Dropright
+                </button>
+                <button type="button" class="btn btn-warning btn-lg dropdown-toggle dropdown-toggle-split"
+                        id="dropdownBtn12" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true"
+                        title="Menu appears to the right of the drop down button">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownBtn12">
+                    <a href="#" class="dropdown-item">Action 1</a>
+                    <a href="#" class="dropdown-item">Action 2</a>
+                    <a href="#" class="dropdown-item">Action 3</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">Action 4</a>
+                </div>
+            </div>
+            <div class="btn-group dropleft" title="Menu appears to the left of the dropdown button">
+                <button type="button" class="btn btn-danger btn-lg dropdown-toggle"
+                        id="dropdownBtn13" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                    Dropleft
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownBtn13">
+                    <a href="#" class="dropdown-item">Action 1</a>
+                    <a href="#" class="dropdown-item">Action 2</a>
+                    <a href="#" class="dropdown-item">Action 3</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">Action 4</a>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Menu items</h2>
+        <h4 class="mt-2">Using buttons as dropdown items:</h4>
+        <div class="btn-group dropup">
+            <button type="button" class="btn btn-warning btn-lg">Dropdown button</button>
+            <button type="button" class="btn btn-warning btn-lg dropdown-toggle dropdown-toggle-split"
+                    id="dropdownBtn14" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownBtn14">
+                <button type="button" class="dropdown-item">Action 1</button>
+                <button type="button" class="dropdown-item">Action 2</button>
+                <button type="button" class="dropdown-item">Action 3</button>
+            </div>
+        </div>
+        <h4 class="mt-2">Non-interactive dropdown items:</h4>
+        <div class="dropdown">
+            <div class="dropdown-menu show">
+                <span class="dropdown-item-text">Dropdown item text</span>
+                <a href="#" class="dropdown-item">Action 1</a>
+                <a href="#" class="dropdown-item">Action 2</a>
+                <a href="#" class="dropdown-item">Action 3</a>
+            </div>
+        </div>
+        <h4 style="margin-top: 165px;">Active dropdown items:</h4>
+        <div class="dropdown">
+            <div class="dropdown-menu show">
+                <a href="#" class="dropdown-item">Action 1</a>
+                <a href="#" class="dropdown-item active">Action 2</a>
+                <a href="#" class="dropdown-item">Action 3</a>
+            </div>
+        </div>
+        <h4 style="margin-top: 135px;">Disabled dropdown items:</h4>
+        <div class="dropdown">
+            <div class="dropdown-menu show">
+                <a href="#" class="dropdown-item">Action 1</a>
+                <a href="#" class="dropdown-item disabled">Action 2</a>
+                <a href="#" class="dropdown-item">Action 3</a>
+            </div>
+        </div>
+
+        <h2 style="margin-top: 135px;">Dropdown menu alignment</h2>
+        <h4 class="mt-2">Left and right aligned dropdowns:</h4>
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar containing dropdown buttons">
+            <div class="btn-group mr-2 mb-2">
+                <button type="button" class="btn btn-warning btn-lg dropdown-toggle"
+                        id="dropdownBtn15" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                    Left-aligned dropdown (default)
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownBtn15">
+                    <button type="button" class="dropdown-item">Action 1</button>
+                    <button type="button" class="dropdown-item">Action 2</button>
+                    <button type="button" class="dropdown-item">Action 3</button>
+                </div>
+            </div>
+            <div class="btn-group mb-2">
+                <button type="button" class="btn btn-warning btn-lg dropdown-toggle"
+                        id="dropdownBtn16" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                    Right-aligned dropdown
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownBtn16">
+                    <button type="button" class="dropdown-item">Action 1</button>
+                    <button type="button" class="dropdown-item">Action 2</button>
+                    <button type="button" class="dropdown-item">Action 3</button>
+                </div>
+            </div>
+        </div>
+        <h4>Responsive alignment:</h4>
+        <div class="btn-group">
+            <button type="button" class="btn btn-success btn-lg dropdown-toggle" data-display="static"
+                    id="dropdownBtn17" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                Left-aligned but right aligned when >= large screen
+            </button>
+            <div class="dropdown-menu dropdown-menu-lg-right"
+                 aria-labelledby="dropdownBtn17">
+                <button type="button" class="dropdown-item">Action 1</button>
+                <button type="button" class="dropdown-item">Action 2</button>
+                <button type="button" class="dropdown-item">Action 3</button>
+            </div>
+        </div>
+        <br>
+        <div class="btn-group mt-2">
+            <button type="button" class="btn btn-success btn-lg dropdown-toggle" data-display="static"
+                    id="dropdownBtn18" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                Right-aligned but left aligned when >= large screen
+            </button>
+            <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left"
+                 aria-labelledby="dropdownBtn18">
+                <button type="button" class="dropdown-item">Action 1</button>
+                <button type="button" class="dropdown-item">Action 2</button>
+                <button type="button" class="dropdown-item">Action 3</button>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Menu content</h2>
+        <h4 class="mt-2">Headers:</h4>
+        <div class="dropdown">
+            <div class="dropdown-menu show">
+                <h5 class="dropdown-header">Dropdown header</h5>
+                <a href="#" class="dropdown-item">Action 1</a>
+                <a href="#" class="dropdown-item">Action 2</a>
+            </div>
+        </div>
+        <h4 style="margin-top: 130px;">Dividers:</h4>
+        <div class="dropdown">
+            <div class="dropdown-menu show">
+                <a href="#" class="dropdown-item">Action 1</a>
+                <a href="#" class="dropdown-item">Action 2</a>
+                <a href="#" class="dropdown-item">Action 3</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">Action 4</a>
+            </div>
+        </div>
+        <h4 style="margin-top: 180px;">Text within dropdown:</h4>
+        <div class="dropdown">
+            <div class="dropdown-menu show p-4 text-muted" style="max-width: 250px;">
+                <p>
+                    Free-floating text within the dropdown. As dropdown width
+                    is limited by max-width:250px, this text will wrap.
+                </p>
+                <p class="mb-0">
+                    Another paragraph of text within the dropdown.
+                </p>
+            </div>
+        </div>
+        <h4 style="margin-top: 250px;">Form within dropdown:</h4>
+        <div class="dropdown">
+            <div class="dropdown-menu show">
+                <form class="px-4 py-3">
+                    <div class="form-group">
+                        <label for="emailAddress">Email address:</label>
+                        <input type="email" class="form-control" id="emailAddress"
+                               name="emailAddress" placeholder="email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control" id="password"
+                               name="password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberCheck"
+                                   name="rememberMe">
+                            <label for="rememberCheck" class="form-check-label">
+                                Remember me
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                </form>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                    Don't have a profile? Sign up
+                </a>
+                <a href="#" class="dropdown-item">
+                    Forgot password?
+                </a>
+            </div>
+        </div>
+
+        <h2 style="margin-top: 400px;">Dropdown options</h2>
+        <h4 class="mt-2">Offset (data-offset):</h4>
+        <div class="dropdown">
+            <!-- data-offset="a,b" means that dropdown menu will offset by a pixels
+                 on x-axis and b pixels on y-axis relative to the dropdown button
+                 point from which the menu is positioned. For example, if menu is
+                 positioned relative to the left-bottom corner of the button, then
+                 (a,b) is applied to coordinates of that corner. -->
+            <button type="button" class="btn btn-primary dropdown-toggle btn-lg" id="dropdownBtn19"
+                    data-toggle="dropdown" data-offset="10,30" aria-expanded="false" aria-haspopup="true">
+                data-offset
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownBtn19">
+                <a href="#" class="dropdown-item">Action 1</a>
+                <a href="#" class="dropdown-item">Action 2</a>
+                <a href="#" class="dropdown-item">Action 3</a>
+            </div>
+        </div>
+        <h4 class="mt-2">Reference (data-reference):</h4>
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar containing dropdown buttons">
+            <div class="btn-group mr-2 mb-2">
+                <button type="button" class="btn btn-primary btn-lg"
+                        title="Menu rendered relative to the dropdown button">
+                    data-reference=toggle (default)
+                </button>
+                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split btn-lg"
+                        id="dropdownBtn20" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true"
+                        title="Menu rendered relative to the dropdown button">
+                    <span class="sr-only">Split dropdown button</span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownBtn20">
+                    <a href="#" class="dropdown-item">Action 1</a>
+                    <a href="#" class="dropdown-item">Action 2</a>
+                    <a href="#" class="dropdown-item">Action 3</a>
+                </div>
+            </div>
+            <div class="btn-group mb-2">
+                <button type="button" class="btn btn-primary btn-lg"
+                        title="Menu rendered relative to the menu's parent element">
+                    data-reference=parent
+                </button>
+                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split btn-lg"
+                        id="dropdownBtn21" data-toggle="dropdown" data-reference="parent"
+                        aria-expanded="false" aria-haspopup="true"
+                        title="Menu rendered relative to the menu's parent element">
+
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownBtn21">
+                    <a href="#" class="dropdown-item">Action 1</a>
+                    <a href="#" class="dropdown-item">Action 2</a>
+                    <a href="#" class="dropdown-item">Action 3</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+</body>
+</html>

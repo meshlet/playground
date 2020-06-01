@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Form Validation</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        div.container-fluid > h2, div.container-fluid > h4 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <h2>
+            <a href="https://getbootstrap.com/docs/4.4/components/forms/#validation" class="text-break">
+                https://getbootstrap.com/docs/4.4/components/forms/#validation
+            </a>
+        </h2>
+
+        <h2 class="mt-2">Custom styles</h2>
+        <form id="form1" novalidate>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="firstName1">First name</label>
+                    <input type="text" id="firstName1" class="form-control" placeholder="First name" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a first name.
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="lastName1">Lastname</label>
+                    <input type="text" id="lastName1" class="form-control" placeholder="Last name" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a last name.
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="username1">Username</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupPrepend1">@</span>
+                        </div>
+                        <input type="text" id="username1" class="form-control" placeholder="Username"
+                               aria-describedby="inputGroupPrepend1" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please choose a username.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-5">
+                    <label for="country1">Country</label>
+                    <select id="country1" name="country" class="custom-select" required>
+                        <option selected disabled value="">Choose...</option>
+                        <option>...</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a country.
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label for="city1">City</label>
+                    <select id="city1" name="city" class="custom-select" required>
+                        <option selected disabled value="">Choose...</option>
+                        <option>...</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a city.
+                    </div>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="zip1">ZIP</label>
+                    <input type="text" id="zip1" name="zip" class="form-control" placeholder="ZIP code"
+                           required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a ZIP code.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" id="checkbox1" class="form-check-input" value="" required>
+                    <label for="checkbox1" class="form-check-label">
+                        Agree to terms and conditions
+                    </label>
+                    <div class="invalid-feedback">
+                        You must agree before submitting.
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+        <script>
+            (function() {
+                window.addEventListener("load", function() {
+                    // Fetch the form element
+                    const form1 = document.getElementById("form1");
+
+                    form1.addEventListener("submit", function (event) {
+                        if (!form1.checkValidity()) {
+                            // Prevent the form submission and stop event propagation
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+
+                        // :valid and :invalid pseudo-classes are defined on the .was-validated
+                        // class so add it to the form to make sure that custom validation
+                        // styles are applied
+                        form1.classList.add("was-validated");
+                    });
+                });
+            })();
+        </script>
+
+        <h2 class="mt-4">Custom JavaScript validation</h2>
+        <form id="form2" novalidate>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="zip2">ZIP</label>
+                    <input type="text" id="zip2" name="zip" class="form-control" placeholder="ZIP code">
+                    <div class="invalid-feedback" id="zip2-invalid-feedback"></div>
+                </div>
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <label for="country2">Country</label>
+                    <select id="country2" name="country" class="custom-select">
+                        <option selected value="ch">Switzerland</option>
+                        <option value="fr">France</option>
+                        <option value="de">Germany</option>
+                        <option value="nl">Netherlands</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                </div>
+            </div>
+        </form>
+        <script>
+            (function () {
+                // For each country, defines the pattern that the ZIP has to follow
+                const zipConstraints = {
+                    ch : [
+                        /^(CH-)?\d{4}$/,
+                        "Switzerland ZIPs must have exactly 4 digits: e.g. CH-1950 or 1950"
+                    ],
+                    fr : [
+                        /^(F-)?\d{5}$/,
+                        "France ZIPs must have exactly 5 digits: e.g. F-75012 or 75012"
+                    ],
+                    de : [
+                        /^(D-)?\d{5}$/,
+                        "Germany ZIPs must have exactly 5 digits: e.g. D-12345 or 12345"
+                    ],
+                    nl : [/^(NL-)?\d{4}\s*([A-RT-Z][A-Z]|S[BCE-RT-Z])$/,
+                        "Netherlands ZIPs must have exactly 4 digits, followed by 2 letters except SA, SD and SS"
+                    ]
+                };
+
+                // Fetch the form element
+                const form2 = document.getElementById("form2");
+
+                // Get country HTML element
+                const countryElem = document.getElementById("country2");
+
+                // Get ZIP HTML element and its invalid feedback container
+                const zipElem = document.getElementById("zip2");
+                const zipInvalidFeedbackElem = document.getElementById("zip2-invalid-feedback");
+
+                // Function that validates the ZIP code
+                function validateZip() {
+                    // Get country id
+                    const country = countryElem.value;
+
+                    // Test specified ZIP code against the selected country
+                    // ZIP constraints
+                    if (zipConstraints[country][0].test(zipElem.value)) {
+                        // ZIP code is valid, signal this by passing empty string
+                        // to setCustomValidity function
+                        zipElem.setCustomValidity("");
+                    }
+                    else {
+                        // Set the error message in the element with 'invalid-feedback'
+                        // class which is displayed under the input control by Bootstrap
+                        zipInvalidFeedbackElem.innerHTML = zipConstraints[country][1];
+
+                        // ZIP code is invalid, set the error message
+                        zipElem.setCustomValidity(zipConstraints[country][1]);
+                    }
+
+                    // :valid and :invalid pseudo-classes are defined on the .was-validated
+                    // class so add it to the form to make sure that custom validation
+                    // styles are applied
+                    form2.classList.add("was-validated");
+                }
+
+                window.addEventListener("load", function () {
+                    form2.addEventListener("submit", function (event) {
+                        // Validate ZIP code
+                        validateZip();
+
+                        if (!form2.checkValidity()) {
+                            // Prevent the form submission and stop event propagation
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                    });
+
+                    // ZIP is also validated whenever a different country is
+                    // selected or ZIP is changed
+                    countryElem.addEventListener("change", validateZip);
+                    zipElem.addEventListener("input", validateZip);
+                });
+            })();
+        </script>
+
+        <h2 class="mt-4">Browser defaults</h2>
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="firstName2">First name</label>
+                    <input type="text" id="firstName2" class="form-control" placeholder="First name"
+                           name="firstName" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="lastName2">Lastname</label>
+                    <input type="text" id="lastName2" class="form-control" placeholder="Last name"
+                           name="lastName" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="username2">Username</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupPrepend2">@</span>
+                        </div>
+                        <input type="text" id="username2" class="form-control" placeholder="Username"
+                               name="username" aria-describedby="inputGroupPrepend2" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-5">
+                    <label for="country3">Country</label>
+                    <select id="country3" name="country" class="custom-select" required>
+                        <option selected disabled value="">Choose...</option>
+                        <option>...</option>
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <label for="city2">City</label>
+                    <select id="city2" name="city" class="custom-select" required>
+                        <option selected disabled value="">Choose...</option>
+                        <option>...</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="zip3">ZIP</label>
+                    <input type="text" id="zip3" name="zip" class="form-control" placeholder="ZIP code"
+                           required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" id="checkbox2" class="form-check-input" value="" required>
+                    <label for="checkbox2" class="form-check-label">
+                        Agree to terms and conditions
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+
+        <h2 class="mt-4">Style classes for server-side validation</h2>
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="firstName3">First name</label>
+                    <input type="text" id="firstName3" class="form-control is-valid"
+                           value="Mickey" placeholder="First name">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a first name.
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="lastName3">Last name</label>
+                    <input type="text" id="lastName3" class="form-control is-valid" value="Mouse"
+                           placeholder="Last name">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a last name.
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="username3">Username</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupPrepend3">@</span>
+                        </div>
+                        <input type="text" id="username3" class="form-control is-invalid"
+                               placeholder="Username" aria-describedby="inputGroupPrepend3">
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please choose a username.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-5">
+                    <label for="country4">Country</label>
+                    <select id="country4" name="country" class="custom-select is-invalid">
+                        <option selected disabled value="">Choose...</option>
+                        <option>...</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a country.
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label for="city3">City</label>
+                    <select id="city3" name="city" class="custom-select is-invalid">
+                        <option selected disabled value="">Choose...</option>
+                        <option>...</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a city.
+                    </div>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="zip4">ZIP</label>
+                    <input type="text" id="zip4" name="zip" class="form-control is-invalid"
+                           placeholder="ZIP code"
+                           required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a ZIP code.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" id="checkbox3" class="form-check-input is-validS" checked>
+                    <label for="checkbox3" class="form-check-label">
+                        Agree to terms and conditions
+                    </label>
+                    <div class="invalid-feedback">
+                        You must agree before submitting.
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+
+        <h2 class="mt-4">Supported elements</h2>
+        <form class="was-validated">
+            <div class="form-group">
+                <textarea class="form-control" placeholder="Required textarea" required></textarea>
+                <div class="invalid-feedback">
+                    Please enter a message to this textarea.
+                </div>
+            </div>
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox" id="checkbox4" class="custom-control-input" required>
+                <label for="checkbox4" class="custom-control-label">
+                    Check this custom checkbox
+                </label>
+                <div class="invalid-feedback">Invalid feedback text.</div>
+            </div>
+            <div class="custom-control custom-radio">
+                <input type="radio" id="radio1" class="custom-control-input" name="radio-buttons" required>
+                <label for="radio1" class="custom-control-label">
+                    Toggle this radio button.
+                </label>
+            </div>
+            <div class="custom-control custom-radio mb-3">
+                <input type="radio" id="radio2" class="custom-control-input" name="radio-buttons" required>
+                <label for="radio2" class="custom-control-label">
+                    Alternatively, toggle this radio button.
+                </label>
+                <div class="invalid-feedback">Toggle either of above radio buttons.</div>
+            </div>
+            <div class="form-group">
+                <select class="custom-select" required>
+                    <option selected value="">Select a country</option>
+                    <option value="ch">Switzerland</option>
+                    <option value="fr">France</option>
+                    <option value="de">Germany</option>
+                    <option value="nl">Netherlands</option>
+                </select>
+                <div class="invalid-feedback">Please select a country</div>
+            </div>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="fileInput1" required>
+                <label for="fileInput1" class="custom-file-label">Choose file...</label>
+                <div class="invalid-feedback">Please pick a file</div>
+            </div>
+
+            <h2 class="mt-4">Tooltips</h2>
+            <form class="was-validated">
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-4">
+                        <label for="firstName4">First name</label>
+                        <input type="text" id="firstName4" class="form-control" placeholder="First name" required>
+                        <div class="valid-tooltip">
+                            Looks good!
+                        </div>
+                        <div class="invalid-tooltip">
+                            Please provide a first name.
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="lastName4">Last name</label>
+                        <input type="text" id="lastName4" class="form-control" placeholder="Last name" required>
+                        <div class="valid-tooltip">
+                            Looks good!
+                        </div>
+                        <div class="invalid-tooltip">
+                            Please provide a last name.
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="username4">Username</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupPrepend4">@</span>
+                            </div>
+                            <input type="text" id="username4" class="form-control" placeholder="Username"
+                                   aria-describedby="inputGroupPrepend4" required>
+                            <div class="valid-tooltip">
+                                Looks good!
+                            </div>
+                            <div class="invalid-tooltip">
+                                Please choose a username.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row mb-4">
+                    <div class="form-group col-md-5">
+                        <label for="country5">Country</label>
+                        <select id="country5" name="country" class="custom-select" required>
+                            <option selected disabled value="">Choose...</option>
+                            <option>...</option>
+                        </select>
+                        <div class="invalid-tooltip">
+                            Please select a country.
+                        </div>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="city4">City</label>
+                        <select id="city4" name="city" class="custom-select" required>
+                            <option selected disabled value="">Choose...</option>
+                            <option>...</option>
+                        </select>
+                        <div class="invalid-tooltip">
+                            Please select a city.
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="zip5">ZIP</label>
+                        <input type="text" id="zip5" name="zip" class="form-control" placeholder="ZIP code"
+                               required>
+                        <div class="valid-tooltip">
+                            Looks good!
+                        </div>
+                        <div class="invalid-tooltip">
+                            Provide ZIP code.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" id="checkbox5" class="form-check-input" value="" required>
+                        <label for="checkbox5" class="form-check-label">
+                            Agree to terms and conditions
+                        </label>
+                        <div class="invalid-tooltip">
+                            You must agree before submitting.
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </form>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+</body>
+</html>
