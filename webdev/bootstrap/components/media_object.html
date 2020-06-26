@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Media Object</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        div.container-fluid > h2, div.container-fluid > h4 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <h2>
+            <a href="https://getbootstrap.com/docs/4.4/components/media-object/" class="text-break">
+                https://getbootstrap.com/docs/4.4/components/media-object/
+            </a>
+        </h2>
+
+        <h2 class="mt-2">Example:</h2>
+        <div class="media">
+            <!-- d-flex class is added to the image because some browsers
+                 like IE 10 and 11) don't treat inline elements as flexbox
+                 items which breaks the media object rendering. -->
+            <img src="../public/images/gray_64x64.png" class="d-flex mr-3" alt="Gray square">
+            <div class="media-body">
+                <h5 class="mt-0">Media object heading</h5>
+                <p>
+                    Text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                </p>
+            </div>
+        </div>
+
+        <h2 class="mt-2">Nesting:</h2>
+        <div class="media">
+            <img src="../public/images/gray_64x64.png" class="d-flex mr-3" alt="Gray square">
+            <div class="media-body">
+                <h5 class="mt-0">Media object heading</h5>
+                <p>
+                    Text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                </p>
+
+                <div class="media">
+                    <img src="../public/images/gray_64x64.png" class="d-flex mr-3" alt="Gray square">
+                    <div class="media-body">
+                        <h5 class="mt-0">Media object heading</h5>
+                        <p>
+                            Text text text text text text text text text text text text text text
+                            text text text text text text text text text text text text text text
+                            text text text text text text text text text text text text text text
+                            text text text text text text text text text text text text text text
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="mt-2">Alignment:</h2>
+        <div class="media mb-3">
+            <img src="../public/images/gray_64x64.png" class="d-flex mr-3" alt="Gray square">
+            <div class="media-body">
+                <h5 class="mt-0">Top aligned media (default, align-self-start)</h5>
+                <p class="mb-0">
+                    Text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                </p>
+            </div>
+        </div>
+        <div class="media mb-3">
+            <img src="../public/images/gray_64x64.png" class="align-self-center d-flex mr-3" alt="Gray square">
+            <div class="media-body">
+                <h5 class="mt-0">Center aligned media (align-self-center)</h5>
+                <p class="mb-0">
+                    Text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                </p>
+            </div>
+        </div>
+        <div class="media">
+            <img src="../public/images/gray_64x64.png" class="align-self-end d-flex mr-3" alt="Gray square">
+            <div class="media-body">
+                <h5 class="mt-0">Bottom aligned media (align-self-end)</h5>
+                <p class="mb-0">
+                    Text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                </p>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Order:</h2>
+        <div class="media">
+            <div class="media-body">
+                <h5 class="mt-0">Media object</h5>
+                <p>
+                    Text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text
+                </p>
+            </div>
+            <img src="../public/images/gray_64x64.png" class="d-flex ml-3" alt="Gray square">
+        </div>
+
+        <h2 class="mt-2">Media list:</h2>
+        <ul class="list-unstyled">
+            <li class="media">
+                <img src="../public/images/gray_64x64.png" class="d-flex mr-3" alt="Gray square">
+                <div class="media-body">
+                    <h5 class="mt-0">List-based media object</h5>
+                    <p class="mb-0">
+                        Text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                    </p>
+                </div>
+            </li>
+            <li class="media my-3">
+                <img src="../public/images/gray_64x64.png" class="d-flex mr-3" alt="Gray square">
+                <div class="media-body">
+                    <h5 class="mt-0">List-based media object</h5>
+                    <p class="mb-0">
+                        Text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                    </p>
+                </div>
+            </li>
+            <li class="media">
+                <img src="../public/images/gray_64x64.png" class="d-flex mr-3" alt="Gray square">
+                <div class="media-body">
+                    <h5 class="mt-0">List-based media object</h5>
+                    <p class="mb-0">
+                        Text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous">
+    </script>
+</body>
+</html>

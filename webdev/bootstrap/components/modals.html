@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Modals</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        .light-grid-col {
+            background-color: lightgray;
+            border: 1px solid black;
+        }
+
+        .dark-grid-col {
+            background-color: darkgray;
+            border:  1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h2>
+        <a href="https://getbootstrap.com/docs/4.4/components/modal/" class="text-break">
+            https://getbootstrap.com/docs/4.4/components/modal/
+        </a>
+    </h2>
+
+    <h2 class="mt-2">Modal components</h2>
+    <!-- position and display are override to make the modal static (i.e. it
+         will appear by default) -->
+    <div class="modal mt-n4" tabindex="-1" role="dialog" style="position: static; display: block;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mt-4">Live demo</h2>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal1">
+        Show modal window
+    </button>
+    <!-- The 'fade' style makes the modal fade-in when appearing and fade-out
+         when it is closed -->
+    <div id="modal1" class="modal fade" tabindex="-1" role="dialog"
+         aria-labelledby="modal1-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal1-label">Modal Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mt-4">Static backdrop (modal not closing on click outside the modal)</h2>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal2">
+        Show static backdrop modal
+    </button>
+    <div id="modal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal2-label"
+         aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal2-label">Modal Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mt-4">Scrolling</h2>
+    <h4 class="mt-2">Default behavior (modal has no scrollbars):</h4>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal3">
+        Show modal with long body
+    </button>
+    <div id="modal3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal3-label"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal3-label">Modal Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h4 class="mt-2">Scrollbars added to the modal window:</h4>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal4">
+        Show modal with long body and scrollbars
+    </button>
+    <div id="modal4" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal4-label"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal4-label">Modal Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                        text text text text text text text text text text text text text text.
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mt-4">Vertically centered modal</h2>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal5">
+        Show vertically centered modal
+    </button>
+    <div id="modal5" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal5-label"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal5-label">Modal Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>
+                        Here goes the modal body. Text text text text text text text text text
+                        text text text text text text text text text text text text text text
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mt-4">Modals with tooltips and popovers</h2>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal6">
+        Show modal with tooltips and popovers
+    </button>
+    <div id="modal6" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal6-label"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal6-label">Modal Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <h5>Popover in a modal</h5>
+                    <p>
+                        This <button type="button" class="btn btn-secondary" title="Popover title"
+                                data-toggle="popover" data-content="This is content of the popover"
+                                >button</button>
+                        triggers a popover.
+                    </p>
+                    <h5>Tooltip in a modal</h5>
+                    <p>
+                        <a href="#" data-toggle="tooltip" title="Tooltip">This link</a> and
+                        &nbsp;<a href="#" data-toggle="tooltip" title="Tooltip">this link</a> have tooltips!
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mt-4">Using the grid within modal body</h2>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal7">
+        Show modal whose body uses the grid
+    </button>
+    <div id="modal7" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal7-label"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal7-label">Modal Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-4 px-4 py-3 light-grid-col">
+                                col-md-4
+                            </div>
+                            <div class="col-md-4 ml-auto px-4 py-3 light-grid-col">
+                                col-md-4 ml-auto
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-5 ml-auto px-4 py-3 light-grid-col">
+                                col-md-5 ml-auto
+                            </div>
+                            <div class="col-md-3 ml-auto px-4 py-3 light-grid-col">
+                                col-md-3 ml-auto
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-9 px-4 py-3 light-grid-col">
+                                Level 1: col-sm-9
+                                <div class="row">
+                                    <div class="col-8 col-sm-6 px-3 py-3 dark-grid-col">
+                                        Level 2: col-8 col-sm-6
+                                    </div>
+                                    <div class="col-4 col-sm-6 px-3 py-3 dark-grid-col">
+                                        Level 2: col-4 col-sm-6
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mt-4">Varying modal content</h2>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal8"
+            data-custom="@mickey.mouse">
+        Open modal for @mickey.mouse
+    </button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal8"
+            data-custom="@bruce.wayne">
+        Open modal for @bruce.wayne
+    </button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal8"
+            data-custom="@clark.kent">
+        Open modal for @clark.kent
+    </button>
+    <div id="modal8" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal8-label"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal8-label">New message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="recipient" class="col-form-label">Recipient:</label>
+                            <input type="text" class="form-control" id="recipient">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Message:</label>
+                            <textarea class="form-control" id="message-text"></textarea>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Send message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.addEventListener("load", function() {
+            $("#modal8").on("show.bs.modal", function(event) {
+                // Get the button that triggered the modal
+                const btn = $(event.relatedTarget);
+
+                // Extract data from the data-custom attribute
+                const recipient = btn.data("custom");
+
+                // Get the modal element
+                console.log(this);
+                const modal = $(this);
+                console.log(modal);
+
+                // Set the modal title according to the button's data-custom attribute
+                modal.find(".modal-title").text("New message to " + recipient);
+
+                // Set the text input value according to the buttons' data-custom attribute
+                modal.find(".modal-body input").val(recipient);
+            });
+        });
+    </script>
+
+    <h2 class="mt-4">Dynamic height modal</h2>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal9">
+        Show dynamic height modal
+    </button>
+    <div id="modal9" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal9-label"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal9-label">Modal Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div id="modal9-body" class="modal-body">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="add-paragraph-btn" type="button" class="btn btn-primary">Add paragraph</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.addEventListener("load", function () {
+            $("#add-paragraph-btn").on("click", function () {
+                // Create new paragraph element
+                const p = document.createElement("p");
+                p.innerHTML =
+                    "Text text text text text text text text text text text text text text" +
+                    "text text text text text text text text text text text text text text";
+
+                // Append it to the modal's body
+                $("#modal9-body").append(p);
+
+                // The modal's height could've changed as a result
+                $("#modal9").modal("handleUpdate");
+            });
+        });
+    </script>
+
+    <h2 class="mt-4">Modal sizes (resize the browser window for effect)</h2>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal10">
+        Show extra large modal
+    </button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal11">
+        Show large modal
+    </button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal12">
+        Show default-size modal
+    </button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal13">
+        Show small modal
+    </button>
+    <div id="modal10" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal10-label"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal10-label">Modal Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    Text text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text text
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal11" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal11-label"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal11-label">Modal Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    Text text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text text
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal12" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal12-label"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal12-label">Modal Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    Text text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text text
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal13" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal13-label"
+         aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal13-label">Modal Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    Text text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text text
+                    text text text text text text text text text text text text text text text
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous">
+    </script>
+    <script>
+        window.addEventListener("load", function() {
+            // Initialize all popovers and tooltips in the page
+            $('[data-toggle="popover"]').popover();
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+</body>
+</html>
