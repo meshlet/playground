@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Navbar</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        div.container-fluid > h2, div.container-fluid > h4 {
+            font-weight: bold;
+        }
+
+        iframe {
+            height: 150px;
+            width: 100%;
+            border: 1px solid gray;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <h2>
+            <a href="https://getbootstrap.com/docs/4.4/components/navbar/" class="text-break">
+                https://getbootstrap.com/docs/4.4/components/navbar/
+            </a>
+        </h2>
+
+        <h2 class="mt-4">Brand (.navbar-brand)</h2>
+        <nav class="navbar bg-light">
+            <a href="javascript:void(0)" class="navbar-brand">Navbar</a>
+        </nav>
+        <nav class="navbar navbar-light bg-light mt-2">
+            <span class="navbar-brand h1">Navbar</span>
+        </nav>
+        <h4 class="mt-2"> Navbar brand with images</h4>
+        <nav class="navbar navbar-light bg-light">
+            <a href="javascript:void(0)" class="navbar-brand">
+               <img src="../public/images/bootstrap.svg" width="30" height="30" alt="Bootstrap logo">
+            </a>
+        </nav>
+        <nav class="navbar navbar-light bg-light mt-2">
+            <a href="javascript:void(0)" class="navbar-brand">
+                <img src="../public/images/bootstrap.svg" width="30" height="30"
+                     alt="Bootstrap logo" class="d-inline-block align-top">
+                Bootstrap
+            </a>
+        </nav>
+
+        <h2 class="mt-4">Nav (.navbar-nav)</h2>
+        <!-- .navbar-expand-lg will expand the navbar horizontally once LG -->
+        <!-- viewport size is reached. .navbar-expand-* classes cause the navigation -->
+        <!-- menu items to be horizontally stacked, without these classes the menu -->
+        <!-- items are vertically stacked. -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a href="javascript:void(0)" class="navbar-brand">
+                <img src="../public/images/bootstrap.svg" width="30" height="30"
+                     alt="Bootstrap logo" class="d-inline-block align-top">
+            </a>
+
+            <!-- The button used to show/hide the navigation menu when it is not expanded. -->
+            <!-- If the navigation menu is expanded this button is not shown. -->
+            <button type="button" class="navbar-toggler" data-toggle="collapse"
+                    data-target="#navbarNav1" aria-controls="navbarNav1" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- The collapse element that is shown/hidden by the button above -->
+            <div class="collapse navbar-collapse" id="navbarNav1">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a href="javascript:void(0)" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="nav-link">Documentation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="nav-link">Examples</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="nav-link">Guides</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="nav-link">Blog</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <h4 class="mt-2">Same like above but replacing &lt;ul&gt; with &lt;div&gt;</h4>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a href="javascript:void(0)" class="navbar-brand">
+                <img src="../public/images/bootstrap.svg" width="30" height="30"
+                     alt="Bootstrap logo" class="d-inline-block align-top">
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse"
+                    data-target="#navbarNav2" aria-controls="navbarNav2" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav2">
+                <div class="navbar-nav">
+                    <a href="javascript:void(0)" class="nav-item nav-link active">Home</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Documentation</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Examples</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Guides</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Blog</a>
+                </div>
+            </div>
+        </nav>
+
+        <h2 class="mt-4">Nav with dropdown</h2>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a href="javascript:void(0)" class="navbar-brand">
+                <img src="../public/images/bootstrap.svg" width="30" height="30"
+                     alt="Bootstrap logo" class="d-inline-block align-top">
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse"
+                    data-target="#navbarNav3" aria-controls="navbarNav3" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav3">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a href="javascript:void(0)" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="nav-link">Documentation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="nav-link">Examples</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="nav-link">Guides</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="javascript:void(0)" class="nav-link dropdown-toggle" id="dropdownLink1"
+                           role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Versions
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownLink1">
+                            <a href="javascript:void(0)" class="dropdown-item">Menu item 1</a>
+                            <a href="javascript:void(0)" class="dropdown-item">Menu item 2</a>
+                            <a href="javascript:void(0)" class="dropdown-item">Menu item 3</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <h2 class="mt-4">Using forms within navbar</h2>
+        <nav class="navbar navbar-light bg-light">
+            <!-- Using .form-inline as we want all form controls in a single row -->
+            <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search phrase"
+                       aria-label="Search">
+                <button type="submit" class="btn btn-outline-success mt-2 mt-sm-0">Search</button>
+            </form>
+        </nav>
+        <!-- Immediate children of .navbar container use flex layout and will -->
+        <!-- default to justify-content:space-between -->
+        <h4 class="mt-2">Navbar content uses justify-content-between by default</h4>
+        <nav class="navbar navbar-light bg-light">
+            <a href="javascript:void(0)" class="navbar-brand">Navbar</a>
+            <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search phrase"
+                       aria-label="Search">
+                <button type="submit" class="btn btn-outline-success mt-2 mt-sm-0">Search</button>
+            </form>
+        </nav>
+        <h4 class="mt-2">Using justify-content-end for navbar content</h4>
+        <nav class="navbar navbar-light bg-light justify-content-end">
+            <a href="javascript:void(0)" class="navbar-brand">Navbar</a>
+            <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search phrase"
+                       aria-label="Search">
+                <button type="submit" class="btn btn-outline-success mt-2 mt-sm-0">Search</button>
+            </form>
+        </nav>
+        <h4 class="mt-2">Input groups</h4>
+        <nav class="navbar navbar-light bg-light">
+            <form class="form-inline">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputPrepend1">@</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Username"
+                           aria-label="Username" aria-describedby="inputPrepend1">
+                </div>
+            </form>
+        </nav>
+        <h4 class="mt-2">Differently sized buttons</h4>
+        <!-- Note the usage of flex utilities for vertical alignment which are used -->
+        <!-- to align buttons of different height vertically -->
+        <nav class="navbar navbar-light bg-light">
+            <form class="form-inline">
+                <button type="button" class="btn btn-lg btn-outline-danger">Large size</button>
+                <button type="button" class="btn btn-outline-success align-self-start">Default size</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary align-self-start">
+                    Small size
+                </button>
+            </form>
+        </nav>
+
+        <h2 class="mt-4">Text within navbar</h2>
+        <nav class="navbar navbar-light bg-light">
+            <span class="navbar-text">
+                Some text within the navbar
+            </span>
+        </nav>
+        <h4 class="mt-2">A more complex navbar with text</h4>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a href="javascript:void(0)" class="navbar-brand">Navbar w/ text</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse"
+                    data-target="#navbarNav4" aria-controls="navbarNav4" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav4">
+                <div class="navbar-nav">
+                    <a href="javascript:void(0)" class="nav-item nav-link active">Home</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Documentation</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Examples</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Guides</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Blog</a>
+                </div>
+                <span class="navbar-text">
+                    Some text within an inline element
+                </span>
+            </div>
+        </nav>
+
+        <h2 class="mt-4">Color schemes</h2>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a href="javascript:void(0)" class="navbar-brand">Navbar</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse"
+                    data-target="#navbarNav6" aria-controls="navbarNav6" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav6">
+                <!-- .mr-auto aligns the following form element to the right edge -->
+                <div class="navbar-nav mr-auto">
+                    <a href="javascript:void(0)" class="nav-item nav-link active">Home</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Documentation</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Examples</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Guides</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Blog</a>
+                </div>
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search phrase"
+                           aria-label="Search">
+                    <button type="submit" class="btn btn-outline-info mt-2 mt-sm-0">Search</button>
+                </form>
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary mt-2">
+            <a href="javascript:void(0)" class="navbar-brand">Navbar</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse"
+                    data-target="#navbarNav7" aria-controls="navbarNav7" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav7">
+                <div class="navbar-nav mr-auto">
+                    <a href="javascript:void(0)" class="nav-item nav-link active">Home</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Documentation</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Examples</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Guides</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Blog</a>
+                </div>
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search phrase"
+                           aria-label="Search">
+                    <button type="submit" class="btn btn-outline-light mt-2 mt-sm-0">Search</button>
+                </form>
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand-lg navbar-light mt-2" style="background-color: #e3f2fd;">
+            <a href="javascript:void(0)" class="navbar-brand">Navbar</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse"
+                    data-target="#navbarNav8" aria-controls="navbarNav8" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav8">
+                <div class="navbar-nav mr-auto">
+                    <a href="javascript:void(0)" class="nav-item nav-link active">Home</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Documentation</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Examples</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Guides</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Blog</a>
+                </div>
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search phrase"
+                           aria-label="Search">
+                    <button type="submit" class="btn btn-outline-primary mt-2 mt-sm-0">Search</button>
+                </form>
+            </div>
+        </nav>
+
+        <h2 class="mt-4">Containers</h2>
+        <h4 class="mt-2">Navbar within .container</h4>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <a class="navbar-brand" href="javascript:void(0)">Navbar</a>
+            </nav>
+        </div>
+        <h4 class="mt-2">Container within the navbar</h4>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="javascript:void(0)">Navbar</a>
+            </div>
+        </nav>
+
+        <h2 class="mt-4">Navbar placement</h2>
+        <h4 class="mt-2">Default (scroll the iframe to see effect)</h4>
+        <iframe src="navbar-default-placement.html"></iframe>
+        <h4 class="mt-2">Fixed top (scroll the iframe to see effect)</h4>
+        <iframe src="navbar-fixedtop-placement.html"></iframe>
+        <h4 class="mt-2">Fixed bottom (scroll the iframe to see effect)</h4>
+        <iframe src="navbar-fixedbottom-placement.html"></iframe>
+        <h4 class="mt-2">Sticky top (scroll the iframe to see effect)</h4>
+        <iframe src="navbar-stickytop-placement.html"></iframe>
+
+        <h2 class="mt-4">Responsive behaviors</h2>
+        <h4 class="mt-2">Brand shown in lowest breakpoint (toggler positioned far right)</h4>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a href="javascript:void(0)" class="navbar-brand">Navbar</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse"
+                    data-target="#navbarNav9" aria-controls="navbarNav9" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav9">
+                <div class="navbar-nav mr-auto">
+                    <a href="javascript:void(0)" class="nav-item nav-link active">Home</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Documentation</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Examples</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Guides</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Blog</a>
+                </div>
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search phrase"
+                           aria-label="Search">
+                    <button type="submit" class="btn btn-outline-info mt-2 mt-sm-0">Search</button>
+                </form>
+            </div>
+        </nav>
+        <h4 class="mt-2">Brand positioned far left and toggler far right</h4>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <button type="button" class="navbar-toggler" data-toggle="collapse"
+                    data-target="#navbarNav10" aria-controls="navbarNav10" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav10">
+                <a href="javascript:void(0)" class="navbar-brand">Navbar</a>
+                <div class="navbar-nav mr-auto">
+                    <a href="javascript:void(0)" class="nav-item nav-link active">Home</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Documentation</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Examples</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Guides</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Blog</a>
+                </div>
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search phrase"
+                           aria-label="Search">
+                    <button type="submit" class="btn btn-outline-info mt-2 mt-sm-0">Search</button>
+                </form>
+            </div>
+        </nav>
+        <h4 class="mt-2">Toggler positioned far left and brand far right</h4>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <button type="button" class="navbar-toggler" data-toggle="collapse"
+                    data-target="#navbarNav11" aria-controls="navbarNav11" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a href="javascript:void(0)" class="navbar-brand">Navbar</a>
+            <div class="collapse navbar-collapse" id="navbarNav11">
+                <div class="navbar-nav mr-auto">
+                    <a href="javascript:void(0)" class="nav-item nav-link active">Home</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Documentation</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Examples</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Guides</a>
+                    <a href="javascript:void(0)" class="nav-item nav-link">Blog</a>
+                </div>
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search phrase"
+                           aria-label="Search">
+                    <button type="submit" class="btn btn-outline-info mt-2 mt-sm-0">Search</button>
+                </form>
+            </div>
+        </nav>
+        <h4 class="mt-2">Using toggler to show collapsible page content</h4>
+        <div>
+            <div class="collapse" id="collapsibleDiv">
+                <div class="bg-dark p-4">
+                    <h5 class="text-white h4">Collapsed content</h5>
+                    <span class="text-muted">Toggleable with a navbar toggler </span>
+                </div>
+            </div>
+            <nav class="navbar navbar-dark bg-dark">
+                <button type="button" class="navbar-toggler" data-toggle="collapse"
+                        data-target="#collapsibleDiv" aria-controls="collapsibleDiv" aria-expanded="false"
+                        aria-label="Show collapsible div">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous">
+    </script>
+</body>
+</html>

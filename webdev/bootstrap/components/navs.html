@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Navs</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        div.container-fluid > h2, div.container-fluid > h4 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <h2>
+            <a href="https://getbootstrap.com/docs/4.4/components/navs/" class="text-break">
+                https://getbootstrap.com/docs/4.4/components/navs/
+            </a>
+        </h2>
+
+        <h2 class="mt-4">Nav using &lt;ul&gt;</h2>
+        <ul class="nav">
+            <li class="nav-item">
+                <a href="javascript:void(0)" class="nav-link active">Active</a>
+            </li>
+            <li class="nav-item">
+                <a href="javascript:void(0)" class="nav-link">Item 2</a>
+            </li>
+            <li class="nav-item">
+                <a href="javascript:void(0)" class="nav-link active">Item 3</a>
+            </li>
+            <li class="nav-item">
+                <a href="#javascript:void(0)" class="nav-link disabled" tabindex="-1"
+                   aria-disabled="true">Disabled</a>
+            </li>
+        </ul>
+
+        <h2 class="mt-4">Nav using &lt;nav&gt; element</h2>
+        <nav class="nav">
+            <a href="javascript:void(0)" class="nav-link active">Active</a>
+            <a href="javascript:void(0)" class="nav-link">Item 2</a>
+            <a href="javascript:void(0)" class="nav-link">Item 3</a>
+            <a href="javascript:void(0)" class="nav-link disabled" tabindex="-1"
+               aria-disabled="true">Disabled</a>
+        </nav>
+
+        <h2 class="mt-4">Horizontal alignment</h2>
+        <nav class="nav">
+            <a href="javascript:void(0)" class="nav-link active">Active</a>
+            <a href="javascript:void(0)" class="nav-link">Item 2</a>
+            <a href="javascript:void(0)" class="nav-link">Item 3</a>
+            <a href="javascript:void(0)" class="nav-link disabled" tabindex="-1"
+               aria-disabled="true">Disabled</a>
+        </nav>
+        <nav class="nav justify-content-center">
+            <a href="javascript:void(0)" class="nav-link active">Active</a>
+            <a href="javascript:void(0)" class="nav-link">Item 2</a>
+            <a href="javascript:void(0)" class="nav-link">Item 3</a>
+            <a href="javascript:void(0)" class="nav-link disabled" tabindex="-1"
+               aria-disabled="true">Disabled</a>
+        </nav>
+        <nav class="nav justify-content-end">
+            <a href="javascript:void(0)" class="nav-link active">Active</a>
+            <a href="javascript:void(0)" class="nav-link">Item 2</a>
+            <a href="javascript:void(0)" class="nav-link">Item 3</a>
+            <a href="javascript:void(0)" class="nav-link disabled" tabindex="-1"
+               aria-disabled="true">Disabled</a>
+        </nav>
+
+        <h2 class="mt-4">Vertical nav</h2>
+        <nav class="nav flex-column">
+            <a href="javascript:void(0)" class="nav-link active">Active</a>
+            <a href="javascript:void(0)" class="nav-link">Item 2</a>
+            <a href="javascript:void(0)" class="nav-link">Item 3</a>
+            <a href="javascript:void(0)" class="nav-link disabled" tabindex="-1"
+               aria-disabled="true">Disabled</a>
+        </nav>
+
+        <h2 class="mt-4">Vertical nav for SM and MD, horizontal for larger viewports</h2>
+        <nav class="nav flex-column flex-lg-row">
+            <a href="javascript:void(0)" class="nav-link active">Active</a>
+            <a href="javascript:void(0)" class="nav-link">Item 2</a>
+            <a href="javascript:void(0)" class="nav-link">Item 3</a>
+            <a href="javascript:void(0)" class="nav-link disabled" tabindex="-1"
+               aria-disabled="true">Disabled</a>
+        </nav>
+
+        <h2 class="mt-4">Tabs</h2>
+        <nav class="nav nav-tabs">
+            <a href="javascript:void(0)" class="nav-link active">Active</a>
+            <a href="javascript:void(0)" class="nav-link">Item 2</a>
+            <a href="javascript:void(0)" class="nav-link">Item 3</a>
+            <a href="javascript:void(0)" class="nav-link disabled" tabindex="-1"
+               aria-disabled="true">Disabled</a>
+        </nav>
+
+        <h2 class="mt-4">Pills</h2>
+        <nav class="nav nav-pills">
+            <a href="javascript:void(0)" class="nav-link active">Active</a>
+            <a href="javascript:void(0)" class="nav-link">Item 2</a>
+            <a href="javascript:void(0)" class="nav-link">Item 3</a>
+            <a href="javascript:void(0)" class="nav-link disabled" tabindex="-1"
+               aria-disabled="true">Disabled</a>
+        </nav>
+
+        <h2 class="mt-4">Use .nav-fill to extend nav to entire available width</h2>
+        <!-- Note that while nav-fill extends the nav to entire available width, -->
+        <!-- individual nav items may have different widths. -->
+        <!-- Also note that when <nav> element is used with .nav-fill class, the -->
+        <!-- .nav-item class must be added to <a> nav links -->
+        <nav class="nav nav-pills nav-fill">
+            <a href="javascript:void(0)" class="nav-item nav-link active">Active</a>
+            <a href="javascript:void(0)" class="nav-item nav-link">Much longer nav link</a>
+            <a href="javascript:void(0)" class="nav-item nav-link">Link</a>
+            <a href="javascript:void(0)" class="nav-item nav-link disabled" tabindex="-1"
+               aria-disabled="true">Disabled</a>
+        </nav>
+
+        <h2 class="mt-4">
+            Use .nav-justified to extend nav to full width and make all nav items have equal width
+        </h2>
+        <!-- .nav-justified is similar to .nav-fill, but will make sure that all nav items -->
+        <!-- have the same width -->
+        <nav class="nav nav-pills nav-justified">
+            <a href="javascript:void(0)" class="nav-item nav-link active">Active</a>
+            <a href="javascript:void(0)" class="nav-item nav-link">Much longer nav link</a>
+            <a href="javascript:void(0)" class="nav-item nav-link">Link</a>
+            <a href="javascript:void(0)" class="nav-item nav-link disabled" tabindex="-1"
+               aria-disabled="true">Disabled</a>
+        </nav>
+
+        <h2 class="mt-4">Flex utilities (resize window for responsive effect)</h2>
+        <nav class="nav nav-pills flex-column flex-md-row">
+            <a href="javascript:void(0)" class="flex-md-fill text-md-center nav-link active">Active</a>
+            <a href="javascript:void(0)" class="flex-md-fill text-md-center nav-link">Much longer nav link</a>
+            <a href="javascript:void(0)" class="flex-md-fill text-md-center nav-link">Link</a>
+            <a href="javascript:void(0)" class="flex-md-fill text-md-center nav-link disabled" tabindex="-1"
+               aria-disabled="true">Disabled</a>
+        </nav>
+
+        <h2 class="mt-4">Tabs with dropdown</h2>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a href="javascript:void(0)" class="nav-link active">Active</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                   role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                <div class="dropdown-menu">
+                    <a href="javascript:void(0)" class="dropdown-item">Menu item 1</a>
+                    <a href="javascript:void(0)" class="dropdown-item">Menu item 2</a>
+                    <a href="javascript:void(0)" class="dropdown-item">Menu item 3</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="javascript:void(0)" class="dropdown-item">Menu item 4</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a href="javascript:void(0)" class="nav-link">Link</a>
+            </li>
+            <li class="nav-item">
+                <a href="javascript:void(0)" class="nav-link disabled">Disabled</a>
+            </li>
+        </ul>
+
+        <h2 class="mt-4">Pills with dropdown</h2>
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a href="javascript:void(0)" class="nav-link active">Active</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a href="javascript:void(0)" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                   role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                <div class="dropdown-menu">
+                    <a href="javascript:void(0)" class="dropdown-item">Menu item 1</a>
+                    <a href="javascript:void(0)" class="dropdown-item">Menu item 2</a>
+                    <a href="javascript:void(0)" class="dropdown-item">Menu item 3</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="javascript:void(0)" class="dropdown-item">Menu item 4</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a href="javascript:void(0)" class="nav-link">Link</a>
+            </li>
+            <li class="nav-item">
+                <a href="javascript:void(0)" class="nav-link disabled">Disabled</a>
+            </li>
+        </ul>
+
+        <h2 class="mt-4">Dynamic tabbed panes using tabs</h2>
+        <ul class="nav nav-tabs mb-3" role="tablist">
+            <li class="nav-item">
+                <a href="#home-1" id="home-tab-1" class="nav-link active"
+                   role="tab" data-toggle="tab" aria-controls="home-1" aria-selected="true">
+                    Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#profile-1" id="profile-tab-1" class="nav-link"
+                   role="tab" data-toggle="tab" aria-controls="profile-1" aria-selected="false">
+                    Profile
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#contact-1" id="contact-tab-1" class="nav-link"
+                   role="tab" data-toggle="tab" aria-controls="contact-1" aria-selected="false">
+                    Contact
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="home-1" role="tabpanel" aria-labelledby="home-tab-1">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
+            <div class="tab-pane fade" id="profile-1" role="tabpanel" aria-labelledby="profile-tab-1">
+                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
+                veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
+                ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
+                consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque
+                porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
+                adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore
+                et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis
+                nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid
+                ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea
+                voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem
+                eum fugiat quo voluptas nulla pariatur?
+            </div>
+            <div class="tab-pane fade" id="contact-1" role="tabpanel" aria-labelledby="contact-tab-1">
+                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+                praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                excepturi sint occaecati cupiditate non provident, similique sunt in culpa
+                qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum
+                quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta
+                nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat
+                facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.
+                Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus
+                saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
+                Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus
+                maiores alias consequatur aut perferendis doloribus asperiores repellat.
+            </div>
+        </div>
+
+        <h2 class="mt-4">Dynamic tabbed panes with horizontal pills</h2>
+        <ul class="nav nav-pills mb-3" role="tablist">
+            <li class="nav-item">
+                <a href="#home-2" id="home-tab-2" class="nav-link active"
+                   role="tab" data-toggle="pill" aria-controls="home-2" aria-selected="true">
+                    Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#profile-2" id="profile-tab-2" class="nav-link"
+                   role="tab" data-toggle="pill" aria-controls="profile-2" aria-selected="false">
+                    Profile
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#contact-2" id="contact-tab-2" class="nav-link"
+                   role="tab" data-toggle="pill" aria-controls="contact-2" aria-selected="false">
+                    Contact
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="home-2" role="tabpanel" aria-labelledby="home-tab-2">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
+            <div class="tab-pane fade" id="profile-2" role="tabpanel" aria-labelledby="profile-tab-2">
+                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
+                veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
+                ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
+                consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque
+                porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
+                adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore
+                et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis
+                nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid
+                ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea
+                voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem
+                eum fugiat quo voluptas nulla pariatur?
+            </div>
+            <div class="tab-pane fade" id="contact-2" role="tabpanel" aria-labelledby="contact-tab-2">
+                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+                praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                excepturi sint occaecati cupiditate non provident, similique sunt in culpa
+                qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum
+                quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta
+                nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat
+                facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.
+                Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus
+                saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
+                Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus
+                maiores alias consequatur aut perferendis doloribus asperiores repellat.
+            </div>
+        </div>
+
+        <h2 class="mt-4">Dynamic tabbed panes with vertical pills</h2>
+        <div class="row">
+            <div class="col-3">
+                <div class="nav nav-pills flex-column" role="tablist" aria-orientation="vertical">
+                    <a href="#home-3" id="home-tab-3" class="nav-link active"
+                       role="tab" data-toggle="pill" aria-controls="home-3" aria-selected="true">
+                        Home
+                    </a>
+                    <a href="#profile-3" id="profile-tab-3" class="nav-link"
+                       role="tab" data-toggle="pill" aria-controls="profile-3" aria-selected="false">
+                        Profile
+                    </a>
+                    <a href="#contact-3" id="contact-tab-3" class="nav-link"
+                       role="tab" data-toggle="pill" aria-controls="contact-3" aria-selected="false">
+                        Contact
+                    </a>
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="home-3" role="tabpanel"
+                         aria-labelledby="home-tab-3">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                        eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                        in culpa qui officia deserunt mollit anim id est laborum.
+                    </div>
+                    <div class="tab-pane fade" id="profile-3" role="tabpanel" aria-labelledby="profile-tab-3">
+                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                        doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
+                        veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
+                        ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
+                        consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque
+                        porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
+                        adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore
+                        et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis
+                        nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid
+                        ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea
+                        voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem
+                        eum fugiat quo voluptas nulla pariatur?
+                    </div>
+                    <div class="tab-pane fade" id="contact-3" role="tabpanel" aria-labelledby="contact-tab-3">
+                        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+                        praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                        excepturi sint occaecati cupiditate non provident, similique sunt in culpa
+                        qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum
+                        quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta
+                        nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat
+                        facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.
+                        Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus
+                        saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
+                        Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus
+                        maiores alias consequatur aut perferendis doloribus asperiores repellat.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous">
+    </script>
+</body>
+</html>
