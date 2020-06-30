@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Progress</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        div.container-fluid > h2, div.container-fluid > h4 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <h2>
+            <a href="https://getbootstrap.com/docs/4.4/components/scrollspy/" class="text-break">
+                https://getbootstrap.com/docs/4.4/components/scrollspy/
+            </a>
+        </h2>
+
+        <h2 class="mt-4">Example with navbar (scroll the area below navbar for effect)</h2>
+        <nav id="navbar1" class="navbar navbar-dark bg-dark">
+            <a class="navbar-brand" href="javascript:void(0)">Navbar</a>
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link" href="#item1">@item1</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#item2">@item2</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)"
+                       role="button" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="#menu-item-1" class="dropdown-item">Menu item 1</a>
+                        <a href="#menu-item-2" class="dropdown-item">Menu item 2</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#menu-item-3" class="dropdown-item">Menu item 3</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <!-- It is super sensitive on padding, margin and sizing -->
+        <div data-spy="scroll" data-target="#navbar1"
+             style="position: relative; height: 150px; margin-top: .5rem; overflow: auto;">
+            <h4 id="item1">Item 1</h4>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+            <h4 id="item2">Item 2</h4>
+            <p>
+                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
+                veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim
+                ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
+                consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque
+                porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
+                adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore
+                et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis
+                nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid
+                ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea
+                voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem
+                eum fugiat quo voluptas nulla pariatur?
+            </p>
+            <h4 id="menu-item-1">Menu Item 1</h4>
+            <p>
+                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+                praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                excepturi sint occaecati cupiditate non provident, similique sunt in culpa
+                qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum
+                quidem rerum facilis est et expedita distinctio.
+            </p>
+            <h4 id="menu-item-2">Menu Item 2</h4>
+            <p>
+                Nam libero tempore, cum soluta
+                nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat
+                facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.
+                Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus
+                saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
+                Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus
+                maiores alias consequatur aut perferendis doloribus asperiores repellat.
+            </p>
+            <h4 id="menu-item-3">Menu Item 3</h4>
+            <p>
+                Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
+                adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore
+                et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis
+                nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid
+                ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea
+                voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem
+                eum fugiat quo voluptas nulla pariatur?
+            </p>
+        </div>
+
+        <h2 class="mt-4">Example with nested nav</h2>
+        <div class="row">
+            <div class="col-4">
+                <nav id="navbar2" class="navbar navbar-light bg-light">
+                    <a class="navbar-brand" href="javascript:void(0)">Navbar</a>
+                    <nav class="nav nav-pills flex-column">
+                        <a class="nav-link" href="#item4">Item 1</a>
+                        <nav class="nav nav-pills flex-column">
+                            <a class="nav-link" href="#item4-1">Item 1-1</a>
+                            <a class="nav-link" href="#item4-2">Item 1-2</a>
+                        </nav>
+                        <a class="nav-link" href="#item5">Item 2</a>
+                        <a class="nav-link" href="#item6">Item 3</a>
+                        <nav class="nav nav-pills flex-column">
+                            <a class="nav-link" href="#item6-1">Item 3-1</a>
+                            <a class="nav-link" href="#item6-2">Item 3-2</a>
+                        </nav>
+                    </nav>
+                </nav>
+            </div>
+            <div class="col-8">
+                <div data-spy="scroll" data-target="#navbar2"
+                     style="position: relative; height: 350px; overflow: auto;">
+                    <h4 id="item4">Item 1</h4>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                        eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                        in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                    <h5 id="item4-1">Item 1-1</h5>
+                    <p>
+                        Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus
+                        saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
+                        Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus
+                        maiores alias consequatur aut perferendis doloribus asperiores repellat.
+                    </p>
+                    <h5 id="item4-2">Item 1-2</h5>
+                    <p>
+                        Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
+                        adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore
+                        et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis
+                        nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid
+                        ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea
+                        voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem
+                        eum fugiat quo voluptas nulla pariatur?
+                    </p>
+                    <h4 id="item5">Item 2</h4>
+                    <p>
+                        Quis magna Lorem anim amet ipsum do mollit sit cillum voluptate ex nulla tempor.
+                        Laborum consequat non elit enim exercitation cillum aliqua consequat id aliqua.
+                        Esse ex consectetur mollit voluptate est in duis laboris ad sit ipsum anim Lorem.
+                        Incididunt veniam velit elit elit veniam Lorem aliqua quis ullamco deserunt sit
+                        enim elit aliqua esse irure. Laborum nisi sit est tempor laborum mollit labore
+                        officia laborum excepteur commodo non commodo dolor excepteur commodo. Ipsum
+                        fugiat ex est consectetur ipsum commodo tempor sunt in proident.
+                    </p>
+                    <h4 id="item6">Item 3</h4>
+                    <p>
+                        Quis anim sit do amet fugiat dolor velit sit ea ea do reprehenderit culpa duis.
+                        Nostrud aliqua ipsum fugiat minim proident occaecat excepteur aliquip culpa
+                        aute tempor reprehenderit. Deserunt tempor mollit elit ex pariatur dolore velit
+                        fugiat mollit culpa irure ullamco est ex ullamco excepteur.
+                    </p>
+                    <h5 id="item6-1">Item 3-1</h5>
+                    <p>
+                        Deserunt quis elit Lorem eiusmod amet enim enim amet minim Lorem proident
+                        nostrud. Ea id dolore anim exercitation aute fugiat labore voluptate cillum do
+                        laboris labore. Ex velit exercitation nisi enim labore reprehenderit labore
+                        nostrud ut ut. Esse officia sunt duis aliquip ullamco tempor eiusmod deserunt
+                        irure nostrud irure. Ullamco proident veniam laboris ea consectetur magna sunt
+                        ex exercitation aliquip minim enim culpa occaecat exercitation. Est tempor
+                        excepteur aliquip laborum consequat do deserunt laborum esse eiusmod irure
+                        proident ipsum esse qui.
+                    </p>
+                    <h5 id="item6-2">Item 3-2</h5>
+                    <p>
+                        Labore sit culpa commodo elit adipisicing sit aliquip elit proident voluptate
+                        minim mollit nostrud aute reprehenderit do. Mollit excepteur eu Lorem ipsum
+                        anim commodo sint labore Lorem in exercitation velit incididunt. Occaecat
+                        consectetur nisi in occaecat proident minim enim sunt reprehenderit exercitation
+                        cupidatat et do officia. Aliquip consequat ad labore labore mollit ut amet.
+                        Sit pariatur tempor proident in veniam culpa aliqua excepteur elit magna
+                        fugiat eiusmod amet officia.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Example with list group</h2>
+        <div class="row">
+            <div class="col-4">
+                <div id="list-group-1" class="list-group">
+                    <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
+                    <a class="list-group-item list-group-item-action" href="#list-item-2">Item 2</a>
+                    <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
+                    <a class="list-group-item list-group-item-action" href="#list-item-4">Item 4</a>
+                </div>
+            </div>
+            <div class="col-8">
+                <div data-spy="scroll" data-offset="0" data-target="#list-group-1"
+                     style="position: relative; height: 200px; margin-top: .5rem; overflow: auto;">
+                    <h4 id="list-item-1">Item 1</h4>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+                        eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                        in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                    <h4 id="list-item-2">Item 2</h4>
+                    <p>
+                        Quis anim sit do amet fugiat dolor velit sit ea ea do reprehenderit culpa duis.
+                        Nostrud aliqua ipsum fugiat minim proident occaecat excepteur aliquip culpa
+                        aute tempor reprehenderit. Deserunt tempor mollit elit ex pariatur dolore velit
+                        fugiat mollit culpa irure ullamco est ex ullamco excepteur.
+                    </p>
+                    <h4 id="list-item-3">Item 3</h4>
+                    <p>
+                        Labore sit culpa commodo elit adipisicing sit aliquip elit proident voluptate
+                        minim mollit nostrud aute reprehenderit do. Mollit excepteur eu Lorem ipsum
+                        anim commodo sint labore Lorem in exercitation velit incididunt. Occaecat
+                        consectetur nisi in occaecat proident minim enim sunt reprehenderit exercitation
+                        cupidatat et do officia. Aliquip consequat ad labore labore mollit ut amet.
+                        Sit pariatur tempor proident in veniam culpa aliqua excepteur elit magna
+                        fugiat eiusmod amet officia.
+                    </p>
+                    <h4 id="list-item-4">Item 4</h4>
+                    <p>
+                        Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus
+                        saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
+                        Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus
+                        maiores alias consequatur aut perferendis doloribus asperiores repellat.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous">
+    </script>
+</body>
+</html>

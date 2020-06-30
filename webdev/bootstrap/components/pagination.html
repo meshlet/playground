@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Pagination</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        div.container-fluid > h2, div.container-fluid > h4 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <h2>
+            <a href="https://getbootstrap.com/docs/4.4/components/pagination/" class="text-break">
+                https://getbootstrap.com/docs/4.4/components/pagination/
+            </a>
+        </h2>
+
+        <h2 class="mt-4">Pagination example</h2>
+        <nav aria-label="Simple pagination example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">Previous</a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">1</a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">2</a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">3</a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+        <h2 class="mt-4">Symbols and icons</h2>
+        <nav aria-label="Simple pagination example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">1</a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">2</a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">3</a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <h2 class="mt-4">Disabled and active states</h2>
+        <nav aria-label="Simple pagination example">
+            <ul class="pagination">
+                <li class="page-item disabled">
+                    <a href="javascript:void(0)" class="page-link" aria-disabled="true" tabindex="-1">
+                        Previous
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">1</a>
+                </li>
+                <li class="page-item active">
+                    <a href="javascript:void(0)" class="page-link">
+                        2 <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">3</a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <h4 class="mt-2">Using &lt;span&gt; instead of &lt;a&gt; for active and disabled items</h4>
+        <!-- Note that in this example both disabled and active items are not clickable -->
+        <nav aria-label="Simple pagination example">
+            <ul class="pagination">
+                <li class="page-item disabled">
+                    <span class="page-link">
+                        Previous
+                    </span>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">1</a>
+                </li>
+                <li class="page-item active">
+                    <span class="page-link">
+                        2 <span class="sr-only">(current)</span>
+                    </span>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">3</a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <h2 class="mt-4">Sizing</h2>
+        <nav aria-label="Simple pagination example">
+            <ul class="pagination pagination-lg">
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link" tabindex="-1">
+                        Previous
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">1</a>
+                </li>
+                <li class="page-item active">
+                    <a href="javascript:void(0)" class="page-link">
+                        2 <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">3</a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <nav aria-label="Simple pagination example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link" tabindex="-1">
+                        Previous
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">1</a>
+                </li>
+                <li class="page-item active">
+                    <a href="javascript:void(0)" class="page-link">
+                        2 <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">3</a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <nav aria-label="Simple pagination example">
+            <ul class="pagination pagination-sm">
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link" tabindex="-1">
+                        Previous
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">1</a>
+                </li>
+                <li class="page-item active">
+                    <a href="javascript:void(0)" class="page-link">
+                        2 <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">3</a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <h2 class="mt-4">Alignment using flex utilities</h2>
+        <nav aria-label="Simple pagination example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link" tabindex="-1">
+                        Previous
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">1</a>
+                </li>
+                <li class="page-item active">
+                    <a href="javascript:void(0)" class="page-link">
+                        2 <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">3</a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <nav aria-label="Simple pagination example">
+            <ul class="pagination justify-content-end">
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link" tabindex="-1">
+                        Previous
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">1</a>
+                </li>
+                <li class="page-item active">
+                    <a href="javascript:void(0)" class="page-link">
+                        2 <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link">3</a>
+                </li>
+                <li class="page-item">
+                    <a href="javascript:void(0)" class="page-link" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous">
+    </script>
+</body>
+</html>

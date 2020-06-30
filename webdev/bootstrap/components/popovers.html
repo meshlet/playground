@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Popovers</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        div.container-fluid > h2, div.container-fluid > h4 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <h2>
+            <a href="https://getbootstrap.com/docs/4.4/components/popovers/" class="text-break">
+                https://getbootstrap.com/docs/4.4/components/popovers/
+            </a>
+        </h2>
+
+        <h2 class="mt-4">Enable all popovers on the page</h2>
+        <p>
+            $(function () {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;$('[data-toggle="popover"]').popover()<br>
+            })
+        </p>
+
+        <h2 class="mt-4">Simple example</h2>
+        <button type="button" class="btn btn-lg btn-primary" data-toggle="popover"
+                title="Popover title" data-content="And here's the super important popover content">
+            Click to toggle popover
+        </button>
+
+        <h2 class="mt-4">Four directions</h2>
+        <button type="button" class="btn btn-lg btn-primary" data-toggle="popover" data-placement="top"
+                title="Popover title" data-content="And here's the super important popover content">
+            Popover on top
+        </button>
+        <button type="button" class="btn btn-lg btn-primary" data-toggle="popover" data-placement="left"
+                title="Popover title" data-content="And here's the super important popover content">
+            Popover on left
+        </button>
+        <button type="button" class="btn btn-lg btn-primary" data-toggle="popover" data-placement="bottom"
+                title="Popover title" data-content="And here's the super important popover content">
+            Popover on bottom
+        </button>
+        <button type="button" class="btn btn-lg btn-primary" data-toggle="popover" data-placement="right"
+                title="Popover title" data-content="And here's the super important popover content">
+            Popover on right
+        </button>
+
+        <h2 class="mt-4">Dismiss on next click (can be outside the button)</h2>
+        <!-- For proper cross-browser support <a> must be used instead of <button> and tabindex -->
+        <!-- must be set. -->
+        <a href="javascript:void(0)" tabindex="0" class="btn btn-lg btn-danger" role="button"
+           data-toggle="popover" data-trigger="focus" title="Popover title"
+           data-content="This popover can be dismissed by clicking anywhere on the page">
+            Dismissible popover
+        </a>
+
+        <h2 class="mt-4">Popover with a disabled element</h2>
+        <div class="d-inline-block" data-toggle="popover"
+             data-content="This is a popover on a disabed element">
+            <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled>
+                Disabled button
+            </button>
+        </div>
+        <h4 class="mt-4">Similar to above but popover shown on hover</h4>
+        <div class="d-inline-block" data-toggle="popover" data-trigger="hover"
+             data-content="This is a popover on a disabed element">
+            <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled>
+                Disabled button
+            </button>
+        </div>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous">
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+    </script>
+</body>
+</html>
