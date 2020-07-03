@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Tooltips</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        div.container-fluid > h2, div.container-fluid > h4 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <h2>
+            <a href="https://getbootstrap.com/docs/4.4/components/tooltips/" class="text-break">
+                https://getbootstrap.com/docs/4.4/components/tooltips/
+            </a>
+        </h2>
+
+        <h2 class="mt-4">Enable all tooltips on the page:</h2>
+        <p>
+            $('[data-toggle="tooltip"]').tooltip();
+        </p>
+
+        <h2 class="mt-4">Examples</h2>
+        <h4 class="mt-2">However over links in the text below</h4>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            <a href="javascript:void(0)" data-toggle="tooltip" title="First tooltip">eiusmod tempor</a>
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+            <a href="javascript:void(0)" data-toggle="tooltip" title="Second tooltip">reprehenderit</a>
+            in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+            <a href="javascript:void(0)" data-toggle="tooltip" title="Third tooltip">occaecat</a>
+            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+        <h4 class="mt-2">Hover over the buttons</h4>
+        <button type="button" class="btn btn-lg btn-info" data-toggle="tooltip" title="Tooltip text">
+            Tooltip on top (default)
+        </button>
+        <button type="button" class="btn btn-lg btn-info" data-toggle="tooltip" data-placement="right"
+                title="Tooltip text">
+            Tooltip on right
+        </button>
+        <button type="button" class="btn btn-lg btn-info" data-toggle="tooltip" data-placement="bottom"
+                title="Tooltip text">
+            Tooltip on bottom
+        </button>
+        <button type="button" class="btn btn-lg btn-info" data-toggle="tooltip" data-placement="left"
+                title="Tooltip text">
+            Tooltip on left
+        </button>
+        <h4 class="mt-2">Tooltip with HTML (note data-html='true')</h4>
+        <button type="button" class="btn btn-lg btn-info" data-toggle="tooltip" data-html="true"
+                title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+            Tooltip with HTML
+        </button>
+
+        <h2 class="mt-4">Disabled elements (tooltip defined on disabled element's wrapper)</h2>
+        <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+              title="Tooltip on a disabled element">
+            <button type="button" class="btn btn-lg btn-info">
+            Disabled button
+        </button>
+        </span>
+
+        <h2 class="mt-4">Click trigger tooltip</h2>
+        <button type="button" class="btn btn-lg btn-info" data-toggle="tooltip" data-trigger="click"
+                title="Tooltip text">
+            Click to trigger tooltip
+        </button>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous">
+    </script>
+    <script>
+        window.addEventListener("load", function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+</body>
+</html>

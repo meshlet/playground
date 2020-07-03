@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Toasts</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        div.container-fluid > h2, div.container-fluid > h4 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <h2>
+            <a href="https://getbootstrap.com/docs/4.4/components/toasts/" class="text-break">
+                https://getbootstrap.com/docs/4.4/components/toasts/
+            </a>
+        </h2>
+
+        <h2 class="mt-4">Examples</h2>
+        <h4 class="mt-2">Basic</h4>
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+             data-autohide="false">
+            <div class="toast-header">
+                <img src="../public/images/bootstrap.svg" alt="Bootstrap icon"
+                     width="20" height="20" class="rounded mr-2">
+                <strong class="mr-auto">Bootstrap</strong>
+                <small>15 minutes ago</small>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                This is a super important message within toast's body
+            </div>
+        </div>
+        <h4 class="mt-2">Translucency (toasts blend with background)</h4>
+        <div class="bg-dark p-3">
+            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+                 data-autohide="false">
+                <div class="toast-header">
+                    <img src="../public/images/bootstrap.svg" alt="Bootstrap icon"
+                         width="20" height="20" class="rounded mr-2">
+                    <strong class="mr-auto">Bootstrap</strong>
+                    <small>15 minutes ago</small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    This is a super important message within toast's body
+                </div>
+            </div>
+        </div>
+        <h4 class="mt-2">Stacking</h4>
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+             data-autohide="false">
+            <div class="toast-header">
+                <img src="../public/images/bootstrap.svg" alt="Bootstrap icon"
+                     width="20" height="20" class="rounded mr-2">
+                <strong class="mr-auto">Bootstrap</strong>
+                <small>just now</small>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                This toast is on the top
+            </div>
+        </div>
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+             data-autohide="false">
+            <div class="toast-header">
+                <img src="../public/images/bootstrap.svg" alt="Bootstrap icon"
+                     width="20" height="20" class="rounded mr-2">
+                <strong class="mr-auto">Bootstrap</strong>
+                <small>4 minutes ago</small>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                This toast is on the bottom
+            </div>
+        </div>
+
+        <h2 class="mt-4">Placement</h2>
+        <h4 class="mt-2">Absolute positioning</h4>
+        <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 150px;"
+             class="bg-dark">
+            <div class="toast" role="alert" data-autohide="false"
+                 style="position: absolute; right: 15px; top: 15px;">
+                <div class="toast-header">
+                    <img src="../public/images/bootstrap.svg" alt="Bootstrap icon"
+                         width="20" height="20" class="rounded mr-2">
+                    <strong class="mr-auto">Bootstrap</strong>
+                    <small>4 minutes ago</small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    This is a very important toast message
+                </div>
+            </div>
+        </div>
+        <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 210px;"
+             class="bg-dark mt-2">
+            <!-- Use absolute position for the toast container, so that toasts themselves -->
+            <!-- can stack up within it without having to use absolute positioning -->
+            <div style="position: absolute; right: 15px; top: 15px;">
+                <div class="toast" role="alert" data-autohide="false" aria-live="assertive"
+                     aria-atomic="true">
+                    <div class="toast-header">
+                        <img src="../public/images/bootstrap.svg" alt="Bootstrap icon"
+                             width="20" height="20" class="rounded mr-2">
+                        <strong class="mr-auto">Bootstrap</strong>
+                        <small>just now</small>
+                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="toast-body">
+                        This is a very important toast message
+                    </div>
+                </div>
+                <div class="toast" role="alert" data-autohide="false" aria-live="assertive"
+                     aria-atomic="true">
+                    <div class="toast-header">
+                        <img src="../public/images/bootstrap.svg" alt="Bootstrap icon"
+                             width="20" height="20" class="rounded mr-2">
+                        <strong class="mr-auto">Bootstrap</strong>
+                        <small>6 minutes ago</small>
+                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="toast-body">
+                        This is another important toast message
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4 class="mt-2">Using flexbox utilities</h4>
+        <div class="d-flex justify-content-center align-items-center bg-dark" aria-live="polite"
+             aria-atomic="true" style="min-height: 200px;">
+            <!-- CSS min-width can be used to ensure toast's minimal width to prevent -->
+            <!-- it getting to narrow if body text is short -->
+            <div class="toast" role="alert" data-autohide="false" aria-live="assertive"
+                 aria-atomic="true" style="min-width: 280px;">
+                <div class="toast-header">
+                    <img src="../public/images/bootstrap.svg" alt="Bootstrap icon"
+                         width="20" height="20" class="rounded mr-2">
+                    <strong class="mr-auto">Bootstrap</strong>
+                    <small>6 minutes ago</small>
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body">
+                    Short toast message
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous">
+    </script>
+    <script>
+        window.addEventListener("load", function() {
+            $('.toast').toast('show');
+        });
+    </script>
+</body>
+</html>
