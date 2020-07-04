@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Display</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        div.container-fluid > h2, div.container-fluid > h4 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <h2>
+            <a href="https://getbootstrap.com/docs/4.4/utilities/display/" class="text-break">
+                https://getbootstrap.com/docs/4.4/utilities/display/
+            </a>
+        </h2>
+
+        <h2 class="mt-4">Examples</h2>
+        <div class="mt-3">
+            <div class="p-3 d-inline bg-info">.d-inline</div>
+            <div class="p-3 d-inline bg-success">.d-inline</div>
+        </div>
+        <div class="mt-4">
+            <div class="p-3 d-block bg-info">.d-block</div>
+            <div class="p-3 d-block bg-success">.d-block</div>
+        </div>
+
+        <h2 class="mt-4">Showing/hiding elements with d-* classes (resize window for effect)</h2>
+        <h4 class="mt-2">Hidden on all</h4>
+        <div class="p-3 bg-primary text-white d-none">
+            d-none
+        </div>
+        <h4 class="mt-2">Hidden only on XS</h4>
+        <div class="p-3 bg-primary text-white d-none d-sm-block">
+            d-none d-sm-block
+        </div>
+        <h4 class="mt-2">Hidden only on SM</h4>
+        <div class="mt-1 p-3 bg-primary text-white d-sm-none d-md-block">
+             d-sm-none d-md-block
+        </div>
+        <h4 class="mt-2">Hidden only on MD</h4>
+        <div class="mt-1 p-3 bg-primary text-white d-md-none d-lg-block">
+            d-md-none d-lg-block
+        </div>
+        <h4 class="mt-2">Hidden only on LG</h4>
+        <div class="mt-1 p-3 bg-primary text-white d-lg-none d-xl-block">
+            d-lg-none d-xl-block
+        </div>
+        <h4 class="mt-2">Hidden only on XL</h4>
+        <div class="mt-1 p-3 bg-primary text-white d-lg-block d-xl-none">
+            d-lg-block d-xl-none
+        </div>
+        <h4 class="mt-2">Visible on all</h4>
+        <div class="p-3 bg-primary text-white d-block">
+            d-block
+        </div>
+        <h4 class="mt-2">Visible only on XS</h4>
+        <div class="p-3 bg-primary text-white d-block d-sm-none">
+            d-block d-sm-none
+        </div>
+        <h4 class="mt-2">Visible only on SM</h4>
+        <div class="p-3 bg-primary text-white d-none d-sm-block d-md-none">
+            d-none d-sm-block d-md-none
+        </div>
+        <h4 class="mt-2">Visible only on MD</h4>
+        <div class="p-3 bg-primary text-white d-none d-md-block d-lg-none">
+            d-none d-md-block d-lg-none
+        </div>
+        <h4 class="mt-2">Visible only on LG</h4>
+        <div class="p-3 bg-primary text-white d-none d-lg-block d-xl-none">
+            d-none d-lg-block d-xl-none
+        </div>
+        <h4 class="mt-2">Visible only on XL</h4>
+        <div class="p-3 bg-primary text-white d-none d-xl-block">
+            d-none d-xl-block
+        </div>
+        <h4 class="mt-2">Hidden on LG and wider screens</h4>
+        <div class="p-3 bg-primary text-white d-lg-none">
+            d-lg-none
+        </div>
+        <h4 class="mt-2">Hidden on screens smaller than LG</h4>
+        <div class="p-3 bg-primary text-white d-none d-lg-block">
+            d-none d-lg-block
+        </div>
+
+        <h2 class="mt-4">Display in print (open print dialog)</h2>
+        <h4 class="mt-2">Screen only (hidden on print)</h4>
+        <div class="p-3 bg-primary text-white d-print-none">
+            d-print-none
+        </div>
+        <h4 class="mt-2">Print only</h4>
+        <div class="p-3 bg-primary text-white d-none d-print-block">
+            d-none d-print-block
+        </div>
+        <h4 class="mt-2">Hidden for screens smaller than LG, but visible on print</h4>
+        <div class="p-3 bg-primary text-white d-none d-lg-block d-print-block">
+            d-none d-lg-block d-print-block
+        </div>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous">
+    </script>
+</body>
+</html>

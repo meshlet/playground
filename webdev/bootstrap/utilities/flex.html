@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Flex Utils</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        div.container-fluid > h2, div.container-fluid > h4 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <h2>
+            <a href="https://getbootstrap.com/docs/4.4/utilities/flex/" class="text-break">
+                https://getbootstrap.com/docs/4.4/utilities/flex/
+            </a>
+        </h2>
+
+        <h2 class="mt-4">Enable flex behaviors</h2>
+        <div class="p-2 bg-info text-white d-flex">I'm a flex container</div>
+        <div class="p-2 mt-1 bg-info text-white d-inline-flex">I'm an inline flex container</div>
+        <div class="p-2 mt-1 bg-info text-white d-inline-flex d-md-flex">
+            I'm inline flex container up to MD, and regular flex container after
+        </div>
+
+        <h2 class="mt-4">Direction</h2>
+        <!-- flex-row is the default -->
+        <div class="bg-warning d-flex border border-dark flex-row">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark flex-row-reverse">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark flex-column">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark flex-column-reverse">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+        </div>
+        <h4 class="mt-2">
+            flex-row for XS and SM, flex-row-reverse for MD, and flex-column for LG and XL
+        </h4>
+        <div class="mt-2 bg-warning d-flex border border-dark flex-md-row-reverse flex-lg-column">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+        </div>
+
+        <h2 class="mt-4">Justify content (justify by x-axis, or y-axis if flex-column is used)</h2>
+        <div class="bg-warning d-flex border border-dark justify-content-start">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark justify-content-center">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark justify-content-end">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark justify-content-between">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark justify-content-around">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+        </div>
+        <h4 class="mt-2">
+            justify-center for XS and SM, justify-around for MD and LG, justify-end for XL
+        </h4>
+        <div class="mt-2 bg-warning d-flex border border-dark justify-content-center justify-content-md-around justify-content-xl-end">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+        </div>
+
+        <h2 class="mt-4">Align items (align by y-axis, or x-axis if flex-column is used)</h2>
+        <div class="bg-warning d-flex border border-dark align-items-start"
+             style="height: 120px;">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark align-items-center"
+             style="height: 120px;">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark align-items-end"
+             style="height: 120px;">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark align-items-baseline"
+             style="height: 120px;">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark align-items-stretch"
+             style="height: 120px;">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+        </div>
+        <h4 class="mt-2">Illustrates align-items with multiple rows of flex items</h4>
+        <div class="mt-2 bg-warning d-flex border border-dark align-items-start flex-wrap"
+             style="height: 250px;">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+            <div class="p-2 bg-success border border-dark">Flex item 4</div>
+            <div class="p-2 bg-success border border-dark">Flex item 5</div>
+            <div class="p-2 bg-success border border-dark">Flex item 6</div>
+            <div class="p-2 bg-success border border-dark">Flex item 7</div>
+            <div class="p-2 bg-success border border-dark">Flex item 8</div>
+            <div class="p-2 bg-success border border-dark">Flex item 9</div>
+            <div class="p-2 bg-success border border-dark">Flex item 10</div>
+            <div class="p-2 bg-success border border-dark">Flex item 11</div>
+            <div class="p-2 bg-success border border-dark">Flex item 12</div>
+            <div class="p-2 bg-success border border-dark">Flex item 13</div>
+            <div class="p-2 bg-success border border-dark">Flex item 14</div>
+            <div class="p-2 bg-success border border-dark">Flex item 15</div>
+            <div class="p-2 bg-success border border-dark">Flex item 16</div>
+            <div class="p-2 bg-success border border-dark">Flex item 17</div>
+            <div class="p-2 bg-success border border-dark">Flex item 18</div>
+            <div class="p-2 bg-success border border-dark">Flex item 19</div>
+        </div>
+
+        <h2 class="mt-4">
+            Align self (self align flex item on y-axis, or x-axis if flex-column is used
+        </h2>
+        <div class="bg-warning d-flex border border-dark"
+             style="height: 120px;">
+            <div class="p-2 bg-success border border-dark">Flex item</div>
+            <div class="p-2 bg-success border border-dark align-self-start">Self aligned</div>
+            <div class="p-2 bg-success border border-dark">Flex item</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark"
+             style="height: 120px;">
+            <div class="p-2 bg-success border border-dark">Flex item</div>
+            <div class="p-2 bg-success border border-dark align-self-center">Self aligned</div>
+            <div class="p-2 bg-success border border-dark">Flex item</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark"
+             style="height: 120px;">
+            <div class="p-2 bg-success border border-dark">Flex item</div>
+            <div class="p-2 bg-success border border-dark align-self-end">Self aligned</div>
+            <div class="p-2 bg-success border border-dark">Flex item</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark"
+             style="height: 120px;">
+            <div class="p-2 bg-success border border-dark">Flex item</div>
+            <div class="p-2 bg-success border border-dark align-self-baseline">Self aligned</div>
+            <div class="p-2 bg-success border border-dark">Flex item</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark"
+             style="height: 120px;">
+            <div class="p-2 bg-success border border-dark">Flex item</div>
+            <div class="p-2 bg-success border border-dark align-self-stretch">Self aligned</div>
+            <div class="p-2 bg-success border border-dark">Flex item</div>
+        </div>
+
+        <h2 class="mt-4">Flex fill</h2>
+        <div class="bg-warning d-flex border border-dark">
+            <div class="p-2 bg-success border border-dark flex-fill">Flex item with a lot of content</div>
+            <div class="p-2 bg-success border border-dark flex-fill">Flex item</div>
+            <div class="p-2 bg-success border border-dark flex-fill">Flex item</div>
+        </div>
+
+        <h2 class="mt-4">Flex grow</h2>
+        <div class="bg-warning d-flex border border-dark">
+            <div class="p-2 bg-success border border-dark flex-grow-1">Flex item</div>
+            <div class="p-2 bg-success border border-dark">Second flex item</div>
+            <div class="p-2 bg-success border border-dark">Third flex item</div>
+        </div>
+
+        <h2 class="mt-4">Flex shrink</h2>
+        <div class="bg-warning d-flex border border-dark">
+            <div class="p-2 bg-success border border-dark w-100">Flex item</div>
+            <div class="p-2 bg-success border border-dark flex-shrink-0">flex-shrink-0</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark">
+            <div class="p-2 bg-success border border-dark w-100">Flex item</div>
+            <div class="p-2 bg-success border border-dark flex-shrink-1">flex-shrink-1</div>
+        </div>
+
+        <h2 class="mt-4">Auto margins</h2>
+        <div class="bg-warning d-flex border border-dark">
+            <div class="p-2 bg-success border border-dark">First flex item</div>
+            <div class="p-2 bg-success border border-dark">Second flex item</div>
+            <div class="p-2 bg-success border border-dark">Third flex item</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark">
+            <div class="p-2 bg-success border border-dark mr-auto">Flex item with mr-auto</div>
+            <div class="p-2 bg-success border border-dark">Second flex item</div>
+            <div class="p-2 bg-success border border-dark">Third flex item</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark">
+            <div class="p-2 bg-success border border-dark">First flex item</div>
+            <div class="p-2 bg-success border border-dark">Second flex item</div>
+            <div class="p-2 bg-success border border-dark ml-auto">Flex item with ml-auto</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark align-items-start flex-column"
+             style="height: 200px;">
+            <div class="p-2 bg-success border border-dark mb-auto">First flex item</div>
+            <div class="p-2 bg-success border border-dark">Second flex item</div>
+            <div class="p-2 bg-success border border-dark">Third flex item</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark align-items-end flex-column"
+             style="height: 200px;">
+            <div class="p-2 bg-success border border-dark">First flex item</div>
+            <div class="p-2 bg-success border border-dark">Second flex item</div>
+            <div class="p-2 bg-success border border-dark mt-auto">Third flex item</div>
+        </div>
+
+        <h2 class="mt-4">Flex wrap</h2>
+        <h4 class="mt-2">No wrap</h4>
+        <div class="bg-warning d-flex border border-dark flex-nowrap" style="max-width: 300px;">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+            <div class="p-2 bg-success border border-dark">Flex item 4</div>
+            <div class="p-2 bg-success border border-dark">Flex item 5</div>
+            <div class="p-2 bg-success border border-dark">Flex item 6</div>
+        </div>
+        <h4 class="mt-2">Wrap</h4>
+        <div class="mt-2 bg-warning d-flex border border-dark flex-wrap" style="max-width: 300px;">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+            <div class="p-2 bg-success border border-dark">Flex item 4</div>
+            <div class="p-2 bg-success border border-dark">Flex item 5</div>
+            <div class="p-2 bg-success border border-dark">Flex item 6</div>
+            <div class="p-2 bg-success border border-dark">Flex item 7</div>
+        </div>
+        <h4 class="mt-2">Wrap reverse</h4>
+        <div class="mt-2 bg-warning d-flex border border-dark flex-wrap-reverse" style="max-width: 300px;">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+            <div class="p-2 bg-success border border-dark">Flex item 4</div>
+            <div class="p-2 bg-success border border-dark">Flex item 5</div>
+            <div class="p-2 bg-success border border-dark">Flex item 6</div>
+            <div class="p-2 bg-success border border-dark">Flex item 7</div>
+        </div>
+
+        <h2 class="mt-4">Order</h2>
+        <div class="bg-warning d-flex border border-dark">
+            <div class="p-2 bg-success border border-dark order-3">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark order-2">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark order-1">Flex item 3</div>
+        </div>
+
+        <h2 class="mt-4">Align content</h2>
+        <!-- What justify-content does for a single flex item horizontally, align-content -->
+        <!-- does for rows of flex items vertically. -->
+        <div class="bg-warning d-flex border border-dark align-content-start flex-wrap"
+             style="height: 200px;">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+            <div class="p-2 bg-success border border-dark">Flex item 4</div>
+            <div class="p-2 bg-success border border-dark">Flex item 5</div>
+            <div class="p-2 bg-success border border-dark">Flex item 6</div>
+            <div class="p-2 bg-success border border-dark">Flex item 7</div>
+            <div class="p-2 bg-success border border-dark">Flex item 8</div>
+            <div class="p-2 bg-success border border-dark">Flex item 9</div>
+            <div class="p-2 bg-success border border-dark">Flex item 10</div>
+            <div class="p-2 bg-success border border-dark">Flex item 11</div>
+            <div class="p-2 bg-success border border-dark">Flex item 12</div>
+            <div class="p-2 bg-success border border-dark">Flex item 13</div>
+            <div class="p-2 bg-success border border-dark">Flex item 14</div>
+            <div class="p-2 bg-success border border-dark">Flex item 15</div>
+            <div class="p-2 bg-success border border-dark">Flex item 16</div>
+            <div class="p-2 bg-success border border-dark">Flex item 17</div>
+            <div class="p-2 bg-success border border-dark">Flex item 18</div>
+            <div class="p-2 bg-success border border-dark">Flex item 19</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark align-content-center flex-wrap"
+             style="height: 200px;">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+            <div class="p-2 bg-success border border-dark">Flex item 4</div>
+            <div class="p-2 bg-success border border-dark">Flex item 5</div>
+            <div class="p-2 bg-success border border-dark">Flex item 6</div>
+            <div class="p-2 bg-success border border-dark">Flex item 7</div>
+            <div class="p-2 bg-success border border-dark">Flex item 8</div>
+            <div class="p-2 bg-success border border-dark">Flex item 9</div>
+            <div class="p-2 bg-success border border-dark">Flex item 10</div>
+            <div class="p-2 bg-success border border-dark">Flex item 11</div>
+            <div class="p-2 bg-success border border-dark">Flex item 12</div>
+            <div class="p-2 bg-success border border-dark">Flex item 13</div>
+            <div class="p-2 bg-success border border-dark">Flex item 14</div>
+            <div class="p-2 bg-success border border-dark">Flex item 15</div>
+            <div class="p-2 bg-success border border-dark">Flex item 16</div>
+            <div class="p-2 bg-success border border-dark">Flex item 17</div>
+            <div class="p-2 bg-success border border-dark">Flex item 18</div>
+            <div class="p-2 bg-success border border-dark">Flex item 19</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark align-content-end flex-wrap"
+             style="height: 200px;">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+            <div class="p-2 bg-success border border-dark">Flex item 4</div>
+            <div class="p-2 bg-success border border-dark">Flex item 5</div>
+            <div class="p-2 bg-success border border-dark">Flex item 6</div>
+            <div class="p-2 bg-success border border-dark">Flex item 7</div>
+            <div class="p-2 bg-success border border-dark">Flex item 8</div>
+            <div class="p-2 bg-success border border-dark">Flex item 9</div>
+            <div class="p-2 bg-success border border-dark">Flex item 10</div>
+            <div class="p-2 bg-success border border-dark">Flex item 11</div>
+            <div class="p-2 bg-success border border-dark">Flex item 12</div>
+            <div class="p-2 bg-success border border-dark">Flex item 13</div>
+            <div class="p-2 bg-success border border-dark">Flex item 14</div>
+            <div class="p-2 bg-success border border-dark">Flex item 15</div>
+            <div class="p-2 bg-success border border-dark">Flex item 16</div>
+            <div class="p-2 bg-success border border-dark">Flex item 17</div>
+            <div class="p-2 bg-success border border-dark">Flex item 18</div>
+            <div class="p-2 bg-success border border-dark">Flex item 19</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark align-content-between flex-wrap"
+             style="height: 200px;">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+            <div class="p-2 bg-success border border-dark">Flex item 4</div>
+            <div class="p-2 bg-success border border-dark">Flex item 5</div>
+            <div class="p-2 bg-success border border-dark">Flex item 6</div>
+            <div class="p-2 bg-success border border-dark">Flex item 7</div>
+            <div class="p-2 bg-success border border-dark">Flex item 8</div>
+            <div class="p-2 bg-success border border-dark">Flex item 9</div>
+            <div class="p-2 bg-success border border-dark">Flex item 10</div>
+            <div class="p-2 bg-success border border-dark">Flex item 11</div>
+            <div class="p-2 bg-success border border-dark">Flex item 12</div>
+            <div class="p-2 bg-success border border-dark">Flex item 13</div>
+            <div class="p-2 bg-success border border-dark">Flex item 14</div>
+            <div class="p-2 bg-success border border-dark">Flex item 15</div>
+            <div class="p-2 bg-success border border-dark">Flex item 16</div>
+            <div class="p-2 bg-success border border-dark">Flex item 17</div>
+            <div class="p-2 bg-success border border-dark">Flex item 18</div>
+            <div class="p-2 bg-success border border-dark">Flex item 19</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark align-content-around flex-wrap"
+             style="height: 200px;">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+            <div class="p-2 bg-success border border-dark">Flex item 4</div>
+            <div class="p-2 bg-success border border-dark">Flex item 5</div>
+            <div class="p-2 bg-success border border-dark">Flex item 6</div>
+            <div class="p-2 bg-success border border-dark">Flex item 7</div>
+            <div class="p-2 bg-success border border-dark">Flex item 8</div>
+            <div class="p-2 bg-success border border-dark">Flex item 9</div>
+            <div class="p-2 bg-success border border-dark">Flex item 10</div>
+            <div class="p-2 bg-success border border-dark">Flex item 11</div>
+            <div class="p-2 bg-success border border-dark">Flex item 12</div>
+            <div class="p-2 bg-success border border-dark">Flex item 13</div>
+            <div class="p-2 bg-success border border-dark">Flex item 14</div>
+            <div class="p-2 bg-success border border-dark">Flex item 15</div>
+            <div class="p-2 bg-success border border-dark">Flex item 16</div>
+            <div class="p-2 bg-success border border-dark">Flex item 17</div>
+            <div class="p-2 bg-success border border-dark">Flex item 18</div>
+            <div class="p-2 bg-success border border-dark">Flex item 19</div>
+        </div>
+        <div class="mt-2 bg-warning d-flex border border-dark align-content-stretch flex-wrap"
+             style="height: 200px;">
+            <div class="p-2 bg-success border border-dark">Flex item 1</div>
+            <div class="p-2 bg-success border border-dark">Flex item 2</div>
+            <div class="p-2 bg-success border border-dark">Flex item 3</div>
+            <div class="p-2 bg-success border border-dark">Flex item 4</div>
+            <div class="p-2 bg-success border border-dark">Flex item 5</div>
+            <div class="p-2 bg-success border border-dark">Flex item 6</div>
+            <div class="p-2 bg-success border border-dark">Flex item 7</div>
+            <div class="p-2 bg-success border border-dark">Flex item 8</div>
+            <div class="p-2 bg-success border border-dark">Flex item 9</div>
+            <div class="p-2 bg-success border border-dark">Flex item 10</div>
+            <div class="p-2 bg-success border border-dark">Flex item 11</div>
+            <div class="p-2 bg-success border border-dark">Flex item 12</div>
+            <div class="p-2 bg-success border border-dark">Flex item 13</div>
+            <div class="p-2 bg-success border border-dark">Flex item 14</div>
+            <div class="p-2 bg-success border border-dark">Flex item 15</div>
+            <div class="p-2 bg-success border border-dark">Flex item 16</div>
+            <div class="p-2 bg-success border border-dark">Flex item 17</div>
+            <div class="p-2 bg-success border border-dark">Flex item 18</div>
+            <div class="p-2 bg-success border border-dark">Flex item 19</div>
+        </div>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous">
+    </script>
+</body>
+</html>

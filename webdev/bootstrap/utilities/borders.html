@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Borders</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        div.container-fluid > h2, div.container-fluid > h4 {
+            font-weight: bold;
+        }
+
+        .styled-square {
+            width: 90px;
+            height: 90px;
+            background-color: hsl(0, 50%, 95%);
+            display: inline-flex;
+            margin-right: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <h2>
+            <a href="https://getbootstrap.com/docs/4.4/utilities/borders/" class="text-break">
+                https://getbootstrap.com/docs/4.4/utilities/borders/
+            </a>
+        </h2>
+
+        <h2 class="mt-4">Additive</h2>
+        <div>
+            <div class="styled-square border"></div>
+            <div class="styled-square border-left"></div>
+            <div class="styled-square border-top"></div>
+            <div class="styled-square border-right"></div>
+            <div class="styled-square border-bottom"></div>
+        </div>
+
+        <!-- Specifies which borders are not present -->
+        <h2 class="mt-4">Subtractive</h2>
+        <div>
+            <div class="styled-square border-0"></div>
+            <div class="styled-square border border-left-0"></div>
+            <div class="styled-square border border-top-0"></div>
+            <div class="styled-square border border-right-0"></div>
+            <div class="styled-square border border-bottom-0"></div>
+        </div>
+
+        <h2 class="mt-4">Border color</h2>
+        <div>
+            <div class="styled-square border border-primary"></div>
+            <div class="styled-square border border-secondary"></div>
+            <div class="styled-square border border-success"></div>
+            <div class="styled-square border border-info"></div>
+            <div class="styled-square border border-warning"></div>
+            <div class="styled-square border border-danger"></div>
+            <div class="styled-square border border-light"></div>
+            <div class="styled-square border border-dark"></div>
+            <div class="styled-square border border-white"></div>
+        </div>
+
+        <h2 class="mt-4">Border radius</h2>
+        <div class="d-flex">
+            <div class="styled-square border border-primary rounded">
+                <span>90x90</span>
+            </div>
+            <div class="styled-square border border-secondary rounded-left">
+                <span>90x90</span>
+            </div>
+            <div class="styled-square border border-success rounded-top">
+                <span>90x90</span>
+            </div>
+            <div class="styled-square border border-info rounded-right">
+                <span>90x90</span>
+            </div>
+            <div class="styled-square border border-warning rounded-bottom">
+                <span>90x90</span>
+            </div>
+            <div class="styled-square border border-danger rounded-circle">
+                <span>90x90</span>
+            </div>
+            <div class="styled-square border border-primary rounded-pill" style="width: 150px;">
+                <span>150x90</span>
+            </div>
+            <div class="styled-square border border-dark rounded-0">
+                <span>90x90</span>
+            </div>
+        </div>
+
+        <h2 class="mt-4">Border radius size</h2>
+        <!-- rounded-lg seems to be the same as rounded -->
+        <div class="d-flex">
+            <div class="styled-square border border-danger rounded-lg">
+                <span>90x90</span>
+            </div>
+            <div class="styled-square border border-dark rounded-sm">
+                <span>90x90</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous">
+    </script>
+</body>
+</html>

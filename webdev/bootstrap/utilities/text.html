@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bootstrap Text Utils</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <style>
+        div.container-fluid > h2, div.container-fluid > h4 {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mb-2">
+        <h2>
+            <a href="https://getbootstrap.com/docs/4.4/utilities/text/" class="text-break">
+                https://getbootstrap.com/docs/4.4/utilities/text/
+            </a>
+        </h2>
+
+        <h2 class="mt-4">Text alignment</h2>
+        <div>
+            <h4 class="mt-2">Justified text</h4>
+            <p class="text-justify">
+                Ambitioni dedisse scripsisse iudicaretur. Cras mattis iudicium purus sit amet
+                fermentum. Donec sed odio operae, eu vulputate felis rhoncus. Praeterea iter
+                est quasdam res quas ex communi. At nos hinc posthac, sitientis piros Afros.
+                Petierunt uti sibi concilium totius Galliae in diem certam indicere. Cras mattis
+                iudicium purus sit amet fermentum.
+            </p>
+            <h4 class="mt-2">Alignment</h4>
+            <p class="text-left">Left aligned text on all viewport sizes.</p>
+            <p class="text-center">Center aligned text on all viewport sizes.</p>
+            <p class="text-right">Right aligned text on all viewport sizes.</p>
+            <p class="text-sm-left">Left aligned text on viewports sized SM (small) or wider.</p>
+            <p class="text-md-left">Left aligned text on viewports sized MD (medium) or wider.</p>
+            <p class="text-lg-left">Left aligned text on viewports sized LG (large) or wider.</p>
+            <p class="text-xl-left">Left aligned text on viewports sized XL (extra-large) or wider.</p>
+        </div>
+
+        <h2 class="mt-4">Text wrapping</h2>
+        <div class="badge badge-primary text-wrap" style="width: 6rem;">
+            This text should wrap.
+        </div>
+
+        <h2 class="mt-4">Text overflow</h2>
+        <div class="text-nowrap bg-info text-dark" style="width: 8rem;">
+            This text should overflow the parent.
+        </div>
+
+        <h2 class="mt-4">Text truncate (requires display: inline-block or block)</h2>
+        <div class="row">
+            <div class="col-2 text-truncate">
+                Praeterea iter est quasdam res quas ex communi.
+            </div>
+        </div>
+        <span class="d-inline-block text-truncate" style="max-width: 150px;">
+            Praeterea iter est quasdam res quas ex communi.
+        </span>
+
+        <h2 class="mt-4">Word break (try removing test-break class)</h2>
+        <p class="text-break">
+            mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
+        </p>
+
+        <h2 class="mt-4">Text transform</h2>
+        <p class="text-lowercase">Lowercased text.</p>
+        <p class="text-uppercase">Uppercased text.</p>
+        <p class="text-capitalize">CapiTaliZed text.</p>
+
+        <h2 class="mt-4">Font weight and italics</h2>
+        <p class="font-weight-bold">Bold text.</p>
+        <p class="font-weight-bolder">Bolder weight text (relative to the parent element).</p>
+        <p class="font-weight-normal">Normal weight text.</p>
+        <p class="font-weight-light">Light weight text.</p>
+        <p class="font-weight-lighter">Lighter weight text (relative to the parent element).</p>
+        <p class="font-italic">Italic text.</p>
+
+        <h2 class="mt-4">Monospace</h2>
+        <p class="text-monospace">This is in monospace</p>
+
+        <h2 class="mt-4">Reset color (note how link inherited text-muted color)</h2>
+        <p class="text-muted">
+            Muted text with a <a href="javascript:void(0)" class="text-reset">reset link</a>.
+        </p>
+
+        <h2 class="mt-4">Text decoration</h2>
+        <a href="#" class="text-decoration-none">Non-underlined link</a>
+    </div>
+
+    <!-- Include jQuery, Popper.js and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous">
+    </script>
+</body>
+</html>
