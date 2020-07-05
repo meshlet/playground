@@ -1,0 +1,32 @@
+{
+  "name": "ts-samples",
+  "version": "1.0.0",
+  "description": "Samples illustrating various features of Typescript language",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dbajgoric/toptalprep.git"
+  },
+  "keywords": [
+    "typescript"
+  ],
+  "author": "Dzanan Bajgoric",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dbajgoric/toptalprep/issues"
+  },
+  "homepage": "https://github.com/dbajgoric/toptalprep#readme",
+  "devDependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^14.0.14",
+    "chai": "^4.2.0",
+    "mocha": "^8.0.1",
+    "ts-node": "^8.10.2",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.6"
+  }
+}
