@@ -1,7 +1,9 @@
+/**
+ * Illustrates TypeScript type system and various supported types.
+ */
+
 import "mocha";
 import { expect } from "chai";
-import exp = require("constants");
-import symbols = Mocha.reporters.Base.symbols;
 
 describe("Types", function() {
     it("illustrates explicit typing in TypeScript", function() {
