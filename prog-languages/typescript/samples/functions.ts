@@ -687,4 +687,30 @@ describe("Functions", function () {
         call(fn4, "ab", "43", 6);
         call(fn5, 34n, "af");
     });
+
+    it('illustrates a simple type-safe assertion library', function () {
+        // At the minimum it expects two arguments, but will work with
+        // arbitrary number of arguments (>= 2).
+        function isEqual<T extends unknown>(arg1: T, arg2: T, ...rest: T[]): boolean {
+            // TODO: Such comparison will work only for built-in types
+            if (arg1 === arg2) {
+                for (let elem of rest) {
+                    if (arg1 !== elem) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
+        expect(isEqual("string", "otherstring")).to.be.false;
+        expect(isEqual(true, false)).to.be.false;
+        expect(isEqual(54, 54)).to.be.true;
+        expect(isEqual(34, 65, 12)).to.be.false;
+        expect(isEqual("abc", "abc", "abc")).to.be.true;
+        // isEqual(); // At least 2 arguments expected
+        // isEqual(23); // At least 2 arguments expected
+        // isEqual(23, "afb"); // string not assignable to number
+    });
 });
