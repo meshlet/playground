@@ -3,7 +3,6 @@
  */
 
 import "mocha";
-import { expect } from "chai";
 
 describe("Classes and Interfaces", function () {
     it('illustrates defining class properties', function () {

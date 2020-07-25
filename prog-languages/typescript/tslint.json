@@ -5,7 +5,13 @@
     ],
     "jsRules": {},
     "rules": {
-        "no-invalid-this": true
+        "no-invalid-this": true,
+        "no-trailing-whitespace": true,
+        "semicolon": true,
+        "only-arrow-functions": false,
+        "no-angle-bracket-type-assertion": false,
+        "max-classes-per-file": false,
+        "no-empty": false
     },
     "rulesDirectory": []
 }
