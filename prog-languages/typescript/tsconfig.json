@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["esnext", "dom"],
+    "lib": ["esnext", "dom", "webworker"],
     "module": "commonjs",
     "target": "esnext",
     "sourceMap": true,

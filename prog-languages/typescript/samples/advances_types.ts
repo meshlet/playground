@@ -195,7 +195,7 @@ describe("Advanced Types", function () {
         // User-defined type guards can be used to work around this issue. The
         // following signature indicates that function will return true IFF
         // the argument is a string
-        function isStringImproved(obj: unknown): obj is string {
+        function isStringImproved(obj: unknown): obj is string{
             return typeof obj === "string";
         }
 
@@ -269,7 +269,7 @@ describe("Advanced Types", function () {
         type ElementType2<T> = T extends (infer U)[] ? U : T;
         type B = ElementType2<number[]>; // A is a number
 
-        // infer keyword is more powerfull than that. For example, say we want
+        // infer keyword is more powerful than that. For example, say we want
         // to find the type of the second parameter of a function that takes
         // exactly two arguments
         type SecondArgType<F> =

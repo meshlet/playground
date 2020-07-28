@@ -430,7 +430,7 @@ describe("Classes and Interfaces", function () {
 
     it('illustrates implementing factory pattern in TypeScript', function () {
         interface Shoe {
-            purpose: string
+            purpose: string;
         }
 
         class BalletFlat implements Shoe {

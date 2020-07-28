@@ -11,7 +11,8 @@
         "only-arrow-functions": false,
         "no-angle-bracket-type-assertion": false,
         "max-classes-per-file": false,
-        "no-empty": false
+        "no-empty": false,
+        "no-console": false
     },
     "rulesDirectory": []
 }
