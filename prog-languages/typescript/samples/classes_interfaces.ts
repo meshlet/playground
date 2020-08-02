@@ -3,6 +3,7 @@
  */
 
 import "mocha";
+import { expect } from "chai";
 
 describe("Classes and Interfaces", function () {
     it('illustrates defining class properties', function () {
@@ -66,7 +67,7 @@ describe("Classes and Interfaces", function () {
 
     it('illustrates abstract classes and methods', function () {
         abstract class Person {
-            constructor(
+            protected constructor(
                 private name: string,
                 protected surname: string,
                 public age: number
@@ -79,7 +80,7 @@ describe("Classes and Interfaces", function () {
             }
 
             // Declare an abstract method to force implementations to define it
-            abstract someMethod(param1: number, param2: string): number
+            abstract someMethod(param1: number, param2: string): number;
         }
 
         // let p = new Person("Mickey", "Mouse", 23); // Illegal
@@ -95,7 +96,7 @@ describe("Classes and Interfaces", function () {
             }
 
             someMethod(param1: number, param2: string): number {
-                return param1 + Number.parseInt(param2);
+                return param1 + Number.parseInt(param2, 10);
             }
         }
     });
@@ -122,7 +123,7 @@ describe("Classes and Interfaces", function () {
             }
         }
 
-        let p = new Person("Mickey", "Mouse");
+        const p = new Person("Mickey", "Mouse");
         // p.name = "Tony"; // Readonly
         // p.surname = "Stark"; // Readonly
     });
@@ -167,16 +168,16 @@ describe("Classes and Interfaces", function () {
 
         // Identical hierarchy can be achieved with interfaces
         interface FoodI {
-            calories: number,
-            tasty: number
+            calories: number;
+            tasty: number;
         }
 
         interface SushiI extends FoodI{
-            salty: boolean
+            salty: boolean;
         }
 
         interface CakeI extends FoodI{
-            sweet: boolean
+            sweet: boolean;
         }
     });
 
@@ -192,8 +193,8 @@ describe("Classes and Interfaces", function () {
         }
 
         interface FoodI {
-            calories: number
-            tasty: boolean
+            calories: number;
+            tasty: boolean;
         }
 
         // Interface can inherit an object type
@@ -214,12 +215,12 @@ describe("Classes and Interfaces", function () {
         // TypeScript makes sure that the interface that we're extending is assignable
         // to the extending interface
         interface A {
-            good(x: number): string
-            bad(x: number): string
+            good(x: number): string;
+            bad(x: number): string;
         }
 
         interface B extends A {
-            good(x: number | string): string
+            good(x: number | string): string;
 
             // The following won't compile because of the mismatch in the
             // signature between A.bad and B.bad method types
@@ -236,7 +237,7 @@ describe("Classes and Interfaces", function () {
         type T2 = T1 & {
             good(x: number | string): string
             bad(x: string): string
-        }
+        };
 
         // The third difference is that declaration merging applies to interfaces
         // but does not apply to type aliases. TypeScript will merge the following
@@ -246,10 +247,10 @@ describe("Classes and Interfaces", function () {
         }
 
         interface User {
-            age: number
+            age: number;
         }
 
-        let u: User = {
+        const u: User = {
             name: "Mickey Mouse",
             age: 34
         };
@@ -270,12 +271,12 @@ describe("Classes and Interfaces", function () {
         interface Animal {
             readonly name: string;
 
-            eat(food: string): void
-            sleep(hours: number): void
+            eat(food: string): void;
+            sleep(hours: number): void;
         }
 
         interface Feline {
-            meow(): void
+            meow(): void;
         }
 
         // The following class implements both interfaces
@@ -336,9 +337,9 @@ describe("Classes and Interfaces", function () {
 
     it('illustrates using generics with classes and interfaces', function () {
         interface MapInterface<K, V> {
-            get(key: K): V | null
-            set(key: K, value: V): void
-            merge<K2, V2>(other: MapInterface<K2, V2>): MapInterface<K | K2, V | V2>
+            get(key: K): V | null;
+            set(key: K, value: V): void;
+            merge<K2, V2>(other: MapInterface<K2, V2>): MapInterface<K | K2, V | V2>;
         }
 
         class MyMap<K, V> implements MapInterface<K, V> {
@@ -390,7 +391,7 @@ describe("Classes and Interfaces", function () {
 
                     return className + "(" + JSON.stringify(dbgValue) + ")";
                 }
-            }
+            };
         }
 
         // And here how to use this mixin
@@ -402,9 +403,48 @@ describe("Classes and Interfaces", function () {
             }
         }
 
-        let MyClassDebuggable = debugMixin(MyClass);
-        let instance = new MyClassDebuggable();
+        const MyClassDebuggable = debugMixin(MyClass);
+        const instance = new MyClassDebuggable();
         instance.debug();
+    });
+
+    it('illustrates class decorators', function () {
+        // The following is a type that represents any class constructor
+        type ClassConstructor<T> = new(...args: any[]) => T;
+
+        // The following class is decorated with the @classDecorator implemented
+        // just below the class
+        @classDecorator
+        class A {
+            log(): string {
+                return "";
+            }
+        }
+
+        // Here's the decorator definition. It takes the class constructor
+        // as its argument, and in this returns a new class constructor
+        // which will replace the passed constructor at runtime
+        function classDecorator<T extends ClassConstructor<{
+            log(): string
+        }>>(ctor: T) {
+            return class extends ctor {
+                private logData = "hello world!";
+
+                constructor(
+                    ...args: any[]
+                ) {
+                    super(...args);
+                }
+
+                log(): string {
+                    return this.logData;
+                }
+            };
+        }
+
+        // Class A is replaced by the class returned by the decorator
+        const a = new A();
+        expect(a.log()).to.be.equal("hello world!");
     });
 
     it('illustrates simulating final classes in TypeScript', function () {
@@ -425,7 +465,7 @@ describe("Classes and Interfaces", function () {
 
         // class ExtendedClass extends FinalClass {} // Illegal
         // let obj: FinalClass = new FinalClass(23, 10); // Illegal
-        let obj = FinalClass.create(23, 10);
+        const obj = FinalClass.create(23, 10);
     });
 
     it('illustrates implementing factory pattern in TypeScript', function () {
@@ -447,7 +487,7 @@ describe("Classes and Interfaces", function () {
 
         // The factory creates concrete shoe type depending on the string
         // argument
-        let Shoe = {
+        const Shoe = {
             create(type: "balletFlat" | "boot" | "sneaker"): Shoe {
                 switch (type) {
                     case "balletFlat": return new BalletFlat();

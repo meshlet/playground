@@ -4,7 +4,7 @@
   "description": "Samples illustrating various features of Typescript language",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --file ./samples/type_declarations/definitions.js"
   },
   "repository": {
     "type": "git",

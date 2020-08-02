@@ -4,7 +4,7 @@
 
 import "mocha";
 import { expect } from "chai";
-import { EventEmitter, once } from "events";
+import { once } from "events";
 import { Worker } from "worker_threads";
 import { TypeSafeEmitter } from "./type_safe_emitter";
 
