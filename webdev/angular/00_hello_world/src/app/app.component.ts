@@ -9,11 +9,17 @@ import { Model, TodoItem } from './model';
 export class AppComponent {
   private model = new Model();
 
-  getName(): string {
-    return this.model.getName();
+  getUser(): string {
+    return this.model.User;
   }
 
   getTodoItems(): TodoItem[] {
-    return this.model.getTodoItems();
+    return this.model.Items.filter(item => !item.Done);
+  }
+
+  addItem(action: string): void {
+    if (action !== '') {
+      this.model.Items.push(new TodoItem(action, false));
+    }
   }
 }

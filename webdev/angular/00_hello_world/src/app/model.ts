@@ -7,12 +7,20 @@ export class TodoItem {
     this.done = done;
   }
 
-  getAction(): string {
+  get Action(): string {
     return this.action;
   }
 
-  getDone(): boolean {
+  set Action(action: string) {
+    this.action = action;
+  }
+
+  get Done(): boolean {
     return this.done;
+  }
+
+  set Done(done: boolean) {
+    this.done = done;
   }
 }
 
@@ -30,11 +38,11 @@ export class Model {
     ];
   }
 
-  getName(): string {
+  get User(): string {
     return this.user;
   }
 
-  getTodoItems(): TodoItem[] {
+  get Items(): TodoItem[] {
     return this.items;
   }
 }
