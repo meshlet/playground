@@ -1,0 +1,33 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col bg-dark text-center text-primary p-2">
+      <span class="navbar-brand">Sports Store</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3 p-2">
+      <button class="btn btn-block btn-outline-primary" (click)="SelectedCategory = null">
+        Home
+      </button>
+      <button *ngFor="let category of Categories" class="btn btn-block btn-outline-primary"
+              [class.active]="category == SelectedCategory" (click)="SelectedCategory = category">
+        {{ category }}
+      </button>
+    </div>
+    <div class="col-9 p-2">
+      <div *ngFor="let product of Products" class="card bg-light mb-2 border border-primary">
+        <div class="card-body px-2 py-3">
+          <h4 class="card-title">
+            {{ product.Name }}
+            <span class="badge badge-pill badge-primary float-right">
+              {{ product.Price | currency:"USD":"symbol":"2.2-2" }}
+            </span>
+          </h4>
+          <p class="card-text bg-white p-1">
+            {{ product.Description }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

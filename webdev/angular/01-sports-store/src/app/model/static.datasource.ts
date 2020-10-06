@@ -12,7 +12,7 @@ export class StaticDatasource {
     new Product(
       1,
       'Adidas sneakers',
-      'soccer',
+      'Soccer',
       'Adidas soccer sneakers',
       175),
 

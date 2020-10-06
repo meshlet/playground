@@ -13,5 +13,18 @@
     {
       "path": "./tsconfig.spec.json"
     }
-]
+  ],
+
+  /**
+   * The following is added only to make sure the IDEs don't report useless
+   * TypeScript errors.
+   */
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "target": "es2015",
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
 }
