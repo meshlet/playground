@@ -1,21 +1,22 @@
+<div class="jumbotron jumbotron-fluid mb-2 bg-success">
+  <div class="container text-center">
+    <h1 class="display-4 text-white">Sports Store</h1>
+  </div>
+</div>
 <div class="container-fluid">
   <div class="row">
-    <div class="col bg-dark text-center text-primary p-2">
-      <span class="navbar-brand">Sports Store</span>
-    </div>
-  </div>
-  <div class="row">
     <div class="col-3 p-2">
-      <button class="btn btn-block btn-outline-primary" (click)="SelectedCategory = null">
+      <button class="btn btn-block btn-outline-primary" [class.active]="SelectedCategory == null"
+              (click)="SelectedCategory = null">
         Home
       </button>
-      <button *ngFor="let category of Categories" class="btn btn-block btn-outline-primary"
+      <button *ngFor="let category of getCategories()" class="btn btn-block btn-outline-primary"
               [class.active]="category == SelectedCategory" (click)="SelectedCategory = category">
         {{ category }}
       </button>
     </div>
     <div class="col-9 p-2">
-      <div *ngFor="let product of Products" class="card bg-light mb-2 border border-primary">
+      <div *ngFor="let product of getProducts()" class="card bg-light mb-2 border border-primary">
         <div class="card-body px-2 py-3">
           <h4 class="card-title">
             {{ product.Name }}
@@ -26,6 +27,41 @@
           <p class="card-text bg-white p-1">
             {{ product.Description }}
           </p>
+        </div>
+      </div>
+      <div class="clearfix mt-3">
+        <nav class="float-right">
+          <ul class="pagination">
+            <li class="page-item">
+              <a href="javascript:void(0)" class="page-link" (click)="previousPage()">
+                &laquo;
+              </a>
+            </li>
+            <li *ngFor="let pageIndex of getPageNumbers()" class="page-item"
+                [class.active]="pageIndex == SelectedPage">
+              <a href="javascript:void(0)" class="page-link" (click)="SelectedPage = pageIndex">
+                {{ pageIndex + 1 }}
+              </a>
+            </li>
+            <li class="page-item">
+              <a href="javascript:void(0)" class="page-link" (click)="nextPage()">
+                &raquo;
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="form-inline float-left">
+          <!-- [value]="ProductsPerPage" makes sure the default option matches -->
+          <!-- the current value of the field in the component. Without this   -->
+          <!-- the default option would be the first option in the list.       -->
+          <select class="form-control" [value]="ProductsPerPage"
+                  (change)="ProductsPerPage = $event.target.value">
+            <option value="3">3 per Page</option>
+            <option value="4">4 per Page</option>
+            <option value="5">5 per Page</option>
+            <option value="6">6 per Page</option>
+            <option value="7">7 per Page</option>
+          </select>
         </div>
       </div>
     </div>
