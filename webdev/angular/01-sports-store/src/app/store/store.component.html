@@ -1,9 +1,10 @@
-<div class="jumbotron jumbotron-fluid mb-2 bg-success">
-  <div class="container text-center">
-    <h1 class="display-4 text-white">Sports Store</h1>
-  </div>
-</div>
 <div class="container-fluid">
+  <div class="row">
+    <div class="col p-2 bg-success">
+      <h2 class="text-white float-left">Sports Store</h2>
+      <app-cart-summary></app-cart-summary>
+    </div>
+  </div>
   <div class="row">
     <div class="col-3 p-2">
       <button class="btn btn-block btn-outline-primary" [class.active]="SelectedCategory == null"
@@ -24,8 +25,12 @@
               {{ product.Price | currency:"USD":"symbol":"2.2-2" }}
             </span>
           </h4>
-          <p class="card-text bg-white p-1">
+          <p class="card-text bg-white px-1 py-2 clearfix">
             {{ product.Description }}
+            <button class="btn btn-sm bg-success text-white float-right"
+                    (click)="addProductToCart(product)">
+              Add to cart
+            </button>
           </p>
         </div>
       </div>
