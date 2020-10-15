@@ -24,7 +24,7 @@ export class ProductRepository {
     });
   }
 
-  getProducts(category: string = null): Product[] {
+  getProducts(category?: string): Product[] {
     if (category == null) {
       return this.products;
     }
@@ -32,7 +32,7 @@ export class ProductRepository {
     return this.products.filter(p => p.Category === category);
   }
 
-  getProduct(id: number): Product {
+  getProduct(id: number): Product | undefined {
     return this.products.find(p => p.Id === id);
   }
 

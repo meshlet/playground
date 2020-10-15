@@ -35,7 +35,18 @@ export class Cart {
     this.recalculate();
   }
 
-  updateQuantity(product: Product, quantity: number): void {
+  /**
+   * @note quantity is string here as this method is used to pass
+   * the value of a form text input field whose value is of string
+   * type. TypeScript wouldn't complain if quantity parameter was
+   * a number, because the code that passes form text input value
+   * to this method is in JavaScript land. However, the parameter
+   * would still need to be explicitly cast to a number in this
+   * method.
+   */
+  updateQuantity(product: Product, quantityStr: string): void {
+    const quantity = Number(quantityStr);
+
     // Check if line with given product already exists
     const cartLine = this.cartLines.find(line => line.Product.Id === product.Id);
     if (cartLine != null) {

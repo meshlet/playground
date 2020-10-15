@@ -23,6 +23,9 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "target": "es2015",
+    "strict": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true
   },
   "include": [
     "src/**/*.ts"

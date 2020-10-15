@@ -8,7 +8,7 @@
   <div class="row">
     <div class="col-3 p-2">
       <button class="btn btn-block btn-outline-primary" [class.active]="SelectedCategory == null"
-              (click)="SelectedCategory = null">
+              (click)="SelectedCategory = undefined">
         Home
       </button>
       <button *ngFor="let category of getCategories()" class="btn btn-block btn-outline-primary"

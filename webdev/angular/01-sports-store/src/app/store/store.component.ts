@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   templateUrl: 'store.component.html'
 })
 export class StoreComponent {
-  private selectedCategory: string = null;
+  private selectedCategory?: string = undefined;
   private selectedPage = 0;
   private productsPerPage = 4;
 
@@ -35,11 +35,11 @@ export class StoreComponent {
     return this.repository.getCategories();
   }
 
-  get SelectedCategory(): string {
+  get SelectedCategory(): string | undefined {
     return this.selectedCategory;
   }
 
-  set SelectedCategory(category: string) {
+  set SelectedCategory(category: string | undefined) {
     this.selectedCategory = category;
     this.selectedPage = 0;
   }

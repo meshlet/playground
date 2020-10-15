@@ -2,7 +2,7 @@
  * The product model class.
  */
 export class Product {
-  private id?: number;
+  private readonly id: number;
   private name: string;
   private category: string;
   private description: string;
