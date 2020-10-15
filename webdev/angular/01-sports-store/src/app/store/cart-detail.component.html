@@ -1,3 +1,76 @@
-<div>
-  <h3 class="bg-success p-1 text-white">Cart Detail Component</h3>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col p-2 bg-success">
+      <h2 class="text-white float-left">Sports Store</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col text-center mt-2">
+      <h2>Your Cart</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <table class="cart-detail">
+        <thead>
+          <tr>
+            <th scope="col">
+              Quantity
+            </th>
+            <th scope="col">
+              Product
+            </th>
+            <th scope="col" class="text-right">
+              Price
+            </th>
+            <th scope="col" class="text-right">
+              Subtotal
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cartLine of Cart.CartLines">
+            <td>
+              <input type="number" min="0" class="form-control-sm w-100"
+                     [valueAsNumber]="cartLine.Quantity"
+                     (change)="Cart.updateQuantity(cartLine.Product, $event.target.value)">
+            </td>
+            <td>
+              {{ cartLine.Product.Name }}
+            </td>
+            <td class="text-right">
+              {{ cartLine.Product.Price | currency:"USD":"symbol":"2.2-2" }}
+            </td>
+            <td class="text-right">
+              {{ cartLine.LineTotal | currency:"USD":"symbol":"2.2-2" }}
+            </td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-danger" (click)="Cart.removeLine(cartLine.Product)">
+                Remove
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="text-right">Total</td>
+            <td class="text-right">
+              {{ Cart.CartPrice | currency:"USD":"symbol":"2.2-2" }}
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col clearfix">
+      <button class="btn btn-success float-right" routerLink="/store">
+        Continue Shopping
+      </button>
+      <button class="btn btn-outline-success float-right" routerLink="/checkout"
+              [disabled]="Cart.ItemCount == 0">
+        Checkout
+      </button>
+    </div>
+  </div>
 </div>

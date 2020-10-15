@@ -40,7 +40,7 @@ export class Cart {
     const cartLine = this.cartLines.find(line => line.Product.Id === product.Id);
     if (cartLine != null) {
       // Set the quantity of the cart line and recalculate cart info
-      cartLine.Quantity = quantity;
+      cartLine.Quantity = quantity < 0 ? 0 : quantity;
       this.recalculate();
     }
   }
@@ -50,7 +50,7 @@ export class Cart {
     const index = this.cartLines.findIndex(line => line.Product.Id === product.Id);
     if (index !== -1) {
       this.cartLines.splice(index, 1);
-      this.recalculate()
+      this.recalculate();
     }
   }
 
@@ -66,6 +66,10 @@ export class Cart {
 
   get CartPrice(): number {
     return this.cartPrice;
+  }
+
+  get CartLines(): CartLine[] {
+    return this.cartLines;
   }
 }
 

@@ -1,0 +1,18 @@
+/**
+ * Cart details table style.
+ */
+@import "~bootstrap/scss/bootstrap";
+
+table.cart-detail {
+  @extend .table;
+  @extend .table-bordered;
+  @extend .table-striped;
+}
+
+.cart-detail th {
+  width: 20%;
+}
+
+.cart-detail td {
+  width: 20%;
+}
