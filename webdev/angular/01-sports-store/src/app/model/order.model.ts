@@ -4,6 +4,18 @@
 import { Injectable } from '@angular/core';
 import { Cart } from './cart.model';
 
+export type OrderT = {
+  id?: number;
+  firstName: string;
+  lastName: string;
+  address: string;
+  country: string;
+  city: string;
+  state: string;
+  zip: string;
+  shipped: boolean;
+};
+
 @Injectable()
 export class Order {
   private id?: number = undefined;
@@ -20,6 +32,10 @@ export class Order {
 
   get Id(): number | undefined {
     return this.id;
+  }
+
+  set Id(id: number | undefined) {
+    this.id = id;
   }
 
   get FirstName(): string {
@@ -93,5 +109,23 @@ export class Order {
 
     this.shipped = false;
     this.cart.clear();
+  }
+
+  /**
+   * Override toJSON method so that Cart member is not sent
+   * to the server.
+   */
+  toJSON(): OrderT {
+    return {
+      id: this.id,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      address: this.address,
+      country: this.country,
+      city: this.city,
+      state: this.state,
+      zip: this.zip,
+      shipped: this.shipped
+    };
   }
 }

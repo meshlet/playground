@@ -5,7 +5,7 @@ module.exports = () => {
   return {
     products: [
       {
-        id: 1, name: "Adidas sneakers", category: "soccer",
+        id: 1, name: "Adidas sneakers", category: "Soccer",
         description: "Adidas soccer sneakers", price: 175
       },
       {
@@ -42,6 +42,9 @@ module.exports = () => {
         id: 9, name: "Bling Bling King", category: "Chess",
         description: "Gold-plated, diamond-studded King", price: 1200
       }
+    ],
+    orders: [
+
     ]
   }
 };

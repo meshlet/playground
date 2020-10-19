@@ -18,7 +18,7 @@ export class ProductRepository {
 
       // Generate a list of categories (filter out the duplicates)
       this.categories =
-        data.map(p => p.Category)
+        this.products.map(p => p.Category)
           .filter((elem, index, array) => array.indexOf(elem) === index)
           .sort();
     });

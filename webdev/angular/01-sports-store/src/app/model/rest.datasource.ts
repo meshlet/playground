@@ -1,0 +1,67 @@
+/**
+ * A data source implementation that obtains the data from
+ * a Restful web service.
+ *
+ * TODO: the class now assumes that server runs at the same
+ *       machine as the client which needs to be fixed.
+ */
+import { Injectable } from '@angular/core';
+import { HttpClient} from '@angular/common/http';
+import { Product, ProductT } from './product.model';
+import { Observable } from 'rxjs';
+import { Order, OrderT } from './order.model';
+import { map } from 'rxjs/operators';
+import { Injector } from '@angular/core';
+import { Cart } from './cart.model';
+
+// TODO: both protocol and port should be globally configured.
+//       Current values match the run-config of the json-server
+//       used in testing
+const PROTOCOL = 'http';
+const PORT = 3500;
+
+@Injectable()
+export class RestDatasource {
+  private baseUrl = '';
+
+  constructor(private httpClient: HttpClient, private injector: Injector) {
+    this.baseUrl = `${PROTOCOL}://${location.hostname}:${PORT}/`;
+  }
+
+  getProducts(): Observable<Product[]> {
+    /**
+     * TODO: Objects returned by HttpClient are plain JavaScript
+     *  objects and do not have the actual type indicated by TS.
+     *  For example, if Product class has some getter properties
+     *  the objects returned by HttpClient.get method will not
+     *  have these properties. The following code works around
+     *  this by re-creating each product with the actual Product
+     *  type. This is ugly and perhaps it is better to instead
+     *  have models as POD classes without any methods.
+     */
+    return this.httpClient.get<ProductT[]>(this.baseUrl + 'products')
+      .pipe(map(products => {
+        return products.map(
+          p => new Product(p.id, p.name, p.category, p.description, p.price));
+      }));
+  }
+
+  saveOrder(order: Order): Observable<Order> {
+    // TODO: the same comment as in `getProducts` method
+    return this.httpClient.post<OrderT>(this.baseUrl + 'orders', order)
+      .pipe(map(o => {
+        const result = new Order(this.injector.get(Cart));
+        result.Id = o.id;
+        result.FirstName = o.firstName;
+        result.LastName = o.lastName;
+        result.Address = o.address;
+        result.Country = o.country;
+        result.City = o.city;
+        result.State = o.state;
+        result.Zip = o.zip;
+        result.Shipped = o.shipped;
+
+        return result;
+      }));
+  }
+}
