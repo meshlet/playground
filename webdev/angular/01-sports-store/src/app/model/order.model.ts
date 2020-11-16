@@ -4,18 +4,6 @@
 import { Injectable } from '@angular/core';
 import { Cart } from './cart.model';
 
-export type OrderT = {
-  id?: number;
-  firstName: string;
-  lastName: string;
-  address: string;
-  country: string;
-  city: string;
-  state: string;
-  zip: string;
-  shipped: boolean;
-};
-
 @Injectable()
 export class Order {
   private id?: number = undefined;
@@ -115,7 +103,7 @@ export class Order {
    * Override toJSON method so that Cart member is not sent
    * to the server.
    */
-  toJSON(): OrderT {
+  toJSON(): any {
     return {
       id: this.id,
       firstName: this.firstName,

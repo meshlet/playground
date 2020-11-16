@@ -7,7 +7,7 @@
   <div class="row justify-content-center mt-4">
     <div class="col-4">
       <form #form="ngForm" (ngSubmit)="authenticate(form)"
-            [class.was-validated]="form.submitted" novalidate>
+            [class.was-validated]="form.submitted && !form.valid" novalidate>
         <div class="form-row">
           <div class="col">
             <h3>Admin Sign in</h3>
@@ -31,7 +31,13 @@
             </div>
           </div>
         </div>
-        <div class="form-row mt-2 mb-n2">
+        <div *ngIf="form.submitted && authFailed" class="alert alert-warning alert-dismissible fade show">
+          Authentication failed
+          <span type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </span>
+        </div>
+        <div class="form-row mb-n2">
           <div class="form-group col">
             <button type="submit" class="btn btn-block btn-success">Log In</button>
           </div>

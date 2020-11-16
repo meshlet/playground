@@ -7,9 +7,9 @@
  */
 import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
-import { Product, ProductT } from './product.model';
+import { Product } from './product.model';
 import { Observable } from 'rxjs';
-import { Order, OrderT } from './order.model';
+import { Order } from './order.model';
 import { map } from 'rxjs/operators';
 import { Injector } from '@angular/core';
 import { Cart } from './cart.model';
@@ -23,6 +23,7 @@ const PORT = 3500;
 @Injectable()
 export class RestDatasource {
   private baseUrl = '';
+  private authToken?: string;
 
   constructor(private httpClient: HttpClient, private injector: Injector) {
     this.baseUrl = `${PROTOCOL}://${location.hostname}:${PORT}/`;
@@ -39,7 +40,7 @@ export class RestDatasource {
      *  type. This is ugly and perhaps it is better to instead
      *  have models as POD classes without any methods.
      */
-    return this.httpClient.get<ProductT[]>(this.baseUrl + 'products')
+    return this.httpClient.get<any[]>(this.baseUrl + 'products')
       .pipe(map(products => {
         return products.map(
           p => new Product(p.id, p.name, p.category, p.description, p.price));
@@ -48,7 +49,7 @@ export class RestDatasource {
 
   saveOrder(order: Order): Observable<Order> {
     // TODO: the same comment as in `getProducts` method
-    return this.httpClient.post<OrderT>(this.baseUrl + 'orders', order)
+    return this.httpClient.post<any>(this.baseUrl + 'orders', order)
       .pipe(map(o => {
         const result = new Order(this.injector.get(Cart));
         result.Id = o.id;
@@ -63,5 +64,22 @@ export class RestDatasource {
 
         return result;
       }));
+  }
+
+  authenticate(username: string, password: string): Observable<boolean> {
+    return this.httpClient.post<any>(this.baseUrl + 'login', {
+      name: username, password
+    }).pipe(map(response => {
+      this.authToken = response.success ? response.token : undefined;
+      return response.success;
+    }));
+  }
+
+  getAuthToken(): string | undefined {
+    return this.authToken;
+  }
+
+  resetAuthToken(): void {
+    this.authToken = undefined;
   }
 }

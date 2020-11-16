@@ -9,5 +9,22 @@
 </head>
 <body class="pre-scrollable">
   <app-sports-store>Sports Store App</app-sports-store>
+
+  <!-- Include jQuery, Popper.js and Bootstrap JS -->
+  <!-- TODO: temporary workaround due to the fact that Angular will not execute -->
+  <!--       Bootstrap JS each time the DOM is updated, which means that new -->
+  <!--       DOM elements will not get processed by Bootstrap JS. This works as -->
+  <!--       expected from Angular side as loading Bootstrap bindings on each -->
+  <!--       DOM update would be super slow. Switch to ng-bootstrap which takes -->
+  <!--       care of attaching this dynamic behavior. -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+          integrity="sha384-Q6E9RHvbIyZFJoft+sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+          crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+          integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
 </body>
 </html>
