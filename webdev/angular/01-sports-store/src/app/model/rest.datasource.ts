@@ -13,6 +13,7 @@ import { Order } from './order.model';
 import { map } from 'rxjs/operators';
 import { Injector } from '@angular/core';
 import { Cart } from './cart.model';
+import { HttpHeaders } from '@angular/common/http';
 
 // TODO: both protocol and port should be globally configured.
 //       Current values match the run-config of the json-server
@@ -27,6 +28,15 @@ export class RestDatasource {
 
   constructor(private httpClient: HttpClient, private injector: Injector) {
     this.baseUrl = `${PROTOCOL}://${location.hostname}:${PORT}/`;
+  }
+
+  authenticate(username: string, password: string): Observable<boolean> {
+    return this.httpClient.post<any>(this.baseUrl + 'login', {
+      name: username, password
+    }).pipe(map(response => {
+      this.authToken = response.success ? response.token : undefined;
+      return response.success;
+    }));
   }
 
   getProducts(): Observable<Product[]> {
@@ -44,6 +54,58 @@ export class RestDatasource {
       .pipe(map(products => {
         return products.map(
           p => new Product(p.id, p.name, p.category, p.description, p.price));
+      }));
+  }
+
+  saveProduct(product: Product): Observable<Product> {
+    // TODO: the same comment as in `getProducts` method
+    return this.httpClient.post<any>(this.baseUrl + 'products',
+      product, this.getOptions())
+      .pipe(map(p => {
+        const result = new Product(p.id, p.name, p.category, p.description, p.price);
+        return result;
+      }));
+  }
+
+  updateProduct(product: Product): Observable<Product> {
+    // TODO: the same comment as in `getProducts` method
+    return this.httpClient.put<any>(`${this.baseUrl}/products/${product.Id}`,
+      product, this.getOptions())
+      .pipe(map(p => {
+        const result = new Product(p.id, p.name, p.category, p.description, p.price);
+        return result;
+      }));
+  }
+
+  deleteProduct(product: Product): Observable<Product> {
+    // TODO: the same comment as in `getProducts` method
+    return this.httpClient.delete<any>(`${this.baseUrl}/products/${product.Id}`,
+      this.getOptions())
+      .pipe(map(p => {
+        const result = new Product(p.id, p.name, p.category, p.description, p.price);
+        return result;
+      }));
+  }
+
+  getOrders(): Observable<Order[]> {
+    // TODO: the same comment as in `getProducts` method
+    return this.httpClient.get<any[]>(this.baseUrl + 'orders',
+      this.getOptions())
+      .pipe(map(orders => {
+        return orders.map(o => {
+          const result = new Order(this.injector.get(Cart));
+          result.Id = o.id;
+          result.FirstName = o.firstName;
+          result.LastName = o.lastName;
+          result.Address = o.address;
+          result.Country = o.country;
+          result.City = o.city;
+          result.State = o.state;
+          result.Zip = o.zip;
+          result.Shipped = o.shipped;
+
+          return result;
+        });
       }));
   }
 
@@ -66,13 +128,52 @@ export class RestDatasource {
       }));
   }
 
-  authenticate(username: string, password: string): Observable<boolean> {
-    return this.httpClient.post<any>(this.baseUrl + 'login', {
-      name: username, password
-    }).pipe(map(response => {
-      this.authToken = response.success ? response.token : undefined;
-      return response.success;
-    }));
+  updateOrder(order: Order): Observable<Order> {
+    // TODO: the same comment as in `getProducts` method
+    return this.httpClient.put<any>(`${this.baseUrl}/orders/${order.Id}`,
+      order, this.getOptions())
+      .pipe(map(o => {
+        const result = new Order(this.injector.get(Cart));
+        result.Id = o.id;
+        result.FirstName = o.firstName;
+        result.LastName = o.lastName;
+        result.Address = o.address;
+        result.Country = o.country;
+        result.City = o.city;
+        result.State = o.state;
+        result.Zip = o.zip;
+        result.Shipped = o.shipped;
+
+        return result;
+      }));
+  }
+
+  deleteOrder(order: Order): Observable<Order> {
+    // TODO: the same comment as in `getProducts` method
+    return this.httpClient.delete<any>(`${this.baseUrl}/orders/${order.Id}`,
+      this.getOptions())
+      .pipe(map(o => {
+        const result = new Order(this.injector.get(Cart));
+        result.Id = o.id;
+        result.FirstName = o.firstName;
+        result.LastName = o.lastName;
+        result.Address = o.address;
+        result.Country = o.country;
+        result.City = o.city;
+        result.State = o.state;
+        result.Zip = o.zip;
+        result.Shipped = o.shipped;
+
+        return result;
+      }));
+  }
+
+  private getOptions(): { headers: HttpHeaders } {
+    return {
+      headers: new HttpHeaders({
+        Authorization: `Bearer<${this.authToken}`
+      })
+    };
   }
 
   getAuthToken(): string | undefined {

@@ -2,14 +2,14 @@
  * The product model class.
  */
 export class Product {
-  private readonly id: number;
+  private readonly id?: number;
   private name: string;
   private category: string;
   private description: string;
   private price: number;
 
   constructor(
-    id: number,
+    id: number | undefined,
     name: string,
     category: string,
     description: string,
@@ -22,7 +22,7 @@ export class Product {
     this.price = price;
   }
 
-  get Id(): number {
+  get Id(): number | undefined {
     return this.id;
   }
 
