@@ -4,4 +4,22 @@
       <h2 class="text-white float-left">Sports Store Admin</h2>
     </div>
   </div>
+  <div class="row">
+    <div class="col-3 p-2">
+      <button class="btn btn-block btn-outline-primary" routerLinkActive="active"
+              routerLink="/admin/main/products">
+        Products
+      </button>
+      <button class="btn btn-block btn-outline-primary" routerLinkActive="active"
+              routerLink="/admin/main/orders">
+        Orders
+      </button>
+      <button class="btn btn-block btn-outline-secondary mt-5" (click)="logout()">
+        Logout
+      </button>
+    </div>
+    <div class="col-9 p-2">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>
