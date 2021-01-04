@@ -9,11 +9,11 @@ export class Product {
   private price: number;
 
   constructor(
-    id: number | undefined,
-    name: string,
-    category: string,
-    description: string,
-    price: number
+    id?: number | undefined,
+    name: string = '',
+    category: string = '',
+    description: string = '',
+    price: number = 0
   ) {
     this.id = id;
     this.name = name;

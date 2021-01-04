@@ -16,7 +16,7 @@ export class Order {
   private zip = '';
   private shipped = false;
 
-  constructor(private cart: Cart) {}
+  constructor(public cart: Cart) {}
 
   get Id(): number | undefined {
     return this.id;
@@ -102,6 +102,10 @@ export class Order {
   /**
    * Override toJSON method so that Cart member is not sent
    * to the server.
+   * TODO: This is a bug. Order must contain information about its products.
+   *       So either `Cart` member must be included when data is sent to the
+   *       server, or `Cart` can be manually serialized here so that can be
+   *       sent to the server instead.
    */
   toJSON(): any {
     return {

@@ -22,11 +22,11 @@ module.exports =(req, res, next) => {
       return;
     }
   }
-  else if (((req.url === "/api/products" || req.url === "/products" ||
+  else if (((req.url.indexOf("/api/products") !== -1 || req.url.indexOf("/products") !== -1 ||
             req.url === "/api/categories" || req.url === "/categories") && req.method !== "GET") ||
            (req.url.startsWith("/orders") && req.method !== "POST")) {
     // This is either:
-    // 1) A request that attempts to update the products or categories
+    // 1) A request that attempts to update the products or categories or create a new product
     // 2) or a request that attempts to update existing orders (as opposed
     //    to registering a new order)
     //

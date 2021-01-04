@@ -24,6 +24,7 @@ export class OrderRepository {
         this.loaded = true;
       });
   }
+
   getOrders(): Order[] {
     if (!this.loaded) {
       this.loadOrders();

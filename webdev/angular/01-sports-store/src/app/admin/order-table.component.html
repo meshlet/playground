@@ -1,1 +1,64 @@
-Order Table
+<div class="form-check">
+  <input type="checkbox" class="form-check-input" id="display_shipped_orders"
+         [(ngModel)]="displayShippedOrders">
+  <label for="display_shipped_orders" class="form-check-label">
+    Display Shipped Orders
+  </label>
+</div>
+<table class="product-table">
+  <thead>
+    <th scope="col">
+      Name
+    </th>
+    <th scope="col">
+      Zip
+    </th>
+    <th scope="col">
+      Cart
+    </th>
+    <th scope="col"></th>
+    <th scope="col"></th>
+  </thead>
+  <tbody>
+    <tr *ngIf="repository.getOrders().length == 0">
+      <td colspan="5">
+        There are no orders in the database
+      </td>
+    </tr>
+    <ng-template ngFor let-order [ngForOf]="repository.getOrders()">
+      <ng-template ngIf [ngIf]="order.Shipped && displayShippedOrders || !order.Shipped">
+        <tr>
+          <td>
+            {{order.FirstName + " " + order.LastName}}
+          </td>
+          <td>
+            {{order.Zip}}
+          </td>
+          <td class="font-weight-bold">
+            Products
+          </td>
+          <td class="font-weight-bold">
+            Quantity
+          </td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-warning px-3 mr-1 text-white" (click)="markShipped(order)"
+                    [disabled]="order.Shipped">
+              {{order.Shipped ? "Shipped" : "Ship"}}
+            </button>
+            <button class="btn btn-sm btn-danger px-2" (click)="deleteOrder(order)">
+              Delete
+            </button>
+          </td>
+        </tr>
+        <tr *ngFor="let line of order.Cart.CartLines">
+          <td colspan="3" class="text-right">
+            {{line.Product.Name}}
+          </td>
+          <td colspan="2">
+            {{line.Product.Quantity}}
+          </td>
+        </tr>
+      </ng-template>
+    </ng-template>
+  </tbody>
+</table>

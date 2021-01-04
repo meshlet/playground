@@ -1,1 +1,49 @@
-Product Table
+<table class="product-table">
+  <thead>
+    <th scope="col">
+      ID
+    </th>
+    <th scope="col">
+      Name
+    </th>
+    <th scope="col">
+      Category
+    </th>
+    <th scope="col" class="text-right">
+      Price
+    </th>
+    <th scope="col"></th>
+  </thead>
+  <tbody>
+    <tr *ngIf="repository.getProducts().length == 0">
+      <td colspan="5">
+        There are no products in the database
+      </td>
+    </tr>
+    <tr *ngFor="let product of repository.getProducts()">
+      <td>
+        {{ product.Id }}
+      </td>
+      <td>
+        {{ product.Name }}
+      </td>
+      <td>
+        {{ product.Category }}
+      </td>
+      <td class="text-right">
+        {{ product.Price | currency:"USD":"symbol":"2.2-2" }}
+      </td>
+      <td class="text-center">
+        <button class="btn btn-sm btn-warning px-3 mr-1 text-white" (click)="editProduct(product)">
+          Edit
+        </button>
+        <button class="btn btn-sm btn-danger px-2" (click)="deleteProduct(product)">
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<button class="btn btn-primary" (click)="createProduct()">
+  Create New Product
+</button>

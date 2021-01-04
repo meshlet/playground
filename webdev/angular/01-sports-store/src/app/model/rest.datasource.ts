@@ -69,7 +69,7 @@ export class RestDatasource {
 
   updateProduct(product: Product): Observable<Product> {
     // TODO: the same comment as in `getProducts` method
-    return this.httpClient.put<any>(`${this.baseUrl}/products/${product.Id}`,
+    return this.httpClient.put<any>(`${this.baseUrl}products/${product.Id}`,
       product, this.getOptions())
       .pipe(map(p => {
         const result = new Product(p.id, p.name, p.category, p.description, p.price);
@@ -79,7 +79,7 @@ export class RestDatasource {
 
   deleteProduct(product: Product): Observable<Product> {
     // TODO: the same comment as in `getProducts` method
-    return this.httpClient.delete<any>(`${this.baseUrl}/products/${product.Id}`,
+    return this.httpClient.delete<any>(`${this.baseUrl}products/${product.Id}`,
       this.getOptions())
       .pipe(map(p => {
         const result = new Product(p.id, p.name, p.category, p.description, p.price);
@@ -130,7 +130,7 @@ export class RestDatasource {
 
   updateOrder(order: Order): Observable<Order> {
     // TODO: the same comment as in `getProducts` method
-    return this.httpClient.put<any>(`${this.baseUrl}/orders/${order.Id}`,
+    return this.httpClient.put<any>(`${this.baseUrl}orders/${order.Id}`,
       order, this.getOptions())
       .pipe(map(o => {
         const result = new Order(this.injector.get(Cart));
@@ -150,7 +150,7 @@ export class RestDatasource {
 
   deleteOrder(order: Order): Observable<Order> {
     // TODO: the same comment as in `getProducts` method
-    return this.httpClient.delete<any>(`${this.baseUrl}/orders/${order.Id}`,
+    return this.httpClient.delete<any>(`${this.baseUrl}orders/${order.Id}`,
       this.getOptions())
       .pipe(map(o => {
         const result = new Order(this.injector.get(Cart));
@@ -171,7 +171,7 @@ export class RestDatasource {
   private getOptions(): { headers: HttpHeaders } {
     return {
       headers: new HttpHeaders({
-        Authorization: `Bearer<${this.authToken}`
+        Authorization: `Bearer<${this.authToken}>`
       })
     };
   }
