@@ -43,7 +43,7 @@ export class OrderRepository {
     //       the this.orders array
     this.dataSource.updateOrder(order)
       .subscribe(o1 => {
-        this.orders.splice(this.orders.findIndex(o2 => o2.Id === order.Id),
+        this.orders.splice(this.orders.findIndex(o2 => o2.id === order.id),
           1, order);
       });
   }
@@ -52,7 +52,7 @@ export class OrderRepository {
     this.dataSource.deleteOrder(order)
       .subscribe(o1 => {
         // Delete the order from the list of orders
-        this.orders.splice(this.orders.findIndex(p2 => p2.Id === order.Id), 1);
+        this.orders.splice(this.orders.findIndex(p2 => p2.id === order.id), 1);
       });
   }
 }

@@ -23,13 +23,13 @@
       <div *ngFor="let product of getProducts()" class="card bg-light mb-2 border border-primary">
         <div class="card-body px-2 py-3">
           <h4 class="card-title">
-            {{ product.Name }}
+            {{ product.name }}
             <span class="badge badge-pill badge-primary float-right">
-              {{ product.Price | currency:"USD":"symbol":"2.2-2" }}
+              {{ product.price | currency:"USD":"symbol":"2.2-2" }}
             </span>
           </h4>
           <p class="card-text bg-white px-1 py-2 clearfix">
-            {{ product.Description }}
+            {{ product.description }}
             <button class="btn btn-sm bg-success text-white float-right"
                     (click)="addProductToCart(product)">
               Add to cart

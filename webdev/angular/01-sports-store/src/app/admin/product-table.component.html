@@ -22,16 +22,16 @@
     </tr>
     <tr *ngFor="let product of repository.getProducts()">
       <td>
-        {{ product.Id }}
+        {{ product.id }}
       </td>
       <td>
-        {{ product.Name }}
+        {{ product.name }}
       </td>
       <td>
-        {{ product.Category }}
+        {{ product.category }}
       </td>
       <td class="text-right">
-        {{ product.Price | currency:"USD":"symbol":"2.2-2" }}
+        {{ product.price | currency:"USD":"symbol":"2.2-2" }}
       </td>
       <td class="text-center">
         <button class="btn btn-sm btn-warning px-3 mr-1 text-white" (click)="editProduct(product)">

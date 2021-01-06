@@ -26,13 +26,13 @@
       </td>
     </tr>
     <ng-template ngFor let-order [ngForOf]="repository.getOrders()">
-      <ng-template ngIf [ngIf]="order.Shipped && displayShippedOrders || !order.Shipped">
+      <ng-template ngIf [ngIf]="order.shipped && displayShippedOrders || !order.shipped">
         <tr>
           <td>
-            {{order.FirstName + " " + order.LastName}}
+            {{order.firstName + " " + order.lastName}}
           </td>
           <td>
-            {{order.Zip}}
+            {{order.zip}}
           </td>
           <td class="font-weight-bold">
             Products
@@ -42,20 +42,20 @@
           </td>
           <td class="text-center">
             <button class="btn btn-sm btn-warning px-3 mr-1 text-white" (click)="markShipped(order)"
-                    [disabled]="order.Shipped">
-              {{order.Shipped ? "Shipped" : "Ship"}}
+                    [disabled]="order.shipped">
+              {{order.shipped ? "Shipped" : "Ship"}}
             </button>
             <button class="btn btn-sm btn-danger px-2" (click)="deleteOrder(order)">
               Delete
             </button>
           </td>
         </tr>
-        <tr *ngFor="let line of order.Cart.CartLines">
+        <tr *ngFor="let line of order.cart.cartLines">
           <td colspan="3" class="text-right">
-            {{line.Product.Name}}
+            {{line.product.name}}
           </td>
           <td colspan="2">
-            {{line.Product.Quantity}}
+            {{line.product.quantity}}
           </td>
         </tr>
       </ng-template>

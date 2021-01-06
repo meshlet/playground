@@ -17,7 +17,7 @@ export class ProductTableComponent {
   }
 
   public editProduct(product: Product): void {
-    this.router.navigateByUrl(`/admin/main/products/edit/${product.Id}`);
+    this.router.navigateByUrl(`/admin/main/products/edit/${product.id}`);
   }
 
   public createProduct(): void {

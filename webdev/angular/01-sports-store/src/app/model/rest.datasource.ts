@@ -69,7 +69,7 @@ export class RestDatasource {
 
   updateProduct(product: Product): Observable<Product> {
     // TODO: the same comment as in `getProducts` method
-    return this.httpClient.put<any>(`${this.baseUrl}products/${product.Id}`,
+    return this.httpClient.put<any>(`${this.baseUrl}products/${product.id}`,
       product, this.getOptions())
       .pipe(map(p => {
         const result = new Product(p.id, p.name, p.category, p.description, p.price);
@@ -79,7 +79,7 @@ export class RestDatasource {
 
   deleteProduct(product: Product): Observable<Product> {
     // TODO: the same comment as in `getProducts` method
-    return this.httpClient.delete<any>(`${this.baseUrl}products/${product.Id}`,
+    return this.httpClient.delete<any>(`${this.baseUrl}products/${product.id}`,
       this.getOptions())
       .pipe(map(p => {
         const result = new Product(p.id, p.name, p.category, p.description, p.price);
@@ -93,16 +93,18 @@ export class RestDatasource {
       this.getOptions())
       .pipe(map(orders => {
         return orders.map(o => {
-          const result = new Order(this.injector.get(Cart));
-          result.Id = o.id;
-          result.FirstName = o.firstName;
-          result.LastName = o.lastName;
-          result.Address = o.address;
-          result.Country = o.country;
-          result.City = o.city;
-          result.State = o.state;
-          result.Zip = o.zip;
-          result.Shipped = o.shipped;
+          const result = new Order(new Cart());
+          Object.assign(result, o);
+          // const result = new Order(this.injector.get(Cart));
+          // result.Id = o.id;
+          // result.FirstName = o.firstName;
+          // result.LastName = o.lastName;
+          // result.Address = o.address;
+          // result.Country = o.country;
+          // result.City = o.city;
+          // result.State = o.state;
+          // result.Zip = o.zip;
+          // result.Shipped = o.shipped;
 
           return result;
         });
@@ -113,16 +115,18 @@ export class RestDatasource {
     // TODO: the same comment as in `getProducts` method
     return this.httpClient.post<any>(this.baseUrl + 'orders', order)
       .pipe(map(o => {
-        const result = new Order(this.injector.get(Cart));
-        result.Id = o.id;
-        result.FirstName = o.firstName;
-        result.LastName = o.lastName;
-        result.Address = o.address;
-        result.Country = o.country;
-        result.City = o.city;
-        result.State = o.state;
-        result.Zip = o.zip;
-        result.Shipped = o.shipped;
+        const result = new Order(new Cart());
+        Object.assign(result, o);
+        // const result = new Order(this.injector.get(Cart));
+        // result.Id = o.id;
+        // result.FirstName = o.firstName;
+        // result.LastName = o.lastName;
+        // result.Address = o.address;
+        // result.Country = o.country;
+        // result.City = o.city;
+        // result.State = o.state;
+        // result.Zip = o.zip;
+        // result.Shipped = o.shipped;
 
         return result;
       }));
@@ -130,19 +134,21 @@ export class RestDatasource {
 
   updateOrder(order: Order): Observable<Order> {
     // TODO: the same comment as in `getProducts` method
-    return this.httpClient.put<any>(`${this.baseUrl}orders/${order.Id}`,
+    return this.httpClient.put<any>(`${this.baseUrl}orders/${order.id}`,
       order, this.getOptions())
       .pipe(map(o => {
-        const result = new Order(this.injector.get(Cart));
-        result.Id = o.id;
-        result.FirstName = o.firstName;
-        result.LastName = o.lastName;
-        result.Address = o.address;
-        result.Country = o.country;
-        result.City = o.city;
-        result.State = o.state;
-        result.Zip = o.zip;
-        result.Shipped = o.shipped;
+        const result = new Order(new Cart());
+        Object.assign(result, o);
+        // const result = new Order(this.injector.get(Cart));
+        // result.Id = o.id;
+        // result.FirstName = o.firstName;
+        // result.LastName = o.lastName;
+        // result.Address = o.address;
+        // result.Country = o.country;
+        // result.City = o.city;
+        // result.State = o.state;
+        // result.Zip = o.zip;
+        // result.Shipped = o.shipped;
 
         return result;
       }));
@@ -150,19 +156,21 @@ export class RestDatasource {
 
   deleteOrder(order: Order): Observable<Order> {
     // TODO: the same comment as in `getProducts` method
-    return this.httpClient.delete<any>(`${this.baseUrl}orders/${order.Id}`,
+    return this.httpClient.delete<any>(`${this.baseUrl}orders/${order.id}`,
       this.getOptions())
       .pipe(map(o => {
-        const result = new Order(this.injector.get(Cart));
-        result.Id = o.id;
-        result.FirstName = o.firstName;
-        result.LastName = o.lastName;
-        result.Address = o.address;
-        result.Country = o.country;
-        result.City = o.city;
-        result.State = o.state;
-        result.Zip = o.zip;
-        result.Shipped = o.shipped;
+        const result = new Order(new Cart());
+        Object.assign(result, o);
+        // const result = new Order(this.injector.get(Cart));
+        // result.Id = o.id;
+        // result.FirstName = o.firstName;
+        // result.LastName = o.lastName;
+        // result.Address = o.address;
+        // result.Country = o.country;
+        // result.City = o.city;
+        // result.State = o.state;
+        // result.Zip = o.zip;
+        // result.Shipped = o.shipped;
 
         return result;
       }));

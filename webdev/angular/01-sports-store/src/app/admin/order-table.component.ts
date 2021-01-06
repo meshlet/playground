@@ -16,7 +16,7 @@ export class OrderTableComponent {
   }
 
   public markShipped(order: Order): void {
-    order.Shipped = true;
+    order.shipped = true;
     this.repository.updateOrder(order);
   }
 

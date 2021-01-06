@@ -10,7 +10,7 @@
     <div class="form-group col">
       <label for="name">Name</label>
       <input type="text" id="name" class="form-control" placeholder="Product name..."
-             name="name" [(ngModel)]="product.Name" required>
+             name="name" [(ngModel)]="product.name" required>
       <div class="invalid-feedback">
         Please provide a product name
       </div>
@@ -20,7 +20,7 @@
     <div class="form-group col">
       <label for="category">Category</label>
       <input type="text" id="category" class="form-control" placeholder="Category..."
-             name="category" [(ngModel)]="product.Category" required>
+             name="category" [(ngModel)]="product.category" required>
       <div class="invalid-feedback">
         Please provide a category
       </div>
@@ -30,7 +30,7 @@
     <div class="form-group col">
       <label for="description">Description</label>
       <textarea id="description" class="form-control" placeholder="Description..."
-                name="description" [(ngModel)]="product.Description" rows="4"
+                name="description" [(ngModel)]="product.description" rows="4"
                 required></textarea>
       <div class="invalid-feedback">
         Please provide a product description
@@ -43,7 +43,7 @@
       <!-- TODO: properly validate the price input. The input value must be non-negative which  -->
       <!--       can't be expressed with the HTML min attribute (doesn't accept decimal numbers -->
       <input type="number" id="price" class="form-control" placeholder="Price..."
-             name="price" [(ngModel)]="product.Price" step="0.01" min="0" required>
+             name="price" [(ngModel)]="product.price" step="0.01" min="0" required>
       <div class="invalid-feedback">
         Please provide a product price
       </div>
