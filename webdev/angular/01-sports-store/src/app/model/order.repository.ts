@@ -2,7 +2,7 @@
  * Repository for managing Order objects.
  */
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import {observable, Observable} from 'rxjs';
 import { Order } from './order.model';
 // import { StaticDatasource } from './static.datasource';
 import { RestDatasource } from './rest.datasource';
@@ -10,26 +10,20 @@ import { RestDatasource } from './rest.datasource';
 @Injectable()
 export class OrderRepository {
   private orders: Order[] = [];
-  private loaded = false;
 
   constructor(private dataSource: RestDatasource) {}
 
-  // A method to load orders from the server. As order are accessible by
-  // administrators only, they are not loaded upon repository creation.
-  // They are instead loaded upon request
-  private loadOrders(): void {
+  // This method is expected to be called once at component init time. It
+  // will send HTTP request to the server and load the orders.
+  loadOrders(): void {
     this.dataSource.getOrders()
       .subscribe(orders => {
         this.orders = orders;
-        this.loaded = true;
       });
   }
 
+  // Returns cached orders
   getOrders(): Order[] {
-    if (!this.loaded) {
-      this.loadOrders();
-    }
-
     return this.orders;
   }
 

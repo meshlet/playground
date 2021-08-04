@@ -1,8 +1,5 @@
-<h4 *ngIf="editing" class="pl-3 py-3 bg-success text-white">
-  Edit Product
-</h4>
-<h4 *ngIf="!editing" class="pl-3 py-3 bg-info text-white">
-  Create Product
+<h4 class="pl-3 py-3 bg-info text-white" [class.bg-warning]="editing">
+  {{editing ? "Edit Product" : "Create Product"}}
 </h4>
 <form #form="ngForm" (ngSubmit)="createOrUpdate(form)"
       [class.was-validated]="form.submitted" novalidate>
@@ -51,8 +48,9 @@
   </div>
   <div class="form-row">
     <div class="form-group col">
-      <button *ngIf="editing" type="submit" class="btn btn-success px-2">Update</button>
-      <button *ngIf="!editing" type="submit" class="btn btn-info px-2">Create</button>
+      <button type="submit" class="btn btn-info text-white px-2" [class.btn-warning]="editing">
+        {{editing ? "Update" : "Create"}}
+      </button>
       <button class="btn btn-light text-dark px-2 ml-1" routerLink="/admin">Cancel</button>
     </div>
   </div>

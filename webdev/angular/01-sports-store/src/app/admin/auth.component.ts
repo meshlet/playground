@@ -16,7 +16,6 @@ export class AuthComponent {
 
   constructor(private router: Router, private authService: AuthService) {}
 
-  // TODO: implement the actual authentication mechanism
   authenticate(form: NgForm): void {
     this.authFailed = false;
     if (form.valid) {

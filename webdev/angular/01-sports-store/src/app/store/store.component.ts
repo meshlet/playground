@@ -63,8 +63,8 @@ export class StoreComponent {
 
   previousPage(): void {
     // Make sure the selectedPage index doesn't get out of range
-    // which might happen if user uses previous first page has been
-    // reached
+    // which might happen if user uses previous button and first page
+    // has been reached
     if (this.selectedPage > 0) {
       --this.selectedPage;
     }
@@ -72,8 +72,8 @@ export class StoreComponent {
 
   nextPage(): void {
     // Make sure the selectedPage index doesn't get out of range
-    // which might happen if user uses next button last page has been
-    // reached
+    // which might happen if user uses next button and last page has
+    // been reached
     if (this.selectedPage < this.getNumPages() - 1) {
       ++this.selectedPage;
     }

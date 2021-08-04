@@ -35,6 +35,7 @@
       </td>
       <td class="text-center">
         <button class="btn btn-sm btn-warning px-3 mr-1 text-white" (click)="editProduct(product)">
+          <!-- Equivalent to: <button class="btn btn-sm btn-warning px-3 mr-1 text-white" [routerLink]="['/admin/main/products/edit', product.id]"> -->
           Edit
         </button>
         <button class="btn btn-sm btn-danger px-2" (click)="deleteProduct(product)">
@@ -45,5 +46,6 @@
   </tbody>
 </table>
 <button class="btn btn-primary" (click)="createProduct()">
+  <!-- Equivalent to: <button class="btn btn-primary" routerLink="/admin/main/products/create"> -->
   Create New Product
 </button>

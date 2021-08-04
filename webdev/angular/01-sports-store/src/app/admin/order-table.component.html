@@ -5,7 +5,11 @@
     Display Shipped Orders
   </label>
 </div>
-<table class="product-table">
+<!-- Use 'appNgInit' custom directive to load orders from the server. This makes sure at only one HTTP request -->
+<!-- is sent, regardless of how many times Angular renders this page. Note that 'loadOrders' function is -->
+<!-- not invoked here, it is simply passed as an argument to the directive which invokes the function itself. -->
+<!-- Also note that 'this' arguments (the repository) is passed to the directive as well. -->
+<table [appNgInit]="repository.loadOrders" [thisArg]="repository" class="product-table">
   <thead>
     <th scope="col">
       Name
@@ -41,21 +45,28 @@
             Quantity
           </td>
           <td class="text-center">
-            <button class="btn btn-sm btn-warning px-3 mr-1 text-white" (click)="markShipped(order)"
-                    [disabled]="order.shipped">
-              {{order.shipped ? "Shipped" : "Ship"}}
-            </button>
-            <button class="btn btn-sm btn-danger px-2" (click)="deleteOrder(order)">
-              Delete
-            </button>
+            <div class="container">
+              <div class="row justify-content-around">
+                <button class="btn btn-sm btn-warning text-white col-5" (click)="markShipped(order)"
+                        [disabled]="order.shipped">
+                  {{order.shipped ? "Shipped" : "Ship"}}
+                </button>
+                <button class="btn btn-sm btn-danger col-5" (click)="deleteOrder(order)">
+                  Delete
+                </button>
+              </div>
+            </div>
           </td>
         </tr>
         <tr *ngFor="let line of order.cart.cartLines">
-          <td colspan="3" class="text-right">
+          <td colspan="2">
+            &nbsp;
+          </td>
+          <td>
             {{line.product.name}}
           </td>
           <td colspan="2">
-            {{line.product.quantity}}
+            {{line.quantity}}
           </td>
         </tr>
       </ng-template>

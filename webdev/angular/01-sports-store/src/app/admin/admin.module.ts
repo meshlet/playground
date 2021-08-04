@@ -5,12 +5,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ModelModule} from '../model/model.module';
 import { AuthComponent } from './auth.component';
 import { AdminComponent } from './admin.component';
 import { AuthGuard } from './auth.guard';
 import { ProductTableComponent } from './product-table.component';
 import { ProductEditorComponent } from './product-editor.component';
 import { OrderTableComponent } from './order-table.component';
+import { NgInitDirective } from './ng-init.directive';
 
 const routes: Routes = [
   {
@@ -42,11 +44,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, FormsModule, RouterModule.forChild(routes)],
+  imports: [CommonModule, FormsModule, ModelModule, RouterModule.forChild(routes)],
   providers: [AuthGuard],
   declarations: [
     AuthComponent, AdminComponent, ProductTableComponent, ProductEditorComponent,
-    OrderTableComponent
+    OrderTableComponent, NgInitDirective
   ]
 })
 export class AdminModule {
