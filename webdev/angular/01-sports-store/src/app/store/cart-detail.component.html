@@ -70,9 +70,9 @@
   </div>
   <div class="row">
     <div class="col clearfix">
-      <button class="btn btn-outline-dark float-right" routerLink="/checkout"
-              [disabled]="Cart.itemCount == 0">
-        Checkout
+      <button class="btn btn-outline-dark float-right" (click)="checkout()"
+              [disabled]="Cart.itemCount == 0 || !connService.isConnected()">
+        {{connService.isConnected() ? 'Checkout' : 'Offline'}}
       </button>
       <button class="btn btn-success float-right mr-1" routerLink="/store">
         Continue Shopping

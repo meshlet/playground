@@ -65,6 +65,10 @@ export class Cart {
     }
   }
 
+  removeLinesWithZeroQuantity(): void {
+    this.cartLines = this.cartLines.filter(line => line.quantity > 0);
+  }
+
   clear(): void {
     this.cartLines = [];
     this.itemCount = 0;
