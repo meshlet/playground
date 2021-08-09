@@ -39,7 +39,9 @@
         </div>
         <div class="form-row mb-n2">
           <div class="form-group col">
-            <button type="submit" class="btn btn-block btn-success">Log In</button>
+            <button type="submit" class="btn btn-block btn-success" [disabled]="!connService.isConnected()">
+              {{connService.isConnected() ? "Log In" : "Offline"}}
+            </button>
           </div>
         </div>
         <div class="form-row">

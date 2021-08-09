@@ -4,7 +4,6 @@
 import { Injectable } from '@angular/core';
 import {observable, Observable} from 'rxjs';
 import { Order } from './order.model';
-// import { StaticDatasource } from './static.datasource';
 import { RestDatasource } from './rest.datasource';
 
 @Injectable()

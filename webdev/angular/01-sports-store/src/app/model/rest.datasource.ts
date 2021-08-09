@@ -18,8 +18,9 @@ import { HttpHeaders } from '@angular/common/http';
 // TODO: both protocol and port should be globally configured.
 //       Current values match the run-config of the json-server
 //       used in testing
-const PROTOCOL = 'http';
-const PORT = 3500;
+// These are not used with Express server backend
+// const PROTOCOL = 'http';
+// const PORT = 3500;
 
 @Injectable()
 export class RestDatasource {
@@ -27,7 +28,11 @@ export class RestDatasource {
   private authToken?: string;
 
   constructor(private httpClient: HttpClient, private injector: Injector) {
-    this.baseUrl = `${PROTOCOL}://${location.hostname}:${PORT}/`;
+    // this.baseUrl = `${PROTOCOL}://${location.hostname}:${PORT}/`;
+    // Express server handles both HTTP and JSON requests, so there's no need
+    // to specify the complete URL as browser will send the JSON requests to
+    // the default origin
+    this.baseUrl = '/api/';
   }
 
   authenticate(username: string, password: string): Observable<boolean> {
