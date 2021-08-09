@@ -8,7 +8,7 @@ const APP_SECRET = "sports_store_app_secret";
 const USERNAME = "admin";
 const PASSWORD = "nimda";
 
-module.exports =(req, res, next) => {
+module.exports = (req, res, next) => {
   if ((req.url === "/api/login" || req.url === "/login") && req.method === "POST") {
     // The user is attempting to gain administrator privileges
     if (req.body != null && req.body.name === USERNAME && req.body.password === PASSWORD) {
@@ -19,8 +19,8 @@ module.exports =(req, res, next) => {
     else {
       res.json({ success: false });
       res.end();
-      return;
     }
+    return;
   }
   else if (((req.url.indexOf("/api/products") !== -1 || req.url.indexOf("/products") !== -1 ||
             req.url === "/api/categories" || req.url === "/categories") && req.method !== "GET") ||
