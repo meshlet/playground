@@ -10,3 +10,4 @@
 .classpath
 **/compiled_css
 **/.sass-cache
+**/.DS_Store
