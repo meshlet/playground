@@ -1,0 +1,114 @@
+<h2>
+  Standard property and attribute bindings
+</h2>
+<h4 class="mt-2">Standard property binding</h4>
+<div class="form-group m-2">
+  <label>One-way binding for input's value DOM JS property</label>
+  <input class="form-control" [value]="repository.getProduct(1)?.name || 'None'" />
+</div>
+<h4 class="mt-2">
+  Using string interpolation binding
+</h4>
+<div class="text-white p-2 bg-info">
+  Name: {{ repository.getProduct(1)?.name || 'None' }}
+</div>
+<h4 class="mt-2">
+  Using attribute binding to set td's colspan attribute
+</h4>
+<p>
+  Attribute bindings are used when there exists no DOM property equivalent for
+  the given HTML attribute (colspan is one of such attributes)
+</p>
+<table class="table table-sm table-bordered table-striped">
+  <tr>
+    <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+  </tr>
+  <tr>
+    <td [attr.colspan]="repository.getProducts().length">
+      {{ repository.getProduct(1)?.name || 'None' }}
+    </td>
+  </tr>
+</table>
+
+<h2 class="mt-4">
+  Setting classed and styles
+</h2>
+<h4 class="mt-2">
+  Setting all element's classes with standard [class] binding
+</h4>
+<div class="text-white">
+  <div [class]="getClassesAsString(2)">
+    The second product is {{ repository.getProduct(2)?.name || "None" }}
+  </div>
+</div>
+<h4 class="mt-2">
+  Setting individual classes using the special class binding
+</h4>
+<ng-template #tmpl1 let-whichProduct="whichProduct" let-product="product">
+  <div class="p-2"
+       [class.bg-success]="product ? product.price < 50 : false"
+       [class.bg-info]=" product ? product.price >= 50 : false">
+    The {{ whichProduct }} product is {{ product ? product.name : "None" }}
+  </div>
+</ng-template>
+<ng-template [ngTemplateOutlet]="tmpl1"
+             [ngTemplateOutletContext]="{ product: repository.getProduct(1), whichProduct: 'first'}"></ng-template>
+<ng-template [ngTemplateOutlet]="tmpl1"
+             [ngTemplateOutletContext]="{ product: repository.getProduct(2), whichProduct: 'second'}"></ng-template>
+<h4 class="mt-2">
+  Setting classes using the ngClass directive
+</h4>
+<p>
+  Note that unlike the standard [class] binding, ngClass adds element to the classes
+  specified by the ngClass expression. On the contrary, [class] overwrites all existing
+  classes with the ones specified in its expression.
+</p>
+<p>[ngClass] with classes provided as a string:</p>
+<div class="p-2 mb-2" [ngClass]="getClassesAsString(1)">
+  The first product is {{ repository.getProduct(1)?.name || "None" }}.
+</div>
+<p>[ngClass] with classes provided as Array of strings:</p>
+<div class="p-2 mb-2" [ngClass]="getClassesAsArray(2)">
+  The second product is {{ repository.getProduct(2)?.name || "None" }}.
+</div>
+<p>[ngClass] with classes provided via a map (Object):</p>
+<div class="text-white">
+  <div class="p-2" [ngClass]="getClassMap(1)">
+    The first product is {{ repository.getProduct(1)?.name || "None" }}.
+  </div>
+  <div class="p-2" [ngClass]="getClassMap(2)">
+    The second product is {{ repository.getProduct(2)?.name || "None" }}.
+  </div>
+</div>
+
+<h2 class="mt-4">
+  Using the style bindings
+</h2>
+<h4 class="mt-2">
+  Setting a single style property
+</h4>
+<div>
+  <p> Style binding without units </p>
+  <div class="p-2 bg-warning mb-2">
+    The <span [style.fontSize]="fontSizeWithUnits">first</span>
+    product is {{ repository.getProduct(1)?.name || "None" }}.
+  </div>
+  <p> Style binding with units </p>
+  <div class="p-2 bg-info">
+    The <span [style.fontSize.px]="fontSizeWithoutUnits">second</span>
+    product is {{ repository.getProduct(2)?.name || "None" }}
+  </div>
+</div>
+<h4 class="mt-2">
+  Setting styles using the ngStyle directive
+</h4>
+<div class="text-white">
+  <div class="p-2 bg-warning">
+    The <span [ngStyle]="getStyles(1)">first</span>
+    product is {{ repository.getProduct(1)?.name || "None" }}.
+  </div>
+  <div class="p-2 bg-info">
+    The <span [ngStyle]="getStyles(2)">second</span>
+    product is {{ repository.getProduct(2)?.name || "None" }}
+  </div>
+</div>

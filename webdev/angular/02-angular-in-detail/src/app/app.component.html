@@ -1,0 +1,22 @@
+<div class="container-fluid mt-2">
+  <div class="row">
+    <div class="col-3">
+      <nav ngbNav #nav="ngbNav" [(activeId)]="active"
+           class="nav-pills" orientation="vertical">
+        <ng-container ngbNavItem="1">
+          <a ngbNavLink>Data Bindings</a>
+          <ng-template ngbNavContent>
+            <data-bindings></data-bindings>
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem="2">
+          <a ngbNavLink>Built-in Directives</a>
+          <ng-template ngbNavContent>
+            <builtin-directives></builtin-directives>
+          </ng-template>
+        </ng-container>
+      </nav>
+    </div>
+    <div [ngbNavOutlet]="nav" class="col-9"> </div>
+  </div>
+</div>

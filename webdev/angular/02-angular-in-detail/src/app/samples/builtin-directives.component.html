@@ -1,0 +1,93 @@
+<h2>
+  Using the ngIf directive
+</h2>
+<div>
+  <p>
+    The following DIV will be included in the DOM
+  </p>
+  <div *ngIf="getProductCount() > 4" class="bg-info p-2 mt-n2">
+    There are more than 4 products in the model
+  </div>
+  <p>
+    The following DIV won't be included in the DOM
+  </p>
+  <div *ngIf="getProductCount() > 5" class="bg-success p-2 mt-1">
+    There are more than 5 products in the model
+  </div>
+</div>
+
+<h2 class="mt-4">
+  Using the ngSwitch directive
+</h2>
+<div>
+  <div class="bg-info p-2 mb-2" [ngSwitch]="getProductCount()">
+    <span *ngSwitchCase="2">There are two products</span>
+    <span *ngSwitchCase="5">There are five products</span>
+    <span *ngSwitchDefault>This is the default</span>
+  </div>
+  <p>
+    The following illustrates handling string literals in ngSwitchCase:
+  </p>
+  <div class="bg-info p-2 mt-n2" [ngSwitch]="getProduct(1)?.name || undefined">
+    <span *ngSwitchCase="targetName">Kayak</span>
+    <span *ngSwitchCase="'Lifejacket'">Lifejacket</span>
+    <span *ngSwitchDefault>Other Product</span>
+  </div>
+</div>
+
+<h2 class="mt-4">
+  Using the ngFor directive
+</h2>
+<div>
+  <p>
+    The following illustrates the ngFor directive along with all of its template
+    variables (index, odd/even, first/last). Additionally, TrackBy input is also
+    used which is invoked by Angular to get an unique identifier for objects
+    that ngFor iterates over (Product in this case). This can significantly
+    reduce amount of DOM manipulation in cases where the  iterable is often
+    updated by recreating its objects, but the underlying data has not changed
+    (hence unique identifier remains the same). Without custom TrackByFunction,
+    ngFor will use object identity as the key which can result in many unneeded
+    DOM updates.
+    Check more at:
+    <a href="https://angular.io/api/common/NgForOf" class="text-break">
+      https://angular.io/api/common/NgForOf
+    </a>
+  </p>
+  <table class="table table-sm table-bordered mt-1">
+    <tr class="text-dark">
+      <th></th><th>Name</th><th>Category</th><th>Price</th>
+    </tr>
+    <tr *ngFor="let item of getProducts(); let i = index; let odd = odd; let first = first; let last = last; trackBy:getKey"
+        [class.bg-primary]="odd" [class.bg-info]="!odd"
+        [class.bg-warning]="first || last">
+
+      <td>{{i + 1}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.category}}</td>
+      <td *ngIf="!last">{{item.price}}</td>
+    </tr>
+  </table>
+</div>
+
+<h2 class="mt-4">
+  Using the ngTemplateOutlet directive
+</h2>
+<div class="mt-2">
+  <p>
+    The following illustrates ngTemplateOutlet, reference variables (i.e. #titleTemplate)
+    as well as providing context data to the template using the variables (i.e. let-text).
+    Note that let-* is set to a name of the property that can be provided as part of the
+    map (object) passed to [ngTemplateOutletContext] (title in this example).
+  </p>
+  <ng-template #titleTemplate let-text="title">
+    <h4 class="p-2 bg-success text-white">
+      Repeated content ({{text}})
+    </h4>
+  </ng-template>
+  <ng-template [ngTemplateOutlet]="titleTemplate" [ngTemplateOutletContext]="{title: 'Header'}"></ng-template>
+  <p>
+    This paragraph is in-between the two ng-template elements
+  </p>
+  <ng-template [ngTemplateOutlet]="titleTemplate" [ngTemplateOutletContext]="{title: 'Footer'}"></ng-template>
+</div>
