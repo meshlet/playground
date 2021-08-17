@@ -13,12 +13,17 @@
   <app-sports-store>Sports Store App</app-sports-store>
 
   <!-- Include jQuery, Popper.js and Bootstrap JS -->
-  <!-- TODO: temporary workaround due to the fact that Angular will not execute -->
-  <!--       Bootstrap JS each time the DOM is updated, which means that new -->
-  <!--       DOM elements will not get processed by Bootstrap JS. This works as -->
-  <!--       expected from Angular side as loading Bootstrap bindings on each -->
-  <!--       DOM update would be super slow. Switch to ng-bootstrap which takes -->
-  <!--       care of attaching this dynamic behavior. -->
+  <!-- TODO: Bootstrap JS needs to be run each time a new element is added to the DOM -->
+  <!-- in order to register the dynamic behavior (such as those required by Bootstrap -->
+  <!-- alerts). However, Angular will execute the Boostrap JS (included in the scripts -->
+  <!-- field in angular.json) only once after the page is rendered for the first time. -->
+  <!-- This partial fix works around this issue by loading the Bootstrap JS directly -->
+  <!-- in index.html, which means that it will be run each time a new module is loaded -->
+  <!-- (for example when admin module is loaded). This is not a complete fix however, -->
+  <!-- because in case a DOM element requiring Bootstrap JS plugin to run is added to -->
+  <!-- DOM, it won't behave properly because Bootstrap has not been run. This is why -->
+  <!-- ng-bootstrap needs to be used instead, which takes care of attaching this dynamic -->
+  <!-- behavior to the DOM elements. -->
   <script
     src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
