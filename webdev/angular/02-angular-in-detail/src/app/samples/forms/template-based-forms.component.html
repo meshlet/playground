@@ -1,0 +1,147 @@
+<h2>
+  Two way bindings and form-validation
+</h2>
+<div>
+  <p>
+    The DIV element below contains the JSON string corresponding to the product
+    object in the component and is updated with every change in the fields below.
+    The form inputs use Angular form validators (required, minlength and patter)
+    some of which are also part of the HTML specification. This is the reason
+    why the form has `novalidate` attribute set, which prevents the browser from
+    running the default validation letting Angular take care of the validation.
+  </p>
+  <p>
+    <span class="font-weight-bold">NOTE:</span> Bootstrap's .is-invalid pseudo
+    class styles are applied to all elements that have both ng-dirty and ng-invalid
+    classes. This allows for using Bootstrap validation styles while still letting
+    Angular run the real-time field validation. Otherwise, a .was-validated class
+    has to be registered on the form element after form is submitted so that Bootstrap
+    will apply its styles. Check styles.scss to see how extending the styles of
+    elements with ng-dirty and ng-invalid classes with Bootstrap's .is-invalid pseudo
+    class is done.
+  </p>
+  <p>
+    <span class="font-weight-bold">NOTE:</span>
+    Error messages are displayed in elements with the `.invalid-feedback-ext` class which
+    extends (see styles.scss) Bootstrap's .invalid-feedback class. The only difference
+    between these is that .invalid-feedback-ext sets display:block while Bootstrap's
+    version has display:none. This is because we want to use Angular to decide whether
+    or not to display the error message (for example using *ngIf) and not Bootstrap's
+    way which would require adding .was-validated class to the form.
+  </p>
+  <p>
+    <span class="font-weight-bold">NOTE:</span>
+    The HTML code below also shows how to access the errors for the given input field
+    using the template reference variable which has ngModel assigned to it.
+  </p>
+  <div class="border border-info p-2">
+    {{ getProductJson() }}&nbsp;
+  </div>
+  <form novalidate>
+    <div class="form-group">
+      <label for="name1">Name:</label>
+      <input type="text" id="name1" name="name" class="form-control"
+             required minlength="3" pattern="^[A-Za-z ]+$"
+             #name1="ngModel" [(ngModel)]="newProduct.name">
+      <ul class="list-unstyled" *ngIf="name1.dirty">
+        <li class="invalid-feedback-ext" *ngIf="name1.errors?.required || false">
+          You must provide the product name.
+        </li>
+        <li class="invalid-feedback-ext" *ngIf="name1.errors?.pattern || false">
+          Product name can contain letters and spaces only.
+        </li>
+        <li class="invalid-feedback-ext" *ngIf="name1.errors?.minlength || false">
+          Product name length must be at least {{ $any(name1.errors).minlength.requiredLength }}
+          characters.
+        </li>
+      </ul>
+    </div>
+  </form>
+</div>
+
+<h4 class="mt-2">
+  Generate validation messages in the component
+</h4>
+<div>
+  <p>
+    The template reference variable set to the form input element is passed to a
+    component method, which checks for validation errors and generates and array
+    of validation messages. Template iterates and renders elements with these.
+    Net effect is simplified template logic (no need to manually write all the
+    HTML code with all the possible validation messages as is done above).
+  </p>
+  <form novalidate>
+    <div class="form-group">
+      <label for="name2">Name:</label>
+      <input type="text" id="name2" name="name" class="form-control"
+             required minlength="3" pattern="^[A-Za-z ]+$"
+             #name2="ngModel" [(ngModel)]="newProduct.name">
+      <ul class="list-unstyled" *ngIf="name2.dirty">
+        <li class="invalid-feedback-ext" *ngFor="let msg of getFieldValidationMessages(name2, 'product name')">
+          {{ msg }}
+        </li>
+      </ul>
+    </div>
+  </form>
+</div>
+
+<h4 class="mt-2">
+  NgForm and form-wide validation
+</h4>
+<div>
+  <p>
+    The following examples assigns NgForm to a template reference variable which is passed
+    to the component on ngSubmit. The NgForm's `submitted` property is used in the *ngIf
+    directive that includes a summary of errors above the form, after the form has been
+    submitted. The same `submitted` property is used to display field-specific error
+    messages when fields have not been edited but the form has been submitted (the ul
+    list that lists field-errors in previous example would not be part of DOM if field
+    has not been emitted and form gets submitted - this fixes it). Furthermore, NgForm's
+    `resetForm` is used in component's submitForm method to reset NgForm's validation status
+    and submitted state. Finally, submit button is disabled when user attempts to submit
+    a form with issues and remains disabled until errors are addressed.
+  </p>
+  <ngb-alert *ngIf="form.submitted && form.invalid" [dismissible]="false" [type]="'danger'" class="pl-0">
+    <ul class="my-0">
+      <li *ngFor="let msg of getFormValidationMessages(form)">
+        {{ msg }}
+      </li>
+    </ul>
+  </ngb-alert>
+  <form novalidate #form="ngForm" (ngSubmit)="submitForm(form)">
+    <div class="form-group">
+      <label for="name3">Name:</label>
+      <input type="text" id="name3" name="name" class="form-control"
+             required minlength="3" pattern="^[A-Za-z ]+$"
+             #name3="ngModel" [(ngModel)]="newProduct.name">
+      <ul class="list-unstyled" *ngIf="form.submitted || name3.dirty">
+        <li class="invalid-feedback-ext" *ngFor="let msg of getFieldValidationMessages(name3, 'product name')">
+          {{ msg }}
+        </li>
+      </ul>
+    </div>
+    <div class="form-group">
+      <label for="category1">Category:</label>
+      <input type="text" id="category1" name="category" class="form-control"
+             required minlength="2" pattern="^[A-Za-z0-9 ]+$" #category1="ngModel" [(ngModel)]="newProduct.category">
+      <ul class="list-unstyled" *ngIf="form.submitted || category1.dirty">
+        <li class="invalid-feedback-ext" *ngFor="let msg of getFieldValidationMessages(category1, 'product category')">
+          {{ msg }}
+        </li>
+      </ul>
+    </div>
+    <div class="form-group">
+      <label for="price1">Price:</label>
+      <input type="number" id="price1" name="price" class="form-control"
+             required min="0" #price1="ngModel" [(ngModel)]="newProduct.price">
+      <ul class="list-unstyled" *ngIf="form.submitted || price1.dirty">
+        <li class="invalid-feedback-ext" *ngFor="let msg of getFieldValidationMessages(price1, 'product price')">
+          {{ msg }}
+        </li>
+      </ul>
+    </div>
+    <button type="submit" class="btn btn-primary float-right"
+            [disabled]="form.submitted && form.invalid" [class.btn-secondary]="form.submitted && form.invalid">
+      Add Product</button>
+  </form>
+</div>

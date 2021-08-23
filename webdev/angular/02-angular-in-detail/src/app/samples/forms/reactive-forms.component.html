@@ -1,0 +1,44 @@
+<h2>
+  Reactive forms and custom validators
+</h2>
+<div>
+  <p>
+    The following illustrates using reactive forms. Model is used to automate
+    generation of the form HTML as well as the form validation. Moreover, the
+    form uses a custom validator to make sure that product price is greater than
+    zero.
+  </p>
+  <p>
+    <span class="font-weight-bold">NOTE: </span> Using ngModel directive together
+    with reactive forms is deprecated. The code below uses the FormGroup.value
+    property to get a snapshot of form's input fields upon submission. This
+    property is an object, whose properties corresponds to all the formControlName
+    properties within the form group. The ngSubmit callback passes this object as
+    an actual Product (although it really isn't - it's missing the ID property
+    which isn't a issue as that property is dynamically created by the repository).
+    Once form is submitted, the form group is reset (via FormGroup.reset method)
+    which will reset validation properties as well as the input control values
+    to their defaults.
+  </p>
+  <ngb-alert *ngIf="submitted && form.invalid" [dismissible]="false" [type]="'danger'" class="pl-0">
+    <ul class="my-0">
+      <li *ngFor="let msg of form.getFormValidationMessages()">
+        {{ msg }}
+      </li>
+    </ul>
+  </ngb-alert>
+  <form novalidate [formGroup]="form" (ngSubmit)="submitForm()">
+    <div class="form-group" *ngFor="let formCtrl of form.getProductFormControls()">
+      <label [htmlFor]="formCtrl.modelProperty">{{ formCtrl.label }}</label>
+      <input type="text" [id]="formCtrl.modelProperty" class="form-control" [formControlName]="formCtrl.modelProperty">
+      <ul class="list-unstyled" *ngIf="submitted || formCtrl.dirty">
+        <li class="invalid-feedback-ext" *ngFor="let msg of formCtrl.getFieldValidationMessages()">
+          {{ msg }}
+        </li>
+      </ul>
+    </div>
+    <button type="submit" class="btn btn-primary float-right"
+            [disabled]="submitted && form.invalid" [class.btn-secondary]="submitted && form.invalid">
+      Add Product</button>
+  </form>
+</div>
