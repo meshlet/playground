@@ -15,6 +15,24 @@
             <builtin-directives></builtin-directives>
           </ng-template>
         </ng-container>
+        <ng-container ngbNavItem="3">
+          <a ngbNavLink>Events and 2-Way Bindings</a>
+          <ng-template ngbNavContent>
+            <events-2way-data-bindings></events-2way-data-bindings>
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem="4">
+          <a ngbNavLink>Template Based Forms</a>
+          <ng-template ngbNavContent>
+            <template-based-forms></template-based-forms>
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem="5">
+          <a ngbNavLink>Reactive Forms</a>
+          <ng-template ngbNavContent>
+            <reactive-forms></reactive-forms>
+          </ng-template>
+        </ng-container>
       </nav>
     </div>
     <div [ngbNavOutlet]="nav" class="col-9"> </div>

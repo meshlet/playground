@@ -1,7 +1,7 @@
 import { Product } from "./product.model";
 import { SimpleDataSource } from "./datasource.model";
 
-export class RepositoryModel {
+export class Repository {
   private dataSource: SimpleDataSource;
   private readonly products: Product[];
   private locator = (p: Product, id: number | undefined) => p.id === id;

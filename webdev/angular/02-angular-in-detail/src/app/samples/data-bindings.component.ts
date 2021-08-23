@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { RepositoryModel } from "../repository.model";
+import { Repository } from "../repository.model";
 import { Product } from "../product.model";
 
 @Component({
@@ -7,7 +7,7 @@ import { Product } from "../product.model";
   templateUrl: "data-bindings.component.html"
 })
 export class DataBindingsComponent {
-  repository: RepositoryModel = new RepositoryModel();
+  repository: Repository = new Repository();
   fontSizeWithUnits: string = "30px";
   fontSizeWithoutUnits: string= "30";
 

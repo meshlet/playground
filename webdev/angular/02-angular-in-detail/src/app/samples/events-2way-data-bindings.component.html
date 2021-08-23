@@ -1,0 +1,117 @@
+<h2>
+  Using event bindings
+</h2>
+<div>
+  <div class="bg-info text-white p-2">
+    Selected product (hover over index column): {{ selectedProductName || "(None)" }}
+  </div>
+  <table class="table table-sm table-bordered">
+    <tr><th></th><th>Name</th><th>Category</th><th>Price</th></tr>
+    <tr *ngFor="let item of getProducts(); let i = index" [class.bg-info]="isSelected(item)">
+      <td (mouseover)="selectedProductName=item.name">{{i + 1}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.category}}</td>
+      <td>{{item.price}}</td>
+    </tr>
+  </table>
+</div>
+<h4 class="mt-2">
+  Using event data (the $event template variable)
+</h4>
+<div>
+  <p>
+    The text in the following DIV element matches the text entered into the input
+    element below.
+  </p>
+  <div class="border border-info">
+    {{ selectedProductName }}&nbsp;
+  </div>
+  <div class="form-group mt-1">
+    <label for="input1">Enter some text:</label>
+    <input id="input1" class="form-control" (input)="selectedProductName=$any($event.target).value">
+  </div>
+</div>
+<h4 class="mt-2">
+  Using template reference variables
+</h4>
+<div>
+  <p>
+    The following DIV contains a text entered into the input element below.
+    This is achieved by accessing the `value` property of the HTMLInputElement
+    via the #product template reference variable defined as part of the input
+    element.
+  </p>
+  <div class="border border-info">
+    {{ product1.value }}&nbsp;
+  </div>
+  <div class="form-group mt-1">
+    <label for="input2">Enter some text:</label>
+    <input #product1 id="input2" class="form-control" (input)="product1.value=$any($event.target).value">
+  </div>
+</div>
+<h4 class="mt-2">
+  Filtering key events
+</h4>
+<div>
+  <p>
+    The content of the following DIV is updated only after user release the ENTER
+    key in the context of the input element below.
+  </p>
+  <div class="border border-info">
+    {{ product2.value }}&nbsp;
+  </div>
+  <div class="form-group mt-1">
+    <label for="input3">Enter some text:</label>
+    <input #product2 id="input3" class="form-control" (keyup.enter)="product2.value=$any($event.target).value">
+  </div>
+</div>
+
+<h2 class="mt-4">
+  Using Two-Way Data Bindings
+</h2>
+<h4 class="mt-2">
+  Two-way data binding <span class="font-weight-bold">without</span> [(ngModel)]
+</h4>
+<div>
+  <p>
+    The following illustrates setting up two-way data binding without the use of ngModel.
+    There are two input elements, which are synchronized so that when content in one changes
+    the other one is automatically updated. This is accomplished by setting up event bindings
+    to the same expression for both, as well as setting up property binding for the `value`
+    property so that it will be updated whenever `selectedProductName` changes (and that will
+    happen when either input's value changes as a result of the event binding).
+  </p>
+  <div class="form-group">
+    <label for="input4">Enter some text:</label>
+    <input id="input4" class="form-control"
+           (input)="selectedProductName=$any($event.target).value" [value]="selectedProductName || ''">
+  </div>
+  <div class="form-group">
+    <label for="input5">Enter some other text:</label>
+    <input id="input5" class="form-control"
+           (input)="selectedProductName=$any($event.target).value" [value]="selectedProductName || ''">
+  </div>
+</div>
+<h4 class="mt-2">
+  Two-way data binding <span class="font-weight-bold">with</span> [(ngModel)]
+</h4>
+<div>
+  <p>
+    Equivalent to the example above, but instead uses ngModel to simplify setting up
+    the 2-way data binding. ngModel directive does exactly the same thing that previous
+    example has achieved manually: event binding is created for the input's element
+    `input` event and property binding is created for the input's element `value`
+    property. The effect is that two input elements are synchronized like before.
+    Note the syntax [(ngModel)] - the combination of parentheses states that this
+    creates both the property binding (the [] square brackets) and the event binding
+    (the () parentheses). This [()] syntax is called banana-in-the-box.
+  </p>
+  <div class="form-group">
+    <label for="input6">Enter some text:</label>
+    <input id="input6" class="form-control" [(ngModel)]="selectedProductName">
+  </div>
+  <div class="form-group">
+    <label for="input7">Enter some other text:</label>
+    <input id="input7" class="form-control" [(ngModel)]="selectedProductName">
+  </div>
+</div>

@@ -7,3 +7,32 @@
 div.container-fluid > h2, div.container-fluid > h4 {
   font-weight: bold;
 }
+
+/**
+ * All elements that have both ng-dirty and ng-invalid classes inherit the
+ * style of the Bootstrap's is-invalid pseudo class. This makes it possible
+ * to use Bootstrap's validation styles while letting Angular run the
+ * validation (Bootstrap adds is-invalid pseudo class on elements with
+ * was-validated class).
+ */
+.ng-dirty.ng-invalid {
+  @extend .is-invalid;
+}
+
+/**
+ * Similarly, all elements that are assigned to both .ng-dirty and .ng-valid
+ * classes extend the Bootstrap's .is-valid pseudo class.
+ */
+.ng-dirty.ng-valid {
+  @extend .is-valid;
+}
+
+/**
+ * Extends the Bootstrap's .invalid-feedback class by setting display property
+ * to block. This is done so that Bootstrap styling can be reused without the
+ * need of having the .was-validated class added to the form.
+ */
+.invalid-feedback-ext {
+  @extend .invalid-feedback;
+  display: block;
+}

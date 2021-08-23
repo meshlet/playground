@@ -1,14 +1,18 @@
+/**
+ * Illustrates using event bindings as well as two-way data bindings.
+ */
+
 import { Component } from "@angular/core";
 import { Repository } from "../repository.model";
 import { Product } from "../product.model";
 
 @Component({
-  selector: "builtin-directives",
-  templateUrl: "builtin-directives.component.html"
+  selector: "events-2way-data-bindings",
+  templateUrl: "events-2way-data-bindings.component.html"
 })
-export class BuiltinDirectivesComponent {
+export class Events2wayDataBindingsComponent {
   repository: Repository = new Repository();
-  targetName: string = "Kayak";
+  selectedProductName: string | undefined = undefined;
 
   getProduct(key: number): Product | undefined {
     return this.repository.getProduct(key);
@@ -18,11 +22,7 @@ export class BuiltinDirectivesComponent {
     return this.repository.getProducts();
   }
 
-  getProductCount(): number {
-    return this.getProducts().length;
-  }
-
-  getKey(index: number, product: Product): number | undefined {
-    return product.id;
+  isSelected(product: Product): boolean {
+    return this.selectedProductName === product.name;
   }
 }
