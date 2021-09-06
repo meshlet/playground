@@ -1,0 +1,223 @@
+<h2>
+  Custom structural directives
+</h2>
+<h4 class="mt-2">
+  A custom ngIf directive (see if.directive.ts)
+</h4>
+<div class="container px-0 mx-0">
+  <div class="row">
+    <div class="col-6">
+      <div class="form-check">
+        <input type="checkbox" id="checkbox1" class="form-check-input" [(ngModel)]="checkboxChecked">
+        <label for="checkbox1">Check/uncheck the checkbox to add/remove the DIV to/from the DOM.</label>
+      </div>
+    </div>
+    <div class="col-6">
+      <ng-template [appIfDir]="checkboxChecked">
+        <div class="border border-primary p-2">
+          This div is added/removed from the DOM tree depending on the state of the checkbox.
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="row mt-1">
+    <div class="col-6">
+      <div class="form-check">
+        <input type="checkbox" id="checkbox2" class="form-check-input" [(ngModel)]="checkboxChecked">
+        <label for="checkbox2">Check/uncheck the checkbox to add/remove the DIV to/from the DOM.</label>
+      </div>
+    </div>
+    <div class="col-6">
+        <div class="border border-primary p-2" *appIfDir="checkboxChecked">
+          Same like above, but using concise syntax for structural directives:<br>
+          &lt;div *appIfDir="checkboxChecked"&gt;&lt;/div&gt; instead of<br>
+          &lt;ng-template [appIfDir]="checkboxSelected"&gt;<br>
+          &nbsp;&nbsp;&lt;div&gt;&lt;/div&gt;<br>
+          &lt;/ng-template&gt;
+        </div>
+    </div>
+  </div>
+</div>
+<h4 class="mt-2">
+  A custom ngFor directive (see for.directive.ts for in-depth description)
+</h4>
+<div class="container mx-0 px-0">
+  <div class="row">
+    <div class="col">
+      <p>
+        The following illustrates the custom appForDirOf directive which mimics the
+        behavior of the built-in ngFor directive. The radio buttons right under this
+        paragraph allow to target different tables with the Product changes. The first
+        table doesn't specify the TrackBy function for uniquely identifying objects,
+        while to other tables do. Try adding, removing, shifting, recreating products
+        with browser console opened to see the changes processed by the directive. Also
+        note that there are fewer changes when custom TrackBy function is provided (
+        meaning performance is better). See <span class="font-weight-bold">for.directive.ts</span>
+        for in-depth description of how appForDirOf works.
+      </p>
+      <p>
+        The button under the table starts or stops the timer which periodically updates
+        the price of each product in the repository. Note that this change is automatically
+        picked up by Angular and relevant bindings are re-evaluated to reflect the changes
+        (in other words, appForDirOf directive is not involved in this). This is done as
+        part of change detection process, which is triggered each time the timer fires at
+        which point Angular re-evaluates the bindings and picks up on changes in prices.
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <form novalidate #form="ngForm" (ngSubmit)="submitForm(form)">
+        <div class="form-group">
+          <div class="form-check form-check-inline">
+            <input type="radio" id="radioTable1" name="radioBtns" class="form-check-input" value="table-1"
+                   checked (change)="activeRepository = 0">
+            <label for="radioTable1" class="form-check-label">Table 1</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" id="radioTable2" name="radioBtns" class="form-check-input" value="table-2"
+                   (change)="activeRepository = 1">
+            <label for="radioTable2" class="form-check-label">Table 2</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input type="radio" id="radioTable3" name="radioBtns" class="form-check-input" value="table-3"
+                   (change)="activeRepository = 2">
+            <label for="radioTable3" class="form-check-label">Table 3</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="name2">Name:</label>
+          <input type="text" id="name2" name="name" class="form-control"
+                 required minlength="3" pattern="^[A-Za-z0-9 ]+$" [(ngModel)]="newProduct.name">
+        </div>
+        <div class="form-group">
+          <label for="category2">Category:</label>
+          <input type="text" id="category2" name="category" class="form-control"
+                 required minlength="2" pattern="^[A-Za-z0-9 ]+$" [(ngModel)]="newProduct.category">
+        </div>
+        <div class="form-group">
+          <label for="price2">Price:</label>
+          <input type="number" id="price2" name="price" class="form-control" required min="0" [(ngModel)]="newProduct.price">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary"
+                  [disabled]="form.submitted && form.invalid" [class.btn-secondary]="form.submitted && form.invalid">
+            Add Product
+          </button>
+        </div>
+      </form>
+      <div class="container mx-0 px-0">
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-primary" (click)="removeProduct(productIndex.value)">
+              Remove Product
+            </button>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <input #productIndex type="text" class="form-control" placeholder="product index...">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-primary" (click)="shiftProductsToRight(rightShiftCount.value)">
+              Right Shift Products
+            </button>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <input #rightShiftCount type="text" class="form-control" placeholder="shift count..">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-primary" (click)="shiftProductsToLeft(leftShiftCount.value)">
+              Left Shift Products
+            </button>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <input #leftShiftCount type="text" class="form-control" placeholder="shift count..">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <button class="btn btn-primary" (click)="recreateProducts(startIndex.value, endIndex.value)">
+              Recreate Product Objects
+            </button>
+          </div>
+          <div class="col-3">
+            <div class="form-group">
+              <input #startIndex type="text" class="form-control" placeholder="start index..">
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="form-group">
+              <input #endIndex type="text" class="form-control" placeholder="end index..">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <table class="table table-sm table-bordered table-striped">
+        <tr class="text-dark">
+          <th></th><th>Name</th><th>Category</th><th>Price</th>
+        </tr>
+        <ng-template [appForDirOf]="repositories[0].getProducts()" let-item let-i="index" let-odd="odd">
+          <tr [class.bg-info]="odd">
+            <td>{{i}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.category}}</td>
+            <td>{{item.price.toFixed(2)}}</td>
+          </tr>
+        </ng-template>
+      </table>
+      <button class="btn btn-info" (click)="startOrStopPriceUpdate()">
+        {{ priceUpdateEnabled ? "Stop Price Update" : "Start Price Update" }}
+      </button>
+      <p class="mt-2">
+        The HTML code for the following table is almost the same like the one above with
+        one difference: appNgForTrackBy input property is used to specify the TrackByFunction
+        used to compare the objects that appNgForOf iterates over (instead of the default
+        Object.is comparison).
+      </p>
+      <table class="table table-sm table-bordered table-striped">
+        <tr class="text-dark">
+          <th></th><th>Name</th><th>Category</th><th>Price</th>
+        </tr>
+        <ng-template [appForDirOf]="repositories[1].getProducts()" [appForDirTrackBy]="getKey" let-item let-i="index" let-odd="odd">
+          <tr [class.bg-info]="odd">
+            <td>{{i}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.category}}</td>
+            <td>{{item.price.toFixed(2)}}</td>
+          </tr>
+        </ng-template>
+      </table>
+      <p class="mt-2">
+        Exactly the same as the table above, the only difference being that HTML for this
+        table uses the shorthand notation for structural directive. Hence<br>
+        <span class="font-weight-bold">&lt;tr *appForDir="let item of repository.getProducts()"&gt;&lt;/tr&gt;</span><br>
+        instead of<br>
+        &lt;ng-template [appForDirOf]="repository.getProducts()"&gt;<br>
+        &nbsp;&nbsp;&lt;tr&gt;&lt;/tr&gt;<br>
+        &lt;/ng-template&gt;
+      </p>
+      <table class="table table-sm table-bordered table-striped">
+        <tr class="text-dark">
+          <th></th><th>Name</th><th>Category</th><th>Price</th>
+        </tr>
+        <tr *appForDir="let item of repositories[2].getProducts(); let i = index; let odd = odd; TrackBy: getKey" [class.bg-info]="odd">
+          <td>{{i}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.category}}</td>
+          <td>{{item.price.toFixed(2)}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
