@@ -14,6 +14,10 @@ import { Product } from "../../product.model";
 export class AttributeDirectivesComponent {
   repository: Repository = new Repository();
   newProduct: Product = new Product();
+  checkbox1Checked = true;
+  checkbox2Checked = true;
+  checkbox3Checked = true;
+  checkbox4Checked = true;
 
   submitForm(form: NgForm) {
     if (form.valid) {
@@ -21,10 +25,6 @@ export class AttributeDirectivesComponent {
       this.newProduct = new Product();
       form.resetForm();
     }
-  }
-
-  log() {
-    console.log("aaaaaaaaaaaaaaa");
   }
 }
 

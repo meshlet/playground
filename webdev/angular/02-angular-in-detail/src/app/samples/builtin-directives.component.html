@@ -47,8 +47,9 @@
     reduce amount of DOM manipulation in cases where the  iterable is often
     updated by recreating its objects, but the underlying data has not changed
     (hence unique identifier remains the same). Without custom TrackByFunction,
-    ngFor will use object identity as the key which can result in many unneeded
-    DOM updates.
+    ngFor will use object identity (Object.is() method) to compare objects which may
+    result in many unneeded DOM updates as Angular might reason that objects differ
+    warranting removal of old and addition of new template views.
     Check more at:
     <a href="https://angular.io/api/common/NgForOf" class="text-break">
       https://angular.io/api/common/NgForOf

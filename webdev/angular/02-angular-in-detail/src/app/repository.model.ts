@@ -8,7 +8,6 @@ export class Repository {
 
   constructor() {
     this.dataSource = new SimpleDataSource();
-    this.products = new Array<Product>();
     this.products = this.dataSource.getData();
   }
 
@@ -31,11 +30,19 @@ export class Repository {
     }
   }
 
-  deleteProduct(id: number) {
+  deleteProduct(id: number): Product | null {
     let index = this.products.findIndex(p => this.locator(p, id));
     if (index > -1) {
-      this.products.splice(index, 1);
+      return this.products.splice(index, 1)[0];
     }
+    return null;
+  }
+
+  deleteProductAt(index: number): Product | null {
+    if (index >= 0 && index < this.products.length) {
+      return this.products.splice(index, 1)[0];
+    }
+    return null;
   }
 
   private generateID(): number {

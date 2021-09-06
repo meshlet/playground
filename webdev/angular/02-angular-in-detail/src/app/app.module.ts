@@ -18,6 +18,19 @@ import { HostBindingListenerDirective } from "./samples/attribute-directives/hos
 import { TwoWayBindingDirective } from "./samples/attribute-directives/two-way-binding.directive";
 import { SimplifiedTwoWayBindingDirective } from "./samples/attribute-directives/two-way-binding-simplified.directive";
 import { ExportDirective } from "./samples/attribute-directives/export.directive";
+import { StructuralDirectivesComponent } from "./samples/structural-directives/structural-directives.component";
+import { IfDirective } from "./samples/structural-directives/if.directive";
+import { ForDirective } from "./samples/structural-directives/for.directive";
+import {
+  ContentChildInnerDirective,
+  ContentChildSearchByDirClassOuterDir,
+  ContentChildSearchByTmplVarNameOuterDir
+} from "./samples/attribute-directives/content-child.directive";
+import {
+  ContentChildrenInnerDirective,
+  ContentChildrenIncludeDescendentsOuterDir,
+  ContentChildrenListenForContentChangesOuterDir
+} from "./samples/attribute-directives/content-children.directive";
 
 @NgModule({
   declarations: [
@@ -35,7 +48,16 @@ import { ExportDirective } from "./samples/attribute-directives/export.directive
     HostBindingListenerDirective,
     TwoWayBindingDirective,
     SimplifiedTwoWayBindingDirective,
-    ExportDirective
+    ExportDirective,
+    StructuralDirectivesComponent,
+    IfDirective,
+    ForDirective,
+    ContentChildInnerDirective,
+    ContentChildSearchByDirClassOuterDir,
+    ContentChildSearchByTmplVarNameOuterDir,
+    ContentChildrenInnerDirective,
+    ContentChildrenIncludeDescendentsOuterDir,
+    ContentChildrenListenForContentChangesOuterDir
   ],
   imports: [
     BrowserModule,

@@ -34,7 +34,7 @@
 <h4 class="mt-2">
   Data-bound input properties and responding to their changes
 </h4>
-<div class="container px-0">
+<div class="container mx-0 px-0">
   <div class="row">
     <div class="col">
       <p>
@@ -90,7 +90,7 @@
 <h4 class="mt-2">
   Output properties and custom events
 </h4>
-<div class="container px-0">
+<div class="container mx-0 px-0">
   <div class="row">
     <div class="col">
       <p>
@@ -130,7 +130,7 @@
 <h4 class="mt-2">
   @HostBinding and @HostListener decorators - decoupling directive from DOM API
 </h4>
-<div class="container px-0">
+<div class="container mx-0 px-0">
   <div class="row">
     <div class="col">
       <p>
@@ -190,7 +190,7 @@
 <h4 class="mt-2">
   2-way binding via a custom directive (poor mans ngModel)
 </h4>
-<div class="container px-0">
+<div class="container mx-0 px-0">
   <div class="row">
     <div class="col">
       <p>
@@ -231,7 +231,7 @@
 <h4 class="mt-2">
   Simplified 2-way binding via a custom directive
 </h4>
-<div class="container px-0">
+<div class="container mx-0 px-0">
   <div class="row">
     <div class="col">
       <p>
@@ -267,5 +267,154 @@
   </div>
   <div class="border border-success p-2">
     {{ exportableDir.aStringProp }}&nbsp;
+  </div>
+</div>
+<h2 class="mt-3">
+  Querying the Host Element Content (@ContentChild and @ContentChildren)
+</h2>
+<h4 class="mt-2">
+  Querying the first instance of directive with @ContentChild (see content-child.directive.ts)
+</h4>
+<div>
+  <p>
+    The following illustrates querying a single instance of a directive embedded
+    within the host element content using the @ContentChild decorator. The querying
+    is done using the embedded directive's class type. Change the
+    state of the checkbox to see how the appContentChildSearchByDirClassOuterDir
+    directive applied to the DIV below changes the background color of the first
+    paragraph in that DIV via the appContentChildInnerDir directive applied to the
+    paragraph. Note that there are two paragraphs in the DIV below, however the
+    appContentChildSearchByDirClassOuterDir directive uses @ContentChild decorator
+    to query content children, so only the first directive that matches is returned.
+  </p>
+  <div class="form-check">
+    <input type="checkbox" id="checkbox1" class="form-check-input" [(ngModel)]="checkbox1Checked">
+    <label for="checkbox1">Change Bg-Color</label>
+  </div>
+  <div [appContentChildSearchByDirClassOuterDir]="checkbox1Checked">
+    <p appContentChildInnerDir>
+      This is the first paragraph.
+    </p>
+    <p appContentChildInnerDir>
+      This is the second paragraph.
+    </p>
+  </div>
+  <p>
+    The following illustrates the appContentChildSearchByTmplVarNameOuterDir that uses
+    @ContentChild decorator to query the first directive assigned to the template
+    reference variable with the name `tmplVar`, as opposed to the previous example
+    where the embedded directive as queried by it's class type.
+  </p>
+  <div class="form-check">
+    <input type="checkbox" id="checkbox2" class="form-check-input" [(ngModel)]="checkbox2Checked">
+    <label for="checkbox2">Change Bg-Color</label>
+  </div>
+  <div [appContentChildSearchByTmplVarNameOuterDir]="checkbox2Checked">
+    <p appContentChildInnerDir #tmplVar="appContentChildInnerDir">
+      This is the first paragraph.
+    </p>
+    <p appContentChildInnerDir>
+      This is the second paragraph.
+    </p>
+  </div>
+</div>
+<h4 class="mt-2">
+  Querying the all instances of directive with @ContentChildren (see content-children.directive.ts)
+</h4>
+<div class="container mx-0 px-0">
+  <div class="row">
+    <div class="col">
+      <p>
+        The following illustrates the appContentChildrenIncludeDescendentsOuterDir directive
+        that utilizes @ContentChildren decorator to query all the instances of the
+        ContentChildrenInnerDirective directive. Note that directives are queries recursively
+        into all DOM subtrees instead of only matching directives bound to immediate children
+        of the element to which the appContentChildrenIncludeDescendentsOuterDir is a applied
+        to.
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-check">
+        <input type="checkbox" id="checkbox3" class="form-check-input" [(ngModel)]="checkbox3Checked">
+        <label for="checkbox3">Change Bg-Color</label>
+      </div>
+      <div [appContentChildrenIncludeDescendentsOuterDir]="checkbox3Checked">
+        <p appContentChildrenInnerDir>
+          This is the first paragraph.
+        </p>
+        <p appContentChildrenInnerDir>
+          This is the second paragraph.
+        </p>
+        <div>
+          <div>
+            <p appContentChildrenInnerDir>
+              This is the third parameter which is not an immediate child of the HTML
+              element with appContentChildrenIncludeDescendentsOuterDir directive.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <p>
+        The following illustrates the appContentChildrenListenForContentChangesOuterDir directive
+        which subscribes to content query changes, meaning that whenever the collection of directives
+        returned by @ContentChildren changes (that is, HTM elements that host those directives are
+        added or removed) the appContentChildrenListenForContentChangesOuterDir will react to those
+        changes. Try adding and removing products to see how the directive applies background styles
+        to table rows as soon as change happens.
+
+        Note that appContentChildrenListenForContentChangesOuterDir will set dark background for every
+        other table row.
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <form novalidate #form3="ngForm" (ngSubmit)="submitForm(form3)">
+        <div class="form-group">
+          <label for="name3">Name:</label>
+          <input type="text" id="name3" name="name" class="form-control"
+                 required minlength="3" pattern="^[A-Za-z0-9 ]+$" [(ngModel)]="newProduct.name">
+        </div>
+        <div class="form-group">
+          <label for="category3">Category:</label>
+          <input type="text" id="category3" name="category" class="form-control"
+                 required minlength="2" pattern="^[A-Za-z0-9 ]+$" [(ngModel)]="newProduct.category">
+        </div>
+        <div class="form-group">
+          <label for="price3">Price:</label>
+          <input type="number" id="price3" name="price" class="form-control" required min="0" [(ngModel)]="newProduct.price">
+        </div>
+        <button type="submit" class="btn btn-primary float-right"
+                [disabled]="form3.submitted && form3.invalid" [class.btn-secondary]="form3.submitted && form3.invalid">
+          Add Product</button>
+      </form>
+    </div>
+    <div class="col-8">
+      <div class="form-check">
+        <input type="checkbox" id="checkbox4" class="form-check-input" [(ngModel)]="checkbox4Checked">
+        <label for="checkbox4">Change Bg-Color</label>
+      </div>
+      <table class="table table-sm table-bordered table-striped"
+             [appContentChildrenListenForContentChangesOuterDir]="checkbox4Checked">
+        <tr class="text-dark">
+          <th></th><th>Name</th><th>Category</th><th>Price</th><th></th>
+        </tr>
+        <tr *ngFor="let item of repository.getProducts(); let i = index;" appContentChildrenInnerDir>
+          <td>{{i + 1}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.category}}</td>
+          <td>{{item.price}}</td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-danger" (click)="repository.deleteProduct($any(item.id))">Remove</button>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 </div>
