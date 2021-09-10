@@ -49,14 +49,14 @@
         behavior of the built-in ngFor directive. The radio buttons right under this
         paragraph allow to target different tables with the Product changes. The first
         table doesn't specify the TrackBy function for uniquely identifying objects,
-        while to other tables do. Try adding, removing, shifting, recreating products
+        while the two other tables do. Try adding, removing, shifting, recreating products
         with browser console opened to see the changes processed by the directive. Also
-        note that there are fewer changes when custom TrackBy function is provided (
-        meaning performance is better). See <span class="font-weight-bold">for.directive.ts</span>
+        note that there are fewer changes when custom TrackBy function is provided
+        (meaning performance is better). See <span class="font-weight-bold">for.directive.ts</span>
         for in-depth description of how appForDirOf works.
       </p>
       <p>
-        The button under the table starts or stops the timer which periodically updates
+        The button under the first table starts or stops the timer which periodically updates
         the price of each product in the repository. Note that this change is automatically
         picked up by Angular and relevant bindings are re-evaluated to reflect the changes
         (in other words, appForDirOf directive is not involved in this). This is done as

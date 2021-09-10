@@ -1,0 +1,57 @@
+<h2>Components in detail</h2>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <p>
+        The following illustrates using components to structure the application in a way
+        so that each component has a well-defined purpose. This simplifies development, testing
+        and maintenance.
+      </p>
+      <ul>
+        <li>
+          product-table.component.(ts/html) illustrates using input properties in a component to
+          receive data from the parent component.
+        </li>
+        <li>
+          product-form.component.(ts/html) illustrates using output properties to communicate
+          an event to the parent component.
+        </li>
+        <li>
+          toggle-content.component.(ts/html) illustrates using the special ng-content element
+          to project content of the host element into the components template.
+        </li>
+        <li>
+          View encapsulation (or shadow DOM) is illustrated in product-table.component.ts, which
+          ensures that component CSS rules don't leak outside the component. This component also
+          illustrates the @ViewChildren decorator used by components to query its view children.
+          Finally, this component illustrates using external CSS styles via the `styleUrls`
+          property of the @Component decorator.
+        </li>
+        <li>
+          Inline components styles using the `styles` @Component property are illustrated in
+          product-form.component.ts. In addition, this component also illustrates the
+          special :host CSS selector which allows the component's CSS rules to refer to the
+          components host element (this is the only way to do that). Furthermore, this component
+          illustrates the special :host-context(.aClass) CSS selector which will the host
+          element or any of its ascendants if they belong to the `.aClass` class.
+        </li>
+        <li>
+          component-in-details.component.ts illustrates the ::ng-deep pseudo class, which
+          makes any CSS rule it is applied to global (it breaks shadow DOM / view encapsulation).
+          This is one way to make sure view children inherit CSS styles which are not inheritable
+          by default (such as border).
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <product-form class="hostContextIllustration1" (newProductCreated)="repository.saveProduct($event)"></product-form>
+    </div>
+    <div class="col-8">
+      <toggle-content>
+        <product-table [repository]="repository"></product-table>
+      </toggle-content>
+    </div>
+  </div>
+</div>

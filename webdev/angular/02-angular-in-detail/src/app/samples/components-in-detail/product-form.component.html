@@ -1,0 +1,22 @@
+<form novalidate #form="ngForm" (ngSubmit)="submitForm(form)">
+  <div class="form-group">
+    <label for="name2">Name:</label>
+    <input type="text" id="name2" name="name" class="form-control"
+           required minlength="3" pattern="^[A-Za-z0-9 ]+$" [(ngModel)]="newProduct.name">
+  </div>
+  <div class="form-group">
+    <label for="category2">Category:</label>
+    <input type="text" id="category2" name="category" class="form-control"
+           required minlength="2" pattern="^[A-Za-z0-9 ]+$" [(ngModel)]="newProduct.category">
+  </div>
+  <div class="form-group">
+    <label for="price2">Price:</label>
+    <input type="number" id="price2" name="price" class="form-control" required min="0" [(ngModel)]="newProduct.price">
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary"
+            [disabled]="form.submitted && form.invalid" [class.btn-secondary]="form.submitted && form.invalid">
+      Add Product
+    </button>
+  </div>
+</form>

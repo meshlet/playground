@@ -1,0 +1,10 @@
+/**
+ * Styles private to the ProductTableComponent (product-table.component.ts) applied
+ * only in product-table.component.html template.
+ */
+
+// Apply the following styling to each row in the table body except the first one
+tbody:not(:first-child) tr {
+  background-color: deepskyblue;
+  color: white;
+}

@@ -45,6 +45,13 @@
             <structural-directives></structural-directives>
           </ng-template>
         </ng-container>
+        <ng-container ngbNavItem="8">
+          <a ngbNavLink>Components In Details</a>
+          <ng-template ngbNavContent>
+            <!-- For in-depth description of :host-context selector check product-form.component.ts -->
+            <components-in-detail class="hostContextIllustration2"></components-in-detail>
+          </ng-template>
+        </ng-container>
       </nav>
     </div>
     <div [ngbNavOutlet]="nav" class="col-9"> </div>

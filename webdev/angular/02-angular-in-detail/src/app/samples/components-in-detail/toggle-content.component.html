@@ -1,0 +1,5 @@
+<div class="form-check">
+  <input type="checkbox" id="checkbox1" class="form-check-input" [(ngModel)]="showContent">
+  <label for="checkbox1">Show table</label>
+</div>
+<ng-content *ngIf="showContent"></ng-content>

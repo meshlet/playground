@@ -31,6 +31,10 @@ import {
   ContentChildrenIncludeDescendentsOuterDir,
   ContentChildrenListenForContentChangesOuterDir
 } from "./samples/attribute-directives/content-children.directive";
+import { ComponentsInDetailComponent } from "./samples/components-in-detail/components-in-detail.component";
+import { ProductTableComponent, SetTextColorInnerDirective } from "./samples/components-in-detail/product-table.component";
+import { ProductFormComponent } from "./samples/components-in-detail/product-form.component";
+import { ToggleContentComponent } from "./samples/components-in-detail/toggle-content.component";
 
 @NgModule({
   declarations: [
@@ -57,7 +61,12 @@ import {
     ContentChildSearchByTmplVarNameOuterDir,
     ContentChildrenInnerDirective,
     ContentChildrenIncludeDescendentsOuterDir,
-    ContentChildrenListenForContentChangesOuterDir
+    ContentChildrenListenForContentChangesOuterDir,
+    ComponentsInDetailComponent,
+    ProductTableComponent,
+    SetTextColorInnerDirective,
+    ProductFormComponent,
+    ToggleContentComponent
   ],
   imports: [
     BrowserModule,

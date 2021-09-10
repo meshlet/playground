@@ -1,0 +1,18 @@
+<table class="table table-sm">
+  <thead>
+    <tr class="text-dark">
+      <th></th><th>Name</th><th>Category</th><th>Price</th><th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of getProducts(); let i = index;" appSetTextColorInnerDir>
+      <td>{{i + 1}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.category}}</td>
+      <td>{{item.price}}</td>
+      <td class="text-center">
+        <button class="btn btn-sm btn-danger" (click)="deleteProduct($any(item.id))">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
