@@ -1,0 +1,350 @@
+<h2>Custom Pipes</h2>
+<h4 class="mt-2">
+  Using custom pipes
+</h4>
+<div>
+  <p>
+    The following uses a custom pipe (add-tax.pipe.ts) that accepts a monetary
+    value and an optional tax rate, returning the new monetary value which
+    includes the tax.
+  </p>
+  <div class="container mx-0 px-0">
+    <form novalidate>
+      <div class="form-row">
+        <div class="form-group col-6">
+          <label for="price">Enter price:</label>
+          <input type="number" class="form-control" name="price" id="price" [(ngModel)]="price">
+        </div>
+        <div class="form-group col-6">
+          <label for="taxRate">Choose tax rate:</label>
+          <select [(ngModel)]="taxRate" class="form-control" name="taxRate" id="taxRate">
+            <option selected>0</option>
+            <option>10</option>
+            <option>15</option>
+            <option>20</option>
+            <option>25</option>
+            <option>30</option>
+            <option>40</option>
+            <option>50</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="p-3 border border-primary">
+    {{ price | addTax:taxRate }}
+  </div>
+  <p class="mt-2">
+    The following illustrates combining pipes. The price value is first piped
+    through the custom addTax pipe and the value returned is piped through the
+    built-in currency pipe.
+  </p>
+  <div class="p-3 mt-n1 border border-primary">
+    {{ price | addTax:taxRate | currency:"USD":"symbol" }}
+  </div>
+</div>
+<h4 class="mt-2">
+  Illustrates impure pipes
+</h4>
+<div class="container mx-0 px-0 mt-2">
+  <div class="row">
+    <div class="col">
+      The following illustrates using the categoryFilter impure pipe to filter products
+      by category. The pipe receives the array of products and returns another array
+      containing only those products that belong to the selected category. This pipe
+      must be impure because Angular doesn't detect changes within the collections
+      automatically. See <span class="font-weight-bold">category-filter.pipe.ts</span>
+      for detailed description of impure pipes.<br>
+      Try setting <span class="font-weight-bold">pure: true</span> in the configuration
+      object passed to the @Pipe decorator in category-filter.pipe.ts and add a new
+      product with the selected category. This new product will not show in the table
+      because Angular will not invoke the Pipe's transformation method. This is due to
+      the fact that Angular has not detect the change in neither the pipe's input value
+      nor any of the pipe's arguments.
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-6">
+      <form novalidate #form1="ngForm" (ngSubmit)="submitForm(form1)">
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" class="form-control"
+                 required minlength="3" pattern="^[A-Za-z0-9 ]+$" [(ngModel)]="newProduct.name">
+        </div>
+        <div class="form-group">
+          <label for="category">Category:</label>
+          <input type="text" id="category" name="category" class="form-control"
+                 required minlength="2" pattern="^[A-Za-z0-9 ]+$" [(ngModel)]="newProduct.category">
+        </div>
+        <div class="form-group">
+          <label for="price2">Price:</label>
+          <input type="number" id="price2" name="price" class="form-control" required min="0" [(ngModel)]="newProduct.price">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary"
+                  [disabled]="form1.submitted && form1.invalid" [class.btn-secondary]="form1.submitted && form1.invalid">
+            Add Product
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-6">
+      <div class="form-group">
+        <label for="selectedCategory">Choose category:</label>
+        <select id="selectedCategory" [(ngModel)]="selectedCategory" class="form-control">
+          <option selected></option>
+          <option>Watersports</option>
+          <option>Soccer</option>
+          <option>Chess</option>
+        </select>
+      </div>
+      <table class="table table-sm">
+        <thead>
+          <tr class="text-dark">
+            <th></th><th>Name</th><th>Category</th><th>Price</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of repository.getProducts() | categoryFilter:selectedCategory; let i = index;">
+            <td>{{i + 1}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.category}}</td>
+            <td>{{item.price}}</td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-danger" (click)="repository.deleteProduct($any(item.id))">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<h2 class="mt-2">Built-in pipes</h2>
+<h4 class="mt-2">Select locale</h4>
+<div class="mt-2">
+  <p>
+    The currency, date, number and percent pipes illustrated below respect the
+    application's locale when formatting their values. All of them also have
+    an argument that can be used to directly set the locale that the pipe will
+    use to format the value.
+  </p>
+  <div>
+    See
+    <a href="https://angular.io/guide/i18n" class="text-break">
+      https://angular.io/guide/i18n
+    </a>
+    for more information on internationalization of Angular apps.
+  </div>
+  <div class="form-group mt-2">
+    <label for="selectedLocaleId">Select locale ID to be used by relevant pipes below:</label>
+    <select id="selectedLocaleId" [(ngModel)]="selectedLocaleId" class="form-control">
+      <option selected>en-US</option>
+      <option>en-GB</option>
+      <option>fr-FR</option>
+      <option>fr-CA</option>
+      <option>bs</option>
+      <option>de-DE</option>
+    </select>
+  </div>
+</div>
+<h4 class="mt-2">Formatting numbers</h4>
+<div class="mt-2">
+  The following illustrates using the built-in <span class="font-weight-bold">number</span>
+  pipe to format a price. The pipe is configured so that produced number has at minimum
+  3 integer digits and between 2 and 4 fractional digits.<br>
+  See
+  <div>
+    <a href="https://angular.io/api/common/DecimalPipe" class="text-break">
+      https://angular.io/api/common/DecimalPipe
+    </a>
+  </div>
+  <div class="form-group mt-2">
+    <label for="price3">Enter price:</label>
+    <input [(ngModel)]="price" type="number" class="form-control" name="price" id="price3">
+  </div>
+  <div class="p-2 border border-primary">
+    {{ price | number:"3.2-4":selectedLocaleId }}
+  </div>
+</div>
+<h4 class="mt-2">Formatting currency values</h4>
+<div class="mt-2">
+  The following illustrates using the built-in <span class="font-weight-bold">currency</span>
+  pipe to format a price. The pipe is configured to format the price in euros, display the
+  currency code, have at least two integer digits and exactly 2 fractional digits.<br>
+  See
+  <div>
+    <a href="https://angular.io/api/common/CurrencyPipe" class="text-break">
+      https://angular.io/api/common/CurrencyPipe
+    </a>
+  </div>
+  <div class="form-group mt-2">
+    <label for="price3">Enter price:</label>
+    <input [(ngModel)]="price" type="number" class="form-control" name="price" id="price4">
+  </div>
+  <div class="p-2 border border-primary">
+    {{ price | currency:"EUR":"code":"2.2-2":selectedLocaleId }}
+  </div>
+</div>
+<h4 class="mt-2">Formatting percentages</h4>
+<div class="mt-2">
+  The following illustrates using the built-in <span class="font-weight-bold">percent</span>
+  pipe to format a percentage. The pipe is configured to format the percentage with at least
+  one integer digit and between 1 and 2 fractional digits.<br>
+  See
+  <div>
+    <a href="https://angular.io/api/common/PercentPipe" class="text-break">
+      https://angular.io/api/common/PercentPipe
+    </a>
+  </div>
+  <div class="form-group mt-2">
+    <label for="percentage">Choose a percentage:</label>
+    <select [(ngModel)]="selectedPercentage" class="form-control" id="percentage">
+      <option value="0.0" selected>0</option>
+      <option value="0.05">5</option>
+      <option value="0.1234">12.34</option>
+      <option value="0.223">22.3</option>
+      <option value="0.3">30</option>
+      <option value="0.50319">50.319</option>
+      <option value="1.5">150</option>
+    </select>
+  </div>
+  <div class="p-2 border border-primary">
+    {{ selectedPercentage | percent:"1.1-2":selectedLocaleId }}
+  </div>
+</div>
+<h4 class="mt-2">Formatting dates</h4>
+<div class="mt-2">
+  The following illustrates using the built-in <span class="font-weight-bold">date</span>
+  pipe to format dates. The pipe is used to format a date object as a short date, a date
+  string as a medium date and a date number (number of milliseconds since January 1st, 1970
+  as a long date. Try setting differences locales and observer how date formatting is
+  adjusted.<br>
+  See
+  <div>
+    <a href="https://angular.io/api/common/DatePipe" class="text-break">
+      https://angular.io/api/common/DatePipe
+    </a>
+  </div>
+  <div class="p-2 mt-1 border border-primary">
+    Date object as short date: {{ dateObject | date:"shortDate":undefined:selectedLocaleId }}
+  </div>
+  <div class="p-2 mt-1 border border-primary">
+    Date string as medium date: {{ dateString | date:"mediumDate":undefined:selectedLocaleId }}
+  </div>
+  <div class="p-2 mt-1 border border-primary">
+    Date number as long date: {{ dateNumber | date:"longDate":undefined:selectedLocaleId }}
+  </div>
+</div>
+<h4 class="mt-2">Changing string case</h4>
+<div class="mt-2">
+  The following illustrates using the built-in <span class="font-weight-bold">uppercase</span>
+  and <span class="font-weight-bold">lowercase</span> pipes to change string case.<br>
+  See
+  <div>
+    <a href="https://angular.io/api/common/UpperCasePipe" class="text-break">
+      https://angular.io/api/common/UpperCasePipe
+    </a><br>
+    and
+    <a href="https://angular.io/api/common/LowerCasePipe" class="text-break">
+      https://angular.io/api/common/LowerCasePipe
+    </a>
+  </div>
+  <div class="form-group mt-2">
+    <label for="aString">Enter a string:</label>
+    <input [(ngModel)]="aString" class="form-control" id="aString">
+  </div>
+  <div class="p-2 mt-1 border border-primary">
+    {{ aString | uppercase }}&nbsp;<span class="text-muted">(uppercase)</span>
+  </div>
+  <div class="p-2 mt-1 border border-primary">
+    {{ aString | lowercase }}&nbsp;<span class="text-muted">(lowercase)</span>
+  </div>
+</div>
+<h4 class="mt-2">Serializing data as JSON</h4>
+<div class="mt-2">
+  The following illustrates using the built-in <span class="font-weight-bold">json</span>
+  pipe to serialize data to JSON string. The string shown in the DIV below is a JSON
+  representation of the Product array.<br>
+  See
+  <div>
+    <a href="https://angular.io/api/common/JsonPipe" class="text-break">
+      https://angular.io/api/common/JsonPipe
+    </a>
+  </div>
+  <div class="p-2 mt-1 border border-primary">
+    {{ repository.getProducts() | json }}
+  </div>
+</div>
+<h4 class="mt-2">
+  Slicing data arrays
+</h4>
+<div class="container mx-0 px-0 mt-2">
+  <div class="row">
+    <div class="col">
+      Illustrates using the built-in <span class="font-weight-bold">slice</span> pipe
+      to control how many products is displayed in the product table. Note that slice
+      pipe is impure, so any change in the application will cause the slice pipe's
+      transform method to be called.<br>
+      See
+      <div>
+        <a href="https://angular.io/api/common/SlicePipe" class="text-break">
+          https://angular.io/api/common/SlicePipe
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-6">
+      <form novalidate #form2="ngForm" (ngSubmit)="submitForm(form2)">
+        <div class="form-group">
+          <label for="name2">Name:</label>
+          <input type="text" id="name2" name="name" class="form-control"
+                 required minlength="3" pattern="^[A-Za-z0-9 ]+$" [(ngModel)]="newProduct.name">
+        </div>
+        <div class="form-group">
+          <label for="category">Category:</label>
+          <input type="text" id="category2" name="category" class="form-control"
+                 required minlength="2" pattern="^[A-Za-z0-9 ]+$" [(ngModel)]="newProduct.category">
+        </div>
+        <div class="form-group">
+          <label for="price5">Price:</label>
+          <input type="number" id="price5" name="price" class="form-control" required min="0" [(ngModel)]="newProduct.price">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary"
+                  [disabled]="form2.submitted && form2.invalid" [class.btn-secondary]="form2.submitted && form2.invalid">
+            Add Product
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-6">
+      <div class="form-group">
+        <label for="itemCount">Choose category:</label>
+        <select id="itemCount" [(ngModel)]="itemCount" class="form-control">
+          <option *ngFor="let item of repository.getProducts(); let i = index" [value]="i + 1">
+            {{ i + 1 }}
+          </option>
+        </select>
+      </div>
+      <table class="table table-sm">
+        <thead>
+          <tr class="text-dark">
+            <th></th><th>Name</th><th>Category</th><th>Price</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of repository.getProducts() | slice:0:itemCount; let i = index;">
+            <td>{{i + 1}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.category}}</td>
+            <td>{{item.price}}</td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-danger" (click)="repository.deleteProduct($any(item.id))">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

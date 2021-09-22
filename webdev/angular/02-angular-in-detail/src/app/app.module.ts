@@ -35,6 +35,22 @@ import { ComponentsInDetailComponent } from "./samples/components-in-detail/comp
 import { ProductTableComponent, SetTextColorInnerDirective } from "./samples/components-in-detail/product-table.component";
 import { ProductFormComponent } from "./samples/components-in-detail/product-form.component";
 import { ToggleContentComponent } from "./samples/components-in-detail/toggle-content.component";
+import { PipesComponent } from "./samples/pipes/pipes.component";
+import { AddTaxPipe } from "./samples/pipes/add-tax.pipe";
+import { CategoryFilterPipe } from "./samples/pipes/category-filter.pipe";
+import localeEnGB from "@angular/common/locales/en-GB";
+import localeFr from "@angular/common/locales/fr";
+import localeFrCA from "@angular/common/locales/fr-CA";
+import localeBs from "@angular/common/locales/bs";
+import localeDe from "@angular/common/locales/de";
+import { registerLocaleData } from "@angular/common";
+
+// Register locales data
+registerLocaleData(localeEnGB);
+registerLocaleData(localeFr);
+registerLocaleData(localeFrCA);
+registerLocaleData(localeBs);
+registerLocaleData(localeDe);
 
 @NgModule({
   declarations: [
@@ -66,7 +82,10 @@ import { ToggleContentComponent } from "./samples/components-in-detail/toggle-co
     ProductTableComponent,
     SetTextColorInnerDirective,
     ProductFormComponent,
-    ToggleContentComponent
+    ToggleContentComponent,
+    PipesComponent,
+    AddTaxPipe,
+    CategoryFilterPipe
   ],
   imports: [
     BrowserModule,
