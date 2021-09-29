@@ -1,0 +1,77 @@
+<h2>Services & Dependency Injection</h2>
+<h4 class="mt-2">
+  Demonstrating issues with sharing objects via input properties
+</h4>
+<div class="mt-2">
+  <p>
+    The following demonstrates the issues that arise from sharing objects by
+    passing them from ancestor to children components via input properties.
+    See DiscountDisplaySharingObjectsViaInputPropsComponent component (in
+    discount-display.component.ts) and DiscountEditorSharingObjectsViaInputPropsComponent
+    (in discount-editor.component.ts) for in-depth explanation on why this
+    approach is not a good one.
+  </p>
+  <discount-editor-sharing-objects-via-input-props [discounter]="discounter">
+  </discount-editor-sharing-objects-via-input-props>
+  <discount-display-sharing-objects-via-input-props [discounter]="discounter">
+  </discount-display-sharing-objects-via-input-props>
+</div>
+<h4 class="mt-2">
+  Proper object sharing using dependency injection
+</h4>
+<div class="mt-2">
+  <p>
+    The following demonstrates sharing objects between components using dependency
+    injection. For details see DiscountDisplaySharingObjectsViaDepInjectionComponent
+    (defined in discount-display.component.ts) and
+    DiscountEditorSharingObjectsViaDepInjectionComponent (defined in discount-editor.component.ts).
+  </p>
+  <discount-editor-sharing-objects-via-dep-injection></discount-editor-sharing-objects-via-dep-injection>
+  <discount-display-sharing-objects-via-dep-injection></discount-display-sharing-objects-via-dep-injection>
+</div>
+<h4 class="mt-2">
+  Dependency injection and pipes
+</h4>
+<div class="mt-2">
+  <p>
+    The following demonstrates injecting servicec into pipes. Important thing to note here
+    is that the DiscountPipe (defined in discount.pipe.ts) is an impure pipe. This is so
+    that pipe's transform method can react to the changes in the DiscountService (defined
+    in discount.service.ts and injected to this pipe). Just like Angular will not automatically
+    detect changes in arrays and objects that are pipe's value and or arguments, it won't detect
+    the changes in services injected into the pipe. That means that it won't invoke the pipe's
+    transform method if there's a change within the service object. Making the pipe impure
+    solves this issue. Try making pipe pure in <span class="font-weight-bold">discount.pipe.ts</span>
+    and observe what happens when discount value is updated below.
+  </p>
+  <div class="form-group">
+    <label for="price">Enter price:</label>
+    <input type="number" name="price" id="price" class="form-control" [(ngModel)]="price">
+  </div>
+  <discount-editor-sharing-objects-via-dep-injection></discount-editor-sharing-objects-via-dep-injection>
+  <div class="mt-1 p-2 border border-primary">
+    Price after discount is: {{ price | discount | currency:"USD":"symbol":"1.2-2" }}
+  </div>
+</div>
+<h4 class="mt-2">
+  Dependency injection and directives
+</h4>
+<div class="mt-2">
+  <p>
+    The following illustrates using dependency injection together with directives. The DiscountAmountDirective
+    (defined in discount-amount.directive.ts) depends on the DiscountService service. In order for directives
+    to be able to reach to changes in the service object, they have to discover the change manually (just like
+    changes in arrays aren't automatically detected by Angular, changes in services aren't either). This is
+    done my implementing the DoCheck life-cycle hook. For details see discount-amount.directive.ts.<br><br>
+    DiscountAmountDirective calculates the discount given the original price and the price after discount
+    (obtained from the DiscountService service).
+  </p>
+  <div class="form-group">
+    <label for="price2">Enter price:</label>
+    <input type="number" name="price" id="price2" class="form-control" [(ngModel)]="price">
+  </div>
+  <discount-editor-sharing-objects-via-dep-injection></discount-editor-sharing-objects-via-dep-injection>
+  <div class="mt-1 p-2 border border-primary" appDiscountAmount [appPrice]="price" #discount='discount'>
+    Discount calculated by directive is: {{ discount.discountAmount | currency:"USD":"symbol" }}
+  </div>
+</div>

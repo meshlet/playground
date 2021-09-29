@@ -58,6 +58,12 @@
             <pipes></pipes>
           </ng-template>
         </ng-container>
+        <ng-container ngbNavItem="10">
+          <a ngbNavLink>Services & Dep. Injection</a>
+          <ng-template ngbNavContent>
+            <services-dep-injection></services-dep-injection>
+          </ng-template>
+        </ng-container>
       </nav>
     </div>
     <div [ngbNavOutlet]="nav" class="col-9"> </div>

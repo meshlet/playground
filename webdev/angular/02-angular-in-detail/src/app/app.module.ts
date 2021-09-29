@@ -38,6 +38,14 @@ import { ToggleContentComponent } from "./samples/components-in-detail/toggle-co
 import { PipesComponent } from "./samples/pipes/pipes.component";
 import { AddTaxPipe } from "./samples/pipes/add-tax.pipe";
 import { CategoryFilterPipe } from "./samples/pipes/category-filter.pipe";
+import { ServicesDepInjectionComponent } from "./samples/services-dep-injection/services-dep-injection.component";
+import { DiscountDisplaySharingObjectsViaInputPropsComponent } from "./samples/services-dep-injection/discount-display.component";
+import { DiscountEditorSharingObjectsViaInputPropsComponent } from "./samples/services-dep-injection/discount-editor.component";
+import { DiscountDisplaySharingObjectsViaDepInjectionComponent } from "./samples/services-dep-injection/discount-display.component";
+import { DiscountEditorSharingObjectsViaDepInjectionComponent } from "./samples/services-dep-injection/discount-editor.component";
+import { DiscountService } from "./samples/services-dep-injection/discount.service";
+import { DiscountPipe } from "./samples/services-dep-injection/discount.pipe";
+import { DiscountAmountDirective } from "./samples/services-dep-injection/discount-amount.directive";
 import localeEnGB from "@angular/common/locales/en-GB";
 import localeFr from "@angular/common/locales/fr";
 import localeFrCA from "@angular/common/locales/fr-CA";
@@ -85,7 +93,14 @@ registerLocaleData(localeDe);
     ToggleContentComponent,
     PipesComponent,
     AddTaxPipe,
-    CategoryFilterPipe
+    CategoryFilterPipe,
+    ServicesDepInjectionComponent,
+    DiscountDisplaySharingObjectsViaInputPropsComponent,
+    DiscountEditorSharingObjectsViaInputPropsComponent,
+    DiscountDisplaySharingObjectsViaDepInjectionComponent,
+    DiscountEditorSharingObjectsViaDepInjectionComponent,
+    DiscountPipe,
+    DiscountAmountDirective
   ],
   imports: [
     BrowserModule,
@@ -93,7 +108,17 @@ registerLocaleData(localeDe);
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  /**
+   * Angular examines  the providers array when it encounters a component, directive
+   * or pipe whose constructor has parameters. Angular examines the types of those
+   * parameters and attempts to find the corresponding classes in the NgModule's providers
+   * array. If search is successful, Angular will allocate the given service(s) if they
+   * haven't been allocated before and pass them to the constructor. This is all part of
+   * Angular's dependency injection.
+   */
+  providers: [
+    DiscountService
+  ],
   bootstrap: [
     AppComponent
   ]
