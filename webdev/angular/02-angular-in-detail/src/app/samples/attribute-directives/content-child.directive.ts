@@ -41,6 +41,10 @@ export class ContentChildInnerDirective {
  * @note Querying directives by directive class type is one of the ways @ContentChild
  * can find directives. See the class below for another query mechanism.
  *
+ * @note Check the ContentChildrenSearchScopeComponent component defined in content-children.directive.ts
+ * to understand what a content child actually is and what is the search scope for @ContentChild
+ * and @ContentChildren directives.
+ *
  * @note Angular executes the content query just before it invokes the `ngAfterContentInit`
  * directive method. This means that content query result is not available when ngOnChanges
  * is called the first time. Because of this, DOM update must happen in the ngAfterContentInit

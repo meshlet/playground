@@ -50,7 +50,15 @@
     </div>
     <div class="col-8">
       <toggle-content>
-        <product-table [repository]="repository"></product-table>
+        <product-table [repository]="repository">
+          <p appSetTextColorInnerDir>
+            The following paragraph exists within the content of the ProductTableComponent
+            component's host element and has the appSetTextColorInnerDir directive applied.
+            However, because the element is outside of the component's template it won't be
+            returned in the @ViewChildren query run by the ProductTableComponent, hence text
+            color won't be modified.
+          </p>
+        </product-table>
       </toggle-content>
     </div>
   </div>

@@ -80,7 +80,7 @@ import {Product} from "../../product.model";
  * decorator in the ProductTableComponent class.
  */
 @Directive({
-  selector: "tr[appSetTextColorInnerDir]"
+  selector: "[appSetTextColorInnerDir]"
 })
 export class SetTextColorInnerDirective {
   previousTextColorClass = "";
@@ -125,19 +125,26 @@ export class ProductTableComponent implements AfterViewInit{
   /**
    * The @ViewChildren decorator is used by the components to query their
    * template for other components or directives knows as view children.
-   * It is similar to the @ContentChildren directive which is illustrated
-   * in content-children.directive.ts. While @ContentChildren is designed
-   * to be used by directives, @ViewChildren is designed for to be used
-   * by components. One of the differences is that @ViewChildren can query
-   * the component's template for its component children as well as directives.
+   * It is similar to the @ContentChildren decorator which is illustrated
+   * in attribute-directives/content-children.directive.ts with one notable
+   * difference: @ContentChildren and @ContentChild decorators query the
+   * contents of the host element where the directive using this decorator
+   * is applied. This excludes the contents of the component's template.
+   * On other hand, @ViewChildren and @ViewChild decorators query the
+   * component's template ignoring the content of the component's host
+   * element (content projected using ng-content).
    *
-   * There is also the @ViewChild decorator which returns the very first
-   * matching component or directive it finds (if any). The corresponding
-   * @ContentChild directive is illustrated in content-child.directive.ts.
+   * @note A view child of a component's host element is any element within
+   * the component's template. This excludes the content projected using the
+   * ng-content, meaning that the content of the host element is not queried
+   * by @ViewChild and @ViewChildren decorators (this is what @ContentChild
+   * and @ContentChildren decorators are used for).
    *
-   * Just like @ContentChild and @ContentChildren, @ViewChild and @ViewChildren
-   * can also search the component templates by using the template reference
-   * variable name.
+   * @ViewChild decorator returns the very first matching component or directive
+   * (if it finds any).
+   *
+   * @ViewChild and @ViewChildren can also search the component templates by using
+   * the template reference variable name.
    */
   @ViewChildren(SetTextColorInnerDirective)
   // Set once ngAfterViewInit is invoked so can ignore TS warning safely

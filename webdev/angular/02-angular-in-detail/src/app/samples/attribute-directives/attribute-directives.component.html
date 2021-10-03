@@ -277,15 +277,15 @@
 </h4>
 <div>
   <p>
-    The following illustrates querying a single instance of a directive embedded
-    within the host element content using the @ContentChild decorator. The querying
-    is done using the embedded directive's class type. Change the
-    state of the checkbox to see how the appContentChildSearchByDirClassOuterDir
-    directive applied to the DIV below changes the background color of the first
-    paragraph in that DIV via the appContentChildInnerDir directive applied to the
-    paragraph. Note that there are two paragraphs in the DIV below, however the
-    appContentChildSearchByDirClassOuterDir directive uses @ContentChild decorator
-    to query content children, so only the first directive that matches is returned.
+    <span class="h4">The following illustrates</span>
+    querying a single instance of a directive embedded  within the host element content using
+    the @ContentChild decorator. The querying is done using the embedded directive's class type.
+    Change the  state of the checkbox to see how the appContentChildSearchByDirClassOuterDir
+    directive applied to the DIV below changes the background color of the first  paragraph in
+    that DIV via the appContentChildInnerDir directive applied to the paragraph. Note that there
+    are two paragraphs in the DIV below, however the  appContentChildSearchByDirClassOuterDir
+    directive uses @ContentChild decorator to query content children, so only the first directive
+    that matches is returned.
   </p>
   <div class="form-check">
     <input type="checkbox" id="checkbox1" class="form-check-input" [(ngModel)]="checkbox1Checked">
@@ -300,10 +300,10 @@
     </p>
   </div>
   <p>
-    The following illustrates the appContentChildSearchByTmplVarNameOuterDir that uses
-    @ContentChild decorator to query the first directive assigned to the template
-    reference variable with the name `tmplVar`, as opposed to the previous example
-    where the embedded directive as queried by it's class type.
+    <span class="h4">The following illustrates</span>
+    the appContentChildSearchByTmplVarNameOuterDir that uses  @ContentChild decorator to query
+    the first directive assigned to the template reference variable with the name `tmplVar`, as
+    opposed to the previous example where the embedded directive as queried by it's class type.
   </p>
   <div class="form-check">
     <input type="checkbox" id="checkbox2" class="form-check-input" [(ngModel)]="checkbox2Checked">
@@ -319,18 +319,18 @@
   </div>
 </div>
 <h4 class="mt-2">
-  Querying the all instances of directive with @ContentChildren (see content-children.directive.ts)
+  Querying all the instances of directive with @ContentChildren (see content-children.directive.ts)
 </h4>
 <div class="container mx-0 px-0">
   <div class="row">
     <div class="col">
       <p>
-        The following illustrates the appContentChildrenIncludeDescendentsOuterDir directive
-        that utilizes @ContentChildren decorator to query all the instances of the
-        ContentChildrenInnerDirective directive. Note that directives are queries recursively
-        into all DOM subtrees instead of only matching directives bound to immediate children
-        of the element to which the appContentChildrenIncludeDescendentsOuterDir is a applied
-        to.
+        <span class="h4">The following illustrates</span>
+        the appContentChildrenIncludeDescendentsOuterDir directive  that utilizes @ContentChildren
+        decorator to query all the instances of the ContentChildrenInnerDirective directive. Note
+        that directives are queries recursively into all DOM subtrees instead of only matching
+        directives bound to immediate children  of the element to which the
+        appContentChildrenIncludeDescendentsOuterDir is a applied to.
       </p>
     </div>
   </div>
@@ -342,20 +342,50 @@
       </div>
       <div [appContentChildrenIncludeDescendentsOuterDir]="checkbox3Checked">
         <p appContentChildrenInnerDir>
-          This is the first paragraph.
-        </p>
-        <p appContentChildrenInnerDir>
-          This is the second paragraph.
+          This paragraph is an immediate child of the DIV to which the appContentChildrenIncludeDescendentsOuterDir
+          directive is applied.
         </p>
         <div>
           <div>
             <p appContentChildrenInnerDir>
-              This is the third parameter which is not an immediate child of the HTML
-              element with appContentChildrenIncludeDescendentsOuterDir directive.
+              This paragraph is not an immediate child of the HTML element with
+              appContentChildrenIncludeDescendentsOuterDir directive.
             </p>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <p>
+        <span class="h4">The following illustrates</span>
+        the search scope of the @ContentChildren decorator. The sample shows the scope is limited
+        to the host element content (or the content projected with ng-content). Note that the
+        appContentChildrenIncludeDescendentsOuterDir directive is applied to the custom element of
+        the ContentChildrenSearchScopeComponent component. The @ContentChildren decorator searched
+        only the content of this custom element and not the component's template. This is why the
+        first two paragraphs below don't change the background color when checkbox is selected/unselected.
+        These two paragraphs live in the component's template, and @ContentChildren decorator does not
+        search the template. For more info see ContentChildrenSearchScopeComponent component defined in
+        content-children.directive.ts.
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="form-check">
+        <input type="checkbox" id="checkbox5" class="form-check-input" [(ngModel)]="checkbox5Checked">
+        <label for="checkbox5">Change Bg-Color</label>
+      </div>
+      <content-children-search-scope [appContentChildrenIncludeDescendentsOuterDir]="checkbox5Checked">
+        <div>
+          <p appContentChildrenInnerDir>
+            This paragraph is part of the HTML content of the host element for
+            the ContentChildrenSearchScopeComponent component.
+          </p>
+        </div>
+      </content-children-search-scope>
     </div>
   </div>
   <div class="row">

@@ -18,6 +18,7 @@ export class AttributeDirectivesComponent {
   checkbox2Checked = true;
   checkbox3Checked = true;
   checkbox4Checked = true;
+  checkbox5Checked = true;
 
   submitForm(form: NgForm) {
     if (form.valid) {

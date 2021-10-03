@@ -36,7 +36,16 @@
         <ng-container ngbNavItem="6">
           <a ngbNavLink>Attribute Directives</a>
           <ng-template ngbNavContent>
-            <attribute-directives></attribute-directives>
+            <attribute-directives>
+              <!-- This HTML content serves the purpose of illustrating the scope of @ContentChildren -->
+              <!-- decorator that searches for child directives. See ContentChildrenIncludeDescendentsOuterDir -->
+              <!-- in content-children.directive.ts for more information -->
+              <div>
+                <p appContentChildrenInnerDir>
+                  This is a paragraph within the projected content (host element's content).
+                </p>
+              </div>
+            </attribute-directives>
           </ng-template>
         </ng-container>
         <ng-container ngbNavItem="7">
@@ -62,6 +71,12 @@
           <a ngbNavLink>Services & Dep. Injection</a>
           <ng-template ngbNavContent>
             <services-dep-injection></services-dep-injection>
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem="11">
+          <a ngbNavLink>Service Providers</a>
+          <ng-template ngbNavContent>
+            <service-providers></service-providers>
           </ng-template>
         </ng-container>
       </nav>

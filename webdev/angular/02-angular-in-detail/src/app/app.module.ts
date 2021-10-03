@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ServiceProvidersModule } from "./samples/service-providers/service-providers.module";
 
 import { AppComponent } from './app.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DataBindingsComponent } from "./samples/data-bindings.component";
 import { BuiltinDirectivesComponent } from "./samples/builtin-directives.component";
 import { Events2wayDataBindingsComponent } from "./samples/events-2way-data-bindings.component";
@@ -21,16 +22,20 @@ import { ExportDirective } from "./samples/attribute-directives/export.directive
 import { StructuralDirectivesComponent } from "./samples/structural-directives/structural-directives.component";
 import { IfDirective } from "./samples/structural-directives/if.directive";
 import { ForDirective } from "./samples/structural-directives/for.directive";
+
 import {
   ContentChildInnerDirective,
   ContentChildSearchByDirClassOuterDir,
   ContentChildSearchByTmplVarNameOuterDir
 } from "./samples/attribute-directives/content-child.directive";
+
 import {
   ContentChildrenInnerDirective,
   ContentChildrenIncludeDescendentsOuterDir,
-  ContentChildrenListenForContentChangesOuterDir
+  ContentChildrenListenForContentChangesOuterDir,
+  ContentChildrenSearchScopeComponent
 } from "./samples/attribute-directives/content-children.directive";
+
 import { ComponentsInDetailComponent } from "./samples/components-in-detail/components-in-detail.component";
 import { ProductTableComponent, SetTextColorInnerDirective } from "./samples/components-in-detail/product-table.component";
 import { ProductFormComponent } from "./samples/components-in-detail/product-form.component";
@@ -46,6 +51,7 @@ import { DiscountEditorSharingObjectsViaDepInjectionComponent } from "./samples/
 import { DiscountService } from "./samples/services-dep-injection/discount.service";
 import { DiscountPipe } from "./samples/services-dep-injection/discount.pipe";
 import { DiscountAmountDirective } from "./samples/services-dep-injection/discount-amount.directive";
+import { SimpleService } from "./samples/services-dep-injection/simple.service";
 import localeEnGB from "@angular/common/locales/en-GB";
 import localeFr from "@angular/common/locales/fr";
 import localeFrCA from "@angular/common/locales/fr-CA";
@@ -85,6 +91,7 @@ registerLocaleData(localeDe);
     ContentChildSearchByTmplVarNameOuterDir,
     ContentChildrenInnerDirective,
     ContentChildrenIncludeDescendentsOuterDir,
+    ContentChildrenSearchScopeComponent,
     ContentChildrenListenForContentChangesOuterDir,
     ComponentsInDetailComponent,
     ProductTableComponent,
@@ -106,7 +113,8 @@ registerLocaleData(localeDe);
     BrowserModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ServiceProvidersModule
   ],
   /**
    * Angular examines  the providers array when it encounters a component, directive
@@ -117,7 +125,8 @@ registerLocaleData(localeDe);
    * Angular's dependency injection.
    */
   providers: [
-    DiscountService
+    DiscountService,
+    SimpleService
   ],
   bootstrap: [
     AppComponent
