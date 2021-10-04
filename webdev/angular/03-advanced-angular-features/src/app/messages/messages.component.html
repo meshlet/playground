@@ -1,0 +1,4 @@
+<div *ngIf="lastMsg !== undefined" class="bg-info text-white p-2 text-center"
+     [class.bg-danger]="lastMsg.isError">
+  <h4>{{ lastMsg.msgText }}</h4>
+</div>

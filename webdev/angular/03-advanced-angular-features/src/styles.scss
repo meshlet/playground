@@ -1,0 +1,13 @@
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+/**
+ * All elements that have both ng-dirty and ng-invalid classes inherit the
+ * style of the Bootstrap's is-invalid pseudo class. This makes it possible
+ * to use Bootstrap's validation styles while letting Angular run the
+ * validation (Bootstrap adds is-invalid pseudo class on elements with
+ * was-validated class, which we don't want to have to do).
+ */
+.ng-dirty.ng-invalid {
+  @extend .is-invalid;
+}
