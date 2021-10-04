@@ -52,6 +52,8 @@ import { DiscountService } from "./samples/services-dep-injection/discount.servi
 import { DiscountPipe } from "./samples/services-dep-injection/discount.pipe";
 import { DiscountAmountDirective } from "./samples/services-dep-injection/discount-amount.directive";
 import { SimpleService } from "./samples/services-dep-injection/simple.service";
+import { AngularModulesComponent } from "./samples/angular-modules/angular-modules.component";
+
 import localeEnGB from "@angular/common/locales/en-GB";
 import localeFr from "@angular/common/locales/fr";
 import localeFrCA from "@angular/common/locales/fr-CA";
@@ -107,7 +109,8 @@ registerLocaleData(localeDe);
     DiscountDisplaySharingObjectsViaDepInjectionComponent,
     DiscountEditorSharingObjectsViaDepInjectionComponent,
     DiscountPipe,
-    DiscountAmountDirective
+    DiscountAmountDirective,
+    AngularModulesComponent
   ],
   imports: [
     BrowserModule,
@@ -122,7 +125,8 @@ registerLocaleData(localeDe);
    * parameters and attempts to find the corresponding classes in the NgModule's providers
    * array. If search is successful, Angular will allocate the given service(s) if they
    * haven't been allocated before and pass them to the constructor. This is all part of
-   * Angular's dependency injection.
+   * Angular's dependency injection. For much more on service providers see
+   * service-providers/ samples.
    */
   providers: [
     DiscountService,

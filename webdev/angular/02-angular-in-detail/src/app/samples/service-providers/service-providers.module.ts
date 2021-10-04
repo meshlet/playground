@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 import { ServiceProvidersComponent } from "./service-providers.component";
 import {
@@ -38,7 +36,6 @@ import {
 } from "./local-providers.component";
 
 @NgModule({
-  imports: [CommonModule, FormsModule],
   declarations: [
     ServiceProvidersComponent,
     ClassProviderWithClassTypeTokenComponent,
