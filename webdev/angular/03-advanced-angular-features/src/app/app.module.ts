@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CoreModule } from "./core/core.module";
-import { MessagesModule } from "./messages/messages.module";
-import { ProductFormComponent } from "./core/product-form.component";
-import { ProductTableComponent } from "./core/product-table.component";
-import { MessagesComponent } from "./messages/messages.component";
+import { CoreModule } from "./main-project/core/core.module";
+import { MessagesModule } from "./main-project/messages/messages.module";
+import { AppComponent } from "./app.component";
+import { MainProjectComponent } from "./main-project/main-project.component";
+import { RxjsComponent } from "./additional-samples/rxjs/rxjs.component";
 
 @NgModule({
   imports: [
@@ -14,6 +14,7 @@ import { MessagesComponent } from "./messages/messages.component";
     CoreModule,
     MessagesModule
   ],
-  bootstrap: [MessagesComponent, ProductFormComponent, ProductTableComponent]
+  declarations: [AppComponent, MainProjectComponent, RxjsComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,202 @@
+<h2>RxJS Observable Operators for Selecting Events</h2>
+<h4 class="mt-2">Filter Operator</h4>
+<p>
+  The following illustrate the RxJS's filter operator used to filter events received
+  through an Observable object. Only those events for which the filter operator returns
+  a truthy value will cause the subscribed callbacks to be executed. In the example
+  below, only numbers divisible with 10 will cause the subscriber callback to be
+  executed which will in turn cause the value to be replicated in the disabled input
+  field. See rxjs.component.ts for details.
+</p>
+<div class="container px-0 mx-0">
+  <div class="row">
+    <div class="col-6">
+      <div class="form-group">
+        <label for="filterInput">Enter a number:</label>
+        <input type="number" class="form-control" id="filterInput" name="filterInput"
+               (input)="filterSubject.next($any($event.target).value)">
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-group">
+        <label for="valueFromFilteredObservable">Value received from a filtered Observable:</label>
+        <input type="text" class="form-control" id="valueFromFilteredObservable" name="valueFromFilteredObservable"
+               disabled [value]="valueReceivedFromFilteredObservable">
+      </div>
+      <div class="form-group">
+        <label for="valueFromUnfilteredObservable">Value received from a unfiltered Observable:</label>
+        <input type="text" class="form-control" id="valueFromUnfilteredObservable" name="valueFromUnfilteredObservable"
+               disabled [value]="valueReceivedFromUnfilteredObservable">
+      </div>
+    </div>
+  </div>
+</div>
+<h4 class="mt-2">
+  Map Operator
+</h4>
+<p>
+  The following illustrates the RxJS's map operator used to transform event objects
+  received by Observables. The function passed to the map operator is called upon
+  every event received by Observable, and the object returned by it replaces the
+  original event object and is passed on to the subscribed callbacks. In the example
+  below, the string entered by the user is transformed by returning its length which
+  is then shown in the input field to the right. This illustrates that map operator
+  can return an object of different type to that of the original event object. See
+  rxjs.component.ts for details.
+</p>
+<div class="container px-0 mx-0">
+  <div class="row">
+    <div class="col-6">
+      <div class="form-group">
+        <label for="mapInput">Enter a string:</label>
+        <input type="text" class="form-control" id="mapInput" name="mapInput"
+               (input)="mapSubject.next($any($event.target).value)">
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-group">
+        <label for="valueFromMapObservable">Entered string's length:</label>
+        <input type="text" class="form-control" id="valueFromMapObservable" name="valueFromMapObservable"
+               disabled [value]="valueReceivedFromMapObservable">
+      </div>
+    </div>
+  </div>
+</div>
+<h4 class="mt-2">Receiving Only Distinct Events (distinctUntilChanged)</h4>
+<p>
+  The following illustrates the RxJS's distinctUntilChanged operator used to filter out events
+  that carry event objects equal to those of previous event. In other words, only events where
+  event object is different to that of a previous event is passed on to the callback registered
+  with the `subscribe` method. The example below requires user to enter a value and signal an
+  event by clicking the button. If value is different from the last time the event was signalled
+  the counter on the right will increment confirming that event wasn't filtered out. See
+  rxjs.component.ts for details.
+</p>
+<div class="container px-0 mx-0">
+  <div class="row">
+    <div class="col-6">
+      <div class="form-group">
+        <label for="distinctUntilChangedInput1">Enter some text:</label>
+        <input type="text" class="form-control" id="distinctUntilChangedInput1" name="distinctUntilChangedInput1"
+               (input)="enteredValue1 = $any($event.target).value">
+      </div>
+      <div class="form-group">
+        <button type="button" class="btn btn-info"
+                (click)="distinctUntilChangedSubject1.next(enteredValue1)">Signal Event</button>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-group">
+        <label for="eventCounter1">Event counter:</label>
+        <input type="text" class="form-control" id="eventCounter1" name="eventCounter1"
+               disabled [value]="eventCounter1">
+      </div>
+    </div>
+  </div>
+</div>
+<p>
+  The following illustrates how distinctUntilChanged operator works with Javascript objects
+  (non-primitive types). This operator uses Object.is() method to compare values, hence any
+  two distinct object instances will be considered not equal even though they might represent
+  the same data. This can be solved by passing a custom comparison function to the operator
+  as is done in this example. Users enters a JSON string representing the object to the left
+  input field. If this JSON string contains a numeric ID property, the comparison function
+  passed to distinctUntilChanged operator will compare the value of this value property
+  with the object received with the previous event. If IDs match, objects are considered
+  equal (event though they represents two different instances in memory). See rxjs.component.ts
+  for details.
+</p>
+<div class="container px-0 mx-0">
+  <div class="row">
+    <div class="col-6">
+      <div class="form-group">
+        <label for="distinctUntilChangedInput2">Enter JSON string:</label>
+        <input type="text" class="form-control" id="distinctUntilChangedInput2" name="distinctUntilChangedInput2"
+               (input)="enteredValue2 = $any($event.target).value"
+               [value]="enteredValue2">
+      </div>
+      <div class="form-group">
+        <button type="button" class="btn btn-info"
+                (click)="distinctUntilChangedSubject2.next(enteredValue2)">Signal Event</button>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-group">
+        <label for="eventCounter2">Event counter:</label>
+        <input type="text" class="form-control" id="eventCounter2" name="eventCounter2"
+               disabled [value]="eventCounter2">
+      </div>
+    </div>
+  </div>
+</div>
+<h4 class="mt-2">Skipping Events While Condition Holds (skipWhile)</h4>
+<p>
+  The following illustrates how skipWhile operator can be used to ignore all events
+  while a certain condition is satisfied. When this condition no longer holds, the
+  events are forwarded to the subscribers. <span class="font-weight-bold">NOTE</span>
+  that once skipWhile operator starts forwarding events, it will forever do so regardless
+  of whether the condition changes. The condition in question in this example is whether
+  the checkbox is checked or not. As long as checkbox is not checked (the associated
+  flag is false), skipWhile operator drops all the events. Once the checkbox gets checked,
+  skipWhile will forward all the events from that point onwards regardless of the state
+  of the checkbox. This is illustrated by showing any text written to the input to the left
+  in the disabled input on the right side. See rxjs.component.ts for details.
+</p>
+<div class="container px-0 mx-0">
+  <div class="row">
+    <div class="col-6">
+      <div class="form-group">
+        <label for="shipWhileInput">Enter some text:</label>
+        <input type="text" class="form-control" id="shipWhileInput" name="shipWhileInput"
+               (input)="skipWhileSubject.next($any($event.target).value)">
+      </div>
+      <div class="form-check">
+        <input type="checkbox" id="skipWhileCheckbox" class="form-check-input"
+               [value]="skipWhileCheckboxChecked"
+               (input)="skipWhileCheckboxChecked = $any($event.target).value">
+        <label for="skipWhileCheckbox">Forward events to subscriber</label>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-group">
+        <label for="valueFromSkipWhileObservable">You entered the following text:</label>
+        <input type="text" class="form-control" id="valueFromSkipWhileObservable" name="valueFromSkipWhileObservable"
+               disabled [value]="valueReceivedFromSkipWhileObservable">
+      </div>
+    </div>
+  </div>
+</div>
+<h4 class="mt-2">Taking Events While Condition Holds (takeWhile)</h4>
+<p>
+  Similar to skipWhile, the takeWhile operator will forward all the events as longs as
+  a condition holds. Once condition becomes false, takeWhile will discard all events and
+  will continue to do so forever regardless of the changes in the condition state. In
+  the example below, any text written to the input on left side is replicated in the
+  disabled input to the right as long as checkbox is not checked. Once checkbox gets
+  checked all events will be dropped by the takeWhile operator and text will no longer
+  be replicated in the left input. See rxjs.component.ts for details.
+</p>
+<div class="container px-0 mx-0">
+  <div class="row">
+    <div class="col-6">
+      <div class="form-group">
+        <label for="takeWhileInput">Enter some text:</label>
+        <input type="text" class="form-control" id="takeWhileInput" name="takeWhileInput"
+               (input)="takeWhileSubject.next($any($event.target).value)">
+      </div>
+      <div class="form-check">
+        <input type="checkbox" id="takeWhileCheckbox" class="form-check-input"
+               [value]="takeWhileCheckboxChecked"
+               (input)="takeWhileCheckboxChecked = $any($event.target).value">
+        <label for="takeWhileCheckbox">Stop forwarding events to subscriber</label>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-group">
+        <label for="valueFromTakeWhileObservable">You entered the following text:</label>
+        <input type="text" class="form-control" id="valueFromTakeWhileObservable" name="valueFromTakeWhileObservable"
+               disabled [value]="valueReceivedFromTakeWhileObservable">
+      </div>
+    </div>
+  </div>
+</div>

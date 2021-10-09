@@ -10,6 +10,6 @@ export class MessagesComponent {
   public lastMsg: MessageModel | undefined;
 
   constructor(private msgService: MessageService) {
-    this.msgService.setHandlerFn((msg: MessageModel) => this.lastMsg = msg);
+    this.msgService.getObservable().subscribe((msg: MessageModel) => this.lastMsg = msg);
   }
 }

@@ -1,0 +1,21 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-3">
+      <nav ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-pills" orientation="vertical">
+        <ng-container ngbNavItem="1">
+          <a ngbNavLink>Main Project</a>
+          <ng-template ngbNavContent>
+            <main-project></main-project>
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem="2">
+          <a ngbNavLink>RxJS (Reactive Extensions)</a>
+          <ng-template ngbNavContent>
+            <rxjs-samples></rxjs-samples>
+          </ng-template>
+        </ng-container>
+      </nav>
+    </div>
+    <div class="col-9" [ngbNavOutlet]="nav"></div>
+  </div>
+</div>
