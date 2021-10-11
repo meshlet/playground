@@ -11,7 +11,7 @@
       <td>{{item.category}}</td>
       <td>{{item.price}}</td>
       <td class="text-center">
-        <button class="btn btn-sm btn-danger" (click)="deleteProduct($any(item.id))">Delete</button>
+        <button class="btn btn-sm btn-danger" (click)="deleteProduct($any(item))">Delete</button>
         <button class="btn btn-sm btn-warning ml-1" (click)="editProduct(item)">Edit</button>
       </td>
     </tr>

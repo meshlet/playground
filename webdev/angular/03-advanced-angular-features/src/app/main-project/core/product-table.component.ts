@@ -33,8 +33,8 @@ export class ProductTableComponent {
     return this.repository.getProducts() || [];
   }
 
-  deleteProduct(key: number) {
-    this.repository.deleteProduct(key);
+  deleteProduct(product: ProductModel) {
+    this.repository.deleteProduct(product);
   }
 
   editProduct(product: ProductModel) {

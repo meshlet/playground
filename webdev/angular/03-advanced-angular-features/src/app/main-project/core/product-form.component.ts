@@ -51,10 +51,10 @@ export class ProductFormComponent {
               @Inject(MODE_TRACKER_TOKEN) public modeObservable: Observable<ModeTrackerModel>) {
     this.modeObservable
       // Filter out repeating events using the distinctUntilChanged operator. This operator will
-      // forward the event to the subscribed callback(s) only if its event object is different
+      // forward the event to the subscribed callback(s) only if the event object is different
       // than that of the previous event. What happens here is that if user is in the process of
-      // editing a product and presses EDIT button again for the same product in the product table,
-      // before saving the changes, the changes they made to the product will be lost because of
+      // editing a product and presses EDIT button again for the same product in the product table
+      // but before saving the changes, the changes they made to the product will be lost because
       // the subscribed callback below reloads the product from the repository. Filtering out
       // repeating events solves this problem. For more details on distinctUntilChanged operator
       // see additional-samples/rxjs/rxjs.component.ts.
@@ -81,7 +81,14 @@ export class ProductFormComponent {
   submitForm(form: NgForm) {
     if (form.valid) {
       this.repository.saveProduct(this.newProduct);
-      this.resetForm(form);
+
+      // Reset the form but only if current mode is not EDIT. This is to
+      // keep the data of the product that was just edited in the form,
+      // in case user wants to edit it again.
+      if (!this.isEditing) {
+        this.newProduct = new ProductModel();
+        form.resetForm();
+      }
     }
   }
 
