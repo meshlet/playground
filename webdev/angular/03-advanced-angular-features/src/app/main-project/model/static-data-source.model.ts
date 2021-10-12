@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ProductModel } from "./product.model";
 import { DataSourceInterfaceModel } from "./data-source-interface.model";
-import {Observable, of} from "rxjs";
+import {Observable, of, throwError} from "rxjs";
 
 @Injectable()
 export class StaticDataSourceModel implements DataSourceInterfaceModel {
@@ -30,14 +30,30 @@ export class StaticDataSourceModel implements DataSourceInterfaceModel {
   }
 
   updateProduct(product: ProductModel): Observable<ProductModel> {
-    // Nothing to do here. The splicing of the ProductModel is done by
-    // the RepositoryModel class.
-    return of(product);
+    // Find the product and return a resolved Observable with it or
+    // a failed Observable in case product with given ID doesn't exist.
+    // The slicing of the ProductModel into the local collection is done
+    // by the RepositoryModel class.
+    let index = this.data.findIndex((p: ProductModel) => p.id === product.id);
+    if (index > -1) {
+      return of(this.data[index]);
+    }
+    else {
+      return throwError(`Product with ID (${product.id}) not found`);
+    }
   }
 
-  deleteProduct(product: ProductModel): Observable<ProductModel> {
-    // Nothing to do here. The splicing of the ProductModel is done by
-    // the RepositoryModel class.
-    return of(product);
+  deleteProduct(id: number): Observable<ProductModel> {
+    // Find the product and return a resolved Observable with it or
+    // a failed Observable in case product with given ID doesn't exist.
+    // The slicing of the ProductModel into the local collection is done
+    // by the RepositoryModel class.
+    let index = this.data.findIndex((p: ProductModel) => p.id === id);
+    if (index > -1) {
+      return of(this.data[index]);
+    }
+    else {
+      return throwError(`Product with ID (${id}) not found`);
+    }
   }
 }

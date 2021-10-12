@@ -13,10 +13,11 @@
  * unnecessarily.
  */
 import {Injectable, Inject, InjectionToken} from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { ProductModel } from "./product.model";
-import { Observable } from "rxjs";
+import {Observable, throwError} from "rxjs";
 import { DataSourceInterfaceModel } from "./data-source-interface.model";
+import { catchError } from "rxjs/operators";
 
 /**
  * Define an opaque token used to inject the RESTful URL to this
@@ -38,9 +39,19 @@ export class RestDataSourceModel implements DataSourceInterfaceModel {
    * to the POST request. This is the representation of the data that
    * was just saved by the server (i.e. an official version) and Observable
    * gets resolved with this object.
+   *
+   * @note The `catchError` RxJS operator passes the events along until
+   * an error occurs at which point it invokes the provided callback.
+   * The callback provided to catchError *MUST* return another Observable
+   * instance, to which the catchError method will subscribe to. The
+   * `throwError` function creates a failed Observable as a way of
+   * reporting the error to the subscribers.
    */
   saveProduct(product: ProductModel): Observable<ProductModel> {
-    return this.http.post<ProductModel>(this.url, product);
+    return this.http.post<ProductModel>(this.url, product)
+      .pipe(catchError((error) => {
+        return throwError(`Network error: ${error.statusText} ${error.status}`);
+      }));
   }
 
   /**
@@ -50,28 +61,48 @@ export class RestDataSourceModel implements DataSourceInterfaceModel {
    * gets resolved with this object.
    */
   updateProduct(product: ProductModel): Observable<ProductModel> {
-    // The following line would update the given product using a PUT
-    // HTTP method:
-    // return this.http.put<ProductModel>(`${this.url}/${product.id}`, product);
+    /**
+     * The following line would update the given product using a PUT
+     * HTTP method:
+     *
+     * return this.http.put<ProductModel>(`${this.url}/${product.id}`, product);
+     *
+     * However, the same can be done using the HttpClient.request method
+     * as shown below. This can be used to consolidate HTTP requests, so
+     * that instead of invoking different HttpClient methods for different
+     * HTTP verbs, one creates a wrapper around HttpClient.request:
+     *
+     * sendRequest<T>(verb: string, url: string, body?: Product): Observable<Product> {
+     *   return this.http.request<T>(verb, url, {
+     *     body: body
+     *   });
+     * }
+     *
+     * In this way, all requests are sent using the `sendRequest` wrapper.
+     *
+     * @note The configuration object accepted by the HttpClient.request method
+     * has the `headers` property where one can pass in the HttpHeaders instance
+     * defining additional HTTP headers to be sent to the server. This is illustrated
+     * below.
+     */
 
-    // However, the same can be done using the HttpClient.request method
-    // as shown below. This can be used to consolidate HTTP requests, so
-    // that instead of invoking different HttpClient methods for different
-    // HTTP verbs, one creates a wrapper around HttpClient.request:
-    //
-    // sendRequest<T>(verb: string, url: string, body?: Product): Observable<Product> {
-    //   return this.http.request<T>(verb, url, {
-    //     body: body
-    //   });
-    // }
-    //
-    // In this way, all requests are sent using the `sendRequest` wrapper.
+    // Create an HttpHeaders object with additional headers to include in the HTTP
+    // request. Note that HttpHeaders.set method accepts an array in case where HTTP
+    // option has multiple values (i.e. Application-Names: advanced-angular-features, second-name)
+    const headers = new HttpHeaders();
+    headers.set("Access-Key", "something-secret-and-unique");
+    headers.set("Application-Names", ["advanced-angular-features", "second-name"]);
+
     return this.http.request<ProductModel>(
       "PUT",
       `${this.url}/${product.id}`,
       {
-        body: product
-      });
+        body: product,
+        headers: headers
+      })
+      .pipe(catchError((error) => {
+        return throwError(`Network error: ${error.statusText} ${error.status}`);
+      }));
   }
 
   /**
@@ -80,7 +111,10 @@ export class RestDataSourceModel implements DataSourceInterfaceModel {
    * was just deleted by the server (i.e. an official version) and Observable
    * gets resolved with this object.
    */
-  deleteProduct(product: ProductModel): Observable<ProductModel> {
-    return this.http.delete<ProductModel>(`${this.url}/${product.id}`)
+  deleteProduct(id: number): Observable<ProductModel> {
+    return this.http.delete<ProductModel>(`${this.url}/${id}`)
+      .pipe(catchError((error) => {
+        return throwError(`Network error: ${error.statusText} ${error.status}`);
+      }));
   }
 }

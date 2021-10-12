@@ -29,5 +29,5 @@ export interface DataSourceInterfaceModel {
   /**
    * Deletes a product.
    */
-  deleteProduct(product: ProductModel): Observable<ProductModel>;
+  deleteProduct(id: number): Observable<ProductModel>;
 }

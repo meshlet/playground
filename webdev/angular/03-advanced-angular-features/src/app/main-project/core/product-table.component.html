@@ -11,10 +11,11 @@
       <td>{{item.category}}</td>
       <td>{{item.price}}</td>
       <td class="text-center">
-        <button class="btn btn-sm btn-danger" (click)="deleteProduct($any(item))">Delete</button>
+        <button class="btn btn-sm btn-danger" (click)="deleteProduct($any(item.id))">Delete</button>
         <button class="btn btn-sm btn-warning ml-1" (click)="editProduct(item)">Edit</button>
       </td>
     </tr>
   </tbody>
 </table>
-<button class="btn btn-primary mt-1" (click)="createProduct()">Create New Product</button>
+<button class="btn btn-primary mt-1 mr-1" (click)="createProduct()">Create New Product</button>
+<button class="btn btn-danger mt-1" (click)="deleteProduct(-1)">Generate HTTP Error</button>

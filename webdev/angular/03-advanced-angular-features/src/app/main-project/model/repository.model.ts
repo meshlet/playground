@@ -45,12 +45,12 @@ export class RepositoryModel {
     }
   }
 
-  deleteProduct(product: ProductModel) {
+  deleteProduct(id: number) {
     // Delete the product with the given ID at the server and
     // try to amend the local product collection
-    this.dataSource.deleteProduct(product)
+    this.dataSource.deleteProduct(id)
       .subscribe((p: ProductModel) => {
-        let index = this.products.findIndex(p => this.locator(p, product.id));
+        let index = this.products.findIndex(p => this.locator(p, id));
         if (index > -1) {
           this.products.splice(index, 1);
         }
