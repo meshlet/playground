@@ -13,12 +13,17 @@
       <td class="text-center">
         <button class="btn btn-sm btn-danger" (click)="deleteProduct($any(item.id))">Delete</button>
         <!-- The `routerLink` is an attribute whose value determines what the browser's -->
-        <!-- URL is set to after user clicks the button the attribute is applied to. -->
-        <!-- This attribute is selected by a directive from the RouterModule, hence -->
+        <!-- URL is set to after user clicks the button the attribute is applied to.    -->
+        <!-- This attribute is selected by a directive from the RouterModule, hence     -->
         <!-- this module must be imported in order for the directive to be instantiated -->
-        <!-- once Angular encounters an element with the routerLink attribute. -->
+        <!-- once Angular encounters an element with the routerLink attribute.          -->
+
+        <!-- The routerLink attribute value below is a data binding expression, hence it will be  -->
+        <!-- evaluated by Angular each time a change is detected. Note how routerLink allows the  -->
+        <!-- value to be provided as an array of URL segments, which is combined by the directive -->
+        <!-- into a string URL. Hence [form, edit, 1] produces "form/edit/1".                     -->
         <button class="btn btn-sm btn-warning ml-1" (click)="editProduct(item)"
-                routerLink="/form/edit">
+                [routerLink]="['/form', 'edit', item.id]">
           Edit
         </button>
       </td>

@@ -5,5 +5,5 @@ import { Component } from "@angular/core";
   templateUrl: "app.component.html"
 })
 export class AppComponent {
-  public active = "1";
+  public active = "2";
 }

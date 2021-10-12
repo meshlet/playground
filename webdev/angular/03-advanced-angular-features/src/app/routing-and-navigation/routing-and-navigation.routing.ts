@@ -4,8 +4,9 @@ import { ProductTableComponent } from "./core/product-table.component";
 
 /**
  * The following describes the routes using the Routes collection.
- * Thus when Angular encounters the "form/edit" URL, it knows to
- * load the ProductFormComponent for example.
+ * Thus when Angular encounters the "form/:mode" URL, it knows to
+ * load the ProductFormComponent for example. Router parameters
+ * are described in more detail in product-form.component.ts.
  *
  * @note The order in which routes are defined matters. Angular
  * examines each of these in turn when matching the URL to the
@@ -13,8 +14,8 @@ import { ProductTableComponent } from "./core/product-table.component";
  * followed by those that have lower specificity.
  */
 const routes: Routes = [
-  { path: "form/edit", component: ProductFormComponent },
-  { path: "form/create", component: ProductFormComponent },
+  { path: "form/:mode/:id", component: ProductFormComponent },
+  { path: "form/:mode", component: ProductFormComponent },
   { path: "", component: ProductTableComponent }
 ];
 

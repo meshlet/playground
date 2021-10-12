@@ -36,6 +36,7 @@ export class StaticDataSourceModel implements DataSourceInterfaceModel {
     // by the RepositoryModel class.
     let index = this.data.findIndex((p: ProductModel) => p.id === product.id);
     if (index > -1) {
+      Object.assign(this.data[index], product);
       return of(this.data[index]);
     }
     else {

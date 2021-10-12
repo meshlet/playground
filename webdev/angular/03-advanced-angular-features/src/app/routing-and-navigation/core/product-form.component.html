@@ -17,6 +17,11 @@
     <input type="number" id="price" name="price" class="form-control" required min="0" [(ngModel)]="newProduct.price">
   </div>
   <div class="form-group">
+    <!-- NOTE: we cannot use the routerLink attribute here to change the route to the table component.  -->
+    <!-- What would happen is that route would be changed before the form is submitted. In other words, -->
+    <!-- the form's submit action would get to run before the route is changed and form component is    -->
+    <!-- destroyed. Hence the router must be changed after the form is submitted as shown in            -->
+    <!-- product-form.component.ts.                                                                     -->
     <button type="submit" class="btn btn-primary"
             [disabled]="form.submitted && form.invalid" [class.btn-warning]="isEditing">
       {{ isEditing ? "Update" : "Create" }}
