@@ -1,0 +1,28 @@
+<div class="bg-primary text-white" [class.bg-warning]="isEditing">
+  <h4 class="p-2">{{ isEditing ? "Edit Product" : "Create Product" }}</h4>
+</div>
+<form novalidate #form="ngForm" (ngSubmit)="submitForm(form)" (reset)="resetForm(form)">
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" class="form-control"
+           required minlength="3" pattern="^[A-Za-z0-9 ]+$" [(ngModel)]="newProduct.name">
+  </div>
+  <div class="form-group">
+    <label for="category">Category:</label>
+    <input type="text" id="category" name="category" class="form-control"
+           required minlength="2" pattern="^[A-Za-z0-9 ]+$" [(ngModel)]="newProduct.category">
+  </div>
+  <div class="form-group">
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" class="form-control" required min="0" [(ngModel)]="newProduct.price">
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary"
+            [disabled]="form.submitted && form.invalid" [class.btn-warning]="isEditing">
+      {{ isEditing ? "Update" : "Create" }}
+    </button>
+    <button type="reset" class="btn btn-secondary ml-1" routerLink="/">
+      Cancel
+    </button>
+  </div>
+</form>

@@ -1,20 +1,21 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CoreModule } from "./main-project/core/core.module";
-import { MessagesModule } from "./main-project/messages/messages.module";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 import { AppComponent } from "./app.component";
-import { MainProjectComponent } from "./main-project/main-project.component";
-import { RxjsComponent } from "./additional-samples/rxjs/rxjs.component";
+import { RxjsAndAsyncHttpModule } from "./rxjs-and-async-http/rxjs-and-async-http.module";
+import { RoutingAndNavigationModule } from "./routing-and-navigation/routing-and-navigation.module";
+import { AdditionalSamplesModule } from "./additional-samples/additional-samples.module";
 
 @NgModule({
   imports: [
-    BrowserModule,
     NgbModule,
-    CoreModule,
-    MessagesModule
+    RxjsAndAsyncHttpModule,
+    AdditionalSamplesModule,
+    RoutingAndNavigationModule
   ],
-  declarations: [AppComponent, MainProjectComponent, RxjsComponent],
+  declarations: [
+    AppComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

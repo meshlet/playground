@@ -3,13 +3,28 @@
     <div class="col-3">
       <nav ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-pills" orientation="vertical">
         <ng-container ngbNavItem="1">
-          <a ngbNavLink>Main Project</a>
+          <a ngbNavLink placement="bottom"
+             ngbTooltip="Illustrates RxJS & using HTTP requests in Angular">
+            RxJS & Async. HTTP
+          </a>
           <ng-template ngbNavContent>
-            <main-project></main-project>
+            <rxjs-and-async-http></rxjs-and-async-http>
           </ng-template>
         </ng-container>
         <ng-container ngbNavItem="2">
-          <a ngbNavLink>RxJS (Reactive Extensions)</a>
+          <a ngbNavLink placement="bottom"
+             ngbTooltip="Illustrates Angular Routing Features">
+            Routing and Navigation
+          </a>
+          <ng-template ngbNavContent>
+            <routing-and-navigation></routing-and-navigation>
+          </ng-template>
+        </ng-container>
+        <ng-container ngbNavItem="3">
+          <a ngbNavLink placement="bottom"
+             ngbTooltip="Additional samples illustrating RxJS features">
+            RxJS (Reactive Extensions)
+          </a>
           <ng-template ngbNavContent>
             <rxjs-samples></rxjs-samples>
           </ng-template>
