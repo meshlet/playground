@@ -26,15 +26,5 @@ export class ProductTableComponent {
   deleteProduct(id: number) {
     this.repository.deleteProduct(id);
   }
-
-  editProduct(product: ProductModel) {
-    // Signal that user wishes to edit the given Product
-    //this.modeObserver.next(new ModeTrackerModel(MODE.EDIT, product.id));
-  }
-
-  createProduct() {
-    // Signal that user wishes to create a new product
-    //this.modeObserver.next(new ModeTrackerModel(MODE.CREATE));
-  }
 }
 

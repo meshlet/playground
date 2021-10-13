@@ -22,14 +22,22 @@
         <!-- evaluated by Angular each time a change is detected. Note how routerLink allows the  -->
         <!-- value to be provided as an array of URL segments, which is combined by the directive -->
         <!-- into a string URL. Hence [form, edit, 1] produces "form/edit/1".                     -->
-        <button class="btn btn-sm btn-warning ml-1" (click)="editProduct(item)"
-                [routerLink]="['/form', 'edit', item.id]">
+
+        <!-- The following also illustrates how to provide the optional route parameters in the     -->
+        <!-- route URL. These are passed in as an object whose properties represent the name of     -->
+        <!-- optional parameters and their values are the parameters' values. For example, for the  -->
+        <!-- product with id 1, name Ball, category Sports and price 100 the following URL would be -->
+        <!-- generated "/form/edit/1;name=Ball;category=Sports;price=100. To see how these router   -->
+        <!-- parameters are consumed see product-form.component.ts.                                 -->
+        <button class="btn btn-sm btn-warning ml-1"
+                [routerLink]="['/form', 'edit', item.id,
+                {name: item.name, category: item.category, price: item.price}]">
           Edit
         </button>
       </td>
     </tr>
   </tbody>
 </table>
-<button class="btn btn-primary mt-1 mr-1" (click)="createProduct()" routerLink="/form/create">
+<button class="btn btn-primary mt-1 mr-1" routerLink="/form/create">
   Create New Product
 </button>

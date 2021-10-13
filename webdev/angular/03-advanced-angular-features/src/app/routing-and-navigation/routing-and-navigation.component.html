@@ -1,9 +1,16 @@
 <div class="container">
   <div class="row">
     <div class="col">
+      <div class="bg-info text-white text-center py-2">
+        The number of performed navigations: {{ completedNavigationsCount }}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
       <!-- When the URL changes, Angular routing mechanism appends the -->
       <!-- selected component's view in the router-outlet element. This -->
-      <!-- happens automatically - one only needs to include the router-element -->
+      <!-- happens automatically - one only needs to include the router-outlet -->
       <!-- in HTML. -->
       <router-outlet></router-outlet>
     </div>
