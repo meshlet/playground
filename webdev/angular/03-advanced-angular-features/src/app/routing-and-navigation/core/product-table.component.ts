@@ -1,6 +1,7 @@
 import {Component, Inject} from "@angular/core";
 import {RepositoryModel} from "../model/repository.model";
 import {ProductModel} from "../model/product.model";
+import {ActivatedRoute, Params} from "@angular/router";
 
 /**
  * This component displays a table of all the products, allowing the user
@@ -12,7 +13,17 @@ import {ProductModel} from "../model/product.model";
   templateUrl: "product-table.component.html",
 })
 export class ProductTableComponent {
-  constructor(private repository: RepositoryModel) {
+  public selectedCategory: string | undefined;
+
+  constructor(private repository: RepositoryModel, activatedRoute: ActivatedRoute) {
+    activatedRoute.params.subscribe((params: Params) => {
+      if (typeof params["category"] === "string") {
+        this.selectedCategory = params["category"];
+      }
+      else {
+        this.selectedCategory = undefined;
+      }
+    });
   }
 
   getProduct(key: number): ProductModel | undefined {
@@ -20,7 +31,24 @@ export class ProductTableComponent {
   }
 
   getProducts(): ProductModel[] {
-    return this.repository.getProducts() || [];
+    if (this.selectedCategory === undefined) {
+      // If category is not specified, return all products
+      return this.repository.getProducts();
+    }
+
+    // Filter products by the currently selected category
+    return this.repository.getProducts()
+      .filter((product: ProductModel) => product.category === this.selectedCategory);
+  }
+
+  getCategories(): string[] {
+    const categories: string[] = [];
+    for (let p of this.repository.getProducts()) {
+      if (categories.findIndex((c: string) => c === p.category) === -1) {
+        categories.push(p.category);
+      }
+    }
+    return categories;
   }
 
   deleteProduct(id: number) {

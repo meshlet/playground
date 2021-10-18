@@ -12,10 +12,16 @@ import { ProductTableComponent } from "./product-table.component";
 import { ProductFormComponent } from "./product-form.component";
 import { ModelModule } from "../model/model.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { ProductCountComponent } from "./product-count.component";
+import { CategoryCountComponent } from "./category-count.component";
+import { NotFoundComponent } from "./not-found.component";
 
 @NgModule({
   imports: [BrowserModule, FormsModule, ModelModule, NgbModule, RouterModule],
-  declarations: [ProductFormComponent, ProductTableComponent],
+  declarations: [
+    ProductFormComponent, ProductTableComponent, ProductCountComponent, CategoryCountComponent,
+    NotFoundComponent
+  ],
   exports: [ProductTableComponent, ProductFormComponent, ModelModule]
 })
 export class CoreModule {

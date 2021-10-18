@@ -1,43 +1,98 @@
-<table class="table table-sm table-bordered table-striped">
-  <thead>
-    <tr class="text-dark">
-      <th></th><th>Name</th><th>Category</th><th>Price</th><th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of getProducts(); let i = index;">
-      <td>{{i + 1}}</td>
-      <td>{{item.name}}</td>
-      <td>{{item.category}}</td>
-      <td>{{item.price}}</td>
-      <td class="text-center">
-        <button class="btn btn-sm btn-danger" (click)="deleteProduct($any(item.id))">Delete</button>
-        <!-- The `routerLink` is an attribute whose value determines what the browser's -->
-        <!-- URL is set to after user clicks the button the attribute is applied to.    -->
-        <!-- This attribute is selected by a directive from the RouterModule, hence     -->
-        <!-- this module must be imported in order for the directive to be instantiated -->
-        <!-- once Angular encounters an element with the routerLink attribute.          -->
+<div class="container mt-2">
+  <div class="row">
+    <div class="col-3">
+      <!-- The routerLinkActive attribute is used to add the element to a specified class when the          -->
+      <!-- path specified by routerLink attribute matches the path in the active route. Note that           -->
+      <!-- routerLinkActive performs partial matches by default. For example, if routerLink specifies       -->
+      <!-- a "/first" path, and the active route's path is "/first/second", the element will be added       -->
+      <!-- to the class in routerLinkActive because "/first" matches route's path "/first/second". This     -->
+      <!-- partial matching can be undesirable (in the example below, the `All Products` button is always   -->
+      <!-- added to bg-primary, because it's routerLink path "/table" will always match the active route),  -->
+      <!-- even when active route's path is something like /table/clothes) hence routerLinkActive can be    -->
+      <!-- configured to perform exact matching as shown in the button under.                               -->
+      <button class="btn btn-secondary btn-block"
+              routerLink="/table" routerLinkActive="bg-primary" [routerLinkActiveOptions]="{exact: true}">
+        All Products
+      </button>
+      <button class="btn btn-secondary btn-block"
+              *ngFor="let category of getCategories()" [routerLink]="['/table', category]" routerLinkActive="bg-primary">
+        {{ category }}
+      </button>
+    </div>
+    <div class="col-9">
+      <!-- The following two buttons trigger route change that will select a child route      -->
+      <!-- defined in routing-and-navigation.routing.ts, whose component will be displayed    -->
+      <!-- in the router-outlet element below these buttons. See the comment in that source   -->
+      <!-- file for more details on child routes.                                             -->
+      <!-- Note that routerLink attribute below uses relative instead of absolute path. When  -->
+      <!-- forming the new URL, this value is appended to the URL that selected this view's   -->
+      <!-- component. In this case, this can be either /table or /table/:category URL. Hence, -->
+      <!-- the new URL will be /table/products or /table/:category/products or in the case of -->
+      <!-- the second button /table/categories or /table/:category/categories. The important  -->
+      <!-- detail to note is that relative navigation doesn't mean that routerLink value is   -->
+      <!-- simply appended to the current URL, it is relative to the URL that selected the    -->
+      <!-- current view's component (ProductTableComponent).                                  -->
+      <button class="btn btn-info mr-1" routerLink="products">
+        Show Product Count
+      </button>
+      <button class="btn btn-primary mr-1" routerLink="categories">
+        Show Category Count
+      </button>
+      <div class="my-2">
+        <router-outlet></router-outlet>
+      </div>
+      <table class="table table-sm table-bordered table-striped">
+        <thead>
+          <tr class="text-dark">
+            <th></th><th>Name</th><th>Category</th><th>Price</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of getProducts(); let i = index;">
+            <td>{{i + 1}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.category}}</td>
+            <td>{{item.price}}</td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-danger" (click)="deleteProduct($any(item.id))">Delete</button>
+              <!-- The `routerLink` is an attribute whose value determines what the browser's -->
+              <!-- URL is set to after user clicks the button the attribute is applied to.    -->
+              <!-- This attribute is selected by a directive from the RouterModule, hence     -->
+              <!-- this module must be imported in order for the directive to be instantiated -->
+              <!-- once Angular encounters an element with the routerLink attribute.          -->
 
-        <!-- The routerLink attribute value below is a data binding expression, hence it will be  -->
-        <!-- evaluated by Angular each time a change is detected. Note how routerLink allows the  -->
-        <!-- value to be provided as an array of URL segments, which is combined by the directive -->
-        <!-- into a string URL. Hence [form, edit, 1] produces "form/edit/1".                     -->
+              <!-- The routerLink attribute value below is a data binding expression, hence it will be  -->
+              <!-- evaluated by Angular each time a change is detected. Note how routerLink allows the  -->
+              <!-- value to be provided as an array of URL segments, which is combined by the directive -->
+              <!-- into a string URL. Hence [form, edit, 1] produces "form/edit/1".                     -->
 
-        <!-- The following also illustrates how to provide the optional route parameters in the     -->
-        <!-- route URL. These are passed in as an object whose properties represent the name of     -->
-        <!-- optional parameters and their values are the parameters' values. For example, for the  -->
-        <!-- product with id 1, name Ball, category Sports and price 100 the following URL would be -->
-        <!-- generated "/form/edit/1;name=Ball;category=Sports;price=100. To see how these router   -->
-        <!-- parameters are consumed see product-form.component.ts.                                 -->
-        <button class="btn btn-sm btn-warning ml-1"
-                [routerLink]="['/form', 'edit', item.id,
+              <!-- The following also illustrates how to provide the optional route parameters in the     -->
+              <!-- route URL. These are passed in as an object whose properties represent the name of     -->
+              <!-- optional parameters and their values are the parameters' values. For example, for the  -->
+              <!-- product with id 1, name Ball, category Sports and price 100 the following URL would be -->
+              <!-- generated "/form/edit/1;name=Ball;category=Sports;price=100. To see how these router   -->
+              <!-- parameters are consumed see product-form.component.ts.                                 -->
+              <button class="btn btn-sm btn-warning ml-1"
+                      [routerLink]="['/form', 'edit', item.id,
                 {name: item.name, category: item.category, price: item.price}]">
-          Edit
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<button class="btn btn-primary mt-1 mr-1" routerLink="/form/create">
-  Create New Product
-</button>
+                Edit
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row mt-3 text-center">
+    <div class="col">
+      <!-- Check the routes in routing-and-navigation.routing.ts to see how /create gets redirected -->
+      <!-- to /form/create.                                                                         -->
+      <button class="btn btn-primary mt-1 mr-1" routerLink="/create">
+        Create New Product
+      </button>
+      <button class="btn btn-danger mt-1" routerLink="/route/that/does/not/exist">
+        Navigate to nonexistent route
+      </button>
+    </div>
+  </div>
+</div>

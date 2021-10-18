@@ -1,6 +1,25 @@
 <div class="bg-primary text-white" [class.bg-warning]="isEditing">
   <h4 class="p-2">{{ isEditing ? "Edit Product" : "Create Product" }}</h4>
 </div>
+<div class="container mx-0 px-0" *ngIf="isEditing">
+  <div class="row no-gutters">
+    <div class="col-2 mr-1">
+      <!-- This and the next button are examples of routing within the same component, that is Angular  -->
+      <!-- discovers that the provided URL maps to the same component and will not destroy/recreate it. -->
+      <!-- See constructor in product-form.component.ts to see how components can subscribe to an event -->
+      <!-- and be notified about routing that happens within themselves. -->
+      <button class="btn btn-primary w-100"
+              [routerLink]="['/form/edit', repository.getPreviousProductId($any(newProduct.id))]">
+        Edit Previous
+      </button>
+    </div>
+    <div class="col-2">
+      <button class="btn btn-primary w-100" [routerLink]="['/form/edit', repository.getNextProductId($any(newProduct.id))]">
+        Edit Next
+      </button>
+    </div>
+  </div>
+</div>
 <form novalidate #form="ngForm" (ngSubmit)="submitForm(form)" (reset)="resetForm(form)">
   <div class="form-group">
     <label for="name">Name:</label>
@@ -19,15 +38,17 @@
   <div class="form-group">
     <!-- NOTE: we cannot use the routerLink attribute here to change the route to the table component.  -->
     <!-- What would happen is that route would be changed before the form is submitted. In other words, -->
-    <!-- the form's submit action wouldn't get to run before the route is changed and form component is    -->
+    <!-- the form's submit action wouldn't get to run before the route is changed and form component is -->
     <!-- destroyed. Hence the router must be changed after the form is submitted as shown in            -->
     <!-- product-form.component.ts.                                                                     -->
     <button type="submit" class="btn btn-primary"
             [disabled]="form.submitted && form.invalid" [class.btn-warning]="isEditing">
       {{ isEditing ? "Update" : "Create" }}
     </button>
-    <button type="reset" class="btn btn-secondary ml-1" routerLink="/">
-      Cancel
-    </button>
-  </div>
-</form>
+    <!-- Check the routes in routing-and-navigation.routing.ts to see how / URL gets redirected -->
+    <!-- to /table.                                                                             -->
+        <button type="reset" class="btn btn-secondary ml-1" routerLink="/">
+          Cancel
+        </button>
+      </div>
+    </form>

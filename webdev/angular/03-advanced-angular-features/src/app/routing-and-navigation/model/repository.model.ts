@@ -56,4 +56,24 @@ export class RepositoryModel {
         }
       });
   }
+
+  getNextProductId(id: number): number {
+    let index = this.products.findIndex(p => this.locator(p, id));
+    if (index > -1) {
+      // Created products are certain to have defined IDs so it is safe to assume that
+      // all of the IDs are numbers
+      return this.products[this.products.length > index + 1 ? index + 1 : 0].id as number;
+    }
+    return -1;
+  }
+
+  getPreviousProductId(id: number): number {
+    let index = this.products.findIndex(p => this.locator(p, id));
+    if (index > -1) {
+      // Created products are certain to have defined IDs so it is safe to assume that
+      // all of the IDs are numbers
+      return this.products[index > 0 ? index - 1 : this.products.length - 1].id as number;
+    }
+    return -1;
+  }
 }
