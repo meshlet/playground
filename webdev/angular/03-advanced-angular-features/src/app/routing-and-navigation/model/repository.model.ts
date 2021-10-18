@@ -11,8 +11,8 @@ export class RepositoryModel {
   private locator = (p: ProductModel, id: number | undefined) => p.id === id;
 
   constructor(@Inject(DATA_SOURCE) private dataSource: DataSourceInterfaceModel) {
-    this.dataSource.getData().subscribe((obtainedProducts: ProductModel[]) => {
-      this.products = obtainedProducts;
+    this.dataSource.getData().subscribe((obtainedProducts: ProductModel[] | null) => {
+      this.products = obtainedProducts || [];
     });
   }
 

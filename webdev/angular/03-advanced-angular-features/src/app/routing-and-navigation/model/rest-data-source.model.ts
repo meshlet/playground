@@ -15,7 +15,7 @@
 import {Injectable, Inject, InjectionToken} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { ProductModel } from "./product.model";
-import {Observable, throwError} from "rxjs";
+import {BehaviorSubject, Observable, throwError} from "rxjs";
 import { DataSourceInterfaceModel } from "./data-source-interface.model";
 import { catchError } from "rxjs/operators";
 
@@ -27,11 +27,57 @@ export const REST_URL = new InjectionToken("rest_url");
 
 @Injectable()
 export class RestDataSourceModel implements DataSourceInterfaceModel {
+  /**
+   * The subject exposed to the outside world used to subscribe to the data
+   * load event but without triggering a new HTTP request. Explained in
+   * more details in the comment within the class constructor.
+   *
+   * @note An undefined value is passed to the BehaviorSubject constructor
+   * so that users can check whether the data has actually been loaded from
+   * the server or BehaviorSubject is invoking callback upon subscription
+   * before data has been loaded. Note that BehaviorSubject will do just
+   * that, as soon as subscriber is registered it will invoke it with
+   * whatever data it has (and this data is initialized at construction
+   * time).
+   */
+  private dataSubject: BehaviorSubject<ProductModel[] | null> =
+    new BehaviorSubject<ProductModel[] | null>(null);
+
   constructor(private http: HttpClient, @Inject(REST_URL) private url: string) {
+    /**
+     * Create and immediately send (by subscribing to the Observable) a GET HTTP
+     * request to load all Products from the server.
+     */
+    this.http.get<ProductModel[]>(this.url)
+      .pipe(catchError((error) => {
+        return throwError(`Network error: ${error.statusText} ${error.status}`);
+      }))
+      .subscribe((products: ProductModel[]) => {
+        /**
+         * In order to allow multiple subscribers to subscribe to the event
+         * of initial data load from the server but without initiating multiple
+         * HTTP requests, this class wraps the Observable returned from the
+         * HttpClient.get() method with its own BehaviorSubject. This class
+         * itself subscribes to the Observable returned by HttpClient.get()
+         * and signals that data has been loaded by invoking BehaviorSubject.next()
+         * method. The class exposes the BehaviorSubject to the outside worlds,
+         * which will pass the data from the most recent load transaction to all
+         * the new subscribers even if they were registered after the event has
+         * already been signalled (this is why BehaviorSubject is used here
+         * instead of the base Subject class). Note that all the other methods
+         * such as saveProduct() simply return the Observable returned by the
+         * HttpClient as it is not expected that multiple actors will need
+         * to subscribe to these Observables yielding a single Product.
+         */
+        this.dataSubject.next(products);
+      });
   }
 
-  getData(): Observable<ProductModel[]> {
-    return this.http.get<ProductModel[]>(this.url);
+  getData(): Observable<ProductModel[] | null> {
+    // Return the internal BehaviorSubject that will invoke all the subscribers
+    // with the loaded data array. See comment in class constructor for more
+    // details.
+    return this.dataSubject;
   }
 
   /**

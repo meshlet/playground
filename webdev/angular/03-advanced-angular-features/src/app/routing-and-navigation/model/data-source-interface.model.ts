@@ -14,7 +14,7 @@ export interface DataSourceInterfaceModel {
   /**
    * Returns all products.
    */
-  getData(): Observable<ProductModel[]>;
+  getData(): Observable<ProductModel[]> | Observable<ProductModel[] | null>;
 
   /**
    * Create a new product.

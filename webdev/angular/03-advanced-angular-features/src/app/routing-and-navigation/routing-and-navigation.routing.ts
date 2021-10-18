@@ -1,9 +1,10 @@
 import { Routes, RouterModule } from "@angular/router";
 import { ProductFormComponent } from "./core/product-form.component";
 import { ProductTableComponent } from "./core/product-table.component";
-import {NotFoundComponent} from "./core/not-found.component";
-import {ProductCountComponent} from "./core/product-count.component";
-import {CategoryCountComponent} from "./core/category-count.component";
+import { NotFoundComponent } from "./core/not-found.component";
+import { ProductCountComponent } from "./core/product-count.component";
+import { CategoryCountComponent } from "./core/category-count.component";
+import { DataResolverService } from "./model/data-resolver.service";
 
 /**
  * The following describes the routes using the Routes collection.
@@ -19,7 +20,7 @@ import {CategoryCountComponent} from "./core/category-count.component";
 const routes: Routes = [
   { path: "form/:mode/:id", component: ProductFormComponent },
   { path: "form/:mode", component: ProductFormComponent },
-  { path: "table", component: ProductTableComponent },
+  { path: "table", component: ProductTableComponent, resolve: { data: DataResolverService } },
 
   /**
    * The following is a route that contains child routes. For Angular to match
@@ -45,12 +46,13 @@ const routes: Routes = [
     children: [
       { path: "products", component: ProductCountComponent },
       { path: "categories", component: CategoryCountComponent }
-    ]
+    ],
+    resolve: { data: DataResolverService }
   },
 
   /**
    * The following route also contains child routes, however in this case
-   * the parent route's path contains router parameters. The important point
+   * the parent route's path contains route parameters. The important point
    * to remember is that each component receives only part of the root that
    * lead to its activation. For example, ProductTableComponent below receives
    * "table/:category" segment while ProductCountComponent receives "products"
@@ -71,7 +73,8 @@ const routes: Routes = [
       { path: "products", component: ProductCountComponent },
       { path: "categories", component: CategoryCountComponent },
       { path: "", component: ProductCountComponent }
-    ]
+    ],
+    resolve: { data: DataResolverService }
   },
 
   /**
@@ -80,7 +83,7 @@ const routes: Routes = [
    * like /table/clothes for example. This is used to filter products by
    * the category.
    */
-  { path: "table/:category", component: ProductTableComponent},
+  { path: "table/:category", component: ProductTableComponent, resolve: { data: DataResolverService } },
 
   /**
    * The following illustrates how to redirect one route to a different
