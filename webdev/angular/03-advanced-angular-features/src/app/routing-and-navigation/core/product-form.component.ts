@@ -129,8 +129,8 @@ export class ProductFormComponent {
           //
           // @note In case where data is loaded asynchronously from the server, it might
           // happen that this router gets activated before the products have been read from
-          // the server. In this case the getProduct below would return undefined causing
-          // Object.assign to throw an error.
+          // the server. In this case the getProduct below would return undefined meaning
+          // that Object.assign() method will leave the destination object unmodified.
           Object.assign(this.newProduct, this.repository.getProduct(id));
         }
       }

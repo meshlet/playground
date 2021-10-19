@@ -1,9 +1,9 @@
 import { Injectable, Inject } from "@angular/core";
 import { DataSourceInterfaceModel, DATA_SOURCE } from "./data-source-interface.model";
 import { ProductModel } from "./product.model";
-import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from "@angular/router";
-import {Observable, Subject, of} from "rxjs";
-import {first, map} from "rxjs/operators";
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
+import { Observable } from "rxjs";
+import { first } from "rxjs/operators";
 
 /**
  * This service is used to prevent route activates of certain routes
@@ -18,9 +18,18 @@ export class DataResolverService implements Resolve<ProductModel[]>{
 
   resolve(route: ActivatedRouteSnapshot,
           state: RouterStateSnapshot): Observable<ProductModel[]> | ProductModel[] {
-
     /**
-     * @todo explain how this works
+     * The Angular routing system's resolve feature expects that Observable
+     * returned from the resolver's `resolve` method completes, before it will
+     * allow the given route to be activated. The Observable gets completed by
+     * invoking the Observer.complete() method after which no more events will
+     * be signalled. However, the Observable returned by this.dataSource.getData()
+     * will never complete, hence the route with resolver set to DataResolverService
+     * would never be activated. This is why the code below pipes the RxJS's first
+     * operator to create a new Observable that will complete once the value received
+     * through the this.dataSource.getData() is not NULL (indicating that data has been
+     * received from the server). Once this happens, the Observable returned by the
+     * `first` method completes, and Angular will activate the given route.
      *
      * @note The type assertion of result from DataSourceInterfaceModel.getData()
      * is safe because the other possible type is Observable<ProductModel[]> so

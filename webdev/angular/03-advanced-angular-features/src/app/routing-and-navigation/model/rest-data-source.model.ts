@@ -32,13 +32,15 @@ export class RestDataSourceModel implements DataSourceInterfaceModel {
    * load event but without triggering a new HTTP request. Explained in
    * more details in the comment within the class constructor.
    *
-   * @note An undefined value is passed to the BehaviorSubject constructor
+   * @note A null value is passed to the BehaviorSubject constructor
    * so that users can check whether the data has actually been loaded from
    * the server or BehaviorSubject is invoking callback upon subscription
    * before data has been loaded. Note that BehaviorSubject will do just
    * that, as soon as subscriber is registered it will invoke it with
-   * whatever data it has (and this data is initialized at construction
-   * time).
+   * whatever data it has (and it might happen that the first value returned
+   * by it to a subscriber is the value passed to the constructor which is
+   * why null is passed to it as a signal that data hasn't yet been loaded
+   * from the server).
    */
   private dataSubject: BehaviorSubject<ProductModel[] | null> =
     new BehaviorSubject<ProductModel[] | null>(null);
@@ -67,7 +69,7 @@ export class RestDataSourceModel implements DataSourceInterfaceModel {
          * instead of the base Subject class). Note that all the other methods
          * such as saveProduct() simply return the Observable returned by the
          * HttpClient as it is not expected that multiple actors will need
-         * to subscribe to these Observables yielding a single Product.
+         * to subscribe to these Observables which yield a single Product.
          */
         this.dataSubject.next(products);
       });

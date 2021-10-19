@@ -1,10 +1,11 @@
-import { Routes, RouterModule } from "@angular/router";
+import {Routes, RouterModule, Data} from "@angular/router";
 import { ProductFormComponent } from "./core/product-form.component";
 import { ProductTableComponent } from "./core/product-table.component";
 import { NotFoundComponent } from "./core/not-found.component";
 import { ProductCountComponent } from "./core/product-count.component";
 import { CategoryCountComponent } from "./core/category-count.component";
 import { DataResolverService } from "./model/data-resolver.service";
+import {TermsGuardService} from "./terms-guard.service";
 
 /**
  * The following describes the routes using the Routes collection.
@@ -18,8 +19,35 @@ import { DataResolverService } from "./model/data-resolver.service";
  * followed by those that have lower specificity.
  */
 const routes: Routes = [
-  { path: "form/:mode/:id", component: ProductFormComponent },
-  { path: "form/:mode", component: ProductFormComponent },
+  /**
+   * @note The following (and most of the other routes) uses the Route.resolve
+   * property to delay activation of the given route until the given resolver
+   * (DataResolverService) gives indication that it's ready. Resolver does this
+   * by returning an Observable to which Angular subscribes, and once observable
+   * completes (meaning there will be no more events coming) Angular will active
+   * the given route. For details see model/data-resolver.service.ts. Note that
+   * routes for both ProductFormComponent and ProductTableComponent use the
+   * resolver as both need the data that needs to be loaded from the server.
+   */
+  {
+    path: "form/:mode/:id",
+    component: ProductFormComponent,
+    canActivate: [ TermsGuardService ],
+    resolve: { data: DataResolverService }
+  },
+
+  /**
+   * The following route uses `canActivate` property to prevent route activation
+   * if the guard service's condition is not satisfied. See more details in the
+   * comment for the `canActivate` method in terms-guard.service.ts.
+   */
+  {
+    path: "form/:mode",
+    component: ProductFormComponent,
+    canActivate: [ TermsGuardService ],
+    resolve: { data: DataResolverService }
+  },
+
   { path: "table", component: ProductTableComponent, resolve: { data: DataResolverService } },
 
   /**

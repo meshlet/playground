@@ -1,9 +1,25 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <div class="bg-info text-white text-center py-2">
-        The number of performed navigations: {{ completedNavigationsCount }}
+      <div *ngIf="!waitingForUserInput; else elseBlock"
+           class="bg-info text-white text-center py-2" [class.h3]="!isDataReady">
+        {{ isDataReady ?
+        "The number of performed navigations: " + completedNavigationsCount :
+        "Loading data..." }}
       </div>
+      <ng-template #elseBlock>
+        <!-- Display the message and button option to the users. See more info in -->
+        <!-- routing-and-navigation.component.ts and terms-guard.service.ts. -->
+        <div class="bg-info text-white text-center py-2">
+          <span class="d-block">{{ $any(userInputData).message }}</span>
+          <button type="button" class="btn btn-warning px-2"
+                  [class.mr-1]="i < $any(userInputData).responses.length - 1"
+                  *ngFor="let response of $any(userInputData).responses; let i = index"
+                  (click)="waitingForUserInput = false; response[1]()">
+            {{ response[0] }}
+          </button>
+        </div>
+      </ng-template>
     </div>
   </div>
   <div class="row">
