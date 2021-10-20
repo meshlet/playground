@@ -31,6 +31,15 @@ export class DataResolverService implements Resolve<ProductModel[]>{
      * received from the server). Once this happens, the Observable returned by the
      * `first` method completes, and Angular will activate the given route.
      *
+     * @note In case that resolve function returns anything else other than an
+     * Observable or a Promise, Angular will complete the navigation and activate
+     * the new route. Hence, the only way that navigation step doesn't complete
+     * is if the Observable/Promise never completes. Note how this is different
+     * to the `canActivate` guard (see terms-guard.service.ts) where if Observable/
+     * Promise returned by the `canActivate` method resolves with false or the
+     * method returns a false value, the navigation to the specified route will
+     * be aborted.
+     *
      * @note The type assertion of result from DataSourceInterfaceModel.getData()
      * is safe because the other possible type is Observable<ProductModel[]> so
      * Observable<ProductModel[] | null> includes that one. The type assertion is
