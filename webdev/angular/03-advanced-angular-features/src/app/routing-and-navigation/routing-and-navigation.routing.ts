@@ -6,6 +6,7 @@ import { ProductCountComponent } from "./core/product-count.component";
 import { CategoryCountComponent } from "./core/category-count.component";
 import { DataResolverService } from "./model/data-resolver.service";
 import {TermsGuardService} from "./terms-guard.service";
+import {UnsavedChangesGuardService} from "./core/unsaved-changes-guard.service";
 
 /**
  * The following describes the routes using the Routes collection.
@@ -33,6 +34,7 @@ const routes: Routes = [
     path: "form/:mode/:id",
     component: ProductFormComponent,
     canActivate: [ TermsGuardService ],
+    canDeactivate: [ UnsavedChangesGuardService ],
     resolve: { data: DataResolverService }
   },
 
@@ -45,6 +47,15 @@ const routes: Routes = [
     path: "form/:mode",
     component: ProductFormComponent,
     canActivate: [ TermsGuardService ],
+
+    /**
+     * Service(s) specified in the canDeactivate property will prevent Angular
+     * from deactivating the given route before the service's `canDeactivate`
+     * method returns true or Promise / Observable returned from the method
+     * is resolved with a true value. See core/unsaved-changes-guard.service.ts
+     * for more details.
+     */
+    canDeactivate: [ UnsavedChangesGuardService ],
     resolve: { data: DataResolverService }
   },
 
@@ -71,6 +82,7 @@ const routes: Routes = [
   {
     path: "table",
     component: ProductTableComponent,
+    canActivateChild: [ TermsGuardService ],
     children: [
       { path: "products", component: ProductCountComponent },
       { path: "categories", component: CategoryCountComponent }
@@ -97,6 +109,7 @@ const routes: Routes = [
   {
     path: "table/:category",
     component: ProductTableComponent,
+    canActivateChild: [ TermsGuardService ],
     children: [
       { path: "products", component: ProductCountComponent },
       { path: "categories", component: CategoryCountComponent },

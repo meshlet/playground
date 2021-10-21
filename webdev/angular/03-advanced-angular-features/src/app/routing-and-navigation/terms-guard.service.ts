@@ -1,5 +1,7 @@
 import { Injectable, Inject, InjectionToken } from "@angular/core";
-import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from "@angular/router";
+import {
+  ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlSegment
+} from "@angular/router";
 import { Observer } from "rxjs";
 
 export const TERMS_GUARD_SUBJECT = new InjectionToken("terms_guard_subject");
@@ -7,9 +9,10 @@ export type TermsGuardsCallbackParamType =
   { message: string, responses: [string, () => void][] };
 
 @Injectable()
-export class TermsGuardService implements CanActivate {
+export class TermsGuardService implements CanActivate, CanActivateChild {
   constructor(
-    @Inject(TERMS_GUARD_SUBJECT) private userInputObserver: Observer<TermsGuardsCallbackParamType>) {
+    @Inject(TERMS_GUARD_SUBJECT) private userInputObserver: Observer<TermsGuardsCallbackParamType>,
+    private router: Router) {
 
   }
 
@@ -51,7 +54,60 @@ export class TermsGuardService implements CanActivate {
           ]
         };
         this.userInputObserver.next(eventData);
-      })
+      });
+    }
+    else {
+      return true;
+    }
+  }
+
+  /**
+   * Similar to the `canActivate` method, however the canActivateChild guard is
+   * applied to child routes of a given parent route. For an example of this
+   * check routing-and-navigation.routing.ts. When a canActivateChild route guard
+   * is used in a parent route, Angular will activate any of the child routes
+   * only if the method below returns true or a Promise / Observable it returns
+   * get resolved with a true value. Otherwise (method returns false or Promise /
+   * Observable it returns resolves with a false value), Angular will ignore
+   * the navigation.
+   */
+  canActivateChild(childRoute: ActivatedRouteSnapshot,
+                   state: RouterStateSnapshot): Promise<boolean> | boolean {
+    /**
+     * We only one to guard the routes that contain the "categories" segment. It is
+     * important to remember that the ActivatedRouteSnapshot passed here includes
+     * only the child route's URL segments. Hence, if a full URL is /table/products
+     * but /table is matched to the parent route, the childRoute.url will only
+     * contain one URL segment whose path is "categories".
+     */
+    if (childRoute.url.length > 0 && childRoute.url[childRoute.url.length - 1].path === "categories") {
+      return new Promise<boolean>(resolve => {
+        const eventData: TermsGuardsCallbackParamType = {
+          message: "Do you want to view the categories component",
+          responses: [
+            [ "Yes", () => resolve(true) ],
+            [ "No", () => {
+              resolve(false);
+
+              // If user answered with "No", we want to show the ProductCountComponent
+              // (defined in product-count.component.ts). However, as the childRoute
+              // only contains the URL segments for this particular child route, we
+              // have to rebuild the entire URL starting from the root route and also
+              // replace the "categories" with the "products" URL segment.
+              this.router.navigateByUrl(
+                childRoute.pathFromRoot.map(
+                  (routeSnapshot: ActivatedRouteSnapshot) => {
+                    return routeSnapshot.url
+                      .map((value: UrlSegment) =>
+                        value.path === "categories" ? "products" : value.path)
+                      .join("/")
+                  }
+                ).join("/"));
+            }]
+          ]
+        };
+        this.userInputObserver.next(eventData);
+      });
     }
     else {
       return true;

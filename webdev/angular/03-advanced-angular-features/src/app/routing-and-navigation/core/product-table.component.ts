@@ -1,7 +1,7 @@
 import {Component, Inject} from "@angular/core";
 import {RepositoryModel} from "../model/repository.model";
 import {ProductModel} from "../model/product.model";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 
 /**
  * This component displays a table of all the products, allowing the user
@@ -15,7 +15,9 @@ import {ActivatedRoute, Params} from "@angular/router";
 export class ProductTableComponent {
   public selectedCategory: string | undefined;
 
-  constructor(private repository: RepositoryModel, activatedRoute: ActivatedRoute) {
+  constructor(private repository: RepositoryModel,
+              activatedRoute: ActivatedRoute,
+              private router: Router) {
     activatedRoute.params.subscribe((params: Params) => {
       if (typeof params["category"] === "string") {
         this.selectedCategory = params["category"];
@@ -53,6 +55,19 @@ export class ProductTableComponent {
 
   deleteProduct(id: number) {
     this.repository.deleteProduct(id);
+  }
+
+  /**
+   * Determines whether the All Buttons button should be highlighted based on the
+   * currently active route's path.
+   */
+  shouldHighlightAllProductsBtn(): boolean {
+    return this.router.isActive("/table", {
+      paths: "exact", queryParams: "exact", fragment: "ignored", matrixParams: "ignored" }) ||
+      this.router.isActive("/table/products", {
+        paths: "exact", queryParams: "exact", fragment: "ignored", matrixParams: "ignored" }) ||
+      this.router.isActive("/table/categories", {
+        paths: "exact", queryParams: "exact", fragment: "ignored", matrixParams: "ignored" });
   }
 }
 

@@ -18,6 +18,11 @@ import { Subject } from "rxjs";
   declarations: [RoutingAndNavigationComponent],
   providers: [
     TermsGuardService,
+    /**
+     * A service provider used to provide a Subject instance used to facilitate
+     * communication between the TermsGuardService (defined in terms-guard.service.ts)
+     * and RoutingAndNavigationComponent (defined in routing-and-navigation.component.ts).
+     */
     { provide: TERMS_GUARD_SUBJECT, useValue: new Subject<TermsGuardsCallbackParamType>() }
   ],
   exports: [RoutingAndNavigationComponent]

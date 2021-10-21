@@ -15,6 +15,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ProductCountComponent } from "./product-count.component";
 import { CategoryCountComponent } from "./category-count.component";
 import { NotFoundComponent } from "./not-found.component";
+import {UnsavedChangesGuardService} from "./unsaved-changes-guard.service";
 
 @NgModule({
   imports: [BrowserModule, FormsModule, ModelModule, NgbModule, RouterModule],
@@ -22,6 +23,7 @@ import { NotFoundComponent } from "./not-found.component";
     ProductFormComponent, ProductTableComponent, ProductCountComponent, CategoryCountComponent,
     NotFoundComponent
   ],
+  providers: [ UnsavedChangesGuardService ],
   exports: [ProductTableComponent, ProductFormComponent, ModelModule]
 })
 export class CoreModule {

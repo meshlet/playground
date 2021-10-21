@@ -105,8 +105,15 @@ export class ProductFormComponent {
       this.isEditing = params["mode"] === "edit";
       const idStr: string | undefined = params["id"];
 
-      if (idStr) {
+      if (this.isEditing && idStr) {
         let id = Number.parseInt(idStr);
+
+        if (this.repository.getProducts().findIndex((p: ProductModel) => p.id === id) === -1) {
+          // The provided product ID doesn't exist (can only happen if user manually
+          // enters an URL with unknown ID). Navigate to the base URL
+          this.router.navigateByUrl("");
+          return;
+        }
 
         // First try and see if name, category and price were passed as optional route
         // parameters. If this is the case use them to pre-fill the product form.
@@ -134,6 +141,12 @@ export class ProductFormComponent {
           Object.assign(this.newProduct, this.repository.getProduct(id));
         }
       }
+      else if (this.isEditing) {
+        // If editing mode is enabled but product ID is not provided (can only happen
+        // if user manually navigates to /form/edit URL), navigate back to the initial
+        // URL
+        this.router.navigateByUrl("");
+      }
     })
   }
 
@@ -147,10 +160,5 @@ export class ProductFormComponent {
       // as reporting an error if router change has failed for example).
       this.router.navigateByUrl("/");
     }
-  }
-
-  resetForm(form: NgForm) {
-    this.newProduct = new ProductModel();
-    form.resetForm();
   }
 }

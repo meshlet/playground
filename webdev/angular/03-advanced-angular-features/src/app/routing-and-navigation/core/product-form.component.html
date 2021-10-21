@@ -14,13 +14,14 @@
       </button>
     </div>
     <div class="col-2">
-      <button class="btn btn-primary w-100" [routerLink]="['/form/edit', repository.getNextProductId($any(newProduct.id))]">
+      <button class="btn btn-primary w-100"
+              [routerLink]="['/form/edit', repository.getNextProductId($any(newProduct.id))]">
         Edit Next
       </button>
     </div>
   </div>
 </div>
-<form novalidate #form="ngForm" (ngSubmit)="submitForm(form)" (reset)="resetForm(form)">
+<form novalidate #form="ngForm" (ngSubmit)="submitForm(form)">
   <div class="form-group">
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" class="form-control"
@@ -47,7 +48,7 @@
     </button>
     <!-- Check the routes in routing-and-navigation.routing.ts to see how / URL gets redirected -->
     <!-- to /table.                                                                             -->
-        <button type="reset" class="btn btn-secondary ml-1" routerLink="/">
+        <button type="button" class="btn btn-secondary ml-1" routerLink="/">
           Cancel
         </button>
       </div>

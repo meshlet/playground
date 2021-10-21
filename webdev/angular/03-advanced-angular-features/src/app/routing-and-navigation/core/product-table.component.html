@@ -6,12 +6,22 @@
       <!-- routerLinkActive performs partial matches by default. For example, if routerLink specifies       -->
       <!-- a "/first" path, and the active route's path is "/first/second", the element will be added       -->
       <!-- to the class in routerLinkActive because "/first" matches route's path "/first/second". This     -->
-      <!-- partial matching can be undesirable (in the example below, the `All Products` button is always   -->
-      <!-- added to bg-primary, because it's routerLink path "/table" will always match the active route),  -->
-      <!-- even when active route's path is something like /table/clothes) hence routerLinkActive can be    -->
-      <!-- configured to perform exact matching as shown in the button under.                               -->
+      <!-- partial matching can be undesirable (in the example below, the `All Products` button is added    -->
+      <!-- to bg-primary, because it's routerLink path "/table" will match the current URL whenever it,     -->
+      <!-- starts with /table) hence routerLinkActive can be configured to perform exact matching as shown  -->
+      <!-- in the button under.                                                                             -->
+      <!-- NOTE: the following doesn't work because we want the `All Products` button to be added to the    -->
+      <!-- bg-primary class not only for /table URL but also for /table/products and /table/categories but  -->
+      <!-- not /table/:category/products nor /table/:category/categories. As routerLink / routerLinkActive  -->
+      <!-- don't allow for something like this, the workaround is to use the [class] data binding with a    -->
+      <!--  a custom method that checks whether active route path is one of the two mentioned URLs, making  -->
+      <!-- sure that button is added to the bg-primary class if that's the case.                            -->
+<!--      <button class="btn btn-secondary btn-block"-->
+<!--              routerLink="/table" routerLinkActive="bg-primary" [routerLinkActiveOptions]="{exact: true}">-->
+<!--        All Products-->
+<!--      </button>-->
       <button class="btn btn-secondary btn-block"
-              routerLink="/table" routerLinkActive="bg-primary" [routerLinkActiveOptions]="{exact: true}">
+              routerLink="/table" [class.bg-primary]="shouldHighlightAllProductsBtn()">
         All Products
       </button>
       <button class="btn btn-secondary btn-block"
