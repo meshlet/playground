@@ -151,6 +151,11 @@ const routes: Routes = [
    */
   { path: "", redirectTo: "table", pathMatch: "full" },
 
+  {
+    path: "dynamic-module",
+    loadChildren: () => import("./lazy-loaded-module/lazy-loaded.module").then(mod => mod.LazyLoadedModule)
+  },
+
   /**
    * The following is a catch-all route that will match if none of
    * the above routes are matched first. The wildcard is used to
