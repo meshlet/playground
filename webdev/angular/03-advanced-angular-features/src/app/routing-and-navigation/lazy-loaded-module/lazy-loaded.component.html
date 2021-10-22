@@ -1,4 +1,24 @@
-<div class="bg-success text-white p-2 text-center">
-  This is a component of a lazy loaded (dynamic) module.
+<div class="container mt-2">
+  <div class="row">
+    <div class="col">
+      <!-- The following is a un-named router outlet (name attribute not set), in which -->
+      <!-- case the name defaults to "primary"                                          -->
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <!-- The following are two named router outlets, whose names are "left" and "right" -->
+      <!-- respectively. See lazy-loaded.module.ts for how to target these named outlets. -->
+      <router-outlet name="left"></router-outlet>
+    </div>
+    <div class="col-6">
+      <router-outlet name="right"></router-outlet>
+    </div>
+  </div>
 </div>
-<button type="button" class="btn btn-success p-2 mt-1" routerLink="/">Back</button>
+<div class="mt-2 text-center">
+  <button type="button" class="btn btn-secondary p-2 mr-1" routerLink="/dynamic-module">Normal Order</button>
+  <button type="button" class="btn btn-secondary p-2 mr-1" routerLink="/dynamic-module/reversed">Reversed Order</button>
+  <button type="button" class="btn btn-success p-2" routerLink="/">Back</button>
+</div>

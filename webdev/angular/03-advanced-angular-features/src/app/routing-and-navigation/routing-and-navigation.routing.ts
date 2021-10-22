@@ -1,4 +1,4 @@
-import {Routes, RouterModule, Data} from "@angular/router";
+import {Routes, RouterModule} from "@angular/router";
 import { ProductFormComponent } from "./core/product-form.component";
 import { ProductTableComponent } from "./core/product-table.component";
 import { NotFoundComponent } from "./core/not-found.component";
@@ -7,6 +7,7 @@ import { CategoryCountComponent } from "./core/category-count.component";
 import { DataResolverService } from "./model/data-resolver.service";
 import {TermsGuardService} from "./terms-guard.service";
 import {UnsavedChangesGuardService} from "./core/unsaved-changes-guard.service";
+import {LoadGuardService} from "./load-guard.service";
 
 /**
  * The following describes the routes using the Routes collection.
@@ -151,8 +152,21 @@ const routes: Routes = [
    */
   { path: "", redirectTo: "table", pathMatch: "full" },
 
+  /**
+   * Navigating to this route leads to dynamically loading the LazyLoadedModule defined in
+   * lazy-loaded-module/lazy-loaded.module.ts. Note that all the routes defined by the
+   * LazyLoadedModule are treated as child routes of this particular route that loads
+   * that module (hence all the rules about child routes apply to the routes in the
+   * feature module as well).
+   */
   {
     path: "dynamic-module",
+
+    /**
+     * Angular will load the module only when LoadGuardServoce.canLoad method returns
+     * true or Observable / Promise it returns resolves with a true value.
+     */
+    canLoad: [ LoadGuardService ],
     loadChildren: () => import("./lazy-loaded-module/lazy-loaded.module").then(mod => mod.LazyLoadedModule)
   },
 

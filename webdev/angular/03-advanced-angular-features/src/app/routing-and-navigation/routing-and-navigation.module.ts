@@ -10,6 +10,7 @@ import {
 
 import { routing } from "./routing-and-navigation.routing";
 import { Subject } from "rxjs";
+import {LoadGuardService} from "./load-guard.service";
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { Subject } from "rxjs";
      * communication between the TermsGuardService (defined in terms-guard.service.ts)
      * and RoutingAndNavigationComponent (defined in routing-and-navigation.component.ts).
      */
-    { provide: TERMS_GUARD_SUBJECT, useValue: new Subject<TermsGuardsCallbackParamType>() }
+    { provide: TERMS_GUARD_SUBJECT, useValue: new Subject<TermsGuardsCallbackParamType>() },
+    LoadGuardService
   ],
   exports: [RoutingAndNavigationComponent]
 })

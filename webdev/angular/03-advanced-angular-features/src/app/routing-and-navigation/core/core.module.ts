@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { BrowserModule } from "@angular/platform-browser";
 
 /**
  * RouterModule provides the directives that templates can use to
@@ -16,9 +15,10 @@ import { ProductCountComponent } from "./product-count.component";
 import { CategoryCountComponent } from "./category-count.component";
 import { NotFoundComponent } from "./not-found.component";
 import {UnsavedChangesGuardService} from "./unsaved-changes-guard.service";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, ModelModule, NgbModule, RouterModule],
+  imports: [CommonModule, FormsModule, ModelModule, NgbModule, RouterModule],
   declarations: [
     ProductFormComponent, ProductTableComponent, ProductCountComponent, CategoryCountComponent,
     NotFoundComponent

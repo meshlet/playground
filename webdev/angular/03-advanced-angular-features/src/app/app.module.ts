@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { BrowserModule } from "@angular/platform-browser";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { AppComponent } from "./app.component";
@@ -8,6 +9,7 @@ import { AdditionalSamplesModule } from "./additional-samples/additional-samples
 
 @NgModule({
   imports: [
+    BrowserModule,
     NgbModule,
     RxjsAndAsyncHttpModule,
     AdditionalSamplesModule,
