@@ -21,11 +21,11 @@
 <!--        All Products-->
 <!--      </button>-->
       <button class="btn btn-secondary btn-block"
-              routerLink="/table" [class.bg-primary]="shouldHighlightAllProductsBtn()">
+              routerLink="/routing-samples/table" [class.bg-primary]="shouldHighlightAllProductsBtn()">
         All Products
       </button>
       <button class="btn btn-secondary btn-block"
-              *ngFor="let category of getCategories()" [routerLink]="['/table', category]" routerLinkActive="bg-primary">
+              *ngFor="let category of getCategories()" [routerLink]="['/routing-samples/table', category]" routerLinkActive="bg-primary">
         {{ category }}
       </button>
     </div>
@@ -83,7 +83,7 @@
               <!-- generated "/form/edit/1;name=Ball;category=Sports;price=100. To see how these router   -->
               <!-- parameters are consumed see product-form.component.ts.                                 -->
               <button class="btn btn-sm btn-warning ml-1"
-                      [routerLink]="['/form', 'edit', item.id,
+                      [routerLink]="['/routing-samples/form', 'edit', item.id,
                 {name: item.name, category: item.category, price: item.price}]">
                 Edit
               </button>
@@ -95,15 +95,15 @@
   </div>
   <div class="row mt-3 text-center">
     <div class="col">
-      <!-- Check the routes in routing-and-navigation.routing.ts to see how /create gets redirected -->
-      <!-- to /form/create.                                                                         -->
-      <button class="btn btn-primary mt-1 mr-1" routerLink="/create">
+      <!-- Check the routes in routing-and-navigation.routing.ts to see how /routing-samples/create gets redirected -->
+      <!-- to /routing-samples/form/create.                                                                         -->
+      <button class="btn btn-primary mt-1 mr-1" routerLink="/routing-samples/create">
         Create New Product
       </button>
-      <button class="btn btn-danger mt-1 mr-1" routerLink="/route/that/does/not/exist">
+      <button class="btn btn-danger mt-1 mr-1" routerLink="/routing-samples/route/that/does/not/exist">
         Navigate to nonexistent route
       </button>
-      <button class="btn btn-success mt-1" routerLink="/dynamic-module">
+      <button class="btn btn-success mt-1" routerLink="/routing-samples/dynamic-module">
         Load Dynamic Module
       </button>
     </div>

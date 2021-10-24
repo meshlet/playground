@@ -1,0 +1,13 @@
+<div *ngIf="lastMsg !== null" class="bg-info text-white text-center py-2">
+  <span>
+    {{ lastMsg.message }}
+  </span>
+  <div *ngIf="lastMsg.responses !== undefined">
+    <button type="button" class="btn btn-warning px-2"
+            *ngFor="let response of lastMsg.responses; let i = index"
+            [class.mr-1]="i < lastMsg.responses.length - 1"
+            (click)="lastMsg.responses[i].callbackFn()">
+      {{ lastMsg.responses[i].answer }}
+    </button>
+  </div>
+</div>

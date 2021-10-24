@@ -1,11 +1,11 @@
 import { ErrorHandler, NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
+import { CommonModule } from "@angular/common";
 import { MessageService } from "./message.service";
 import { MessagesComponent } from "./messages.component";
 import { GlobalErrorHandlerService } from "./global-error-handler.service";
 
 @NgModule({
-  imports: [BrowserModule],
+  imports: [CommonModule],
   declarations: [MessagesComponent],
   exports: [MessagesComponent],
   providers: [

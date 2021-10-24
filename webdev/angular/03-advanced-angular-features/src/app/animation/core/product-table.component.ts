@@ -62,11 +62,11 @@ export class ProductTableComponent {
    * currently active route's path.
    */
   shouldHighlightAllProductsBtn(): boolean {
-    return this.router.isActive("/routing-samples/table", {
+    return this.router.isActive("/animation-samples/table", {
       paths: "exact", queryParams: "exact", fragment: "ignored", matrixParams: "ignored" }) ||
-      this.router.isActive("/routing-samples/table/products", {
+      this.router.isActive("/animation-samples/table/products", {
         paths: "exact", queryParams: "exact", fragment: "ignored", matrixParams: "ignored" }) ||
-      this.router.isActive("/routing-samples/table/categories", {
+      this.router.isActive("/animation-samples/table/categories", {
         paths: "exact", queryParams: "exact", fragment: "ignored", matrixParams: "ignored" });
   }
 }

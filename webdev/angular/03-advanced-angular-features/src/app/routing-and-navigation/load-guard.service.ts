@@ -1,7 +1,7 @@
-import {Inject, Injectable} from "@angular/core";
-import {CanLoad, Route, UrlSegment} from "@angular/router";
-import {Observer} from "rxjs";
-import {TERMS_GUARD_SUBJECT, TermsGuardsCallbackParamType} from "./terms-guard.service";
+import { Injectable } from "@angular/core";
+import { CanLoad, Route, UrlSegment } from "@angular/router";
+import { Observer } from "rxjs";
+import {HeaderMessageEventDataType, HeaderMessageService} from "../header-message/header-message.service";
 
 /**
  * Implements the CanLoad interface which means that this is a guard intended
@@ -17,25 +17,24 @@ export class LoadGuardService implements CanLoad{
   // again
   private isLoaded = false;
 
-  constructor(
-    @Inject(TERMS_GUARD_SUBJECT) private userInputObserver: Observer<TermsGuardsCallbackParamType>) {
+  constructor(private headerMsgService: HeaderMessageService) {
   }
 
   canLoad(route: Route, segments: UrlSegment[]): Promise<boolean> | boolean {
     return this.isLoaded || new Promise<boolean>(resolve => {
-      const eventData: TermsGuardsCallbackParamType = {
+      const eventData: HeaderMessageEventDataType = {
         message: "Do you want to load the dynamic module?",
         responses: [
-          [ "Yes", () => {
+          { answer: "Yes", callbackFn: () => {
             resolve(true);
             this.isLoaded = true;
-          }],
-          [ "No", () => {
+          }},
+          { answer: "No", callbackFn: () => {
             resolve(false);
-          }]
+          }}
         ]
       };
-      this.userInputObserver.next(eventData);
+      this.headerMsgService.sendMsg(eventData);
     });
   }
 }

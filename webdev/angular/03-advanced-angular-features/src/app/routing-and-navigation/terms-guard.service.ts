@@ -1,19 +1,13 @@
-import { Injectable, Inject, InjectionToken } from "@angular/core";
+import { Injectable } from "@angular/core";
 import {
   ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlSegment
 } from "@angular/router";
 import { Observer } from "rxjs";
-
-export const TERMS_GUARD_SUBJECT = new InjectionToken("terms_guard_subject");
-export type TermsGuardsCallbackParamType =
-  { message: string, responses: [string, () => void][] };
+import {HeaderMessageService, HeaderMessageEventDataType} from "../header-message/header-message.service";
 
 @Injectable()
 export class TermsGuardService implements CanActivate, CanActivateChild {
-  constructor(
-    @Inject(TERMS_GUARD_SUBJECT) private userInputObserver: Observer<TermsGuardsCallbackParamType>,
-    private router: Router) {
-
+  constructor(private headerMsgService: HeaderMessageService, private router: Router) {
   }
 
   /**
@@ -46,14 +40,14 @@ export class TermsGuardService implements CanActivate, CanActivateChild {
               state: RouterStateSnapshot): Promise<boolean> | boolean {
     if (route.params["mode"] === "create") {
       return new Promise<boolean>(resolve => {
-        const eventData: TermsGuardsCallbackParamType = {
+        const eventData: HeaderMessageEventDataType = {
           message: "Do you accepts terms and conditions?",
           responses: [
-            [ "Yes", () => resolve(true) ],
-            [ "No", () => resolve(false) ]
+            { answer: "Yes", callbackFn: () => resolve(true) },
+            { answer: "No", callbackFn: () => resolve(false) }
           ]
         };
-        this.userInputObserver.next(eventData);
+        this.headerMsgService.sendMsg(eventData);
       });
     }
     else {
@@ -82,11 +76,11 @@ export class TermsGuardService implements CanActivate, CanActivateChild {
      */
     if (childRoute.url.length > 0 && childRoute.url[childRoute.url.length - 1].path === "categories") {
       return new Promise<boolean>(resolve => {
-        const eventData: TermsGuardsCallbackParamType = {
+        const eventData: HeaderMessageEventDataType = {
           message: "Do you want to view the categories component",
           responses: [
-            [ "Yes", () => resolve(true) ],
-            [ "No", () => {
+            { answer: "Yes", callbackFn: () => resolve(true) },
+            { answer: "No", callbackFn: () => {
               resolve(false);
 
               // If user answered with "No", we want to show the ProductCountComponent
@@ -103,10 +97,10 @@ export class TermsGuardService implements CanActivate, CanActivateChild {
                       .join("/")
                   }
                 ).join("/"));
-            }]
+            }}
           ]
         };
-        this.userInputObserver.next(eventData);
+        this.headerMsgService.sendMsg(eventData);
       });
     }
     else {

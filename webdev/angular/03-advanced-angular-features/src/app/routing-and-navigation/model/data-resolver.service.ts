@@ -4,6 +4,7 @@ import { ProductModel } from "./product.model";
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
 import { Observable } from "rxjs";
 import { first } from "rxjs/operators";
+import {HeaderMessageService} from "../../header-message/header-message.service";
 
 /**
  * This service is used to prevent route activates of certain routes
@@ -13,11 +14,34 @@ import { first } from "rxjs/operators";
  */
 @Injectable()
 export class DataResolverService implements Resolve<ProductModel[]>{
-  constructor(@Inject(DATA_SOURCE) private dataSource: DataSourceInterfaceModel) {
+  constructor(
+    @Inject(DATA_SOURCE) private dataSource: DataSourceInterfaceModel,
+    private headerMsgService: HeaderMessageService) {
   }
 
   resolve(route: ActivatedRouteSnapshot,
           state: RouterStateSnapshot): Observable<ProductModel[]> | ProductModel[] {
+    /**
+     * Subscribe to the data source Observable that is signalled
+     * once initial data is loaded from the server. The purpose
+     * of this is to display a "Loading data..." message to the
+     * user while data is not yet available, instead of an empty
+     * browser window or worse UI without the data.
+     *
+     * @note This is done here and not in the RoutingAndNavigationComponent for
+     * example, because that component is not created before the route is activated
+     * which won't happen before data is loaded. Hence, any code in the constructor
+     * wouldn't get to run before data is loaded from the server.
+     */
+    this.dataSource.getData()
+      .subscribe(value => {
+        if (value === null) {
+          this.headerMsgService.sendMsg({
+            message: "Loading data..."
+          })
+        }
+      });
+
     /**
      * The Angular routing system's resolve feature expects that Observable
      * returned from the resolver's `resolve` method completes, before it will

@@ -1,17 +1,14 @@
-import {Inject, Injectable} from "@angular/core";
-import {
-  Router, CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree
-} from "@angular/router";
+import {Injectable } from "@angular/core";
+import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { ProductFormComponent } from "./product-form.component";
 import { Observable, Observer, Subject } from "rxjs";
 import { RepositoryModel } from "../model/repository.model";
 import { ProductModel } from "../model/product.model";
-import { TERMS_GUARD_SUBJECT, TermsGuardsCallbackParamType } from "../terms-guard.service";
+import {HeaderMessageEventDataType, HeaderMessageService} from "../../header-message/header-message.service";
 
 @Injectable()
 export class UnsavedChangesGuardService implements CanDeactivate<ProductFormComponent> {
-  constructor(private repository: RepositoryModel,
-              @Inject(TERMS_GUARD_SUBJECT) private userInputObserver: Observer<TermsGuardsCallbackParamType>) {
+  constructor(private repository: RepositoryModel, private headerMsgService: HeaderMessageService) {
   }
 
   /**
@@ -47,18 +44,18 @@ export class UnsavedChangesGuardService implements CanDeactivate<ProductFormComp
         // really want to do this before allowing Angular to proceed with
         // the route change.
         const subject = new Subject<boolean>();
-        const eventData: TermsGuardsCallbackParamType = {
+        const eventData: HeaderMessageEventDataType = {
           message: "Unsaved changes will be lost. Are you sure you want to leave this page?",
           responses: [
-            [ "Leave", () => {
+            { answer: "Leave", callbackFn: () => {
               subject.next(true);
-            } ],
-            [ "Stay", () => {
+            }},
+            { answer: "Stay", callbackFn: () => {
               subject.next(false);
-            } ]
+            }}
           ]
         };
-        this.userInputObserver.next(eventData);
+        this.headerMsgService.sendMsg(eventData);
         return subject;
       }
     }

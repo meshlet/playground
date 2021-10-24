@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from "@angular/common";
+import {RouterModule} from "@angular/router";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { CoreModule } from "./core/core.module";
@@ -8,7 +9,12 @@ import { RxjsAndAsyncHttpComponent } from "./rxjs-and-async-http.component";
 
 @NgModule({
   imports: [
-    BrowserModule, NgbModule, CoreModule, MessagesModule
+    CommonModule, NgbModule, CoreModule, MessagesModule,
+    RouterModule.forChild([
+      {
+        path: "", component: RxjsAndAsyncHttpComponent
+      }
+    ])
   ],
   declarations: [
     RxjsAndAsyncHttpComponent

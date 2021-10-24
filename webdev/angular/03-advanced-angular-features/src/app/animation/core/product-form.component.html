@@ -9,13 +9,13 @@
       <!-- See constructor in product-form.component.ts to see how components can subscribe to an event -->
       <!-- and be notified about routing that happens within themselves. -->
       <button class="btn btn-primary w-100"
-              [routerLink]="['/routing-samples/form/edit', repository.getPreviousProductId($any(newProduct.id))]">
+              [routerLink]="['/animation-samples/form/edit', repository.getPreviousProductId($any(newProduct.id))]">
         Edit Previous
       </button>
     </div>
     <div class="col-2">
       <button class="btn btn-primary w-100"
-              [routerLink]="['/routing-samples/form/edit', repository.getNextProductId($any(newProduct.id))]">
+              [routerLink]="['/animation-samples/form/edit', repository.getNextProductId($any(newProduct.id))]">
         Edit Next
       </button>
     </div>
@@ -46,10 +46,8 @@
             [disabled]="form.submitted && form.invalid" [class.btn-warning]="isEditing">
       {{ isEditing ? "Update" : "Create" }}
     </button>
-    <!-- Check the routes in routing-and-navigation.routing.ts to see how /routing-samples URL gets redirected -->
-    <!-- to /routing-samples/table.                                                                             -->
-        <button type="button" class="btn btn-secondary ml-1" routerLink="/routing-samples">
-          Cancel
-        </button>
-      </div>
-    </form>
+    <button type="button" class="btn btn-secondary ml-1" routerLink="/animation-samples">
+      Cancel
+    </button>
+  </div>
+</form>
