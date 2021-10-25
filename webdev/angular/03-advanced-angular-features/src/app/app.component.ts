@@ -1,13 +1,14 @@
-import {Component} from "@angular/core";
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
+import {Component, QueryList, ViewChildren, AfterViewInit} from "@angular/core";
+import {NavigationStart, Router} from "@angular/router";
 import {filter} from "rxjs/operators";
 import {HeaderMessageService} from "./header-message/header-message.service";
+import {NgbNavLink} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app",
   templateUrl: "app.component.html"
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   /**
    * Matches the currently active side-menu button. Indexing with
    * ngbNavItem (in app.component.html) starts with "1" hence we
@@ -30,31 +31,57 @@ export class AppComponent {
     "additional-samples": "4"
   };
 
-  constructor(router: Router, private route: ActivatedRoute) {
+  constructor(router: Router, public msgService: HeaderMessageService) {
     /**
      * Determine the active side-menu button from the active route the
-     * first time a navigation ends. This makes sure that the current
+     * first time a navigation starts. This makes sure that the current
      * matches matches the highlighted button even if user manually enters
      * a route URL.
      */
     router.events
-      .pipe(filter((e => e instanceof NavigationEnd)))
-      .subscribe(() => {
+      .pipe(filter((e => e instanceof NavigationStart)))
+      .subscribe((e) => {
+        // 'e' is certainly of NavigationStart type due to the filter operator piped in earlier
+        const url = (e as NavigationStart).url;
+        const secondForwardSlashIndex = url.indexOf("/", 1);
+        const topLevelUrlSegment: string =
+          url.substring(1, secondForwardSlashIndex === -1 ? undefined : secondForwardSlashIndex);
+
         let newActiveId = "0";
-        if (route.snapshot.firstChild &&
-          AppComponent.routesToActive.hasOwnProperty(route.snapshot.firstChild.url[0].path)) {
-          newActiveId = AppComponent.routesToActive[route.snapshot.firstChild.url[0].path];
+        if (AppComponent.routesToActive.hasOwnProperty(topLevelUrlSegment)) {
+          newActiveId = AppComponent.routesToActive[topLevelUrlSegment];
         } else {
           newActiveId = "1";
         }
 
         /**
          * Update the current active ID only if it was set to "0", indicating
-         * that this is the first completed navigation.
+         * that this is the very first navigation.
          */
         if (this.active === "0") {
           this.active = newActiveId;
         }
       });
+  }
+
+  /**
+   * Query all children to which the NgbNavLink directive has been applied.
+   */
+  @ViewChildren(NgbNavLink)
+  // Assigned by Angular right before invoking the `ngAfterViewInit` method
+  // @ts-ignore
+  ngbNavLinks: QueryList<NgbNavLink>;
+
+  /**
+   * Set a click listener to every element in the view with the NgbNavLink
+   * directive. This click listener clears the header message to avoid having
+   * stale messages when user switches between different samples.
+   */
+  ngAfterViewInit(): void {
+    this.ngbNavLinks.forEach(item => {
+      (item.elRef.nativeElement as HTMLElement).addEventListener("click", () => {
+        this.msgService.sendMsg(null);
+      });
+    });
   }
 }
