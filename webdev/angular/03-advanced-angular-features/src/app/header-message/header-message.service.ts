@@ -1,10 +1,14 @@
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 
-export type HeaderMessageEventDataType = {
-  message: string,
-  responses?: { answer: string, callbackFn: () => void }[]
-};
+export class HeaderMessageEventData {
+  constructor(
+    public message: string,
+    public responses?: { answer: string, callbackFn: () => void }[],
+    public restorePreviousMsgAfterUserAction?: boolean,
+    public isError = false) {
+  }
+}
 
 /**
  * A service that allows the rest of the application to send messages
@@ -12,13 +16,13 @@ export type HeaderMessageEventDataType = {
  */
 @Injectable()
 export class HeaderMessageService {
-  private msgSubject = new Subject<HeaderMessageEventDataType | null>();
+  private msgSubject = new Subject<HeaderMessageEventData | null>();
 
-  sendMsg(msg: HeaderMessageEventDataType | null) {
+  sendMsg(msg: HeaderMessageEventData | null) {
     this.msgSubject.next(msg);
   }
 
-  getObservable(): Observable<HeaderMessageEventDataType | null> {
+  getObservable(): Observable<HeaderMessageEventData | null> {
     return this.msgSubject;
   }
 }

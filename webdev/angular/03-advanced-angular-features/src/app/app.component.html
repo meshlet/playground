@@ -1,16 +1,13 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-3">
-      <nav ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-pills" orientation="vertical">
+      <nav ngbNav [(activeId)]="active" class="nav-pills" orientation="vertical">
         <ng-container ngbNavItem="1">
           <a ngbNavLink placement="bottom"
              ngbTooltip="Illustrates RxJS & using HTTP requests in Angular"
              routerLink="/rxjs-async-http-samples">
             RxJS & Async. HTTP
           </a>
-<!--          <ng-template ngbNavContent>-->
-<!--            <rxjs-and-async-http></rxjs-and-async-http>-->
-<!--          </ng-template>-->
         </ng-container>
         <ng-container ngbNavItem="2">
           <a ngbNavLink placement="bottom"
@@ -18,31 +15,21 @@
              routerLink="/routing-samples">
             Routing and Navigation
           </a>
-<!--          <ng-template ngbNavContent>-->
-<!--            <routing-and-navigation></routing-and-navigation>-->
-<!--          </ng-template>-->
         </ng-container>
         <ng-container ngbNavItem="3">
           <a ngbNavLink placement="bottom"
              ngbTooltip="Illustrates Angular Animation Features" routerLink="/animation-samples">
             Animation
           </a>
-<!--          <ng-template ngbNavContent>-->
-<!--            <animation></animation>-->
-<!--          </ng-template>-->
         </ng-container>
         <ng-container ngbNavItem="4">
           <a ngbNavLink placement="bottom"
              ngbTooltip="Additional samples illustrating RxJS features" routerLink="/additional-samples">
             RxJS (Reactive Extensions)
           </a>
-<!--          <ng-template ngbNavContent>-->
-<!--            <rxjs-samples></rxjs-samples>-->
-<!--          </ng-template>-->
         </ng-container>
       </nav>
     </div>
-<!--    <div class="col-9" [ngbNavOutlet]="nav"></div>-->
     <div class="col-9">
       <header-message></header-message>
       <router-outlet></router-outlet>

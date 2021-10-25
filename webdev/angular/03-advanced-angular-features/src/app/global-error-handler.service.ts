@@ -1,6 +1,6 @@
 import { Injectable, ErrorHandler, NgZone } from "@angular/core";
-import { MessageService } from "./message.service";
-import { MessageModel } from "./message.model";
+import {HeaderMessageEventData, HeaderMessageService} from "./header-message/header-message.service";
+import {ActivatedRoute} from "@angular/router";
 
 /**
  * This class will be used as a global error handler in place of
@@ -13,18 +13,19 @@ import { MessageModel } from "./message.model";
  */
 @Injectable()
 export class GlobalErrorHandlerService implements ErrorHandler {
-  constructor(private msgService: MessageService, private ngZone: NgZone) {
+  constructor(private headerMsgService: HeaderMessageService,
+              private ngZone: NgZone) {
   }
 
   /**
    * Invoked by Angular for any errors that were not handled elsewhere
    * in the application.
    *
-   * @note While the MessageService.reportMessage with signal a new event
-   * which will execute the subscribed callback in messages.component.ts
+   * @note While the HeaderMessageService.sendMessage will signal a new event
+   * which will execute the subscribed callback in header-message.component.ts
    * and set the error message, this does not in itself trigger Angular
    * change detection which means that data binding expression in
-   * messages.component.html won't be re-evaluated and the error message
+   * header-messages.component.html won't be re-evaluated and the error message
    * won't be displayed in UI. We need to trigger the change detection
    * manually and this is what NgZone service let's us do with its `run`
    * method. This method will execute the provided callback and run the
@@ -34,6 +35,12 @@ export class GlobalErrorHandlerService implements ErrorHandler {
    */
   handleError(error: any): void {
     let msg = error instanceof Error ? error.message : error.toString();
-    this.ngZone.run(() => this.msgService.reportMessage(new MessageModel(msg ,true)));
+    this.ngZone.run(() => this.headerMsgService.sendMsg(
+      new HeaderMessageEventData(
+        msg,
+        undefined,
+        false,
+        true)
+    ));
   }
 }

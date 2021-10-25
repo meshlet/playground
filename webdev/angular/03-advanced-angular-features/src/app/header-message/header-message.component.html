@@ -1,4 +1,5 @@
-<div *ngIf="lastMsg !== null" class="bg-info text-white text-center py-2">
+<div *ngIf="lastMsg !== null" class="bg-info text-white text-center py-2"
+     [class.bg-danger]="lastMsg.isError">
   <span>
     {{ lastMsg.message }}
   </span>
@@ -6,7 +7,7 @@
     <button type="button" class="btn btn-warning px-2"
             *ngFor="let response of lastMsg.responses; let i = index"
             [class.mr-1]="i < lastMsg.responses.length - 1"
-            (click)="lastMsg.responses[i].callbackFn()">
+            (click)="lastMsg.responses[i].callbackFn();restorePreviousMsgIfRequired()">
       {{ lastMsg.responses[i].answer }}
     </button>
   </div>

@@ -3,7 +3,7 @@ import {
   ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlSegment
 } from "@angular/router";
 import { Observer } from "rxjs";
-import {HeaderMessageService, HeaderMessageEventDataType} from "../header-message/header-message.service";
+import { HeaderMessageService, HeaderMessageEventData } from "../header-message/header-message.service";
 
 @Injectable()
 export class TermsGuardService implements CanActivate, CanActivateChild {
@@ -40,13 +40,13 @@ export class TermsGuardService implements CanActivate, CanActivateChild {
               state: RouterStateSnapshot): Promise<boolean> | boolean {
     if (route.params["mode"] === "create") {
       return new Promise<boolean>(resolve => {
-        const eventData: HeaderMessageEventDataType = {
-          message: "Do you accepts terms and conditions?",
-          responses: [
+        const eventData = new HeaderMessageEventData(
+          "Do you accepts terms and conditions?",
+          [
             { answer: "Yes", callbackFn: () => resolve(true) },
             { answer: "No", callbackFn: () => resolve(false) }
-          ]
-        };
+          ],
+          true);
         this.headerMsgService.sendMsg(eventData);
       });
     }
@@ -76,9 +76,9 @@ export class TermsGuardService implements CanActivate, CanActivateChild {
      */
     if (childRoute.url.length > 0 && childRoute.url[childRoute.url.length - 1].path === "categories") {
       return new Promise<boolean>(resolve => {
-        const eventData: HeaderMessageEventDataType = {
-          message: "Do you want to view the categories component",
-          responses: [
+        const eventData = new HeaderMessageEventData(
+          "Do you want to view the categories component",
+          [
             { answer: "Yes", callbackFn: () => resolve(true) },
             { answer: "No", callbackFn: () => {
               resolve(false);
@@ -97,9 +97,8 @@ export class TermsGuardService implements CanActivate, CanActivateChild {
                       .join("/")
                   }
                 ).join("/"));
-            }}
-          ]
-        };
+            }}],
+          true);
         this.headerMsgService.sendMsg(eventData);
       });
     }

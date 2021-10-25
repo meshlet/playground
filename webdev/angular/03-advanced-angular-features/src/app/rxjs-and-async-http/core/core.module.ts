@@ -8,9 +8,9 @@ import { ProductFormComponent } from "./product-form.component";
 import { ModelModule } from "../model/model.module";
 import { ModeFormatPipe } from "./mode-format.pipe";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { MessageService } from "../messages/message.service";
 import { RepositoryModel } from "../model/repository.model";
-import {MessageModel} from "../messages/message.model";
+import {HeaderMessageEventData, HeaderMessageService} from "../../header-message/header-message.service";
+import {ActivatedRoute} from "@angular/router";
 
 @NgModule({
   imports: [CommonModule, FormsModule, ModelModule, NgbModule],
@@ -39,18 +39,22 @@ import {MessageModel} from "../messages/message.model";
      * ProductFormComponent).
      *
      * @note Factory provider is used here because the goal is to create a Subject instance and
-     * immediately subscribe to it. Additionally, this provider depends on the MessageService and
-     * RepositoryModel both of which will be resolved and passed to the factory function. What
+     * immediately subscribe to it. Additionally, this provider depends on the ErrorHandler service
+     * and RepositoryModel both of which will be resolved and passed to the factory function. What
      * happens is that whenever user initiates a `Create New Product` or `Edit Product` action
      * in the ProductTableComponent (see core/product-table.component.ts), the callback registered
-     * here will be invoked which will in turn report a new message to the MessageService instance.
-     * Finally, the new message is reported to the MessagesComponent (see messages.component.ts)
-     * that subscribed to the to MessageService observable.
+     * here will be invoked which will in turn report a new message to the HeaderMessageService
+     * (defined in header-message/header-message.service.ts). Finally, the new message is reported to the
+     * HeaderMessageComponent (see header-message/header-message.component.ts) that subscribed
+     * to the to HeaderMessageService observable.
      */
     {
       provide: MODE_TRACKER_TOKEN,
-      deps: [MessageService, RepositoryModel],
-      useFactory: (msgService: MessageService, repository: RepositoryModel) => {
+      deps: [HeaderMessageService, RepositoryModel],
+      useFactory: (
+        msgService: HeaderMessageService,
+        repository: RepositoryModel) => {
+
         // Create a new Subject instance
         const subject = new Subject<ModeTrackerModel>();
 
@@ -61,8 +65,10 @@ import {MessageModel} from "../messages/message.model";
           // result in a new event fired by the `reportMessage` method, which will lead to
           // the execution of the callback registered by the MessagesComponent (which will
           // finally show the message on top of the page).
-          msgService.reportMessage(new MessageModel(
-            `${MODE[modeTracker.mode]} ${(modeTracker.id ? repository.getProduct(modeTracker.id)?.name || "" : "")}`
+          msgService.sendMsg(new HeaderMessageEventData(
+            `${MODE[modeTracker.mode]} ${(modeTracker.id ?
+              repository.getProduct(modeTracker.id)?.name || "" :
+              "")}`
           ));
         });
         return subject;

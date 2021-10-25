@@ -1,10 +1,10 @@
 import {Injectable } from "@angular/core";
 import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { ProductFormComponent } from "./product-form.component";
-import { Observable, Observer, Subject } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import { RepositoryModel } from "../model/repository.model";
 import { ProductModel } from "../model/product.model";
-import {HeaderMessageEventDataType, HeaderMessageService} from "../../header-message/header-message.service";
+import { HeaderMessageEventData, HeaderMessageService } from "../../header-message/header-message.service";
 
 @Injectable()
 export class UnsavedChangesGuardService implements CanDeactivate<ProductFormComponent> {
@@ -44,17 +44,18 @@ export class UnsavedChangesGuardService implements CanDeactivate<ProductFormComp
         // really want to do this before allowing Angular to proceed with
         // the route change.
         const subject = new Subject<boolean>();
-        const eventData: HeaderMessageEventDataType = {
-          message: "Unsaved changes will be lost. Are you sure you want to leave this page?",
-          responses: [
+        const eventData = new HeaderMessageEventData(
+          "Unsaved changes will be lost. Are you sure you want to leave this page?",
+          [
             { answer: "Leave", callbackFn: () => {
               subject.next(true);
             }},
             { answer: "Stay", callbackFn: () => {
               subject.next(false);
             }}
-          ]
-        };
+          ],
+          true);
+
         this.headerMsgService.sendMsg(eventData);
         return subject;
       }

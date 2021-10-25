@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { CanLoad, Route, UrlSegment } from "@angular/router";
+import {ActivatedRoute, CanLoad, Route, UrlSegment} from "@angular/router";
 import { Observer } from "rxjs";
-import {HeaderMessageEventDataType, HeaderMessageService} from "../header-message/header-message.service";
+import { HeaderMessageEventData, HeaderMessageService } from "../header-message/header-message.service";
 
 /**
  * Implements the CanLoad interface which means that this is a guard intended
@@ -22,9 +22,9 @@ export class LoadGuardService implements CanLoad{
 
   canLoad(route: Route, segments: UrlSegment[]): Promise<boolean> | boolean {
     return this.isLoaded || new Promise<boolean>(resolve => {
-      const eventData: HeaderMessageEventDataType = {
-        message: "Do you want to load the dynamic module?",
-        responses: [
+      const eventData = new HeaderMessageEventData(
+        "Do you want to load the dynamic module?",
+        [
           { answer: "Yes", callbackFn: () => {
             resolve(true);
             this.isLoaded = true;
@@ -32,8 +32,9 @@ export class LoadGuardService implements CanLoad{
           { answer: "No", callbackFn: () => {
             resolve(false);
           }}
-        ]
-      };
+        ],
+        true);
+
       this.headerMsgService.sendMsg(eventData);
     });
   }

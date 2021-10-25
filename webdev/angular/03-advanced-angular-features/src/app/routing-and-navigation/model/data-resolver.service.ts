@@ -4,7 +4,7 @@ import { ProductModel } from "./product.model";
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
 import { Observable } from "rxjs";
 import { first } from "rxjs/operators";
-import {HeaderMessageService} from "../../header-message/header-message.service";
+import { HeaderMessageService, HeaderMessageEventData } from "../../header-message/header-message.service";
 
 /**
  * This service is used to prevent route activates of certain routes
@@ -36,9 +36,8 @@ export class DataResolverService implements Resolve<ProductModel[]>{
     this.dataSource.getData()
       .subscribe(value => {
         if (value === null) {
-          this.headerMsgService.sendMsg({
-            message: "Loading data..."
-          })
+          this.headerMsgService.sendMsg(new HeaderMessageEventData(
+            "Loading data...",));
         }
       });
 

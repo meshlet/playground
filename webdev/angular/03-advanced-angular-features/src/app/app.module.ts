@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
+import {ErrorHandler, NgModule} from '@angular/core';
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AppComponent } from "./app.component";
 import { HeaderMessageService } from "./header-message/header-message.service";
 import { HeaderMessageComponent } from "./header-message/header-message.component";
+import { GlobalErrorHandlerService } from "./global-error-handler.service";
 
 @NgModule({
   imports: [
@@ -40,7 +41,12 @@ import { HeaderMessageComponent } from "./header-message/header-message.componen
   declarations: [
     AppComponent, HeaderMessageComponent
   ],
-  providers: [HeaderMessageService],
+  providers: [
+    HeaderMessageService,
+    {
+      provide: ErrorHandler, useClass: GlobalErrorHandlerService
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
