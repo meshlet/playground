@@ -1,17 +1,18 @@
-<div class="container mt-2">
+<div class="container">
   <div class="row">
-    <div class="col-3">
-      <button class="btn btn-secondary btn-block"
-              routerLink="/animation-samples/table" [class.bg-primary]="shouldHighlightAllProductsBtn()">
-        All Products
-      </button>
-      <button class="btn btn-secondary btn-block"
-              *ngFor="let category of getCategories()" [routerLink]="['/animation-samples/table', category]"
-              routerLinkActive="bg-primary">
-        {{ category }}
-      </button>
+    <div class="col-4">
+      <div class="form-group">
+        <select class="form-control" id="selectedCategory" (change)="selectedCategory = $any($event.target).value">
+          <option value="" selected>Select a category...</option>
+          <option *ngFor="let category of getCategories()">
+            {{ category }}
+          </option>
+        </select>
+      </div>
     </div>
-    <div class="col-9">
+  </div>
+  <div class="row">
+    <div class="col">
       <table class="table table-sm table-bordered table-striped">
         <thead>
           <tr class="text-dark">
@@ -19,7 +20,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of getProducts(); let i = index;">
+          <!-- For more info on Angular's animation system check table-row.animation.ts. -->
+          <tr *ngFor="let item of getProducts(); let i = index;" [@rowHighlight]="getRowAnimationState(item.category)">
             <td>{{i + 1}}</td>
             <td>{{item.name}}</td>
             <td>{{item.category}}</td>

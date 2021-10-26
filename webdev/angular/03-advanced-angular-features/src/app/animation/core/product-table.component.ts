@@ -1,7 +1,7 @@
-import {Component, Inject} from "@angular/core";
+import {Component} from "@angular/core";
 import {RepositoryModel} from "../model/repository.model";
 import {ProductModel} from "../model/product.model";
-import {ActivatedRoute, Params, Router} from "@angular/router";
+import {RowHighlightTrigger} from "./table-row.animation";
 
 /**
  * This component displays a table of all the products, allowing the user
@@ -11,21 +11,16 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 @Component({
   selector: "product-table",
   templateUrl: "product-table.component.html",
+
+  /**
+   * For more info on Angular's animation system check table-row.animation.ts.
+   */
+  animations: [ RowHighlightTrigger ]
 })
 export class ProductTableComponent {
-  public selectedCategory: string | undefined;
+  public selectedCategory = "";
 
-  constructor(private repository: RepositoryModel,
-              activatedRoute: ActivatedRoute,
-              private router: Router) {
-    activatedRoute.params.subscribe((params: Params) => {
-      if (typeof params["category"] === "string") {
-        this.selectedCategory = params["category"];
-      }
-      else {
-        this.selectedCategory = undefined;
-      }
-    });
+  constructor(private repository: RepositoryModel) {
   }
 
   getProduct(key: number): ProductModel | undefined {
@@ -33,14 +28,7 @@ export class ProductTableComponent {
   }
 
   getProducts(): ProductModel[] {
-    if (this.selectedCategory === undefined) {
-      // If category is not specified, return all products
-      return this.repository.getProducts();
-    }
-
-    // Filter products by the currently selected category
-    return this.repository.getProducts()
-      .filter((product: ProductModel) => product.category === this.selectedCategory);
+    return this.repository.getProducts();
   }
 
   getCategories(): string[] {
@@ -57,17 +45,12 @@ export class ProductTableComponent {
     this.repository.deleteProduct(id);
   }
 
-  /**
-   * Determines whether the All Buttons button should be highlighted based on the
-   * currently active route's path.
-   */
-  shouldHighlightAllProductsBtn(): boolean {
-    return this.router.isActive("/animation-samples/table", {
-      paths: "exact", queryParams: "exact", fragment: "ignored", matrixParams: "ignored" }) ||
-      this.router.isActive("/animation-samples/table/products", {
-        paths: "exact", queryParams: "exact", fragment: "ignored", matrixParams: "ignored" }) ||
-      this.router.isActive("/animation-samples/table/categories", {
-        paths: "exact", queryParams: "exact", fragment: "ignored", matrixParams: "ignored" });
+  getRowAnimationState(category: string): string {
+    if (this.selectedCategory === "") {
+      return "initial";
+    }
+
+    return this.selectedCategory === category ? "rowSelected" : "rowNotSelected";
   }
 }
 

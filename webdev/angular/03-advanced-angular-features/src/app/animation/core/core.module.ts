@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
 
 /**
  * RouterModule provides the directives that templates can use to
@@ -11,7 +12,6 @@ import { ProductTableComponent } from "./product-table.component";
 import { ProductFormComponent } from "./product-form.component";
 import { ModelModule } from "../model/model.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import {CommonModule} from "@angular/common";
 
 @NgModule({
   imports: [CommonModule, FormsModule, ModelModule, NgbModule, RouterModule],

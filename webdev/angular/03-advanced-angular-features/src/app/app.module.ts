@@ -2,6 +2,7 @@ import {ErrorHandler, NgModule} from '@angular/core';
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppComponent } from "./app.component";
 import { HeaderMessageService } from "./header-message/header-message.service";
 import { HeaderMessageComponent } from "./header-message/header-message.component";
@@ -11,6 +12,7 @@ import { GlobalErrorHandlerService } from "./global-error-handler.service";
   imports: [
     BrowserModule,
     NgbModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot([
       {
         path: "animation-samples",
