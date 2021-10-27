@@ -74,6 +74,10 @@ import { animate, state, style, transition, trigger } from "@angular/animations"
  *
  * @note The animation/style transitions are implemented with browser's built-in
  * CSS animation/transition functionality.
+ *
+ * @note More info on Angular's animation system can be found here:
+ * https://angular.io/guide/animations (check other pages in the Animation
+ * menu).
  */
 export const RowHighlightTrigger = trigger("rowHighlight", [
   state("rowSelected", style({
@@ -88,16 +92,52 @@ export const RowHighlightTrigger = trigger("rowHighlight", [
   })),
 
   /**
+   * Void state is applied by Angular to any element that is not included in the
+   * view, for example because element uses the *ngIf directive whose expression
+   * evaluates to false. Basically, all elements are initialized into the void
+   * state (which changes once view is processed) and transitioned into the void
+   * state once elements are removed from the view (i.e. removing product from
+   * the table removes the <tr> element which is then put into void state).
+   *
+   * @note The opacity is set to 0 in this state so that adding element to the
+   * DOM (leaving void state) will animate fade-in with opacity going from 0
+   * to its final value. Conversely, removing element from the DOM (entering
+   * the void state) will animate fade-out with opacity changing to 0 before
+   * the element is entirely removed from DOM.
+   */
+  state("void", style({
+    opacity: 0
+  })),
+
+  /**
    * Asterisk (*) state is applied by Angular to any element which is not assigned
    * to any other state defined by the trigger. In this case, we're using this
    * default state to animate transition in and out of two other states. Note that
    * no additional styles are applied in the default state - this means that element
    * will keep whatever styles it had (defined by the Bootstrap classes element
    * belongs to).
+   *
+   * @note The `*` state also includes the `void` state.
    */
   state("*", style({})),
-  transition("* <=> rowSelected", animate("200ms")),
+
+  /**
+   * The order in which transitions are defined is important. If multiple transitions
+   * match a give state transition, Angular will apply the one that was defined first
+   * within the trigger. Take for example the "void <=> *" and "* <=> rowSelected"
+   * transitions below. Assume that element is in the "rowSelected" state and then
+   * gets removed from the DOM which means its state will be set to "void". Both of
+   * the mentioned transitions match the state transition: the "void <=> *" matches
+   * because "*" matches the "rowSelected" state, and "void <=> *" matches for the
+   * same reason. However, because "void <=> *" is defined first, it is applied by
+   * Angular.
+   *
+   * @note The "void <=> *" transition defines the fade-in and fade-out animations
+   * when elements are added and removed from DOM respectively.
+   */
+  transition("void <=> *", animate("1s")),
+  transition("* <=> rowSelected", animate("400ms")),
   transition("* <=> rowNotSelected", animate("200ms")),
-  transition("rowSelected => rowNotSelected", animate("200ms")),
+  transition("rowSelected => rowNotSelected", animate("0.2s")),
   transition("rowNotSelected => rowSelected", animate("400ms"))
 ]);

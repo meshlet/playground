@@ -47,7 +47,7 @@ export class ProductTableComponent {
 
   getRowAnimationState(category: string): string {
     if (this.selectedCategory === "") {
-      return "initial";
+      return "";
     }
 
     return this.selectedCategory === category ? "rowSelected" : "rowNotSelected";
