@@ -1,16 +1,15 @@
-import { Injectable, Inject } from "@angular/core";
 import { ProductModel } from "./product.model";
-import { DataSourceInterfaceModel, DATA_SOURCE } from "./data-source-interface.model";
+import { StaticDataSourceModel } from "./static-data-source.model";
 
-@Injectable()
 export class RepositoryModel {
   // The member is assigned once the Observable returned by data source's
   // getData() is resolved.
   // @ts-ignore
   private products: ProductModel[];
   private locator = (p: ProductModel, id: number | undefined) => p.id === id;
+  private dataSource = new StaticDataSourceModel();
 
-  constructor(@Inject(DATA_SOURCE) private dataSource: DataSourceInterfaceModel) {
+  constructor() {
     this.dataSource.getData().subscribe((obtainedProducts: ProductModel[] | null) => {
       this.products = obtainedProducts || [];
     });

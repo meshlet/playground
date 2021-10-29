@@ -1,1 +1,247 @@
-<router-outlet></router-outlet>
+<h2>
+  Angular Animation
+</h2>
+<h4 class="mt-2">
+  Illustrates the basic animation functionality
+</h4>
+<p>
+  The following illustrates the basic animation features supported by
+  Angular. Check the `rowHighlight` trigger defined in animation.component.ts
+</p>
+<div class="form-group">
+  <select class="form-control" (change)="selectedCategory1 = $any($event.target).value">
+    <option value="" selected>Select a category...</option>
+    <option *ngFor="let category of getCategories()">
+      {{ category }}
+    </option>
+  </select>
+</div>
+<table class="table table-sm table-bordered table-striped">
+  <thead>
+    <tr class="text-dark">
+      <th></th><th>Name</th><th>Category</th><th>Price</th><th></th>
+    </tr>
+  </thead>
+  <tbody @rowHighlight>
+    <!-- For more info on Angular's animation system check animation.component.ts. -->
+    <tr *ngFor="let item of repository.getProducts(); let i = index;"
+        [@rowHighlight]="getRowAnimationState(item.category, selectedCategory1)">
+      <td class="align-middle">{{i + 1}}</td>
+      <td class="align-middle">{{item.name}}</td>
+      <td class="align-middle">{{item.category}}</td>
+      <td class="align-middle">{{item.price}}</td>
+      <td class="text-center align-middle">
+        <button class="btn btn-sm btn-danger" (click)="deleteProduct($any(item.id))">
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 class="mt-2">
+  Illustrates the * (asterisk) and void built-in animation states
+</h4>
+<p>
+  The following illustrates the * (asterisk) built-in animation state that matches
+  all the other states as well as the `void` state that all elements are initialized
+  to before they are placed to the DOM and after they're removed from the DOM. Check
+  the `rowHighlightAsteriskAndVoidState` trigger defined in animation.component.ts.
+</p>
+<div class="form-group">
+  <select class="form-control" (change)="selectedCategory2 = $any($event.target).value">
+    <option value="" selected>Select a category...</option>
+    <option *ngFor="let category of getCategories()">
+      {{ category }}
+    </option>
+  </select>
+</div>
+<table class="table table-sm table-bordered table-striped">
+  <thead>
+    <tr class="text-dark">
+      <th></th><th>Name</th><th>Category</th><th>Price</th><th></th>
+    </tr>
+  </thead>
+  <tbody @rowHighlight>
+    <tr *ngFor="let item of repository.getProducts(); let i = index;"
+        [@rowHighlightAsteriskAndVoidState]="getRowAnimationState(item.category, selectedCategory2)">
+      <td class="align-middle">{{i + 1}}</td>
+      <td class="align-middle">{{item.name}}</td>
+      <td class="align-middle">{{item.category}}</td>
+      <td class="align-middle">{{item.price}}</td>
+      <td class="text-center align-middle">
+        <button class="btn btn-sm btn-danger" (click)="deleteProduct($any(item.id))">
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 class="mt-2">
+  Illustrates the initial delay
+</h4>
+<p>
+  The following illustrates the use of initial delay to postpone the transition start
+  by a certain number of seconds or milliseconds. Check the `rowHighlightInitialDelay`
+  trigger defined in animation.component.ts.
+</p>
+<div class="form-group">
+  <select class="form-control" (change)="selectedCategory3 = $any($event.target).value">
+    <option value="" selected>Select a category...</option>
+    <option *ngFor="let category of getCategories()">
+      {{ category }}
+    </option>
+  </select>
+</div>
+<table class="table table-sm table-bordered table-striped">
+  <thead>
+    <tr class="text-dark">
+      <th></th><th>Name</th><th>Category</th><th>Price</th><th></th>
+    </tr>
+  </thead>
+  <tbody @rowHighlight>
+    <tr *ngFor="let item of repository.getProducts(); let i = index;"
+        [@rowHighlightInitialDelay]="getRowAnimationState(item.category, selectedCategory3)">
+      <td class="align-middle">{{i + 1}}</td>
+      <td class="align-middle">{{item.name}}</td>
+      <td class="align-middle">{{item.category}}</td>
+      <td class="align-middle">{{item.price}}</td>
+      <td class="text-center align-middle">
+        <button class="btn btn-sm btn-danger" (click)="deleteProduct($any(item.id))">
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 class="mt-2">
+  Illustrates different timing functions
+</h4>
+<p>
+  The following illustrates the use of timing functions to control how the intermediate
+  CSS property values are calculated during the animation. Check the `timingFunctions`
+  trigger defined in animation.component.ts.
+</p>
+<div class="form-group">
+  <button type="button" class="btn btn-primary p-2"
+          (click)="timingFunctionsState = timingFunctionsState === 'initial' ? 'final' : 'initial'">
+    Start Animation
+  </button>
+</div>
+<div class="bg-danger position-relative py-3 text-center text-white" style="width: 80px;"
+     [@timingFunctions]="timingFunctionsState + '_1'">
+  Linear
+</div>
+<div class="bg-warning position-relative py-3 mt-1 text-center text-white" style="width: 80px;"
+     [@timingFunctions]="timingFunctionsState + '_2'">
+  Ease-in
+</div>
+<div class="bg-success position-relative py-3 text-center text-white mt-1" style="width: 80px;"
+     [@timingFunctions]="timingFunctionsState + '_3'">
+  Ease-out
+</div>
+<div class="bg-info position-relative py-3 text-center text-white mt-1" style="width: 80px;"
+     [@timingFunctions]="timingFunctionsState + '_4'">
+  Ease-in-out
+</div>
+<div class="bg-dark position-relative py-3 text-center text-white mt-1" style="width: 80px;"
+     [@timingFunctions]="timingFunctionsState + '_5'">
+  Cubic Bezier
+</div>
+
+<h4 class="mt-2">
+  Illustrates passing a style group to the animate function
+</h4>
+<p>
+  The following illustrates that it's possible to pass a style group as the second
+  argument to the `animate` function. This has an effect of adding a new state
+  between the to states specified in the transition, in that the CSS values first
+  change from the initial state to the values specified in this style group, and
+  than they change to the final state. Check the `animateCallWithStyleGroup` trigger
+  defined in animation.component.ts.
+</p>
+<div class="form-group">
+  <button type="button" class="btn btn-primary p-2"
+          (click)="animateCallWithStyleGroupState = animateCallWithStyleGroupState === 'initial' ? 'final' : 'initial'">
+    Start Animation
+  </button>
+</div>
+<div class="bg-danger position-relative" style="height: 50px"
+     [@animateCallWithStyleGroup]="animateCallWithStyleGroupState">
+</div>
+
+<h4 class="mt-2">
+  Illustrates an array of animations to the `transition` function
+</h4>
+<p>
+  The following illustrates passing an array of animations to the `transition`
+  function. Angular will execute all of these in sequence, and as long as the
+  last specified animation doesn't define the style group, the final animation
+  will transition to the style specified in the target state. Check the
+  `transitionWithArrayOfAnimations` trigger defined in animation.component.ts.
+</p>
+<div class="form-group">
+  <button type="button" class="btn btn-primary p-2"
+          (click)="transitionWithArrayOfAnimationsState = transitionWithArrayOfAnimationsState === 'initial' ? 'final' : 'initial'">
+    Start Animation
+  </button>
+</div>
+<div class="bg-danger position-relative" style="height: 50px"
+     [@transitionWithArrayOfAnimations]="transitionWithArrayOfAnimationsState">
+</div>
+
+<h4 class="mt-2">
+  Illustrates parallel animations
+</h4>
+<p>
+  The following illustrates using the `group` function to create animations that
+  are run in parallel by Angular. All the animations will start at the same time
+  however may have different durations. Check the `parallelAnimations` trigger
+  defined in animation.component.ts.
+</p>
+<div class="form-group">
+  <button type="button" class="btn btn-primary p-2"
+          (click)="parallelAnimationsState = parallelAnimationsState === 'initial' ? 'final' : 'initial'">
+    Start Animation
+  </button>
+</div>
+<div class="position-relative" style="height: 50px"
+     [@parallelAnimations]="parallelAnimationsState">
+</div>
+
+<h4 class="mt-2">
+  Common styles / passing array of styles to `style` function
+</h4>
+<p>
+  The following illustrates passing an array of style objects to the `style`
+  method which can be utilized for accomplishing style reuse. Check the
+  `usingArrayOfStyleObjects` trigger defined in animation.component.ts.
+</p>
+<div class="form-group">
+  <button type="button" class="btn btn-primary p-2"
+          (click)="usingArrayOfStyleObjectsState = usingArrayOfStyleObjectsState === 'initial' ? 'final' : 'initial'">
+    Start Animation
+  </button>
+</div>
+<div class="position-relative"
+     [@usingArrayOfStyleObjects]="usingArrayOfStyleObjectsState">
+</div>
+
+<h4 class="mt-2">
+  Using CSS transform property to animate elements
+</h4>
+<p>
+  The following illustrates using the CSS transform property and various available
+  transformation functions to animate elements. Check the `animationUsingTransformProperty
+  trigger defined in animation.component.ts.
+</p>
+<div class="form-group">
+  <button type="button" class="btn btn-primary p-2"
+          (click)="animationUsingTransformPropertyState = animationUsingTransformPropertyState === 'initial' ? 'final' : 'initial'">
+    Start Animation
+  </button>
+</div>
+<div [@animationUsingTransformProperty]="animationUsingTransformPropertyState">
+</div>

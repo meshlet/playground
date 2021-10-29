@@ -45,6 +45,12 @@ import { GlobalErrorHandlerService } from "./global-error-handler.service";
   ],
   providers: [
     HeaderMessageService,
+    /**
+     * @note Overriding the global ErrorHandler service with a custom one can
+     * only be done in a module that is not lazily loaded. Angular will ignore
+     * the provided custom error handler if it is defined in a provider within
+     * the lazily loaded module.
+     */
     {
       provide: ErrorHandler, useClass: GlobalErrorHandlerService
     }
