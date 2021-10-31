@@ -34,6 +34,11 @@ import { GlobalErrorHandlerService } from "./global-error-handler.service";
           .then(mod => mod.AdditionalSamplesModule)
       },
       {
+        path: "angular-unit-testing",
+        loadChildren: () => import("./angular-unit-testing/angular-unit-testing.module")
+          .then(mod => mod.AdditionalSamplesModule)
+      },
+      {
         path: "",
         redirectTo: "routing-samples",
         pathMatch: "full"

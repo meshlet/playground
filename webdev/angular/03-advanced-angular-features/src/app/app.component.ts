@@ -28,15 +28,16 @@ export class AppComponent implements AfterViewInit {
     "rxjs-async-http-samples": "1",
     "routing-samples": "2",
     "animation-samples": "3",
-    "additional-samples": "4"
+    "angular-unit-testing": "4",
+    "additional-samples": "5"
   };
 
   constructor(router: Router, public msgService: HeaderMessageService) {
     /**
      * Determine the active side-menu button from the active route the
      * first time a navigation starts. This makes sure that the current
-     * matches matches the highlighted button even if user manually enters
-     * a route URL.
+     * route matches matches the highlighted button even if user manually
+     * enters a route URL.
      */
     router.events
       .pipe(filter((e => e instanceof NavigationStart)))
