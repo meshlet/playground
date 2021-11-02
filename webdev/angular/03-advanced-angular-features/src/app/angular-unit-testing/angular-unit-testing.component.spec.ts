@@ -1,4 +1,4 @@
-import { TestBed } from "@angular/core/testing";
+import {ComponentFixture, TestBed} from "@angular/core/testing";
 import {
   InPlaceTemplateComponent,
   ServiceDepAndDataBindingComponent,
@@ -11,6 +11,29 @@ import { By } from "@angular/platform-browser";
 import {Component, DebugElement, ViewChild} from "@angular/core";
 
 /**
+ * The following is a mock class that will substitute the actual RepositoryModel
+ * class used by some of the components under test. This is done in order to
+ * abstract away the complexity of the RepositoryModel service, which should
+ * be anyways tested in its own right (however testing services does not require
+ * TestBed as service don't interact with Angular environment the same way
+ * components and directives do).
+ */
+class RepositoryModelMock {
+  private products: ProductModel[] = [
+    { id: 1, name: "Soccer Ball", category: "Soccer", price: 19.50 },
+    { id: 2, name: "Corner Flags", category: "Soccer", price: 34.95 },
+    { id: 3, name: "Stadium", category: "Soccer", price: 79500 },
+    { id: 4, name: "Thinking Cap", category: "Chess", price: 16 },
+    { id: 5, name: "Unsteady Chair", category: "Chess", price: 29.95 },
+    { id: 6, name: "Human Chess Board", category: "Chess", price: 75 }
+  ];
+
+  getProducts(): ProductModel[] {
+    return this.products;
+  }
+}
+
+/**
  * The following illustrates unit-testing Angular components using the
  * Jasmine test framework. Among other things, the TestBed class used
  * to simulate the Angular application environment is illustrated,
@@ -19,29 +42,6 @@ import {Component, DebugElement, ViewChild} from "@angular/core";
  * with asynchronous operations.
  */
 describe("illustrates Angular components unit-testing", () => {
-  /**
-   * The following is a mock class that will substitute the actual RepositoryModel
-   * class used by some of the components under test. This is done in order to
-   * abstract away the complexity of the RepositoryModel service, which should
-   * be anyways tested in its own right (however testing services does not require
-   * TestBed as service don't interact with Angular environment the same way
-   * components and directives do).
-   */
-  class RepositoryModelMock {
-    private products: ProductModel[] = [
-      { id: 1, name: "Soccer Ball", category: "Soccer", price: 19.50 },
-      { id: 2, name: "Corner Flags", category: "Soccer", price: 34.95 },
-      { id: 3, name: "Stadium", category: "Soccer", price: 79500 },
-      { id: 4, name: "Thinking Cap", category: "Chess", price: 16 },
-      { id: 5, name: "Unsteady Chair", category: "Chess", price: 29.95 },
-      { id: 6, name: "Human Chess Board", category: "Chess", price: 75 }
-    ];
-
-    getProducts(): ProductModel[] {
-      return this.products;
-    }
-  }
-
   /**
    * Before each of the tests, configure the test module by specifying the
    * components to be tested, service providers required by those components
@@ -235,5 +235,52 @@ describe("testing component's input properties", () => {
     // @ts-ignore
     componentUnderTest: InputPropComponent;
   }
-  // TODO: finish this test
+
+  let fixture: ComponentFixture<ParentComponent>;
+  let parentDbgElem: DebugElement;
+  let componentUnderTest: InputPropComponent;
+
+  /**
+   * Initialize the testing module and obtain the instance of the component
+   * to be tested (InputPropComponent).
+   */
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [InputPropComponent, ParentComponent],
+      providers: [
+        { provide: RepositoryModel, useValue: new RepositoryModelMock() }
+      ]
+    });
+
+    fixture = TestBed.createComponent(ParentComponent);
+    parentDbgElem = fixture.debugElement;
+
+    // Change detection must be run for ViewChild query to complete and
+    // result assigned to the property of the ParentComponent
+    fixture.detectChanges();
+    componentUnderTest = fixture.componentInstance.componentUnderTest;
+    expect(componentUnderTest).toBeDefined();
+  });
+
+  it("illustrates testing component's input properties", () => {
+    // Initially, the span element should have textContent set to 0 (no selected products)
+    expect(parentDbgElem.query(By.css("span")).nativeElement.textContent).toEqual("0");
+
+    // Set the category to Chess an re-run change detection
+    componentUnderTest.selectedCategory = "Chess";
+    fixture.detectChanges();
+
+    // Assert that the span's content has been correctly updated
+    expect(parentDbgElem.query(By.css("span")).nativeElement.textContent).toEqual("3");
+
+    // Assert that the products in ParentComponent's repository instance
+    // and InputPropComponent's repository instance are actually same objects
+    expect(fixture.componentInstance.repository.getProducts().length)
+      .toBe(componentUnderTest.repository?.getProducts().length || -1);
+
+    expect(componentUnderTest.repository).toBeDefined();
+    fixture.componentInstance.repository.getProducts().forEach((p: ProductModel, index: number) => {
+      expect(p).toBe((componentUnderTest.repository as RepositoryModel).getProducts()[index]);
+    });
+  });
 });

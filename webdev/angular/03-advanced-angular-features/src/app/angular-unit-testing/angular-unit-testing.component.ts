@@ -88,7 +88,7 @@ export class ExtTmplHostListenerAndOutputPropComponent {
   `
 })
 export class InputPropComponent {
-  public selectedCategory = "Soccer";
+  public selectedCategory = "";
 
   @Input("repository")
   repository?: RepositoryModel;
