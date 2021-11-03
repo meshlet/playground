@@ -5,10 +5,12 @@ import {
   InPlaceTemplateComponent,
   ServiceDepAndDataBindingComponent,
   ExtTmplHostListenerAndOutputPropComponent,
-  InputPropComponent
+  InputPropComponent,
+  AsyncOpsComponent
 } from "./angular-unit-testing.component";
 import {DATA_SOURCE, StaticDataSourceModel} from "./static-data-source.model";
 import {RepositoryModel} from "./repository.model";
+import { RestDataSourceModel} from "./rest-data-source.model";
 
 @NgModule({
   imports: [
@@ -21,13 +23,15 @@ import {RepositoryModel} from "./repository.model";
     InPlaceTemplateComponent,
     ServiceDepAndDataBindingComponent,
     ExtTmplHostListenerAndOutputPropComponent,
-    InputPropComponent
+    InputPropComponent,
+    AsyncOpsComponent
   ],
   providers: [
     {
       provide: DATA_SOURCE, useClass: StaticDataSourceModel
     },
-    RepositoryModel
+    RepositoryModel,
+    RestDataSourceModel
   ]
 })
 export class AdditionalSamplesModule {

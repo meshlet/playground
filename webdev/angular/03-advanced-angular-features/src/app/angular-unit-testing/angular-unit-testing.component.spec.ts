@@ -1,14 +1,17 @@
-import {ComponentFixture, TestBed} from "@angular/core/testing";
+import {ComponentFixture, fakeAsync, TestBed, tick} from "@angular/core/testing";
 import {
   InPlaceTemplateComponent,
   ServiceDepAndDataBindingComponent,
   ExtTmplHostListenerAndOutputPropComponent,
-  InputPropComponent
+  InputPropComponent,
+  AsyncOpsComponent
 } from "./angular-unit-testing.component";
 import { RepositoryModel } from "./repository.model";
 import { ProductModel } from "./product.model";
 import { By } from "@angular/platform-browser";
-import {Component, DebugElement, ViewChild} from "@angular/core";
+import {Component, DebugElement, Injectable, ViewChild} from "@angular/core";
+import {Observable, Observer} from "rxjs";
+import {RestDataSourceModel} from "./rest-data-source.model";
 
 /**
  * The following is a mock class that will substitute the actual RepositoryModel
@@ -283,4 +286,86 @@ describe("testing component's input properties", () => {
       expect(p).toBe((componentUnderTest.repository as RepositoryModel).getProducts()[index]);
     });
   });
+});
+
+/**
+ * The following illustrates testing asynchronous operations in
+ * components.
+ */
+describe("testing async operations", () => {
+  @Injectable()
+  class RestDataSourceModelMock {
+    private data: ProductModel[] = [
+      { id: 1, name: "Soccer Ball", category: "Soccer", price: 19.50 },
+      { id: 2, name: "Corner Flags", category: "Soccer", price: 34.95 },
+      { id: 3, name: "Stadium", category: "Soccer", price: 79500 },
+      { id: 4, name: "Thinking Cap", category: "Chess", price: 16 },
+      { id: 5, name: "Unsteady Chair", category: "Chess", price: 29.95 },
+      { id: 6, name: "Human Chess Board", category: "Chess", price: 75 }
+    ];
+
+    getData(): Observable<ProductModel[]> {
+      /**
+       * When Observable.subscribe is called with a callback (which is actually
+       * an Observer), the subscribe callback passed to Observable constructor
+       * is called and Observer is passed to it as argument.
+       */
+      return new Observable<ProductModel[]>(
+        (observer: Observer<ProductModel[]>) => {
+          setTimeout(() => observer.next(this.data), 500);
+        });
+    }
+  }
+
+  let fixture: ComponentFixture<AsyncOpsComponent>;
+  let dbgElem: DebugElement;
+  let componentUnderTest: AsyncOpsComponent;
+  let dataSource = new RestDataSourceModelMock();
+
+  /**
+   * Initialize the testing module and obtain the instance of the component
+   * to be tested (AsyncOpsComponent).
+   */
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [AsyncOpsComponent],
+      providers: [
+        { provide: RestDataSourceModel, useValue: dataSource }
+      ]
+    });
+
+    fixture = TestBed.createComponent(AsyncOpsComponent);
+    dbgElem = fixture.debugElement;
+    componentUnderTest = fixture.componentInstance;
+  });
+
+  /**
+   * Note the usage of the `fakeAsync` function. All the timers executed
+   * in an fakeAsync zone are executed synchronously. Hence, even though
+   * the timeout used by RestDataSourceModelMock is supposed to wait for
+   * 500 ms, it will get executed as soon as `tick` function simulates the
+   * passage of more than 500 ms of time (the tick function doesn't actually
+   * wait for that amount of time).
+   *
+   * @note ComponentFixture.whenStable returns a promise that is resolved
+   * when all changes have been fully processed (such as re-evaluating
+   * data binding expressions in the template).
+   */
+  it('testing async operations in Angular components', fakeAsync(() => {
+    tick(505);
+    fixture.detectChanges();
+
+    // Initially, the span element should have textContent set to 0 (no selected products)
+    fixture.whenStable().then(() => {
+      expect(dbgElem.query(By.css("span")).nativeElement.textContent).toEqual("0");
+    });
+
+    // Change the category and wait for the change to take effect
+    componentUnderTest.setCategory("Soccer");
+    tick(505);
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(dbgElem.query(By.css("span")).nativeElement.textContent).toEqual("3");
+    });
+  }));
 });
