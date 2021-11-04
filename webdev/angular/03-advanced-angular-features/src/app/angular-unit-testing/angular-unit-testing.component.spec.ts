@@ -44,7 +44,7 @@ class RepositoryModelMock {
  * template, output and input properties properties as well as testing
  * with asynchronous operations.
  */
-describe("illustrates Angular components unit-testing", () => {
+describe("Unit-testing Angular components", () => {
   /**
    * Before each of the tests, configure the test module by specifying the
    * components to be tested, service providers required by those components
@@ -213,7 +213,7 @@ describe("illustrates Angular components unit-testing", () => {
 /**
  * The following illustrates an approach to testing input properties in attributes.
  */
-describe("testing component's input properties", () => {
+describe("Testing component's input properties", () => {
   /**
    * The InputPropComponent that needs to be tested has an input property whose value
    * needs to be specified via its host element. To achieve this, a dummy parent
@@ -292,7 +292,7 @@ describe("testing component's input properties", () => {
  * The following illustrates testing asynchronous operations in
  * components.
  */
-describe("testing async operations", () => {
+describe("Testing async operations", () => {
   @Injectable()
   class RestDataSourceModelMock {
     private data: ProductModel[] = [

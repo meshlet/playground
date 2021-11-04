@@ -8,6 +8,7 @@ import {
   InputPropComponent,
   AsyncOpsComponent
 } from "./angular-unit-testing.component";
+import { SimpleAttributeDirective } from "./angular-unit-testing.directive";
 import {DATA_SOURCE, StaticDataSourceModel} from "./static-data-source.model";
 import {RepositoryModel} from "./repository.model";
 import { RestDataSourceModel} from "./rest-data-source.model";
@@ -24,7 +25,8 @@ import { RestDataSourceModel} from "./rest-data-source.model";
     ServiceDepAndDataBindingComponent,
     ExtTmplHostListenerAndOutputPropComponent,
     InputPropComponent,
-    AsyncOpsComponent
+    AsyncOpsComponent,
+    SimpleAttributeDirective
   ],
   providers: [
     {
