@@ -1,0 +1,31 @@
+extends layout
+block content
+  .row.banner
+    .col-12
+      .h2.heading-font-family Review Super Hero Burger
+  .row
+    .col-12
+      form
+        .form-row.mb-1
+          .col-sm-2
+            label.col-form-label(for='name') Name
+          .col-sm-10
+            input#name.form-control(type='text', placeholder='Your name...')
+        .form-row.mb-1
+          .col-sm-2
+            label.col-form-label(for='rating') Rating
+          .col-sm-10
+            select#rating.custom-select
+              option(selected='') 1
+              option 2
+              option 3
+              option 4
+              option 5
+        .form-row.mb-2
+          .col-sm-2
+            label.col-form-label(for='review') Review
+          div.col-sm-10
+            textarea#review.form-control(rows='4', placeholder='Your review goes here...')
+        .form-row
+          .col-12.text-right
+            button.btn-base(type='submit') Submit Review

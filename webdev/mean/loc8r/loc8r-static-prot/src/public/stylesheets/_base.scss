@@ -1,0 +1,74 @@
+/**
+ * Contains all resets, common variables, mixins and utility classes.
+ */
+
+/* Load the fonts required by the web site. */
+@font-face {
+  font-family: "Dosis";
+  src: url("../webfonts/Dosis-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Dosis Regular";
+  src: url("../webfonts/Dosis-Bold.ttf") format("truetype");
+  font-weight: bold;
+}
+@font-face {
+  font-family: "Dosis Light";
+  src: url("../webfonts/Dosis-Light.ttf") format("truetype");
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Berkshire Swash";
+  src: url("../webfonts/BerkshireSwash-Regular.ttf") format("truetype");
+}
+
+/* The main font family and size used by the web site. */
+$primary-font-family: "Dosis Regular", sans-serif;
+$primary-font-size: 14px;
+
+/**
+ * The font family used by various Headings on the web site.
+ *
+ * @note Size is not defined as different headings might have different font
+ * size.
+ */
+$heading-font-family: "Berkshire Swash", cursive;
+
+/* Heading class used to apply heading font family to elements */
+.heading-font-family {
+  font-family: $heading-font-family;
+}
+
+/* The background color of the body of the web site. */
+$primary-bgcolor: hsl(180, 60%, 35%);
+
+/* The secondary background color used in the navbar, buttons etc. */
+$secondary-bgcolor: hsl(355, 78.4%, 45.5%);
+
+/* The text color used by the web site. */
+$primary-text-color: hsla(0, 50%, 100%, 80%);
+
+/* The style rules for the stars used to display location's rating */
+.solid-star {
+  @extend .text-warning;
+  @extend .fa-star;
+  @extend .fas;
+}
+.empty-star {
+  @extend .text-warning;
+  @extend .fa-star;
+  @extend .far;
+}
+
+/* A font that is slightly bigger than than that of the parent. */
+.bigger {
+  font-size: 110%;
+}
+
+/* Set the primary background and text color, font family and size used by web site. */
+body {
+  background-color: $primary-bgcolor;
+  color: $primary-text-color;
+  font-family: $primary-font-family;
+  font-size: $primary-font-size;
+}

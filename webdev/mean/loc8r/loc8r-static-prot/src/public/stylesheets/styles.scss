@@ -1,0 +1,29 @@
+// Import Bootstrap SCSS
+$enable-responsive-font-sizes:true;
+@import 'bootstrap/scss/bootstrap';
+
+// Import Font-Awesome SCSS
+@import '@fortawesome/fontawesome-free/scss/fontawesome';
+@import '@fortawesome/fontawesome-free/scss/solid';
+@import '@fortawesome/fontawesome-free/scss/regular';
+
+// Import the partials
+@import "base";
+@import "components";
+
+//.review-btn {
+//  @extend .btn;
+//  @extend .btn-sm;
+//  @extend .btn-danger;
+//  @extend .float-right;
+//}
+//
+//.review-header {
+//  @extend .card-text-base;
+//  background-color: hsla(0, 0%, 0%, 35%);
+//  margin-left: -1.25rem;
+//  margin-right: -1.25rem;
+//  padding-right: 1.25rem;
+//  padding-left: 1.25rem;
+//  @extend .py-2;
+//}

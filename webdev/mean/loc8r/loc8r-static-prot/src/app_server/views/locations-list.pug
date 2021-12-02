@@ -1,0 +1,71 @@
+extends layout
+block content
+  .row.banner
+    .col-12
+      span.h2.loc8r-heading Loc8r&nbsp;&nbsp;
+      span.h3.loc8r-heading.text-white-50 Find places to work with WiFi near you!
+  .row
+    .col-12.col-md-8
+      -
+        const locations = [
+          {
+            name: 'Super Hero Burger',
+            stars: 2,
+            distance: '100m',
+            address: 'Olav Tryggvasons Gate 1, Trondheim',
+            facilities: [
+              'Burgers',
+              'Beverages',
+              'Premium Wifi'
+            ]
+          },
+          {
+            name: 'Grano Trondheim',
+            stars: 3,
+            distance: '500m',
+            address: 'Søndre Gate 25, Trondheim',
+            facilities: [
+              'Pizza',
+              'Beverages',
+              'Premium Wifi'
+            ]
+          },
+          {
+            name: 'Frati Restaurant',
+            stars: 5,
+            distance: '1km',
+            address: 'Kongens gate 20, Trondheim',
+            facilities: [
+              'Various food',
+              'Plenty beverages',
+              'Dedicated workrooms',
+              'Premium WiFi'
+            ]
+          }
+        ];
+
+      each location in locations
+        a.location-card(href='/location')
+          .card-body
+            .card-title
+              span.card-heading.d-block.d-sm-inline #{location.name}&nbsp;
+              - var i = 0;
+              while i < 5
+                if i < location.stars
+                  span.h5.solid-star
+                else
+                  span.h5.empty-star
+                - i++;
+
+              span.distance-badge.float-right #{location.distance}
+
+            p.card-text #{location.address}
+            p.card-text
+              each facility in location.facilities
+                span.facility-badge #{facility}
+
+    .col-12.col-md-4.mt-2.mt-md-0
+      p.
+        Looking for wifi and a seat? Loc8r helps you find places to
+        work when out and about. Perhaps with coffee, cake or a pint?
+        Let Loc8r help you find the place you're looking for.

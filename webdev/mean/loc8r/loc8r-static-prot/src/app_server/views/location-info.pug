@@ -1,0 +1,107 @@
+extends layout
+block content
+  .row.banner
+    .col-12
+      -
+        const location = {
+          name: 'Super Hero Burger',
+          stars: 4,
+          distance: '100m',
+          address: 'Olav Tryggvasons Gate 1, Trondheim',
+          facilities: [
+            'Burgers',
+            'Beverages',
+            'Premium Wifi'
+          ],
+          mapParams: {
+            apiKey: 'AIzaSyC8gHaw0XmC-nXXZbZEJsyc1_5lLQvmBf0',
+            coordinates: '63.433582313276275, 10.403175215780372',
+            imgSize: '400x350',
+            zoom: 17,
+            scale: 2
+          },
+          description: 'Super Hero Burger is on Loc8r because it has quality wifi' +
+            ' and space to sit down with your laptop and get some work done.',
+          reviews: [
+            {
+              reviewer: 'John Doe',
+              date: '6th July, 2019',
+              rating: 4,
+              text: `A super nice place to grab something to eat and get some programming done!`
+            },
+            {
+              reviewer: 'Mac Smith',
+              date: '3rd December, 2020',
+              rating: 3,
+              text: `Very nice place to eat and chill but a bit too noisy to get work done IMHO.`
+            }
+          ]
+        };
+
+      .h2.heading-font-family #{location.name}
+
+  .row
+    .col-12.col-md-8
+      .row.align-items-md-end
+        .col-12.col-md-6
+          p
+            - let i = 0;
+            while i < 5
+              if i < location.stars
+                span.h6.solid-star
+              else
+                span.h6.empty-star
+              - i++;
+
+          p #{location.address}
+          .card
+            .card-body
+              .card-title
+                span.card-heading Opening hours
+              .card-text.mb-1 Monday - Wednesday: 11AM - 11PM
+              .card-text.mb-1 Thursday - Saturday: 11AM - 3:30AM
+              .card-text Sunday: 11AM - 11PM
+          .card
+            .card-body
+              .card-title
+                span.card-heading Facilities
+              p.card-text
+                each facility in location.facilities
+                  span.facility-badge #{facility}
+        .col-12.col-md-6
+          .card
+            .card-body
+              .card-title
+                span.card-heading Location map
+              .card-text
+                img.img-fluid.rounded(src='http://maps.googleapis.com/maps/api/staticmap?center=' +
+                        location.mapParams.coordinates + '&zoom=' + location.mapParams.zoom + '&size=' + location.mapParams.imgSize +
+                        '&sensor=false&markers=' + location.mapParams.coordinates + '&scale=' + location.mapParams.scale +
+                        '&key=' + location.mapParams.apiKey)
+      .row
+        .col-12
+          .review-block
+            .row
+              .col-6
+                span.card-heading Customer reviews
+              .col-6.text-right
+                a.add-review-btn(href='/location/review/new') Add Review
+
+            each review in location.reviews
+              .row.review-header
+                .col-6
+                  span #{review.reviewer}, #{review.date}
+                .col-6.text-right
+                  - let i = 0;
+                    while i < 5
+                      if i < review.rating
+                        span.text-warning.fas.fa-star
+                      else
+                        span.text-warning.far.fa-star
+                      - i++;
+              .row
+                p #{review.text}
+
+    .col-12.col-md-4
+      p.bigger #{location.description}
+      p If you've been and you like it - or if you don't - please leave a review to help people just like you.
