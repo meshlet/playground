@@ -1,0 +1,26 @@
+extends layout
+
+include _includes/common-mixins
+
+block content
+  .row.banner
+    .col-12
+      span.page-heading #{pageHeader.title}&nbsp;&nbsp;
+      span.page-tagline= pageHeader.tagline
+  .row
+    .col-12.col-md-8
+      each location in locations
+        a.location-card(href='/location')
+          .card-body
+            .card-title
+              span.card-heading.d-block.d-sm-inline #{location.name}&nbsp;
+              +outputRating(location.rating, 'h5')
+              span.distance-badge.float-right #{location.distance}
+
+            p.card-text #{location.address}
+            p.card-text
+              each facility in location.facilities
+                span.facility-badge #{facility}
+
+    .col-12.col-md-4.mt-2.mt-md-0
+      p= sidebar

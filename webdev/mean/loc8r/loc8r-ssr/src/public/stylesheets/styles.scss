@@ -1,0 +1,12 @@
+// Import Bootstrap SCSS
+$enable-responsive-font-sizes:true;
+@import 'bootstrap/scss/bootstrap';
+
+// Import Font-Awesome SCSS
+@import '@fortawesome/fontawesome-free/scss/fontawesome';
+@import '@fortawesome/fontawesome-free/scss/solid';
+@import '@fortawesome/fontawesome-free/scss/regular';
+
+// Import the partials
+@import "base";
+@import "components";

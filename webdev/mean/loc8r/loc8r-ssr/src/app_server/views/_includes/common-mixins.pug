@@ -1,0 +1,16 @@
+//-
+  This file contains common PUG mixins used throughout the PUG views.
+
+//-
+  Generates the HTML markup for the location rating.
+
+  @param rating  A number between 1 and 5, representing the rating.
+  @param class   A CSS class string to be applied to the star span.
+mixin outputRating(rating, cssClass='')
+  - let i = 0;
+    while i < 5
+      if i < rating
+        span.solid-star(class=cssClass)
+      else
+        span.empty-star(class=cssClass)
+      - i++
