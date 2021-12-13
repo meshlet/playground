@@ -1,22 +1,35 @@
 import express from 'express';
 import path from 'path';
 import logger from 'morgan';
-import { SERVER_PORT } from './env-parser';
+import { SERVER_PORT, SERVER_ADDRESS } from './env-parser';
 import { router } from './app_server/routes';
+import { defaultDbReady } from './app_server/models/db';
 
-// Create Express app instance
-const app = express();
+// Wrap the code in async immediate function so that we can await for
+// promises.
+(async function() {
+  // Wait for the DB
+  try {
+    await defaultDbReady;
+  }
+  catch (e) {
+    process.exit(-1);
+  }
 
-// View setup
-app.set('views', path.join(__dirname, 'app_server', 'views'));
-app.set('view engine', 'pug');
+  // Create Express app instance
+  const app = express();
 
-app.use(logger('dev'));
-app.use(express.static(path.join(__dirname, 'public')));
+  // View setup
+  app.set('views', path.join(__dirname, 'app_server', 'views'));
+  app.set('view engine', 'pug');
 
-// Setup routers
-app.use('/', router);
+  app.use(logger('dev'));
+  app.use(express.static(path.join(__dirname, 'public')));
 
-app.listen(SERVER_PORT, () => {
-  console.log(`Server is listening on ${SERVER_PORT}`);
-});
+  // Setup routers
+  app.use('/', router);
+
+  app.listen(SERVER_PORT, SERVER_ADDRESS, () => {
+    console.log(`Server is listening on ${SERVER_ADDRESS}:${SERVER_PORT}`);
+  });
+})();

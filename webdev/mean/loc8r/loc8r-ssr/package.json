@@ -5,12 +5,13 @@
   "main": "dist/app.js",
   "scripts": {
     "start": "node -r dotenv-safe/config.js dist/app.js",
-    "dev:start": "nodemon -r dotenv-safe/config.js -w dist/app.js -w dist/app_server -e js",
     "build": "gulp",
+    "dev:start": "nodemon -r dotenv-safe/config.js -w dist/app.js -w dist/app_server -w .env -e js",
     "dev:build": "gulp buildAndWatch",
     "dev:buildAndStart": "run-p dev:build dev:start",
     "lint": "gulp lint",
     "clean": "rimraf dist/*",
+    "populateDb": "node -r dotenv/config.js dist/mongodb/populate-db.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -27,7 +28,10 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
     "bootstrap": "^4.6.1",
+    "dotenv": "^10.0.0",
+    "dotenv-safe": "^8.2.0",
     "express": "^4.17.1",
+    "mongoose": "^6.1.0",
     "morgan": "^1.10.0",
     "pug": "^3.0.2"
   },
@@ -37,7 +41,6 @@
     "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
-    "dotenv-safe": "^8.2.0",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.3",

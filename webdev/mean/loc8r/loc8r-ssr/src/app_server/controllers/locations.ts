@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { GOOGLE_MAPS_API_KEY } from "../../env-parser";
+import { GOOGLE_MAPS_API_KEY } from '../../env-parser';
 
 /**
  * Contains controllers for the views in the locations group: home page
