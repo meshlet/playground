@@ -22,8 +22,7 @@ export const testData: Array<
           name: 'Super Hero Burger',
           rating: 4,
           address: 'Olav Tryggvasons Gate 1, Trondheim',
-          // TS is complaining due to missing mongoose.Types.Array properties
-          // @ts-ignore
+          // @ts-ignore TS is complaining due to missing mongoose.Types.Array properties
           facilities: [
             'Burgers',
             'Beverages',
@@ -36,8 +35,7 @@ export const testData: Array<
               63.433582313276275
             ]
           },
-          // TS is complaining due to missing mongoose.Types.DocumentArray properties
-          // @ts-ignore
+          // @ts-ignore TS is complaining due to missing mongoose.Types.DocumentArray properties
           openingHours: [
             {
               days: 'Monday - Wednesday',
@@ -56,8 +54,7 @@ export const testData: Array<
               closed: true
             }
           ],
-          // TS is complaining due to missing mongoose.Types.DocumentArray properties
-          // @ts-ignore
+          // @ts-ignore TS is complaining due to missing mongoose.Types.DocumentArray properties
           reviews: [
             {
               reviewer: 'John Doe',
@@ -83,8 +80,7 @@ export const testData: Array<
           name: 'Grano Trondheim',
           rating: 3,
           address: 'Søndre Gate 25, Trondheim',
-          // TS is complaining due to missing mongoose.Types.Array properties
-          // @ts-ignore
+          // @ts-ignore TS is complaining due to missing mongoose.Types.Array properties
           facilities: [
             'Pizza',
             'Beverages',
@@ -97,8 +93,7 @@ export const testData: Array<
               63.43423107645711
             ]
           },
-          // TS is complaining due to missing mongoose.Types.DocumentArray properties
-          // @ts-ignore
+          // @ts-ignore TS is complaining due to missing mongoose.Types.DocumentArray properties
           openingHours: [
             {
               days: 'Monday - Saturday',
@@ -113,8 +108,7 @@ export const testData: Array<
               closed: false
             }
           ],
-          // TS is complaining due to missing mongoose.Types.DocumentArray properties
-          // @ts-ignore
+          // @ts-ignore TS is complaining due to missing mongoose.Types.DocumentArray properties
           reviews: [
             {
               reviewer: 'Paul Webster',
@@ -146,8 +140,7 @@ export const testData: Array<
           name: 'Frati restaurant',
           rating: 4,
           address: 'Kongens gate 20, 7011 Trondheim',
-          // TS is complaining due to missing mongoose.Types.Array properties
-          // @ts-ignore
+          // @ts-ignore TS is complaining due to missing mongoose.Types.Array properties
           facilities: [
             'Various Food',
             'Plenty Beverages',
@@ -161,8 +154,7 @@ export const testData: Array<
               63.43090466799468
             ]
           },
-          // TS is complaining due to missing mongoose.Types.DocumentArray properties
-          // @ts-ignore
+          // @ts-ignore TS is complaining due to missing mongoose.Types.DocumentArray properties
           openingHours: [
             {
               days: 'Monday - Thursday',
@@ -181,8 +173,7 @@ export const testData: Array<
               closed: true
             }
           ],
-          // TS is complaining due to missing mongoose.Types.DocumentArray properties
-          // @ts-ignore
+          // @ts-ignore TS is complaining due to missing mongoose.Types.DocumentArray properties
           reviews: [
             {
               reviewer: 'Mike Taylor',

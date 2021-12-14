@@ -9,12 +9,7 @@ import { defaultDbReady } from './app_server/models/db';
 // promises.
 (async function() {
   // Wait for the DB
-  try {
-    await defaultDbReady;
-  }
-  catch (e) {
-    process.exit(-1);
-  }
+  await defaultDbReady;
 
   // Create Express app instance
   const app = express();
@@ -29,7 +24,21 @@ import { defaultDbReady } from './app_server/models/db';
   // Setup routers
   app.use('/', router);
 
-  app.listen(SERVER_PORT, SERVER_ADDRESS, () => {
+  // Start the HTTP server
+  const httpServer = app.listen(SERVER_PORT, SERVER_ADDRESS, () => {
     console.log(`Server is listening on ${SERVER_ADDRESS}:${SERVER_PORT}`);
   });
-})();
+
+  // Listen for errors
+  httpServer.on('error', (err: Error) => {
+    // Throw the error to reject the promise returned by the outer IIFE
+    throw err;
+  });
+})()
+  .then(
+    undefined,
+    (reason) => {
+      if (reason instanceof Error) {
+        console.log(`${reason.message}`);
+      }
+    });

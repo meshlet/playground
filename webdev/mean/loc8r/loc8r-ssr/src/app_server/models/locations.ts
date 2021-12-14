@@ -158,5 +158,4 @@ const locationSchema = new mongoose.Schema<Location, mongoose.Model<Location>>({
 /**
  * Compile the schema into the location model
  */
-export const LOCATION_COLLECTION_NAME = 'locations';
-export const LocationModel = mongoose.model<Location>('Location', locationSchema, LOCATION_COLLECTION_NAME);
+export const LocationModel = mongoose.model<Location>('Location', locationSchema);

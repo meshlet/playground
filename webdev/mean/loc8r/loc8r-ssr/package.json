@@ -4,14 +4,14 @@
   "description": "A server-side rendered app that shows places with good wifi where you can get some work done.",
   "main": "dist/app.js",
   "scripts": {
-    "start": "node -r dotenv-safe/config.js dist/app.js",
-    "build": "gulp",
-    "dev:start": "nodemon -r dotenv-safe/config.js -w dist/app.js -w dist/app_server -w .env -e js",
-    "dev:build": "gulp buildAndWatch",
-    "dev:buildAndStart": "run-p dev:build dev:start",
     "lint": "gulp lint",
+    "build": "gulp build",
+    "watch": "gulp watch",
+    "start": "node -r dotenv-safe/config.js dist/app.js",
+    "nodemon": "nodemon -r dotenv-safe/config.js -w dist/app.js -w dist/app_server -w .env -e js",
+    "build-start-watch": "npm run build && run-p nodemon watch",
     "clean": "rimraf dist/*",
-    "populateDb": "node -r dotenv/config.js dist/mongodb/populate-db.js",
+    "populate-db": "node -r dotenv/config.js dist/mongodb/populate-db.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

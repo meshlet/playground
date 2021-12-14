@@ -124,7 +124,7 @@ function cpStaticResources() {
  */
 function runEslint() {
   return gulp.src('./src/**/*.ts')
-    .pipe(eslint({ configFile: '.eslintrc.json' }))
+    .pipe(eslint({ configFile: '.eslintrc.js' }))
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 }
@@ -134,7 +134,9 @@ function runEslint() {
  * compile TS tasks in parallel. Note that linter must run first before TS scripts
  * are compiled.
  */
-exports.default = gulp.parallel(gulp.series(runEslint, compileTs), compileScss, cpStaticResources);
+const buildTask = gulp.parallel(gulp.series(runEslint, compileTs), compileScss, cpStaticResources);
+exports.build = buildTask;
+exports.default = buildTask;
 
 /**
  * The build and watch task does everything done by the default task, as well as
@@ -142,21 +144,21 @@ exports.default = gulp.parallel(gulp.series(runEslint, compileTs), compileScss, 
  * and JS on every file change and any new view (in src/app_server/views) and
  * image (in src/public/images) are copied to dist.
  *
- * @note ignoreInitial:false makes sure that tasks are executed as soon as
- * watch is called the first time, without waiting for file changes. In other
- * words, files get compiled immediately as part of setting up the file
- * watchers.
- *
- * @note Eslint is not run as part of this task.
+ * @note Expectation is that default gulpBuild task is run before the watch task
+ * to perform initial setup. This could be achieved with the watch task as well
+ * by passing in options with `ignoreInitial: false`, however this doesn't play
+ * well with running app via nodemon. Nodemon should ideally wait for the build
+ * task to complete before running, however this is not possible as watch task
+ * blocks indefinitely preventing nodemon from starting. Running tasks in the
+ * order gulpBuild -> nodemon -> watch works around this.
  */
-exports.buildAndWatch = () => {
-  gulp.watch('./src/public/stylesheets/*.scss', { ignoreInitial: false }, compileScss);
-  gulp.watch('./src/**/*.ts', { ignoreInitial: false }, compileTs);
+exports.watch = () => {
+  gulp.watch('./src/public/stylesheets/*.scss', compileScss);
+  gulp.watch('./src/**/*.ts', gulp.series(runEslint, compileTs));
 
-  // We want to copy all the resources at first but monitor only some paths.
+  // We want to monitor only some paths.
   gulp.watch(
     ['./src/app_server/views/*.*', './src/public/images/*.*'],
-    { ignoreInitial: false },
     cpStaticResources);
 };
 

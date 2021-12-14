@@ -8,7 +8,7 @@
  * Ensures that the given environment variable exists and returns its value
  * as a string.
  */
-function getEnvVariable(varName: string, parseCb?: undefined): string {
+function getEnvVariable(varName: string): string {
   // Make sure the environment variable whose name is `varName` exists
   const envVar = process.env[varName];
   if (envVar === undefined || envVar.length === 0) {

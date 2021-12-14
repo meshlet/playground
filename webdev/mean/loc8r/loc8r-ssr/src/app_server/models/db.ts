@@ -19,9 +19,7 @@ export const defaultDbReady = (async function() {
     await mongoose.connect(dbUri);
   }
   catch (e) {
-    console.log(`Mongoose couldn't connect to: ${dbUri}`);
-    // Re-throw to make sure exported promise gets rejected
-    throw e;
+    throw new Error(`Mongoose couldn't connect to: ${dbUri}`);
   }
 
   try {
@@ -31,8 +29,7 @@ export const defaultDbReady = (async function() {
     ]);
   }
   catch (e) {
-    console.log(`Failed to build DB indexes. ${e}`);
-    throw e;
+    throw new Error(`Failed to build DB indexes. ${e instanceof Error ? e.message : ''}`);
   }
 })();
 
@@ -44,8 +41,8 @@ mongoose.connection
   .on('disconnected', () => {
     console.log(`Mongoose disconnected from: ${dbUri}`);
   })
-  .on('error', err => {
-    console.log(`Mongoose connection error: ${err}`);
+  .on('error', (err: Error) => {
+    console.log(`Mongoose connection error: ${err.message}`);
   });
 
 // Mongoose doesn't automatically close connection once the process exits.
@@ -61,7 +58,7 @@ function shutdownHelper(msg: string, cb: () => void) {
 // SIGINT signal is sent to the process once user attempts to terminate
 // the process (usually with Ctrl+C).
 process.on('SIGINT', () => {
-  shutdownHelper('Server is exiting...', () => {
+  shutdownHelper('HTTP server is exiting...', () => {
     process.exit();
   });
 });
@@ -80,7 +77,7 @@ process.on('SIGTERM', () => {
 // signal SIGUSR2 again to our process. This SIGUSR2 signal is then processed
 // by the Nodemon wrapper.
 process.once('SIGUSR2', () => {
-  shutdownHelper('Server is restarted by Nodemon...', () => {
+  shutdownHelper('HTTP server is restarted by Nodemon...', () => {
     // process.kill sends a signal to the process (it does not `kill` the process)
     process.kill(process.pid, 'SIGUSR2');
   });
