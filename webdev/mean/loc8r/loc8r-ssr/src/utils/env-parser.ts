@@ -52,9 +52,9 @@ function parseEnvVariableAsInt(envVarName: string, envVarValue: string): number 
 }
 
 // Export environment variables
-export const SERVER_ADDRESS = getEnvVariable('SERVER_ADDRESS');
-export const SERVER_PORT = getAndParseEnvVariable('SERVER_PORT', parseEnvVariableAsInt);
-export const DB_ADDRESS = getEnvVariable('DB_ADDRESS');
-export const DB_PORT = getAndParseEnvVariable('DB_PORT', parseEnvVariableAsInt);
-export const DB_NAME = getEnvVariable('DB_NAME');
-export const GOOGLE_MAPS_API_KEY = getEnvVariable('GOOGLE_MAPS_API_KEY');
+export const _SERVER_ADDRESS = getEnvVariable('SERVER_ADDRESS');
+export const _SERVER_PORT = getAndParseEnvVariable('SERVER_PORT', parseEnvVariableAsInt);
+export const _DB_ADDRESS = getEnvVariable('DB_ADDRESS');
+export const _DB_PORT = getAndParseEnvVariable('DB_PORT', parseEnvVariableAsInt);
+export const _DB_NAME = getEnvVariable('DB_NAME');
+export const _GOOGLE_MAPS_API_KEY = getEnvVariable('GOOGLE_MAPS_API_KEY');

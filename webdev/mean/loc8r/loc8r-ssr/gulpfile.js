@@ -72,7 +72,7 @@ function cpStaticResources() {
       dest: './dist',
       checkGlobs: false,
       files: [
-        './src/app_server/views/**/*.*',
+        './src/app-server/views/**/*.*',
         './src/public/images/**/*.*'
       ]
     },
@@ -156,9 +156,9 @@ exports.watch = () => {
   gulp.watch('./src/public/stylesheets/*.scss', compileScss);
   gulp.watch('./src/**/*.ts', gulp.series(runEslint, compileTs));
 
-  // We want to monitor only some paths.
+  // We want to monitor only some paths in case of static resources.
   gulp.watch(
-    ['./src/app_server/views/*.*', './src/public/images/*.*'],
+    ['./src/app-server/views/*.*', './src/public/images/*.*'],
     cpStaticResources);
 };
 

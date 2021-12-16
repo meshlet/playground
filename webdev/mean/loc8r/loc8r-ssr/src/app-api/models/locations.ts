@@ -101,7 +101,7 @@ const geoPointSchema = new mongoose.Schema<GeoPoint, mongoose.Model<GeoPoint>>({
 /**
  * Typescript interface describing a single location.
  */
-export interface Location {
+export interface _Location {
   name: string,
   rating?: number,
   address: string,
@@ -117,7 +117,7 @@ export interface Location {
  *
  * TODO: rating must be calculated as an average of ratings from all the reviews
  */
-const locationSchema = new mongoose.Schema<Location, mongoose.Model<Location>>({
+const locationSchema = new mongoose.Schema<_Location, mongoose.Model<_Location>>({
   name: {
     type: String,
     required: true,
@@ -158,4 +158,4 @@ const locationSchema = new mongoose.Schema<Location, mongoose.Model<Location>>({
 /**
  * Compile the schema into the location model
  */
-export const LocationModel = mongoose.model<Location>('Location', locationSchema);
+export const _LocationModel = mongoose.model<_Location>('Location', locationSchema);

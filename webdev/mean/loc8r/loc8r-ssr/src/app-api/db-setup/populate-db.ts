@@ -1,8 +1,8 @@
 /**
  * Populates local MongoDB database with test data.
  */
-import { defaultDbReady } from '../app_server/models/db';
-import { testData } from './test-data';
+import { _defaultDbReady as defaultDbReady } from '../models/db';
+import { _testData as testData } from './test-data';
 
 (async function() {
   // Wait for DB

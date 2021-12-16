@@ -1,4 +1,4 @@
-import { Location, LocationModel } from '../app_server/models/locations';
+import { _Location as Location, _LocationModel as LocationModel } from '../models/locations';
 import mongoose from 'mongoose';
 
 /**
@@ -10,7 +10,7 @@ import mongoose from 'mongoose';
  * of the testData array with additional element and provide the data to
  * be inserted (for example, Array<Location | User>).
  */
-export const testData: Array<
+export const _testData: Array<
   {
     model: mongoose.Model<Location>,
     documents: Array<Location>

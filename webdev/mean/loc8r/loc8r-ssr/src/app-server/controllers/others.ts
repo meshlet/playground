@@ -7,7 +7,7 @@ import { Request, Response } from 'express';
 /**
  * About page controller.
  */
-export function about(req: Request, res: Response): void {
+export function _about(req: Request, res: Response): void {
   res.render('about', {
     title: 'About Loc8r',
     activeMenuItem: 1,

@@ -3,16 +3,16 @@ import * as locations from '../controllers/locations';
 import * as other from '../controllers/others';
 
 // Create a router
-export const router = express.Router();
+export const _router = express.Router();
 
 // GET home page
-router.get('/', locations.locationsList);
+_router.get('/', locations._locationsList);
 
 // GET details page
-router.get('/location', locations.locationInfo);
+_router.get('/location', locations._locationInfo);
 
 // GET add review page
-router.get('/location/review/new', locations.newReview);
+_router.get('/location/review/new', locations._newReview);
 
 // Get about page
-router.get('/about', other.about);
+_router.get('/about', other._about);

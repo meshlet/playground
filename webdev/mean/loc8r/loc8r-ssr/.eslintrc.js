@@ -1,4 +1,9 @@
 module.exports = {
+  extends: [
+    'standard',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking'
+  ],
   env: {
     browser: true,
     commonjs: true,
@@ -13,11 +18,6 @@ module.exports = {
   },
   plugins: [
     '@typescript-eslint'
-  ],
-  extends: [
-    'standard',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking'
   ],
   ignorePatterns: ['*.js', 'dist/**/*'],
   rules: {
@@ -42,5 +42,5 @@ module.exports = {
       { 'ts-ignore': 'allow-with-description', minimumDescriptionLength: 10 }
     ],
     '@typescript-eslint/no-unused-vars': 'error'
-  },
+  }
 };

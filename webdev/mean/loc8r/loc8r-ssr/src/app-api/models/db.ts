@@ -4,8 +4,8 @@
  * closed or restarted.
  */
 import mongoose from 'mongoose';
-import { DB_ADDRESS, DB_PORT, DB_NAME } from '../../env-parser';
-import { LocationModel } from './locations';
+import { DB_ADDRESS, DB_PORT, DB_NAME } from '../../utils/utils.module';
+import { _LocationModel as LocationModel } from './locations';
 
 // Default database URI
 const dbUri = `mongodb://${DB_ADDRESS}:${DB_PORT}/${DB_NAME}`;
@@ -13,7 +13,7 @@ const dbUri = `mongodb://${DB_ADDRESS}:${DB_PORT}/${DB_NAME}`;
 // The consumer can use this promise to wait for the following:
 // - outcome of opening the default mongoose connection to MongoDB
 // - outcome of compiling DB indexes for all the models used in the app
-export const defaultDbReady = (async function() {
+export const _defaultDbReady = (async function() {
   try {
     // Establish connection to the database
     await mongoose.connect(dbUri);
@@ -82,6 +82,3 @@ process.once('SIGUSR2', () => {
     process.kill(process.pid, 'SIGUSR2');
   });
 });
-
-// Export mongoose models to the rest of the app
-export { LocationModel } from './locations';
