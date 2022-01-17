@@ -1,3 +1,4 @@
+const path = require('path');
 module.exports = {
   extends: [
     'standard',
@@ -13,8 +14,8 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 6,
-    tsconfigRootDir: __dirname,
-    project: ['./tsconfig.json']
+    tsconfigRootDir: 'src',
+    project: ['./tsconfig-base.json']
   },
   plugins: [
     '@typescript-eslint'
@@ -26,7 +27,10 @@ module.exports = {
     indent: [
       'error',
       2,
-      { FunctionDeclaration: { parameters: 'first' } }
+      {
+        FunctionDeclaration: { parameters: 'first' },
+        SwitchCase: 1
+      }
     ],
     'brace-style': [
       'error',

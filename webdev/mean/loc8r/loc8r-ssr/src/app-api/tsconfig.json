@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig-base",
+  "compilerOptions": {
+    "outDir": "../../dist/app-api"
+  },
+  "include": [
+    "./**/*.ts"
+  ],
+  "references": [
+    { "path": "../utils" }
+  ]
+}

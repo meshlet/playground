@@ -1,0 +1,9 @@
+{
+  "files": [],
+  "include": [],
+  "references": [
+    { "path": "./utils" },
+    { "path": "./app-api" },
+    { "path": "./app-server" }
+  ]
+}

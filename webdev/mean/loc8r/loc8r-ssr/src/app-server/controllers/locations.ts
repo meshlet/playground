@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { GOOGLE_MAPS_API_KEY } from '../../utils/utils.module';
+import { Environment } from '../../utils/utils.module';
 
 /**
  * Contains controllers for the views in the locations group: home page
@@ -10,7 +10,7 @@ import { GOOGLE_MAPS_API_KEY } from '../../utils/utils.module';
 /**
  * Home page controller.
  */
-export function _locationsList(req: Request, res: Response): void {
+export function _locationsList(_: Request, res: Response): void {
   // `page` property is used to decide whether to add the `active` Bootstrap class
   // to <a> element in the navigation bar.
   res.render('locations-list', {
@@ -65,7 +65,7 @@ export function _locationsList(req: Request, res: Response): void {
 /**
  * Details page controller.
  */
-export function _locationInfo(req: Request, res: Response): void {
+export function _locationInfo(_: Request, res: Response): void {
   res.render('location-info', {
     title: 'Loc8r - Super Hero Burger',
     activeMenuItem: -1,
@@ -107,7 +107,7 @@ export function _locationInfo(req: Request, res: Response): void {
         'Premium Wifi'
       ],
       mapParams: {
-        apiKey: GOOGLE_MAPS_API_KEY,
+        apiKey: Environment.GOOGLE_MAPS_API_KEY,
         coordinates: '63.433582313276275, 10.403175215780372',
         imgSize: '400x350',
         zoom: 17,
@@ -134,7 +134,7 @@ export function _locationInfo(req: Request, res: Response): void {
 /**
  * New review page controller.
  */
-export function _newReview(req: Request, res: Response): void {
+export function _newReview(_: Request, res: Response): void {
   res.render('add-review', {
     title: 'Add review',
     activeMenuItem: -1,

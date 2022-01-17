@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 import logger from 'morgan';
-import { SERVER_PORT, SERVER_ADDRESS } from '../utils/utils.module';
+import { Environment, urlEncodedFormParser } from '../utils/utils.module';
 import { _router as indexRouter } from '../app-server/routes';
 import { restApiReady, restApiRouter } from '../app-api/app-api.module';
 
@@ -22,6 +22,9 @@ export function runAppServer() {
     // Create Express app instance
     const app = express();
 
+    // Configure the app instance
+    app.set('query parser', 'simple');
+
     // View setup
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'pug');
@@ -29,13 +32,16 @@ export function runAppServer() {
     app.use(logger('dev'));
     app.use(express.static(path.join(__dirname, '..', 'public')));
 
+    // Setup HTTP request parsers
+    app.use(urlEncodedFormParser);
+
     // Setup routers
     app.use('/', indexRouter);
     app.use('/api', restApiRouter);
 
     // Start the HTTP server
-    const httpServer = app.listen(SERVER_PORT, SERVER_ADDRESS, () => {
-      console.log(`Server is listening on ${SERVER_ADDRESS}:${SERVER_PORT}`);
+    const httpServer = app.listen(Environment.SERVER_PORT, Environment.SERVER_ADDRESS, () => {
+      console.log(`Server is listening on ${Environment.SERVER_ADDRESS}:${Environment.SERVER_PORT}`);
     });
 
     // Listen for errors

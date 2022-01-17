@@ -1,28 +1,22 @@
-import { _Location as Location, _LocationModel as LocationModel } from '../models/locations';
+import { _Location as Location, _LocationModel as LocationModel } from '../models/location.model';
 import mongoose from 'mongoose';
 
 /**
  * An array whose each element corresponds to a specific DB collection. For
  * each collection, it's mongoose model is provided along with an array of
  * documents to be inserted to the DB.
- *
- * @note In case additional collections need to be added, extend the type
- * of the testData array with additional element and provide the data to
- * be inserted (for example, Array<Location | User>).
  */
 export const _testData: Array<
   {
     model: mongoose.Model<Location>,
-    documents: Array<Location>
+    documents: Array<Partial<Record<keyof Location, unknown>>>
   }> = [
     {
       model: LocationModel,
       documents: [
         {
           name: 'Super Hero Burger',
-          rating: 4,
           address: 'Olav Tryggvasons Gate 1, Trondheim',
-          // @ts-ignore TS is complaining due to missing mongoose.Types.Array properties
           facilities: [
             'Burgers',
             'Beverages',
@@ -35,37 +29,35 @@ export const _testData: Array<
               63.433582313276275
             ]
           },
-          // @ts-ignore TS is complaining due to missing mongoose.Types.DocumentArray properties
           openingHours: [
             {
-              days: 'Monday - Wednesday',
-              opening: '11AM',
-              closing: '11PM',
+              dayRange: 'Monday - Wednesday',
+              opening: '11:00 a.m.',
+              closing: '11:00 p.m.',
               closed: false
             },
             {
-              days: 'Thursday - Saturday',
-              opening: '11AM',
-              closing: '3:30AM',
+              dayRange: 'Thursday - Saturday',
+              opening: '11:00 a.m.',
+              closing: '3:30 a.m.',
               closed: false
             },
             {
-              days: 'Sunday',
+              dayRange: 'Sunday',
               closed: true
             }
           ],
-          // @ts-ignore TS is complaining due to missing mongoose.Types.DocumentArray properties
           reviews: [
             {
               reviewer: 'John Doe',
               createdOn: new Date('2019-07-05'),
-              rating: 4,
+              rating: 5,
               text: 'A super nice place to grab something to eat and get some programming done!'
             },
             {
               reviewer: 'Mac Smith',
               createdOn: new Date('2020-12-02'),
-              rating: 4,
+              rating: 3,
               text: 'Very nice place to eat and chill but a bit too noisy to get work done IMHO.'
             },
             {
@@ -78,9 +70,7 @@ export const _testData: Array<
         },
         {
           name: 'Grano Trondheim',
-          rating: 3,
           address: 'Søndre Gate 25, Trondheim',
-          // @ts-ignore TS is complaining due to missing mongoose.Types.Array properties
           facilities: [
             'Pizza',
             'Beverages',
@@ -93,22 +83,20 @@ export const _testData: Array<
               63.43423107645711
             ]
           },
-          // @ts-ignore TS is complaining due to missing mongoose.Types.DocumentArray properties
           openingHours: [
             {
-              days: 'Monday - Saturday',
-              opening: '11AM',
-              closing: '10PM',
+              dayRange: 'Monday - Saturday',
+              opening: '11:00 a.m.',
+              closing: '10:00 p.m.',
               closed: false
             },
             {
-              days: 'Sunday',
-              opening: '1PM',
-              closing: '10PM',
+              dayRange: 'Sunday',
+              opening: '1:00 p.m.',
+              closing: '10:00 p.m.',
               closed: false
             }
           ],
-          // @ts-ignore TS is complaining due to missing mongoose.Types.DocumentArray properties
           reviews: [
             {
               reviewer: 'Paul Webster',
@@ -119,7 +107,7 @@ export const _testData: Array<
             {
               reviewer: 'Belma McNeal',
               createdOn: new Date('2019-01-09'),
-              rating: 2,
+              rating: 3,
               text: 'Excellent Italian pizza! The best pizza in Trondheim for sure. The menu has been refreshed. The tiramisu and the panna cotta were great! Recommended!'
             },
             {
@@ -138,9 +126,7 @@ export const _testData: Array<
         },
         {
           name: 'Frati restaurant',
-          rating: 4,
           address: 'Kongens gate 20, 7011 Trondheim',
-          // @ts-ignore TS is complaining due to missing mongoose.Types.Array properties
           facilities: [
             'Various Food',
             'Plenty Beverages',
@@ -154,31 +140,29 @@ export const _testData: Array<
               63.43090466799468
             ]
           },
-          // @ts-ignore TS is complaining due to missing mongoose.Types.DocumentArray properties
           openingHours: [
             {
-              days: 'Monday - Thursday',
-              opening: '11AM',
-              closing: '10PM',
+              dayRange: 'Monday - Thursday',
+              opening: '11:00 a.m.',
+              closing: '10:00 p.m.',
               closed: false
             },
             {
-              days: 'Friday - Saturday',
-              opening: '11AM',
-              closing: '12PM',
+              dayRange: 'Friday - Saturday',
+              opening: '11:00 a.m.',
+              closing: '12:00 a.m.',
               closed: false
             },
             {
-              days: 'Sunday',
+              dayRange: 'Sunday',
               closed: true
             }
           ],
-          // @ts-ignore TS is complaining due to missing mongoose.Types.DocumentArray properties
           reviews: [
             {
               reviewer: 'Mike Taylor',
               createdOn: new Date('2021-05-19'),
-              rating: 4,
+              rating: 5,
               text: 'Super good experience at Frati. Charming staff, good food and superb atmosphere. They craft øx beer in the “basement”. Enjoy a good time and don’t miss it if you’re visiting Trondheim!'
             },
             {

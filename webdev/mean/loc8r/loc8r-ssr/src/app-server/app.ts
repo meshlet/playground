@@ -1,4 +1,4 @@
-import { runAppServer } from './app-server/app-server.module';
+import { runAppServer } from './app-server.module';
 
 /**
  * @file Kick-starts the APP server.

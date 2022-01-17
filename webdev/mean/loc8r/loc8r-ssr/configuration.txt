@@ -1,0 +1,61 @@
+1. Environment configuration file
+
+Environment configuration is a JSON file that describes properties of each
+available environment variable. This file is called .env.config (located in
+env-configs at project's root) and the structure is as follows:
+
+{
+  "SERVER_PORT": {
+    required: false,
+    "type": "integer"
+  }
+}
+
+Each top-level property of the JSON object defines a single environment variable.
+In turn, each environment variable is described by following properties:
+
+- defaultValue: the value to use in case that environment variable is not
+  defined or is defined but has no value (e.g. ENV_VAR=).
+
+  Leaving the defaultValue property out is an indication that value must
+  be defined in the relevant .env file. Otherwise, app exits with an error.
+
+- type: the environment variable's type. The provided string (taken from
+  ENV_VAR=VALUE) will be cast to the specified type. Allowed types are
+  "string", "integer" and "boolean". App exits with an error if type check
+  fails.
+
+  This property must be provided for each environment variable.
+
+Besides the top-level env-configs/.env.config file, other environment configuration
+files can exist in the project. This is because different sets of
+variables might be needed in different context, so we don't want to
+force defining all variables for all context (e.g. GOOGLE_MAPS_API_KEY
+value is not needed when running a script that populates DB with data).
+Note, however, that each .env.config file in the project is independent
+from all the other config files. All necessary environment variables
+need to be configured in the file used in the given context.
+
+2. Example environment file
+
+The .env.example file contains all available variables with their most
+common values. The main purpose of this file is to give an overview
+of all the variables and their common values and to give developers starting
+point when setting up the .env file.
+
+3. Environment file
+
+The .env file is the runtime file that gets parsed to obtain the environment
+variables. The read values are compared against the environment configuration
+file (i.e. .env.config) to make sure that all mandatory variables are provided
+(those without default values) and values have correct type. The main .env file
+must reside at project's root.
+
+Besides the top-level .env file, the project can have other .env files to be
+used in different context. The reasoning is the same to that of allowing
+multiple .env.config files. Different contexts might need different set
+of variables, hence each context can have it's own .env.config / .env pair.
+Note that one can avoid creating an .env file, if the defaults in the .env.config
+don't need to be overriden. However, this is not an option if .env.config
+has variables without defaults or if you need to override values for some
+variables.
