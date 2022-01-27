@@ -211,9 +211,7 @@ class Environment {
     for (const envVarName of envVarNames) {
       const envConfigEntry = envConfig[envVarName];
       if (envConfigEntry == null) {
-        if (process.env.SILENCE_ENV_PARSER_MSGS !== 'true') {
-          console.log(`Ignoring ${envVarName} environment variable which is missing from the environment config.`);
-        }
+        // Ignore environment variable that is missing from the environment config
         continue;
       }
 

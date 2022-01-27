@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Environment } from '../../utils/utils.module';
+import { Environment } from '../../common/common.module';
 
 /**
  * Contains controllers for the views in the locations group: home page

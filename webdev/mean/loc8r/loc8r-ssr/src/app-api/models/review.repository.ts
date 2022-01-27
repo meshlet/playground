@@ -1,8 +1,8 @@
 import { HydratedDocument, isValidObjectId } from 'mongoose';
-import { _LocationModel as LocationModel, _Review as Review } from './location.model';
+import { _LocationModel as LocationModel, _Review as Review } from './models';
 import { _processDatabaseOperation as processDbOperation } from './db-utils';
-import { Exact } from '../../utils/utils.module';
-import createError from 'http-errors';
+import { Exact } from '../../common/common.module';
+import { _RestError as RestError } from '../misc/error';
 
 /**
  * @file Repository that controls access to review data.
@@ -18,8 +18,7 @@ import createError from 'http-errors';
  * itself should be included in the projection.
  *
  * @returns Returns a promise that resolves with an object containing the name
- * of the location and  the review object itself, or rejects with a HttpError
- * (from http-errors module).
+ * of the location and  the review object itself, or rejects with a RestError.
  */
 export function _getReviewById(locationId: string, reviewId: string)
 : Promise<{ locationName: string, review: Review }> {
@@ -29,10 +28,7 @@ export function _getReviewById(locationId: string, reviewId: string)
       // Check whether reviewid is a valid ObjectId. No need to check locationid
       // as that's handled by the findById method.
       if (!isValidObjectId(reviewId)) {
-        throw createError(
-          400,
-          'Failed to obtain the review due to a malformed client request.'
-        );
+        throw new RestError(400, 'Failed to obtain the review due to a malformed client request.');
       }
 
       // Fetch a projection of a location from the DB
@@ -42,7 +38,7 @@ export function _getReviewById(locationId: string, reviewId: string)
         .exec();
 
       if (location == null) {
-        throw createError(
+        throw new RestError(
           404,
           'Failed to obtain the review because a venue with the provided identifier doesn\'t exist.');
       }
@@ -50,9 +46,7 @@ export function _getReviewById(locationId: string, reviewId: string)
       // Find the review
       const review = location.reviews.id(reviewId);
       if (review == null) {
-        throw createError(
-          404,
-          'A review with the provided identifier doesn\'t exist.');
+        throw new RestError(404, 'A review with the provided identifier doesn\'t exist.');
       }
       return {
         locationName: location.name,
@@ -78,8 +72,7 @@ export interface _ReviewExternal {
  * Creates a new review for the given location.
  *
  * @returns Returns a promise that resolves with the Review object if the new review
- * has been successfully created, or rejects with a HttpError (from http-errors
- * module) or mongoose.Error.ValidationError.
+ * has been successfully created, or rejects with a RestError.
  */
 export function _createNewReview<T>(locationId: string, changes: Exact<T, _ReviewExternal>)
 : Promise<Review> {
@@ -93,7 +86,7 @@ export function _createNewReview<T>(locationId: string, changes: Exact<T, _Revie
         .exec();
 
       if (location == null) {
-        throw createError(
+        throw new RestError(
           404,
           'Failed to create a new review because a venue with provided identifier doesn\'t exist.');
       }
@@ -110,8 +103,7 @@ export function _createNewReview<T>(locationId: string, changes: Exact<T, _Revie
  * Attempts to update an existing review.
  *
  * @returns Returns a promise that resolves with the Review object if the new review
- * has been successfully created, or rejects with a HttpError (from http-errors
- * module) or mongoose.Error.ValidationError.
+ * has been successfully created, or rejects with a RestError.
  */
 export function _updateReview<T>(locationId: string, reviewId: string, changes: Exact<T, _ReviewExternal>)
 : Promise<Review> {
@@ -121,10 +113,7 @@ export function _updateReview<T>(locationId: string, reviewId: string, changes: 
       // Check whether reviewid is a valid ObjectId. No need to check locationid
       // as that's handled by the findById method.
       if (!isValidObjectId(reviewId)) {
-        throw createError(
-          400,
-          'Failed to obtain the review due to a malformed client request.'
-        );
+        throw new RestError(400, 'Failed to obtain the review due to a malformed client request.');
       }
 
       // Fetch a projection of a location from the DB
@@ -134,7 +123,7 @@ export function _updateReview<T>(locationId: string, reviewId: string, changes: 
         .exec();
 
       if (location == null) {
-        throw createError(
+        throw new RestError(
           404,
           'Failed to update the review because a venue with provided identifier doesn\'t exist.');
       }
@@ -144,9 +133,7 @@ export function _updateReview<T>(locationId: string, reviewId: string, changes: 
       // to obtain the document isn't lean.
       const review = location.reviews.id(reviewId) as HydratedDocument<Review>;
       if (!review) {
-        throw createError(
-          404,
-          'A review with the provided identifier doesn\'t exist.');
+        throw new RestError(404, 'A review with the provided identifier doesn\'t exist.');
       }
 
       // Write the changes to the review document
@@ -162,7 +149,7 @@ export function _updateReview<T>(locationId: string, reviewId: string, changes: 
  *
  * @returns A promise that is resolved with true to indicate that review has been
  * deleted, false to indicate that location or view couldn't be found or rejects with
- * HttpError (from http-errors module)
+ * RestError.
  */
 export function _deleteReview(locationId: string, reviewId: string): Promise<boolean> {
   return processDbOperation(
@@ -171,10 +158,7 @@ export function _deleteReview(locationId: string, reviewId: string): Promise<boo
       // Check whether reviewid is a valid ObjectId. No need to check locationid
       // as that's handled by the findById method.
       if (!isValidObjectId(reviewId)) {
-        throw createError(
-          400,
-          'Failed to obtain the review due to a malformed client request.'
-        );
+        throw new RestError(400, 'Failed to obtain the review due to a malformed client request.');
       }
 
       // Fetch a projection of a location from the DB

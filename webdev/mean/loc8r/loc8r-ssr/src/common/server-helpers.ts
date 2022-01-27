@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express-serve-static-core';
 import { _convertStrToInt as convertStrToInt } from './helpers';
 
 /**
@@ -10,7 +10,7 @@ import { _convertStrToInt as convertStrToInt } from './helpers';
  *
  * For example, 6:30 p.m. or 11:00 a.m.
  *
- * TODO: implement with regex
+ * @todo Implement with regex.
  */
 export function _isValid12HourClock(value: string): boolean {
   let tmp = value.split(':');
@@ -46,9 +46,9 @@ export function _isValid12HourClock(value: string): boolean {
  * regardless of whether it performs a synchronous or an asynchronous
  * action (returns a Promise).
  */
-export function _wrapExpressCallback(callback: (req: Request, res: Response) => Promise<unknown> | unknown)
-: (req: Request, res: Response, next: NextFunction) => void {
-  return function(req: Request, res: Response, next: NextFunction) {
+export function _wrapExpressCallback<RespT>(callback: (req: Request, res: Response<RespT>) => Promise<unknown> | unknown)
+: (req: Request, res: Response<RespT>, next: NextFunction) => void {
+  return function(req: Request, res: Response<RespT>, next: NextFunction) {
     // Wrap the callback invocation with try/catch as it may throw an error
     // synchronously.
     try {

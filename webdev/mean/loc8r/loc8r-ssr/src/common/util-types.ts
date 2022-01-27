@@ -11,3 +11,8 @@
  * have never causing compilation error.
  */
 export type _Exact<T1, T2> = T1 extends T2 ? T2 extends T1 ? T1 : never : never;
+
+/**
+ * A type for an empty object, i.e. object with no properties.
+ */
+export type _EmptyObject = Record<string, never>;

@@ -1,7 +1,7 @@
-import { _LocationModel as LocationModel, _Location as Location } from './location.model';
+import { _LocationModel as LocationModel, _Location as Location } from './models';
 import { _processDatabaseOperation as processDbOperation } from './db-utils';
-import { Exact } from '../../utils/utils.module';
-import createError from 'http-errors';
+import { Exact } from '../../common/common.module';
+import { _RestError as RestError } from '../misc/error';
 
 /**
  * @file Repository that controls access to location data.
@@ -24,7 +24,7 @@ import createError from 'http-errors';
  * projection.
  *
  * @returns Returns a promise that resolves with an array of locations, empty
- * array (if none are found) or rejects with a HttpError (from http-errors module).
+ * array (if none are found) or rejects with a RestError.
  */
 export function _getLocationsByDistance(longitude: number,
                                         latitude: number,
@@ -36,10 +36,10 @@ export function _getLocationsByDistance(longitude: number,
     () => {
       // Validate the parameters
       if (isNaN(longitude) || longitude < -180 || longitude > 180) {
-        throw createError(400, 'The longitude must be a number between -180 and 180.');
+        throw new RestError(400, 'The longitude must be a number between -180 and 180.');
       }
       if (isNaN(latitude) || latitude < -90 || latitude > 90) {
-        throw createError(400, 'The latitude must be a number between -90 and 90.');
+        throw new RestError(400, 'The latitude must be a number between -90 and 90.');
       }
 
       if (maxDistance == null) {
@@ -47,10 +47,10 @@ export function _getLocationsByDistance(longitude: number,
         maxDistance = 3000;
       }
       else if (isNaN(maxDistance) || maxDistance < 0) {
-        throw createError(400, 'The maximal distance from the user must be greater or equal to 0 meters.');
+        throw new RestError(400, 'The maximal distance from the user must be greater or equal to 0 meters.');
       }
       else if (!isFinite(maxDistance)) {
-        throw createError(400, 'The maximal distance from the user must be a finite number.');
+        throw new RestError(400, 'The maximal distance from the user must be a finite number.');
       }
 
       if (maxLocations == null) {
@@ -58,10 +58,10 @@ export function _getLocationsByDistance(longitude: number,
         maxLocations = 50;
       }
       else if (isNaN(maxLocations) || maxLocations <= 0) {
-        throw createError(400, 'The maximal number of venues to retrieve must be greater than zero.');
+        throw new RestError(400, 'The maximal number of venues to retrieve must be greater than zero.');
       }
       else if (!Number.isSafeInteger(maxLocations)) {
-        throw createError(400, `The maximal number of venues to retrieve must not be larger than ${Number.MAX_SAFE_INTEGER}`);
+        throw new RestError(400, `The maximal number of venues to retrieve must not be larger than ${Number.MAX_SAFE_INTEGER}`);
       }
 
       return LocationModel.aggregate<{ distance: { calculated: number }, [key: string]: unknown }>([
@@ -101,7 +101,7 @@ export function _getLocationsByDistance(longitude: number,
  * Location objects. This saves some VM engine cycles.
  *
  * @returns Returns a promise that resolves with a fetched location, or rejects
- * with a HttpError (from http-errors module).
+ * with a RestError.
  */
 export function _getLocationById(id: string): Promise<Location> {
   return processDbOperation(
@@ -113,9 +113,7 @@ export function _getLocationById(id: string): Promise<Location> {
         .exec();
 
       if (location == null) {
-        throw createError(
-          404,
-          'A venue with the provided identifier doesn\'t exist.');
+        throw new RestError(404, 'A venue with the provided identifier doesn\'t exist.');
       }
       return location;
     }
@@ -135,7 +133,7 @@ export interface _LocationExternal {
   name?: unknown
   address?: unknown
   facilities?: unknown
-  coordinates?: unknown
+  coords?: unknown
   openingHours?: unknown
 }
 
@@ -143,7 +141,7 @@ export interface _LocationExternal {
  * Attempts to create a new Location document and save it to the database.
  *
  * @returns Returns a promise that resolves with the created location or rejects
- * with a HttpError (from http-errors module) or mongoose.Error.ValidationError.
+ * with a RestError.
  */
 export function _createNewLocation<T>(location: Exact<T, _LocationExternal>)
 : Promise<Location> {
@@ -156,7 +154,7 @@ export function _createNewLocation<T>(location: Exact<T, _LocationExternal>)
         facilities: location.facilities,
         coords: {
           type: 'Point',
-          coordinates: LocationModel.coordsObjToCoordsArray(location.coordinates)
+          coordinates: LocationModel.coordsObjToCoordsArray(location.coords)
         },
         openingHours: location.openingHours
       }).save();
@@ -169,15 +167,14 @@ export function _createNewLocation<T>(location: Exact<T, _LocationExternal>)
  *
  * @note Location is first obtained from, modified and then saved back to the DB.
  * This is not efficient and is done due to mongoose's update validation
- * deficiencies. See TODO in location.model.ts for more info.
+ * deficiencies. See @todo in location.schema.ts for more info.
  *
  * @returns Returns a promise that resolves with the mongoose document that was
- * updated or rejects with a HttpError (from http-errors module) or
- * mongoose.Error.ValidationError.
+ * updated or rejects with a RestError.
  *
  * @todo Selected paths should be intersected with properties of the changes
  * object, so that only necessary paths are retrieved and not all updatable
- * paths.
+ * paths. This saves some BW on account of some additional processing.
  */
 export function _updateLocation<T>(id: string, changes: Exact<T, _LocationExternal>)
 : Promise<Location> {
@@ -192,17 +189,15 @@ export function _updateLocation<T>(id: string, changes: Exact<T, _LocationExtern
 
       if (location == null) {
         // Location not found. Throw 404 error.
-        throw createError(
-          404,
-          'A venue with provided identifier doesn\'t exist.');
+        throw new RestError(404, 'A venue with the provided identifier doesn\'t exist.');
       }
 
       // Apply changes to the location object
       location.set(changes);
 
-      // `changes` objects contains longitude/latitude as fields of its coordinates
+      // `changes` objects contains longitude/latitude as fields of its coords
       // property. Update the locations `coords` property based on these.
-      location.setCoordinates(changes.coordinates);
+      location.setCoordinates(changes.coords);
 
       // If an empty string or string with whitespaces only is received, treat
       // that as a request to remove all facilities
@@ -223,7 +218,7 @@ export function _updateLocation<T>(id: string, changes: Exact<T, _LocationExtern
  *
  * @returns A promise that is resolved with true to indicate that location has been
  * deleted, false to indicate that location couldn't be found or rejects with
- * a HttpError (from http-errors module).
+ * a RestError.
  */
 export function _deleteLocation(id: string): Promise<boolean> {
   return processDbOperation(

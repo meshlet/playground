@@ -12,7 +12,7 @@
     "nodemon": "ENV_CONFIG_PATH=env-configs/.env.config nodemon --delay 3 -r dotenv/config.js -w dist/ -w .env -e js",
     "build-start-watch": "npm run build && run-p nodemon watch",
     "clean": "rimraf dist/*",
-    "populate-db": "npm run build && ENV_CONFIG_PATH=env-configs/.db-setup.env.config SILENCE_ENV_PARSER_MSGS=true node dist/app-api/db-setup/populate-db.js",
+    "populate-db": "npm run build && ENV_CONFIG_PATH=env-configs/.db-setup.env.config node dist/app-api/db-setup/populate-db.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -34,6 +34,7 @@
     "express": "^4.17.1",
     "http-errors": "^2.0.0",
     "mongoose": "^6.1.0",
+    "mongoose-beautiful-unique-validation": "^7.1.1",
     "morgan": "^1.10.0",
     "pug": "^3.0.2"
   },

@@ -5,45 +5,16 @@
  * options.
  */
 import mongoose from 'mongoose';
-import { Environment } from '../../utils/utils.module';
-import { _LocationModel as LocationModel } from './location.model';
-
-/**
- * Set mongoose's global options.
- *
- * - satinizeFilter: prevents query injection attacks
- * - sanitizeProjection: prevents selecting arbitrary fields via select method
- * - castNonArrays: prevent mongoose from wrapping non-array value in an array before casting.
- */
-mongoose.set('sanitizeFilter', true);
-mongoose.set('sanitizeProjection', true);
-mongoose.Schema.Types.Array.options.castNonArrays = false;
-mongoose.Schema.Types.DocumentArray.options.castNonArrays = false;
-
-/**
- * Override some of mongoose's built-in casting functions.
- */
-const originalNumberCast = mongoose.Schema.Types.Number.cast();
-mongoose.Schema.Types.Number.cast((v: unknown) => {
-  if (typeof v === 'string' && v.length > 50) {
-    // We don't want to parse strings whose length is over 50 characters.
-    // Under no circumstances do we need numbers so large or small that
-    // 50 digits are needed to represent it.
-    return NaN;
-  }
-  // mongoose.Schema.Types.Number.cast has return type set to Function, hence
-  // eslint complains about `unsafe return of any`.
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return originalNumberCast(v);
-});
+import { Environment } from '../../common/common.module';
 
 // Default database URI
 const dbUri = `mongodb://${Environment.DB_ADDRESS}:${Environment.DB_PORT}/${Environment.DB_NAME}`;
 
-// The consumer can use this promise to wait for the following:
-// - outcome of opening the default mongoose connection to MongoDB
-// - outcome of compiling DB indexes for all the models used in the app
-export const _defaultDbReady = (async function() {
+/**
+ * The consumer can use this promise to wait for mongoose to open the
+ * default connection to MongoDB.
+ */
+export async function _openDefaultConnection() {
   try {
     // Establish connection to the database
     await mongoose.connect(dbUri);
@@ -51,18 +22,7 @@ export const _defaultDbReady = (async function() {
   catch (e) {
     throw new Error(`Mongoose couldn't connect to: ${dbUri}`);
   }
-
-  try {
-    // Wait for all mongoose models to become ready
-    // @note Append promises for other models below
-    await Promise.all([
-      LocationModel.init()
-    ]);
-  }
-  catch (e) {
-    throw new Error(`Failed to build DB indexes. ${e instanceof Error ? e.message : ''}`);
-  }
-})();
+}
 
 // Register event listeners for a few events we're interested in
 mongoose.connection

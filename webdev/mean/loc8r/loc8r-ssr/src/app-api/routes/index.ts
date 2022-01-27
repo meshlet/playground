@@ -1,9 +1,9 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { HttpError } from 'http-errors';
-import { Error } from 'mongoose';
+import { Router } from 'express';
+import { Request, Response, NextFunction } from 'express-serve-static-core';
 import * as locations from '../controllers/location.controller';
 import * as reviews from '../controllers/review.controller';
-import { wrapExpressCallback } from '../../utils/utils.module';
+import { wrapExpressCallback, RestResponseFailureI } from '../../common/common.module';
+import { _RestError as RestError } from '../misc/error';
 
 /**
  * @file Contains route definitions for the Loc8r REST API
@@ -42,25 +42,20 @@ _router.route('/locations/:locationid/reviews/:reviewid')
  * Register error-handling middleware that handles any errors reported
  * by routes/controllers.
  */
-_router.use((err: unknown, _: Request, res: Response, next: NextFunction) => {
+_router.use((err: unknown, _: Request, res: Response<RestResponseFailureI>, next: NextFunction) => {
   if (res.headersSent) {
     return next(err);
   }
 
-  const retObj: {
-    error: Error | string
-  } = {
-    error: 'Failed to process the request due to an internal server error.'
+  const resBody: RestResponseFailureI = {
+    success: false,
+    error: new RestError(500, 'Failed to process the request due to an internal server error.')
   };
 
   // Send error response
-  if (err instanceof Error.ValidationError) {
-    retObj.error = err;
-    res.status(400);
+  if (err instanceof RestError) {
+    resBody.error = err;
+    res.status(err.statusCode);
   }
-  else if (err instanceof HttpError) {
-    retObj.error = err.message;
-    res.status(err.status);
-  }
-  res.json(retObj);
+  res.json(resBody);
 });

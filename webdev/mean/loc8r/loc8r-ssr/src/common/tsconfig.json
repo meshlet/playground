@@ -1,7 +1,7 @@
 {
   "extends": "../tsconfig-base",
   "compilerOptions": {
-    "outDir": "../../dist/utils"
+    "outDir": "../../dist/common"
   },
   "include": [
     "./**/*.ts"

@@ -2,7 +2,7 @@
   "files": [],
   "include": [],
   "references": [
-    { "path": "./utils" },
+    { "path": "./common" },
     { "path": "./app-api" },
     { "path": "./app-server" }
   ]

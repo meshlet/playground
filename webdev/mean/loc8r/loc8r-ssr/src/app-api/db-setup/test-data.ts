@@ -1,4 +1,4 @@
-import { _Location as Location, _LocationModel as LocationModel } from '../models/location.model';
+import { _Location as Location, _LocationModel as LocationModel } from '../models/models';
 import mongoose from 'mongoose';
 
 /**

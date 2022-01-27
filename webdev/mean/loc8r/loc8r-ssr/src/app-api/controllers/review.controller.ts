@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
-import createError from 'http-errors';
+import { Request, Response } from 'express-serve-static-core';
 import * as reviewRepository from '../models/review.repository';
-import { isRecord } from '../../utils/utils.module';
+import { isRecord, RestResponseSuccessI } from '../../common/common.module';
+import { _RestError as RestError } from '../misc/error';
 
 /**
  * @file Contains controllers for the /locations/:locationid/reviews routes.
@@ -12,20 +12,19 @@ import { isRecord } from '../../utils/utils.module';
  *
  * Retrieves a specific review.
  */
-export async function _getReview(req: Request, res: Response) {
+export async function _getReview(req: Request, res: Response<RestResponseSuccessI>) {
   if (!req.params.locationid || !req.params.reviewid) {
     // It is a programming error to call this controller for a route without
     // the locationid or reviewid parameters
-    throw createError(
+    throw new RestError(
       500,
       'Failed to retrieve venue review due to an internal server error.');
   }
-
-  const result = await reviewRepository._getReviewById(req.params.locationid, req.params.reviewid);
   res
     .status(200)
     .json({
-      data: result
+      success: true,
+      data: await reviewRepository._getReviewById(req.params.locationid, req.params.reviewid)
     });
 }
 
@@ -39,16 +38,16 @@ export async function _getReview(req: Request, res: Response) {
  * rating: number,
  * text: string
  */
-export async function _createReview(req: Request, res: Response) {
+export async function _createReview(req: Request, res: Response<RestResponseSuccessI>) {
   if (!req.params.locationid) {
     // It is a programming error to call this controller for a route without
     // the locationid parameter
-    throw createError(
+    throw new RestError(
       500,
       'Failed to create a new venue review due to an internal server error.');
   }
   else if (!isRecord(req.body)) {
-    throw createError(
+    throw new RestError(
       400,
       'Failed to create a new venue review due to malformed data in request body.');
   }
@@ -60,11 +59,11 @@ export async function _createReview(req: Request, res: Response) {
       bodyObj[prop] = req.body[prop];
     }
   }
-  const review = await reviewRepository._createNewReview(req.params.locationid, bodyObj);
   res
     .status(201)
     .json({
-      data: review
+      success: true,
+      data: await reviewRepository._createNewReview(req.params.locationid, bodyObj)
     });
 }
 
@@ -77,16 +76,16 @@ export async function _createReview(req: Request, res: Response) {
  * rating: number,
  * text: string
  */
-export async function _updateReview(req: Request, res: Response) {
+export async function _updateReview(req: Request, res: Response<RestResponseSuccessI>) {
   if (!req.params.locationid || !req.params.reviewid) {
     // It is a programming error to call this controller for a route without
     // the locationid or reviewid parameters
-    throw createError(
+    throw new RestError(
       500,
       'Failed to update venue review due to an internal server error.');
   }
   else if (!isRecord(req.body)) {
-    throw createError(
+    throw new RestError(
       400,
       'Failed to update venue review due to malformed data in request body.');
   }
@@ -98,15 +97,14 @@ export async function _updateReview(req: Request, res: Response) {
       bodyObj[prop] = req.body[prop];
     }
   }
-  const review = await reviewRepository._updateReview(
-    req.params.locationid,
-    req.params.reviewid,
-    bodyObj
-  );
   res
     .status(200)
     .json({
-      data: review
+      success: true,
+      data: await reviewRepository._updateReview(
+        req.params.locationid,
+        req.params.reviewid,
+        bodyObj)
     });
 }
 
@@ -115,17 +113,17 @@ export async function _updateReview(req: Request, res: Response) {
  *
  * Deletes a review.
  */
-export async function _deleteReview(req: Request, res: Response) {
+export async function _deleteReview(req: Request, res: Response<null>) {
   if (!req.params.locationid || !req.params.reviewid) {
     // It is a programming error to call this controller for a route without
     // the locationid or reviewid parameters
-    throw createError(
+    throw new RestError(
       500,
       'Failed to delete the venue review due to an internal server error.');
   }
 
   if (!(await reviewRepository._deleteReview(req.params.locationid, req.params.reviewid))) {
-    throw createError(404, 'A venue review with provided identifier doesn\'t exist.');
+    throw new RestError(404, 'A venue review with provided identifier doesn\'t exist.');
   }
 
   res

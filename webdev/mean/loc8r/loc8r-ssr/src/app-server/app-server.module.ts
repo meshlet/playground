@@ -1,9 +1,9 @@
 import express from 'express';
 import path from 'path';
 import logger from 'morgan';
-import { Environment, urlEncodedFormParser } from '../utils/utils.module';
-import { _router as indexRouter } from '../app-server/routes';
-import { restApiReady, restApiRouter } from '../app-api/app-api.module';
+import { Environment, urlEncodedFormParser, jsonParser } from '../common/common.module';
+import { _router as indexRouter } from './routes';
+import { initRestApi, restApiRouter } from '../app-api/app-api.module';
 
 /**
  * @file Defines the public API for the app-server module.
@@ -16,8 +16,8 @@ export function runAppServer() {
   // Wrap the code in async immediate function so that we can await for
   // promises.
   (async function() {
-    // Wait for the REST API
-    await restApiReady;
+    // Wait for the REST API to initialize
+    await initRestApi();
 
     // Create Express app instance
     const app = express();
@@ -34,6 +34,7 @@ export function runAppServer() {
 
     // Setup HTTP request parsers
     app.use(urlEncodedFormParser);
+    app.use(jsonParser);
 
     // Setup routers
     app.use('/', indexRouter);

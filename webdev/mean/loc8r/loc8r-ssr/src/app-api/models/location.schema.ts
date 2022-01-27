@@ -1,28 +1,31 @@
-import mongoose, { CallbackError, HydratedDocument, Query } from 'mongoose';
-import { isValid12HourClock, isRecord, Environment } from '../../utils/utils.module';
+import mongoose, { CallbackError, HydratedDocument } from 'mongoose';
+import { isValid12HourClock, isRecord, Environment } from '../../common/common.module';
+import { _configureToJsonMethodPlugin as configureToJsonMethodPlugin } from '../misc/mongoose-plugins';
 
-// TODO: Due to deficiencies with mongoose update validators, update operations
-//  are currently not used and changes are made by first fetching document from
-//  the DB and saving the changes. Possible solutions:
-//  - Implement the JSON schema validation in the MongoDB itself and parse the
-//    errors in the application. Mongoose validation can be kept for insert
-//    operations to save unnecessary trip to the DB. In this case, MongoDB
-//    validation can be disabled (for inserts operations only) using the
-//    per operation bypassDocumentValidation option.
-//
-//    Implement the MongoDB validation error parser that turns MongoDB validation
-//    errors into user-friendly messages. Custom error messages for schema paths
-//    can be provided in the app.
-//
-// - Extend mongoose update validation with a plugin. This plugin would fetch
-//   the paths to be validated from the DB server (if validation runs on the
-//   model level i.e. we don't have access to the document) so it can perform
-//   full validation on those fields (this would also mean full support for
-//   MongoDB update operators such as $inc, $push, $pull etc.). Additionally,
-//   Extend schema definition with a dependencies field where one can provide
-//   which paths the given path depends on for validation. These paths are
-//   also fetched from the server when update validation is done, so that
-//   validators can use values of other paths too.
+/**
+ * @todo Due to deficiencies with mongoose update validators, update operations
+ * are currently not used and changes are made by first fetching document from
+ * the DB and saving the changes. Possible solutions:
+ *  - Implement the JSON schema validation in the MongoDB itself and parse the
+ *    errors in the application. Mongoose validation can be kept for insert
+ *    operations to save unnecessary trip to the DB. In this case, MongoDB
+ *    validation can be disabled (for inserts operations only) using the
+ *    per operation bypassDocumentValidation option.
+ *
+ *    Implement the MongoDB validation error parser that turns MongoDB validation
+ *    errors into user-friendly messages. Custom error messages for schema paths
+ *    can be provided in the app.
+ *
+ * - Extend mongoose update validation with a plugin. This plugin would fetch
+ *   the paths to be validated from the DB server (if validation runs on the
+ *   model level i.e. we don't have access to the document) so it can perform
+ *   full validation on those fields (this would also mean full support for
+ *   MongoDB update operators such as $inc, $push, $pull etc.). Additionally,
+ *   Extend schema definition with a dependencies field where one can provide
+ *   which paths the given path depends on for validation. These paths are
+ *   also fetched from the server when update validation is done, so that
+ *   validators can use values of other paths too.
+ */
 
 /**
  * Typescript interface describing opening hours type.
@@ -41,8 +44,8 @@ export interface _OpeningHours {
 /**
  * Opening hours mongoose schema.
  *
- * TODO: implement opening/closing hour as a `number of minutes since midnight`.
- * TODO: implement opening/closing in such a way that each day is specified separately
+ * @todo Implement opening/closing hour as a `number of minutes since midnight`.
+ * @todo Implement opening/closing in such a way that each day is specified separately.
  */
 const openingHoursSchema = new mongoose.Schema<_OpeningHours, mongoose.Model<_OpeningHours>>({
   dayRange: {
@@ -52,7 +55,7 @@ const openingHoursSchema = new mongoose.Schema<_OpeningHours, mongoose.Model<_Op
       validator: function(value: string): boolean {
         const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-        // TODO: use regex for this
+        /** @todo use regex for this */
         // The field must be provided in one of the following formats:
         // Day1 - Day2 where Day1 != Day2 or
         // Day
@@ -76,7 +79,7 @@ const openingHoursSchema = new mongoose.Schema<_OpeningHours, mongoose.Model<_Op
       },
       message: function(props: { value: string }) {
         console.log(`${props.value} is not a valid day range.`);
-        return 'Day range must be provided in \'Monday - Friday\' format or as a single day \'Friday\'.';
+        return 'Day range must be provided as a day range (e.g. \'Monday - Friday\') or as a single day (e.g.\'Friday\').';
       }
     }
   },
@@ -281,7 +284,7 @@ interface LocationModelMethods {
  *
  * @note Methods defined on this interface are LocationModel statics.
  */
-interface LocationModelInterface extends mongoose.Model<_Location, unknown, LocationModelMethods> {
+export interface _LocationModelInterface extends mongoose.Model<_Location, unknown, LocationModelMethods> {
   coordsObjToCoordsArray(obj: unknown): Array<unknown>;
 }
 
@@ -289,7 +292,7 @@ interface LocationModelInterface extends mongoose.Model<_Location, unknown, Loca
  * Location schema defines structure and validation rules for a single
  * location.
  */
-const locationSchema = new mongoose.Schema<_Location, LocationModelInterface>({
+export const _locationSchema = new mongoose.Schema<_Location, _LocationModelInterface>({
   name: {
     type: String,
     required: [true, 'Venue name must be provided.'],
@@ -312,7 +315,8 @@ const locationSchema = new mongoose.Schema<_Location, LocationModelInterface>({
     required: [true, 'Venue coordinates must be provided.'],
     // Create a 2dsphere index on the coords in order to speed-up geo-spatial
     // queries on this path.
-    index: '2dsphere'
+    index: '2dsphere',
+    reportErrOnTopLevelPath: true
   },
   openingHours: {
     type: [openingHoursSchema],
@@ -328,42 +332,11 @@ const locationSchema = new mongoose.Schema<_Location, LocationModelInterface>({
 });
 
 /**
- * A function that prepares the document for JSON serialization. This must
- * be done both for hydrated and lean documents. Hydrated documens are
- * handled by the transform function called by toJSON method and lean
- * documents are handled by a post find hook.
- *
- * @note This function must be invoked as an instance method, which means it
- * must either be assigned to an object before it is called or it must be
- * called via apply/call providing `this` argument.
- *
- */
-function transformLocation(this: Partial<_Location>)
-: Record<string, unknown> {
-  const props: Array<keyof _Location> = [
-    '_id', 'name', 'address', 'rating', 'facilities', 'coords', 'openingHours', 'reviews'
-  ];
-  const retObj: Record<string, unknown> = {};
-  for (const prop of props) {
-    if (prop === 'coords' && this.coords != null) {
-      retObj.coordinates = {
-        longitude: this.coords.coordinates[0],
-        latitude: this.coords.coordinates[1]
-      };
-    }
-    else if (this[prop]) {
-      retObj[prop] = this[prop];
-    }
-  }
-  return retObj;
-}
-
-/**
  * Define a static used to convert coordinates in object form (i.e.
  * `{` longitude, latitude `}`) into an array whose first element
  * is longitude and second is latitude.
  */
-locationSchema.static(
+_locationSchema.static(
   'coordsObjToCoordsArray',
   function(value: unknown): Array<unknown> {
     const retValue = [];
@@ -386,8 +359,14 @@ locationSchema.static(
  * Type checks / casting isn't done intentionaly. It is expected that
  * document will be saved after these changes at which point casting
  * will happen.
+ *
+ * @todo This method should probably throw an error if value is not
+ * a record. The current implementation won't report an error at
+ * all if a non-object is sent by the client as coords, and server
+ * might send 200 OK response even though coordinates weren't
+ * actually updated.
  */
-locationSchema.method(
+_locationSchema.method(
   'setCoordinates',
   function(this: HydratedDocument<_Location>, value: unknown) {
     if (isRecord(value)) {
@@ -400,19 +379,13 @@ locationSchema.method(
     }
   });
 
-// Configure location schema's toJSON method
-locationSchema.set('toJSON', {
-  versionKey: false,
-  transform: (doc: HydratedDocument<_Location>): Record<string, unknown> => {
-    return transformLocation.apply(doc);
-  }
-});
-
-// TODO: implement rating field as a mongoose virtual using mongoose-lean-virtuals
-// to include the field in lean objects. This will get rid of the need to compute
-// rating from the reviews at every save as well as remove the need to prevent
-// manual rating update.
-locationSchema.pre('save', function(this: mongoose.HydratedDocument<_Location>, next: (err?: CallbackError) => void) {
+/**
+ * @todo Implement rating field as a mongoose virtual using mongoose-lean-virtuals
+ * to include the field in lean objects. This will get rid of the need to compute
+ * rating from the reviews at every save as well as remove the need to prevent
+ * manual rating update.
+ */
+_locationSchema.pre('save', function(this: mongoose.HydratedDocument<_Location>, next: (err?: CallbackError) => void) {
   if (this.rating) {
     // Rating value is calculated and can't be updated manually
     delete this.rating;
@@ -431,34 +404,27 @@ locationSchema.pre('save', function(this: mongoose.HydratedDocument<_Location>, 
 });
 
 /**
- * Post find hook that attaches toJSON function to lean documents. This
- * is to make sure that both hydrated and lean documents are serialized
- * in the same way (the same transform function is used to serialize
- * hydrated docs). As findOneByIdAnd* and findOneAnd* methods are not used,
- * we don't register middleware for these.
+ * Setup a custom toJSON method for both hydrated and lean documents
+ * using configureToJsonMethodPlugin plugin.
  */
-locationSchema.post(['find', 'findOne'], function(
-  this: Query<unknown, unknown>,
-  value: Record<string, unknown> | Array<Record<string, unknown>> | undefined)
-: void {
-  if (!this.mongooseOptions().lean) {
-    return;
-  }
-  else if (value == null) {
-    return;
-  }
-
-  if (Array.isArray(value)) {
-    value.forEach((doc: Record<string, unknown>): void => {
-      doc.toJSON = transformLocation;
-    });
-  }
-  else {
-    value.toJSON = transformLocation;
+_locationSchema.plugin(configureToJsonMethodPlugin, {
+  toJSON: function(this: Partial<_Location>)
+  : Record<string, unknown> {
+    const props: Array<keyof _Location> = [
+      '_id', 'name', 'address', 'rating', 'facilities', 'coords', 'openingHours', 'reviews'
+    ];
+    const retObj: Record<string, unknown> = {};
+    for (const prop of props) {
+      if (prop === 'coords' && this.coords != null) {
+        retObj.coords = {
+          longitude: this.coords.coordinates[0],
+          latitude: this.coords.coordinates[1]
+        };
+      }
+      else if (this[prop]) {
+        retObj[prop] = this[prop];
+      }
+    }
+    return retObj;
   }
 });
-
-/**
- * Compile the schema and export the model.
- */
-export const _LocationModel = mongoose.model<_Location, LocationModelInterface>('Location', locationSchema);

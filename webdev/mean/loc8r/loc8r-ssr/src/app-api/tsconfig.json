@@ -7,6 +7,6 @@
     "./**/*.ts"
   ],
   "references": [
-    { "path": "../utils" }
+    { "path": "../common" }
   ]
 }

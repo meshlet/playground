@@ -1,5 +1,4 @@
-import { Error } from 'mongoose';
-import createError, { HttpError } from 'http-errors';
+import { _RestError as RestError } from '../misc/error';
 
 /**
  * @file Helpers providing functionality useful in interaction
@@ -9,12 +8,11 @@ import createError, { HttpError } from 'http-errors';
 /**
  * Runs MongoDB query and processes any errors.
  *
- * Errors are re-thrown after they a processed and potentially re-mapped
- * to http-errors error with status code and user-friendly message.
+ * Any error that is not RestError is remapped to a RestError with
+ * 500 status code.
  *
  * @returns A promise that resolves with the value returned from the
- * invoked callback or rejects with mongoose.Error.ValidationError or
- * HttpError (from http-errors module).
+ * invoked callback or rejects with a RestError.
  */
 export async function _processDatabaseOperation<T extends unknown[], R>(
   errPrefix: string, fn: (...args: T) => Promise<R>, ...args: T): Promise<R> {
@@ -22,16 +20,13 @@ export async function _processDatabaseOperation<T extends unknown[], R>(
     return await fn(...args);
   }
   catch (e) {
-    if (e instanceof Error.ValidationError || e instanceof HttpError) {
-      // Re-throw. Caller must handle validation and HttpError errors.
+    if (e instanceof RestError) {
+      // Re-throw. This is a formatted error to be sent to the client.
       throw e;
-    }
-    else if (e instanceof Error.CastError) {
-      // Throw bad request HttpError instead with a user-friendly message
-      throw createError(400, `${errPrefix} due to a malformed client request.`);
     }
     // Otherwise, an unexpected DB server error has occurred. Report an internal
     // server error.
-    throw createError(500, `${errPrefix} due to an internal database server error.`);
+    // throw createError(500, `${errPrefix} due to an internal database server error.`);
+    throw new RestError(500, `${errPrefix} due to an internal database server error.`);
   }
 }

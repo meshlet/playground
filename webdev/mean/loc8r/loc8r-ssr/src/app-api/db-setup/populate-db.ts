@@ -1,12 +1,12 @@
 /**
  * Populates local MongoDB database with test data.
  */
-import { _defaultDbReady as defaultDbReady } from '../models/db';
+import { _openDefaultConnection as openDefaultConnection } from '../models/db';
 import { _testData as testData } from './test-data';
 
 (async function() {
   // Wait for DB
-  await defaultDbReady;
+  await openDefaultConnection();
 
   for (const data of testData) {
     // Remove any documents from the collection
