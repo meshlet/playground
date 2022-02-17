@@ -41,8 +41,8 @@ export function runAppServer() {
     app.use('/api', restApiRouter);
 
     // Start the HTTP server
-    const httpServer = app.listen(Environment.SERVER_PORT, Environment.SERVER_ADDRESS, () => {
-      console.log(`Server is listening on ${Environment.SERVER_ADDRESS}:${Environment.SERVER_PORT}`);
+    const httpServer = app.listen(Environment.APP_SERVER_PORT, Environment.APP_SERVER_ADDRESS, () => {
+      console.log(`Server is listening on ${Environment.APP_SERVER_ADDRESS}:${Environment.APP_SERVER_PORT}`);
     });
 
     // Listen for errors

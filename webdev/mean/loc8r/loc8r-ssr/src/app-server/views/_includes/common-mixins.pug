@@ -8,9 +8,49 @@
   @param class   A CSS class string to be applied to the star span.
 mixin outputRating(rating, cssClass='')
   - let i = 0;
+  - const ratingInt = Math.round(rating);
+    while i < ratingInt
+      span.solid-star(class=cssClass)
+      - i++;
+    
+    if rating > ratingInt
+      span.half-star(class=cssClass)
+      - i++;
+    
     while i < 5
-      if i < rating
-        span.solid-star(class=cssClass)
-      else
-        span.empty-star(class=cssClass)
-      - i++
+      span.empty-star(class=cssClass)
+      - i++;
+
+//-
+  Formats distance to the location into a user-friendly string.
+  
+  @param distance  Distance to the location in meters.
+  @outputs Formatted distance string.
+mixin formatDistance(distance)
+  - let distanceOut;
+  if distance > 1000
+    - distanceOut = `${(distance / 1000).toFixed(1)}km`;
+    //- span(class=cssClass) #{(distance / 1000).toFixed(1)}km
+  else
+    - distanceOut = `${Math.round(distance)}m`;
+    //- span(class=cssClass) #{Math.round(distance)}m
+  =distanceOut
+
+//-
+  Extracts the date from the ISO date string and formats it.
+  
+  @param isoDateStr  Date string in the ISO format.
+  @outputs Formatted date (time is not included).
+mixin formatDate(isoDateStr)
+  -
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+      'September', 'October', 'November', 'December'
+    ];
+    const date = new Date(isoDateStr);
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+    const output = `${day} ${months[monthIndex]} ${year}`;
+  
+  =output

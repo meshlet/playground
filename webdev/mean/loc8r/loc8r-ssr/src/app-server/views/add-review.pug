@@ -1,31 +1,75 @@
 extends layout
-block content
+append content
+  //-
+    @todo The logic of checking for validation errors, adding .is-valid and is-invalid
+    classes and adding .invalid-feedback div to the page should all be captured
+    in mixins as it'll be reused accross all pages with forms in them.
+  - const formHasErrors = error && error.validationErr;
+  - const validationErr = formHasErrors ? error.validationErr : undefined;
   .row.banner
     .col-12
-      span.page-heading Review #{pageHeader.title}
+      span.page-heading Review #{locationName}
   .row
     .col-12
-      form
+      form(
+        method='post',
+        enctype='application/x-www-form-urlencoded',
+        novalidate,
+        action=`/locations/${locationId}/newreview?name=${locationName}`)
         .form-row.mb-1
           .col-sm-2
             label.col-form-label(for='name') Name
           .col-sm-10
-            input#name.form-control(type='text', placeholder='Your name...')
+            -
+              const reviewerClass = {
+                'is-valid': formHasErrors && validationErr.reviewer == null,
+                'is-invalid': formHasErrors && validationErr.reviewer
+              };
+            input#name.form-control(
+              type='text'
+              name='reviewer'
+              placeholder='Your name...'
+              value=reviewer
+              class=reviewerClass)
+
+            if formHasErrors && validationErr.reviewer
+              .invalid-feedback #{validationErr.reviewer}
         .form-row.mb-1
           .col-sm-2
             label.col-form-label(for='rating') Rating
           .col-sm-10
-            select#rating.custom-select
-              option(selected='') 1
-              option 2
-              option 3
-              option 4
-              option 5
+            -
+              const ratingClass = {
+                'is-valid': formHasErrors && validationErr.rating == null,
+                'is-invalid': formHasErrors && validationErr.rating
+              };
+            select#rating.custom-select(name='rating', class=ratingClass)
+              option(selected=['2', '3', '4', '5'].indexOf(rating) === -1) 1
+              option(selected=rating === '2') 2
+              option(selected=rating === '3') 3
+              option(selected=rating === '4') 4
+              option(selected=rating === '5') 5
+            
+            if formHasErrors && validationErr.rating
+              .invalid-feedback #{validationErr.rating}
         .form-row.mb-2
           .col-sm-2
             label.col-form-label(for='review') Review
           div.col-sm-10
-            textarea#review.form-control(rows='4', placeholder='Your review goes here...')
+            -
+              const textClass = {
+                'is-valid': formHasErrors && validationErr.text == null,
+                'is-invalid': formHasErrors && validationErr.text
+              };
+            textarea#review.form-control(
+              rows='4'
+              name='text'
+              placeholder='Your review goes here...'
+              value=text
+              class=textClass)
+            
+            if formHasErrors && validationErr.text
+              .invalid-feedback #{validationErr.text}
         .form-row
           .col-12.text-right
-            button.btn-base(type='submit') Submit Review
+            input.btn-base(type='submit', value='Submit Review')

@@ -35,6 +35,7 @@ $navbar-font-size: 18px;
   @extend .py-0;
   background-color: $secondary-bgcolor;
   font-size: $navbar-font-size;
+  font-family: $bold-font-family;
 }
 
 /* Custom styling for the navbar-brand. */
@@ -156,12 +157,12 @@ $review-header-font-size: 90%;
  */
 .facility-badge {
   @extend .badge;
-  @extend .bg-warning;
+  background-color: hsl(45, 85%, 45%);
   padding-top: 2px;
   padding-bottom: 3px;
   margin-right: 2px;
   margin-top: 2px;
-  font-size: 85%;
+  font-size: 90%;
 }
 
 /* The style rules for the stars used to display location's rating */
@@ -174,6 +175,11 @@ $review-header-font-size: 90%;
   @extend .text-warning;
   @extend .fa-star;
   @extend .far;
+}
+.half-star {
+  @extend .text-warning;
+  @extend .fa-star-half-alt;
+  @extend .fas;
 }
 
 /**
@@ -194,4 +200,50 @@ $review-header-font-size: 90%;
   font-family: $headings-font-family;
   @extend .h3;
   @extend .text-white-50;
+}
+
+/** Custom styling for the alert close buttons. */
+.alert-dismissible .close {
+  font-size: 2.2rem;
+  padding: 0.3rem 0.7rem;
+  font-family: $bold-font-family;
+}
+
+/** Styling for an element containing validation errors within a form. */
+.invalid-feedback {
+  font-size: 100%;
+  margin-top: 0px;
+  color: $error-color;
+}
+
+/**
+ * Override Bootstrap's border styling for form elements with is-valid
+ * class.
+ */
+.form-control.is-valid,
+select.form-control.is-valid,
+textarea.form-control.is-valid,
+.custom-select.is-valid {
+  border-color: $primary-bgcolor;
+}
+.form-control.is-valid:focus, .custom-select.is-valid:focus {
+  border-color: $primary-bgcolor;
+}
+
+/**
+ * Override Bootstrap's border styling for form elements with is-invalid
+ * class.
+ */
+.form-control.is-invalid,
+select.form-control.is-invalid,
+textarea.form-control.is-invalid,
+.custom-select.is-invalid {
+  border-width: 4px;
+  border-color: $error-color;
+  border-style: none none none solid;
+}
+.form-control.is-invalid:focus, .custom-select.is-invalid:focus {
+  border-width: 4px;
+  border-color: $error-color;
+  border-style: none none none solid;
 }

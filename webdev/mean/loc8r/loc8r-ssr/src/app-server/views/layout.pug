@@ -21,6 +21,14 @@ html
     .container-lg.mt-2
       // Main content
       block content
+        .row
+          .col-12
+            if error
+              .alert.alert-danger.alert-dismissible.fade.show
+                span.bold Failure!&nbsp;
+                span #{error.message}
+                button.close(data-dismiss='alert', aria-label='close')
+                  span(aria-hidden='true') &times;
 
       // Footer
       footer.mt-3

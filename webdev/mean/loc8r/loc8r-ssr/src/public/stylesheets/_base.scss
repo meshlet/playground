@@ -4,11 +4,11 @@
 
 /* Load the fonts required by the web site. */
 @font-face {
-  font-family: "Dosis";
+  font-family: "Dosis Regular";
   src: url("../webfonts/Dosis-Regular.ttf") format("truetype");
 }
 @font-face {
-  font-family: "Dosis Regular";
+  font-family: "Dosis Bold";
   src: url("../webfonts/Dosis-Bold.ttf") format("truetype");
   font-weight: bold;
 }
@@ -34,6 +34,11 @@ $primary-font-size: 14px;
  */
 $heading-font-family: "Berkshire Swash", cursive;
 
+/**
+ * The bold font family used primarily by navbar items.
+ */
+$bold-font-family: "Dosis Bold", sans-serif;
+
 /* The background color of the body of the web site. */
 $primary-bgcolor: hsl(180, 60%, 35%);
 
@@ -43,9 +48,19 @@ $secondary-bgcolor: hsl(355, 78.4%, 45.5%);
 /* The text color used by the web site. */
 $primary-text-color: hsla(0, 50%, 100%, 80%);
 
+/* Color used by text and other elements on the site whose purpose is to communicate errors to the user. */
+$error-color: #8F2424;
+
 /* A font that is slightly bigger than than that of the parent. */
 .bigger {
   font-size: 110%;
+}
+
+/**
+ * A bold style.
+ */
+.bold {
+  font-family: $bold-font-family;
 }
 
 /* Set the primary background and text color, font family and size used by web site. */
