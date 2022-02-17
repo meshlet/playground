@@ -1,7 +1,14 @@
 import { Request, Response } from 'express-serve-static-core';
 import * as reviewRepository from '../models/review.repository';
-import { isRecord, RestResponseSuccessI } from '../../common/common.module';
-import { _RestError as RestError } from '../misc/error';
+import {
+  isRecord,
+  RestResponseSuccessGenericI,
+  GetOneReviewRspI,
+  CreateReviewRspI,
+  UpdateReviewRspI,
+  DeleteReviewRspI
+} from '../../common/common.module';
+import { _RestError as RestError } from '../misc/rest-error';
 
 /**
  * @file Contains controllers for the /locations/:locationid/reviews routes.
@@ -12,7 +19,8 @@ import { _RestError as RestError } from '../misc/error';
  *
  * Retrieves a specific review.
  */
-export async function _getReview(req: Request, res: Response<RestResponseSuccessI>) {
+export async function _getReview(req: Request,
+                                 res: Response<RestResponseSuccessGenericI<GetOneReviewRspI>>) {
   if (!req.params.locationid || !req.params.reviewid) {
     // It is a programming error to call this controller for a route without
     // the locationid or reviewid parameters
@@ -24,7 +32,7 @@ export async function _getReview(req: Request, res: Response<RestResponseSuccess
     .status(200)
     .json({
       success: true,
-      data: await reviewRepository._getReviewById(req.params.locationid, req.params.reviewid)
+      body: await reviewRepository._getReviewById(req.params.locationid, req.params.reviewid)
     });
 }
 
@@ -38,7 +46,8 @@ export async function _getReview(req: Request, res: Response<RestResponseSuccess
  * rating: number,
  * text: string
  */
-export async function _createReview(req: Request, res: Response<RestResponseSuccessI>) {
+export async function _createReview(req: Request,
+                                    res: Response<RestResponseSuccessGenericI<CreateReviewRspI>>) {
   if (!req.params.locationid) {
     // It is a programming error to call this controller for a route without
     // the locationid parameter
@@ -63,7 +72,7 @@ export async function _createReview(req: Request, res: Response<RestResponseSucc
     .status(201)
     .json({
       success: true,
-      data: await reviewRepository._createNewReview(req.params.locationid, bodyObj)
+      body: await reviewRepository._createNewReview(req.params.locationid, bodyObj)
     });
 }
 
@@ -76,7 +85,8 @@ export async function _createReview(req: Request, res: Response<RestResponseSucc
  * rating: number,
  * text: string
  */
-export async function _updateReview(req: Request, res: Response<RestResponseSuccessI>) {
+export async function _updateReview(req: Request,
+                                    res: Response<RestResponseSuccessGenericI<UpdateReviewRspI>>) {
   if (!req.params.locationid || !req.params.reviewid) {
     // It is a programming error to call this controller for a route without
     // the locationid or reviewid parameters
@@ -101,7 +111,7 @@ export async function _updateReview(req: Request, res: Response<RestResponseSucc
     .status(200)
     .json({
       success: true,
-      data: await reviewRepository._updateReview(
+      body: await reviewRepository._updateReview(
         req.params.locationid,
         req.params.reviewid,
         bodyObj)
@@ -113,7 +123,7 @@ export async function _updateReview(req: Request, res: Response<RestResponseSucc
  *
  * Deletes a review.
  */
-export async function _deleteReview(req: Request, res: Response<null>) {
+export async function _deleteReview(req: Request, res: Response<RestResponseSuccessGenericI<DeleteReviewRspI>>) {
   if (!req.params.locationid || !req.params.reviewid) {
     // It is a programming error to call this controller for a route without
     // the locationid or reviewid parameters
@@ -121,12 +131,10 @@ export async function _deleteReview(req: Request, res: Response<null>) {
       500,
       'Failed to delete the venue review due to an internal server error.');
   }
-
-  if (!(await reviewRepository._deleteReview(req.params.locationid, req.params.reviewid))) {
-    throw new RestError(404, 'A venue review with provided identifier doesn\'t exist.');
-  }
-
   res
     .status(204)
-    .json(null);
+    .json({
+      success: true,
+      body: await reviewRepository._deleteReview(req.params.locationid, req.params.reviewid)
+    });
 }

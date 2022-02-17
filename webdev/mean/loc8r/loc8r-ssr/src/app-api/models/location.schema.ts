@@ -1,6 +1,22 @@
 import mongoose, { CallbackError, HydratedDocument } from 'mongoose';
-import { isValid12HourClock, isRecord, Environment } from '../../common/common.module';
-import { _configureToJsonMethodPlugin as configureToJsonMethodPlugin } from '../misc/mongoose-plugins';
+import {
+  isValid12HourClock,
+  isRecord,
+  Environment,
+  SuccessRspUnionT,
+  SuccessRspTypeLiteralToType,
+  SuccessRspTypeLiteralsT,
+  ExtractArrayElemT,
+  LocationI,
+  ReviewI,
+  GetLocationsRspI
+} from '../../common/common.module';
+import {
+  _BaseModelI as BaseModelI,
+  _BaseMethodsI as BaseMethodsI,
+  _BaseQueryHelpersI as BaseQueryHelpersI
+} from './schema-base';
+import { _RestError as RestError } from '../misc/rest-error';
 
 /**
  * @todo Due to deficiencies with mongoose update validators, update operations
@@ -33,12 +49,12 @@ import { _configureToJsonMethodPlugin as configureToJsonMethodPlugin } from '../
  * @note If given location has different opening hours at different
  * days, an array of these would be created.
  */
-export interface _OpeningHours {
-  _id?: mongoose.Types.ObjectId,
-  dayRange: string,
-  opening?: string,
-  closing?: string,
-  closed: boolean
+export interface _OpeningHoursDocI {
+  _id: mongoose.Types.ObjectId;
+  dayRange: string;
+  opening?: string;
+  closing?: string;
+  closed: boolean;
 }
 
 /**
@@ -47,7 +63,7 @@ export interface _OpeningHours {
  * @todo Implement opening/closing hour as a `number of minutes since midnight`.
  * @todo Implement opening/closing in such a way that each day is specified separately.
  */
-const openingHoursSchema = new mongoose.Schema<_OpeningHours, mongoose.Model<_OpeningHours>>({
+const openingHoursSchema = new mongoose.Schema<_OpeningHoursDocI, mongoose.Model<_OpeningHoursDocI>>({
   dayRange: {
     type: String,
     required: [true, 'Day range must be specified.'],
@@ -86,7 +102,7 @@ const openingHoursSchema = new mongoose.Schema<_OpeningHours, mongoose.Model<_Op
   opening: {
     type: String,
     required: [
-      function(this: _OpeningHours) { return this.closed === false; },
+      function(this: _OpeningHoursDocI) { return this.closed === false; },
       'Opening hour must be specified if venue is not closed on a given day.'
     ],
     validate: {
@@ -105,7 +121,7 @@ const openingHoursSchema = new mongoose.Schema<_OpeningHours, mongoose.Model<_Op
   closing: {
     type: String,
     required: [
-      function(this: _OpeningHours) { return this.closed === false; },
+      function(this: _OpeningHoursDocI) { return this.closed === false; },
       'Closing hour must be specified if venue is not closed on a given day.'
     ],
     validate: {
@@ -130,19 +146,19 @@ const openingHoursSchema = new mongoose.Schema<_OpeningHours, mongoose.Model<_Op
 /**
  * Typescript interface describing a single review.
  */
-export interface _Review {
-  _id?: mongoose.Types.ObjectId,
-  reviewer: string,
-  createdOn?: Date,
-  rating: number,
-  text: string
+export interface _ReviewDocI {
+  _id: mongoose.Types.ObjectId;
+  reviewer: string;
+  createdOn?: Date;
+  rating: number;
+  text: string;
 }
 
 /**
  * Review mongoose schema.
  */
 const reviewerRegex = /^[a-zA-Z0-9]+[ a-zA-Z0-9]*$/;
-const reviewSchema = new mongoose.Schema<_Review, mongoose.Model<_Review>>({
+const reviewSchema = new mongoose.Schema<_ReviewDocI, mongoose.Model<_ReviewDocI>>({
   reviewer: {
     type: String,
     required: [true, 'Reviewer\'s name must be provided.'],
@@ -204,7 +220,7 @@ const reviewSchema = new mongoose.Schema<_Review, mongoose.Model<_Review>>({
  * this is implemented.
  */
 if (!Environment.ALLOW_MANUAL_UPDATE_OF_CREATED_ON_PATHS) {
-  reviewSchema.pre('save', function(this: mongoose.HydratedDocument<_Review>, next: (err?: CallbackError) => void) {
+  reviewSchema.pre('save', function(this: mongoose.HydratedDocument<_ReviewDocI>, next: (err?: CallbackError) => void) {
     if (this.isNew) {
       this.createdOn = new Date(Date.now());
     }
@@ -222,10 +238,10 @@ if (!Environment.ALLOW_MANUAL_UPDATE_OF_CREATED_ON_PATHS) {
 /**
  * Typescript interface describing a single GeoJSON point.
  */
-interface _GeoPoint {
-  _id?: mongoose.Types.ObjectId,
-  type: 'Point',
-  coordinates: [number, number]
+interface _GeoPointDocI {
+  _id: mongoose.Types.ObjectId;
+  type: 'Point';
+  coordinates: [number, number];
 }
 
 /**
@@ -234,7 +250,7 @@ interface _GeoPoint {
  * This defines the structure of a GeoJSON point. MongoDB supports geospatial
  * queries on GeoJSON objects with this structure.
  */
-const geoPointSchema = new mongoose.Schema<_GeoPoint, mongoose.Model<_GeoPoint>>({
+const geoPointSchema = new mongoose.Schema<_GeoPointDocI, mongoose.Model<_GeoPointDocI>>({
   type: {
     type: String,
     required: [true, 'Type property of GeoPoint schema must be set to Point'],
@@ -261,22 +277,25 @@ const geoPointSchema = new mongoose.Schema<_GeoPoint, mongoose.Model<_GeoPoint>>
 /**
  * Typescript interface describing a single location.
  */
-export interface _Location {
-  _id?: mongoose.Types.ObjectId,
-  name: string,
-  rating?: number,
-  address: string,
-  facilities: mongoose.Types.Array<string>,
-  coords: _GeoPoint,
-  openingHours: mongoose.Types.DocumentArray<_OpeningHours>,
-  reviews: mongoose.Types.DocumentArray<_Review>
+export interface _LocationDocI {
+  _id: mongoose.Types.ObjectId | string;
+  name: string;
+  rating?: number;
+  address: string;
+  facilities: mongoose.Types.Array<string>;
+  coords: _GeoPointDocI;
+  openingHours: mongoose.Types.DocumentArray<_OpeningHoursDocI>;
+  reviews: mongoose.Types.DocumentArray<_ReviewDocI>;
 }
+/** Assert that _LocationDocI union of keys is subset of keys in LocationI interface. */
+const _staticAssert: keyof _LocationDocI extends keyof LocationI ? true : never = true;
+void (_staticAssert);
 
 /**
  * Typescript interface that location model instance methods.
  */
-interface LocationModelMethods {
-  setCoordinates: (this: HydratedDocument<_Location>, value: unknown) => void;
+interface LocationMethodsI extends BaseMethodsI {
+  setCoordinates: (this: HydratedDocument<_LocationDocI>, value: unknown) => void;
 }
 
 /**
@@ -284,7 +303,18 @@ interface LocationModelMethods {
  *
  * @note Methods defined on this interface are LocationModel statics.
  */
-export interface _LocationModelInterface extends mongoose.Model<_Location, unknown, LocationModelMethods> {
+type ToObjectParamValueT =
+  (Partial<_LocationDocI> & { distance?: number }) |
+  Array<Partial<_LocationDocI> & { distance?: number }> |
+  (Partial<_ReviewDocI> & { locationName: _LocationDocI['name'] });
+
+export interface _LocationModelI extends BaseModelI<_LocationDocI, BaseQueryHelpersI, LocationMethodsI> {
+  /** More info in BaseModelI interface docs. */
+  toObject<SucessRspTypeLiteralT extends SuccessRspTypeLiteralsT>(
+    value: ToObjectParamValueT, desiredTypeStr: SucessRspTypeLiteralT)
+  : SuccessRspTypeLiteralToType<SucessRspTypeLiteralT>;
+
+  /** Converts { longitude, latitude } object into an array [longitude, latitude]. */
   coordsObjToCoordsArray(obj: unknown): Array<unknown>;
 }
 
@@ -292,7 +322,7 @@ export interface _LocationModelInterface extends mongoose.Model<_Location, unkno
  * Location schema defines structure and validation rules for a single
  * location.
  */
-export const _locationSchema = new mongoose.Schema<_Location, _LocationModelInterface>({
+export const _locationSchema = new mongoose.Schema<_LocationDocI, _LocationModelI>({
   name: {
     type: String,
     required: [true, 'Venue name must be provided.'],
@@ -322,7 +352,7 @@ export const _locationSchema = new mongoose.Schema<_Location, _LocationModelInte
     type: [openingHoursSchema],
     required: [true, 'Venue opening hours must be provided.'],
     validate: {
-      validator: function(value: Array<_OpeningHours>): boolean {
+      validator: function(value: Array<_OpeningHoursDocI>): boolean {
         return value.length > 0;
       },
       message: function() { return 'Venue opening hours must be provided.'; }
@@ -330,6 +360,154 @@ export const _locationSchema = new mongoose.Schema<_Location, _LocationModelInte
   },
   reviews: [reviewSchema]
 });
+
+/**
+ * Implement static toObject method that transforms document(s) (lean
+ * or hydrated) into an object to be sent to the client.
+ *
+ * More details in the brief for toObject static in schema-base.ts.
+ */
+_locationSchema.static(
+  'toObject',
+  function(
+    value: Array<ToObjectParamValueT> | ToObjectParamValueT,
+    desiredTypeStr: SuccessRspTypeLiteralsT)
+  : SuccessRspUnionT {
+    /** Map array of review documents into array of ReviewI objects. */
+    function transformReviews(reviews?: Array<_ReviewDocI>): Array<ReviewI> {
+      return reviews?.map<ReviewI>(review => {
+        return {
+          _id: review._id.toString(),
+          reviewer: review.reviewer,
+          createdOn: review.createdOn?.toISOString() || '',
+          rating: review.rating,
+          text: review.text
+        };
+      }) || [];
+    }
+    switch (desiredTypeStr) {
+      case 'GetLocations':
+      {
+        if (!Array.isArray(value)) {
+          break;
+        }
+        return {
+          type: desiredTypeStr,
+          locations: value.map<ExtractArrayElemT<GetLocationsRspI['locations']>>(doc => {
+            if ('name' in doc) {
+              return {
+                _id: doc._id?.toString() || '',
+                name: doc.name || '',
+                rating: doc.rating,
+                address: doc.address || '',
+                facilities: doc.facilities || [],
+                distance: doc.distance || -1
+              };
+            }
+            throw new RestError(500, 'Unexpected server error has occured.');
+          })
+        };
+      }
+      case 'GetOneLocation':
+      {
+        if (Array.isArray(value)) {
+          break;
+        }
+        if ('name' in value) {
+          return {
+            type: desiredTypeStr,
+            location: {
+              _id: value._id?.toString() || '',
+              name: value.name || '',
+              rating: value.rating,
+              address: value.address || '',
+              facilities: value.facilities || [],
+              coords: {
+                longitude: value.coords?.coordinates[0] || 0,
+                latitude: value.coords?.coordinates[1] || 0
+              },
+              openingHours: value.openingHours || [],
+              reviews: transformReviews(value.reviews)
+            }
+          };
+        }
+        break;
+      }
+      case 'CreateLocation':
+      case 'UpdateLocation':
+      {
+        if (Array.isArray(value)) {
+          break;
+        }
+        if ('name' in value) {
+          return {
+            type: desiredTypeStr,
+            location: {
+              _id: value._id?.toString() || '',
+              name: value.name || '',
+              rating: value.rating,
+              address: value.address || '',
+              facilities: value.facilities || [],
+              coords: {
+                longitude: value.coords?.coordinates[0] || 0,
+                latitude: value.coords?.coordinates[1] || 0
+              },
+              openingHours: value.openingHours || []
+            }
+          };
+        }
+        break;
+      }
+      case 'GetOneReview':
+      {
+        if ('locationName' in value) {
+          return {
+            type: desiredTypeStr,
+            locationName: value.locationName || '',
+            review: {
+              _id: value._id?.toString() || '',
+              reviewer: value.reviewer || '',
+              createdOn: value.createdOn?.toISOString() || '',
+              rating: value.rating || 0,
+              text: value.text || ''
+            }
+          };
+        }
+        break;
+      }
+      case 'CreateReview':
+      case 'UpdateReview':
+      {
+        if ('reviewer' in value) {
+          return {
+            type: desiredTypeStr,
+            review: {
+              _id: value._id?.toString() || '',
+              reviewer: value.reviewer || '',
+              createdOn: value.createdOn?.toISOString() || '',
+              rating: value.rating || 0,
+              text: value.text || ''
+            }
+          };
+        }
+        break;
+      }
+      case 'DeleteLocation':
+      case 'DeleteReview':
+      {
+        return {
+          type: desiredTypeStr
+        };
+      }
+      default:
+      {
+        const _exhaustiveCheck: never = desiredTypeStr;
+        void (_exhaustiveCheck);
+        break;
+      }
+    }
+    throw new RestError(500, 'Unexpected server error has occured.');
+  });
 
 /**
  * Define a static used to convert coordinates in object form (i.e.
@@ -368,7 +546,7 @@ _locationSchema.static(
  */
 _locationSchema.method(
   'setCoordinates',
-  function(this: HydratedDocument<_Location>, value: unknown) {
+  function(this: HydratedDocument<_LocationDocI>, value: unknown) {
     if (isRecord(value)) {
       if (value.longitude != null) {
         this.set('coords.coordinates.0', value.longitude);
@@ -385,7 +563,7 @@ _locationSchema.method(
  * rating from the reviews at every save as well as remove the need to prevent
  * manual rating update.
  */
-_locationSchema.pre('save', function(this: mongoose.HydratedDocument<_Location>, next: (err?: CallbackError) => void) {
+_locationSchema.pre('save', function(this: mongoose.HydratedDocument<_LocationDocI>, next: (err?: CallbackError) => void) {
   if (this.rating) {
     // Rating value is calculated and can't be updated manually
     delete this.rating;
@@ -401,30 +579,4 @@ _locationSchema.pre('save', function(this: mongoose.HydratedDocument<_Location>,
   }
 
   next();
-});
-
-/**
- * Setup a custom toJSON method for both hydrated and lean documents
- * using configureToJsonMethodPlugin plugin.
- */
-_locationSchema.plugin(configureToJsonMethodPlugin, {
-  toJSON: function(this: Partial<_Location>)
-  : Record<string, unknown> {
-    const props: Array<keyof _Location> = [
-      '_id', 'name', 'address', 'rating', 'facilities', 'coords', 'openingHours', 'reviews'
-    ];
-    const retObj: Record<string, unknown> = {};
-    for (const prop of props) {
-      if (prop === 'coords' && this.coords != null) {
-        retObj.coords = {
-          longitude: this.coords.coordinates[0],
-          latitude: this.coords.coordinates[1]
-        };
-      }
-      else if (this[prop]) {
-        retObj[prop] = this[prop];
-      }
-    }
-    return retObj;
-  }
 });

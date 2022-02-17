@@ -158,7 +158,7 @@ function parseEnvVar(envVarName: string, envVarValue: string, type: EnvConfigEnt
 
     default: {
       // In case EnvConfigEntryTypeNames union gets extended, this makes sure the
-      // compilation fails.
+      // compilation fails, because type will no longer be of type never.
       const _exhaustiveCheck: never = type;
       return _exhaustiveCheck;
     }
@@ -190,8 +190,10 @@ function parseEnvVar(envVarName: string, envVarValue: string, type: EnvConfigEnt
  * running in production.
  */
 class Environment {
-  public SERVER_ADDRESS = '';
-  public SERVER_PORT = -1;
+  public REST_SERVER_ADDRESS = '';
+  public REST_SERVER_PORT = -1;
+  public APP_SERVER_ADDRESS = '';
+  public APP_SERVER_PORT = -1;
   public DB_ADDRESS = '';
   public DB_PORT = -1;
   public DB_NAME = '';
@@ -200,8 +202,10 @@ class Environment {
 
   constructor(envConfig: EnvConfig) {
     const envVarNames = [
-      'SERVER_ADDRESS',
-      'SERVER_PORT',
+      'REST_SERVER_ADDRESS',
+      'REST_SERVER_PORT',
+      'APP_SERVER_ADDRESS',
+      'APP_SERVER_PORT',
       'DB_ADDRESS',
       'DB_PORT',
       'DB_NAME',
@@ -259,78 +263,6 @@ class Environment {
   //     }
   //   }
   //   return this.envVars.SERVER_ADDRESS;
-  // }
-  //
-  // get SERVER_PORT(): number {
-  //   if (process.env.NODE_ENV !== 'production') {
-  //     if (this.envConfig.SERVER_PORT == null) {
-  //       // Check whether this variable exists in the environment config object. Only
-  //       // variable present in the active context may be accessed.
-  //       console.log('Unexpected use of the SERVER_PORT environment variable.');
-  //       process.exit(-1);
-  //     }
-  //   }
-  //   return this.envVars.SERVER_PORT;
-  // }
-  //
-  // get DB_ADDRESS(): string {
-  //   if (process.env.NODE_ENV !== 'production') {
-  //     if (this.envConfig.DB_ADDRESS == null) {
-  //       // Check whether this variable exists in the environment config object. Only
-  //       // variable present in the active context may be accessed.
-  //       console.log('Unexpected use of the DB_ADDRESS environment variable.');
-  //       process.exit(-1);
-  //     }
-  //   }
-  //   return this.envVars.DB_ADDRESS;
-  // }
-  //
-  // get DB_PORT(): number {
-  //   if (process.env.NODE_ENV !== 'production') {
-  //     if (this.envConfig.DB_PORT == null) {
-  //       // Check whether this variable exists in the environment config object. Only
-  //       // variable present in the active context may be accessed.
-  //       console.log('Unexpected use of the DB_PORT environment variable.');
-  //       process.exit(-1);
-  //     }
-  //   }
-  //   return this.envVars.DB_PORT;
-  // }
-  //
-  // get DB_NAME(): string {
-  //   if (process.env.NODE_ENV !== 'production') {
-  //     if (this.envConfig.DB_NAME == null) {
-  //       // Check whether this variable exists in the environment config object. Only
-  //       // variable present in the active context may be accessed.
-  //       console.log('Unexpected use of the DB_NAME environment variable.');
-  //       process.exit(-1);
-  //     }
-  //   }
-  //   return this.envVars.DB_NAME;
-  // }
-  //
-  // get GOOGLE_MAPS_API_KEY(): string {
-  //   if (process.env.NODE_ENV !== 'production') {
-  //     if (this.envConfig.GOOGLE_MAPS_API_KEY == null) {
-  //       // Check whether this variable exists in the environment config object. Only
-  //       // variable present in the active context may be accessed.
-  //       console.log('Unexpected use of the GOOGLE_MAPS_API_KEY environment variable.');
-  //       process.exit(-1);
-  //     }
-  //   }
-  //   return this.envVars.GOOGLE_MAPS_API_KEY;
-  // }
-  //
-  // get ALLOW_MANUAL_UPDATE_OF_CREATED_ON_PATHS(): boolean {
-  //   if (process.env.NODE_ENV !== 'production') {
-  //     if (this.envConfig.ALLOW_MANUAL_UPDATE_OF_CREATED_ON_PATHS == null) {
-  //       // Check whether this variable exists in the environment config object. Only
-  //       // variable present in the active context may be accessed.
-  //       console.log('Unexpected use of the ALLOW_MANUAL_UPDATE_OF_CREATED_ON_PATHS environment variable.');
-  //       process.exit(-1);
-  //     }
-  //   }
-  //   return this.envVars.ALLOW_MANUAL_UPDATE_OF_CREATED_ON_PATHS;
   // }
 }
 

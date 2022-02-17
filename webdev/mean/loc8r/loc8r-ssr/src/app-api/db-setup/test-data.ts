@@ -1,4 +1,4 @@
-import { _Location as Location, _LocationModel as LocationModel } from '../models/models';
+import { _LocationDocI as LocationDocI, _LocationModel as LocationModel } from '../models/models';
 import mongoose from 'mongoose';
 
 /**
@@ -8,8 +8,8 @@ import mongoose from 'mongoose';
  */
 export const _testData: Array<
   {
-    model: mongoose.Model<Location>,
-    documents: Array<Partial<Record<keyof Location, unknown>>>
+    model: mongoose.Model<LocationDocI>,
+    documents: Array<Partial<Record<keyof LocationDocI, unknown>>>
   }> = [
     {
       model: LocationModel,

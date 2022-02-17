@@ -1,8 +1,8 @@
 import { model } from 'mongoose';
 import {
   _locationSchema as locationSchema,
-  _LocationModelInterface as LocationModelInterface,
-  _Location as Location
+  _LocationModelI as LocationModelI,
+  _LocationDocI as LocationDocI
 } from './location.schema';
 import { _configureMongoose as configureMongoose } from '../misc/mongoose-config';
 
@@ -14,14 +14,14 @@ import { _configureMongoose as configureMongoose } from '../misc/mongoose-config
 configureMongoose();
 
 /** Re-export TS interfaces from schemas as models and interfaces are often imported together */
-export { _Location, _Review } from './location.schema';
+export { _LocationDocI, _ReviewDocI } from './location.schema';
 
 /**
  * Compile schemas and export models.
  *
  * @note Compile new schemas here.
  */
-export const _LocationModel = model<Location, LocationModelInterface>('Location', locationSchema);
+export const _LocationModel = model<LocationDocI, LocationModelI>('Location', locationSchema);
 
 /**
  * Export a function that initializes all mongoose models in the

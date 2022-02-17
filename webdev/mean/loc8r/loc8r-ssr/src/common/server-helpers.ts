@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express-serve-static-core';
 import { _convertStrToInt as convertStrToInt } from './helpers';
-
 /**
  * @file Common reusable functionality specific to server side.
  */
@@ -45,9 +44,17 @@ export function _isValid12HourClock(value: string): boolean {
  * The callback to be wrapped must report errors by throwing exceptions,
  * regardless of whether it performs a synchronous or an asynchronous
  * action (returns a Promise).
+ *
+ * @note callNextOnSuccess parameter can be used to control whether
+ * or not next() is called on success. Most route handlers will not
+ * want it invoked, while most middleware will need it invoked.
  */
-export function _wrapExpressCallback<RespT>(callback: (req: Request, res: Response<RespT>) => Promise<unknown> | unknown)
-: (req: Request, res: Response<RespT>, next: NextFunction) => void {
+type CallbackT<RespT> = (req: Request, res: Response<RespT>) => Promise<unknown> | unknown;
+type ReturnT<RespT> = (req: Request, res: Response<RespT>, next: NextFunction) => void;
+function wrapExpressCbInternal<RespT>(
+  callNextOnSuccess: boolean,
+  callback: CallbackT<RespT>)
+: ReturnT<RespT> {
   return function(req: Request, res: Response<RespT>, next: NextFunction) {
     // Wrap the callback invocation with try/catch as it may throw an error
     // synchronously.
@@ -57,10 +64,10 @@ export function _wrapExpressCallback<RespT>(callback: (req: Request, res: Respon
       if (result instanceof Promise) {
         // Register the onfulfill and onreject handlers for the promise
         result
-          .then(() => next())
+          .then(() => callNextOnSuccess ? next() : undefined)
           .catch(next);
       }
-      else {
+      else if (callNextOnSuccess) {
         // Synchronous callback has not thrown any errors
         next();
       }
@@ -69,4 +76,26 @@ export function _wrapExpressCallback<RespT>(callback: (req: Request, res: Respon
       next(err);
     }
   };
+}
+
+/**
+ * Wraps express callback (route or middleware handler) with a function
+ * that catches all errors and passes those to next function. Next is
+ * not called if callback succeeds.
+ *
+ * @see wrapExpressCbInternal for more info.
+ */
+export function _getExpressCallbackThatStopsOnSuccess<RespT>(callback: CallbackT<RespT>): ReturnT<RespT> {
+  return wrapExpressCbInternal(false, callback);
+}
+
+/**
+ * Wraps express callback (route or middleware handler) with a function
+ * that catches all errors and passes those to next function. Next is
+ * called if callback succeeds.
+ *
+ * @see wrapExpressCbInternal for more info.
+ */
+export function _getExpressCallbackThatContinuesOnSuccess<RespT>(callback: CallbackT<RespT>): ReturnT<RespT> {
+  return wrapExpressCbInternal(true, callback);
 }

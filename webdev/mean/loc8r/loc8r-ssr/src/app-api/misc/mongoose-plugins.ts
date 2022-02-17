@@ -1,5 +1,5 @@
 import { Schema, Error, CallbackError, HydratedDocument, Query } from 'mongoose';
-import { _RestError as RestError } from './error';
+import { _RestError as RestError } from './rest-error';
 
 /**
  * @file Re-usable mongoose plugins implementing common functionality
@@ -54,8 +54,16 @@ export function _transformMongooseErrorPlugin(schema: Schema<unknown>): void {
       }
     }
     if (err instanceof Error.ValidationError) {
-      transformedErr.message = 'Action failed due to missing or malformed data.';
+      transformedErr.message =
+        'Action failed due to missing or malformed user data. Please double check ' +
+        'the information you provided.';
       transformValidationError(err);
+    }
+    else if (err instanceof Error.CastError) {
+      transformedErr.statusCode = 400;
+      transformedErr.message =
+        'Action failed due to missing or malformed user data. Please double check ' +
+        'the information you provided.';
     }
     else {
       /** @todo Not each of the remaining Mongoose errors indicates internal server error. Some of them correspond to invalid request. */
@@ -99,7 +107,7 @@ export function _configureToJsonMethodPlugin<T = unknown>(schema: Schema<T>,
     });
   }
   else {
-    // Make sure custom toJSON is called hydrated documents
+    // Make sure custom toJSON is called for hydrated documents
     schema.set('toJSON', {
       versionKey: false,
       transform: (doc: HydratedDocument<unknown>): Record<string, unknown> => {
@@ -132,3 +140,9 @@ export function _configureToJsonMethodPlugin<T = unknown>(schema: Schema<T>,
     });
   }
 }
+
+/** @todo Implementing plugin that can be used to limit the length of types
+  whose type is Array. Plugin recursively identifies the Array paths and
+  registers pre-validation middleware that makes sure given paths contains
+  at most `maxItems` where maxItems is a custom schema option used by this
+  plugin. */

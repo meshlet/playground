@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import {
-  _transformMongooseErrorPlugin as transformMongooseErrorPlugin,
-  _configureToJsonMethodPlugin as configureToJsonMethodPlugin
+  _transformMongooseErrorPlugin as transformMongooseErrorPlugin
 } from './mongoose-plugins';
 // mongoose-beautiful-unique-validation package has no available TS types
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -49,6 +48,6 @@ export function _configureMongoose() {
   */
   /** @todo Verify how Validation error prop names look like when unique restriction is validated for a nested path. */
   mongoose.plugin(beautifyUniqueErrors);
-  mongoose.plugin(configureToJsonMethodPlugin);
+  // mongoose.plugin(configureToJsonMethodPlugin);
   mongoose.plugin(transformMongooseErrorPlugin);
 }

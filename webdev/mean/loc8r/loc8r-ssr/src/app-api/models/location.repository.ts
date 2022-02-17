@@ -1,7 +1,14 @@
-import { _LocationModel as LocationModel, _Location as Location } from './models';
-import { _processDatabaseOperation as processDbOperation } from './db-utils';
-import { Exact } from '../../common/common.module';
-import { _RestError as RestError } from '../misc/error';
+import { _LocationModel as LocationModel, _LocationDocI as LocationDocI } from './models';
+import { _wrapDatabaseOperation as wrapDatabaseOperation } from './db-utils';
+import {
+  Exact,
+  GetLocationsRspI,
+  GetOneLocationRspI,
+  CreateLocationRspI,
+  UpdateLocationRspI,
+  DeleteLocationRspI
+} from '../../common/common.module';
+import { _RestError as RestError } from '../misc/rest-error';
 
 /**
  * @file Repository that controls access to location data.
@@ -30,10 +37,10 @@ export function _getLocationsByDistance(longitude: number,
                                         latitude: number,
                                         maxDistance?: number,
                                         maxLocations?: number)
-: Promise<Array<{ distance: { calculated: number }, [key: string]: unknown }>> {
-  return processDbOperation(
+: Promise<GetLocationsRspI> {
+  return wrapDatabaseOperation(
     'Failed to obtain locations',
-    () => {
+    async() => {
       // Validate the parameters
       if (isNaN(longitude) || longitude < -180 || longitude > 180) {
         throw new RestError(400, 'The longitude must be a number between -180 and 180.');
@@ -64,31 +71,33 @@ export function _getLocationsByDistance(longitude: number,
         throw new RestError(400, `The maximal number of venues to retrieve must not be larger than ${Number.MAX_SAFE_INTEGER}`);
       }
 
-      return LocationModel.aggregate<{ distance: { calculated: number }, [key: string]: unknown }>([
-        {
-          $geoNear: {
-            distanceField: 'distance.calculated',
-            near: {
-              type: 'Point',
-              coordinates: [longitude, latitude]
-            },
-            maxDistance: maxDistance,
-            spherical: true
+      const locations = await LocationModel.aggregate<
+        { distance: number } & Pick<LocationDocI, '_id' | 'name' | 'rating' | 'address' | 'facilities'>>([
+          {
+            $geoNear: {
+              distanceField: 'distance.calculated',
+              near: {
+                type: 'Point',
+                coordinates: [longitude, latitude]
+              },
+              maxDistance: maxDistance,
+              spherical: true
+            }
+          },
+          {
+            $limit: Math.floor(maxLocations)
+          },
+          {
+            $project: {
+              name: 1,
+              rating: 1,
+              address: 1,
+              facilities: 1,
+              distance: '$distance.calculated'
+            }
           }
-        },
-        {
-          $limit: Math.floor(maxLocations)
-        },
-        {
-          $project: {
-            name: 1,
-            rating: 1,
-            address: 1,
-            facilities: 1,
-            distance: '$distance.calculated'
-          }
-        }
-      ]).exec();
+        ]).exec();
+      return LocationModel.toObject(locations, 'GetLocations');
     }
   );
 }
@@ -103,8 +112,8 @@ export function _getLocationsByDistance(longitude: number,
  * @returns Returns a promise that resolves with a fetched location, or rejects
  * with a RestError.
  */
-export function _getLocationById(id: string): Promise<Location> {
-  return processDbOperation(
+export function _getLocationById(id: string): Promise<GetOneLocationRspI> {
+  return wrapDatabaseOperation(
     'Failed to obtain the location',
     async() => {
       const location = await LocationModel
@@ -115,7 +124,7 @@ export function _getLocationById(id: string): Promise<Location> {
       if (location == null) {
         throw new RestError(404, 'A venue with the provided identifier doesn\'t exist.');
       }
-      return location;
+      return LocationModel.toObject(location, 'GetOneLocation');
     }
   );
 }
@@ -130,11 +139,11 @@ export function _getLocationById(id: string): Promise<Location> {
  * a set of properties expected to be sent by the client.
  */
 export interface _LocationExternal {
-  name?: unknown
-  address?: unknown
-  facilities?: unknown
-  coords?: unknown
-  openingHours?: unknown
+  name?: unknown;
+  address?: unknown;
+  facilities?: unknown;
+  coords?: unknown;
+  openingHours?: unknown;
 }
 
 /**
@@ -144,11 +153,11 @@ export interface _LocationExternal {
  * with a RestError.
  */
 export function _createNewLocation<T>(location: Exact<T, _LocationExternal>)
-: Promise<Location> {
-  return processDbOperation(
+: Promise<CreateLocationRspI> {
+  return wrapDatabaseOperation(
     'Failed to create a new location',
-    () => {
-      return new LocationModel({
+    async() => {
+      const newLocation = await new LocationModel({
         name: location.name,
         address: location.address,
         facilities: location.facilities,
@@ -158,6 +167,7 @@ export function _createNewLocation<T>(location: Exact<T, _LocationExternal>)
         },
         openingHours: location.openingHours
       }).save();
+      return LocationModel.toObject(newLocation, 'CreateLocation');
     }
   );
 }
@@ -177,8 +187,8 @@ export function _createNewLocation<T>(location: Exact<T, _LocationExternal>)
  * paths. This saves some BW on account of some additional processing.
  */
 export function _updateLocation<T>(id: string, changes: Exact<T, _LocationExternal>)
-: Promise<Location> {
-  return processDbOperation(
+: Promise<UpdateLocationRspI> {
+  return wrapDatabaseOperation(
     'Failed to update the location',
     async() => {
       // Fetch the Location from the DB
@@ -208,7 +218,8 @@ export function _updateLocation<T>(id: string, changes: Exact<T, _LocationExtern
       if (typeof changes.openingHours === 'string' && changes.openingHours.trim() === '') {
         location.openingHours.length = 0;
       }
-      return location.save();
+      const savedLocation = await location.save();
+      return LocationModel.toObject(savedLocation, 'UpdateLocation');
     }
   );
 }
@@ -216,16 +227,18 @@ export function _updateLocation<T>(id: string, changes: Exact<T, _LocationExtern
 /**
  * Attempts to delete location with the given ID.
  *
- * @returns A promise that is resolved with true to indicate that location has been
- * deleted, false to indicate that location couldn't be found or rejects with
- * a RestError.
+ * @returns A promise that is resolved with a successful response if location
+ * has been deleted, otherwise rejected with a RestError.
  */
-export function _deleteLocation(id: string): Promise<boolean> {
-  return processDbOperation(
+export function _deleteLocation(id: string): Promise<DeleteLocationRspI> {
+  return wrapDatabaseOperation(
     'Failed to remove the location',
     async() => {
       const retVal = await LocationModel.deleteOne({ _id: id }).exec();
-      return retVal.deletedCount === 1;
+      if (retVal.deletedCount === 1) {
+        LocationModel.toObject({}, 'DeleteLocation');
+      }
+      throw new RestError(404, 'A venue with provided identifier doesn\'t exist.');
     }
   );
 }

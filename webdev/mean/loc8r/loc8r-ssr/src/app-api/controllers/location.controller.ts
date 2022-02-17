@@ -1,9 +1,17 @@
 import { Request, Response } from 'express-serve-static-core';
 import * as locRepository from '../models/location.repository';
 import {
-  isRecord, convertStrToInt, convertStrToFloat, RestResponseSuccessI
+  isRecord,
+  convertStrToInt,
+  convertStrToFloat,
+  RestResponseSuccessGenericI,
+  GetLocationsRspI,
+  GetOneLocationRspI,
+  CreateLocationRspI,
+  UpdateLocationRspI,
+  DeleteLocationRspI
 } from '../../common/common.module';
-import { _RestError as RestError } from '../misc/error';
+import { _RestError as RestError } from '../misc/rest-error';
 
 /**
  * @file Contains controllers for the /locations routes.
@@ -19,7 +27,8 @@ import { _RestError as RestError } from '../misc/error';
  * is hardcoded which would force the client to send further requests if
  * they need data outside of the subset returned here.
  */
-export async function _getLocationsByDistance(req: Request, res: Response<RestResponseSuccessI>) {
+export async function _getLocationsByDistance(req: Request,
+                                              res: Response<RestResponseSuccessGenericI<GetLocationsRspI>>) {
   if (typeof req.query.longitude !== 'string' || req.query.longitude.length > 50) {
     // longitude query parameter must be present and must be a string. We also
     // want to limit the length of the string, to prevent user from specifying
@@ -68,7 +77,7 @@ export async function _getLocationsByDistance(req: Request, res: Response<RestRe
     .status(200)
     .json({
       success: true,
-      data: await locRepository._getLocationsByDistance(
+      body: await locRepository._getLocationsByDistance(
         convertStrToFloat(req.query.longitude),
         convertStrToFloat(req.query.latitude),
         maxDistance,
@@ -81,7 +90,8 @@ export async function _getLocationsByDistance(req: Request, res: Response<RestRe
  *
  * Retrieves a single location.
  */
-export async function _getLocation(req: Request, res: Response<RestResponseSuccessI>) {
+export async function _getLocation(req: Request,
+                                   res: Response<RestResponseSuccessGenericI<GetOneLocationRspI>>) {
   if (!req.params.locationid) {
     // It is a programming error to call this controller for a route without
     // the locationid parameter
@@ -94,7 +104,7 @@ export async function _getLocation(req: Request, res: Response<RestResponseSucce
     .status(200)
     .json({
       success: true,
-      data: await locRepository._getLocationById(req.params.locationid)
+      body: await locRepository._getLocationById(req.params.locationid)
     });
 }
 
@@ -111,7 +121,8 @@ export async function _getLocation(req: Request, res: Response<RestResponseSucce
  *
  * All other fields present in the body are ignored.
  */
-export async function _createLocation(req: Request, res: Response<RestResponseSuccessI>) {
+export async function _createLocation(req: Request,
+                                      res: Response<RestResponseSuccessGenericI<CreateLocationRspI>>) {
   if (isRecord(req.body)) {
     const props: Array<keyof locRepository._LocationExternal> = ['name', 'address', 'facilities', 'coords', 'openingHours'];
     const bodyObj: locRepository._LocationExternal = {};
@@ -124,7 +135,7 @@ export async function _createLocation(req: Request, res: Response<RestResponseSu
       .status(201)
       .json({
         success: true,
-        data: await locRepository._createNewLocation(bodyObj)
+        body: await locRepository._createNewLocation(bodyObj)
       });
   }
   else {
@@ -149,7 +160,8 @@ export async function _createLocation(req: Request, res: Response<RestResponseSu
  * All other fields are ignored. If some of the listed fields are absent, the
  * value of a corresonding field in the database won't be modified.
  */
-export async function _updateLocation(req: Request, res: Response<RestResponseSuccessI>) {
+export async function _updateLocation(req: Request,
+                                      res: Response<RestResponseSuccessGenericI<UpdateLocationRspI>>) {
   if (!req.params.locationid) {
     // It is a programming error to call this controller for a route without
     // the locationid parameter
@@ -174,7 +186,7 @@ export async function _updateLocation(req: Request, res: Response<RestResponseSu
     .status(200)
     .json({
       success: true,
-      data: await locRepository._updateLocation(req.params.locationid, bodyObj)
+      body: await locRepository._updateLocation(req.params.locationid, bodyObj)
     });
 }
 
@@ -183,7 +195,8 @@ export async function _updateLocation(req: Request, res: Response<RestResponseSu
  *
  * Deletes a location.
  */
-export async function _deleteLocation(req: Request, res: Response<null>) {
+export async function _deleteLocation(req: Request,
+                                      res: Response<RestResponseSuccessGenericI<DeleteLocationRspI>>) {
   if (!req.params.locationid) {
     // It is a programming error to call this controller for a route without
     // the locationid parameter
@@ -191,12 +204,10 @@ export async function _deleteLocation(req: Request, res: Response<null>) {
       500,
       'Failed to delete a venue due to an internal server error.');
   }
-
-  if (!(await locRepository._deleteLocation(req.params.locationid))) {
-    throw new RestError(404, 'A venue with provided identifier doesn\'t exist.');
-  }
-
   res
     .status(204)
-    .json(null);
+    .json({
+      success: true,
+      body: await locRepository._deleteLocation(req.params.locationid)
+    });
 }

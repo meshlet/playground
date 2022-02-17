@@ -1,4 +1,4 @@
-import { _RestError as RestError } from '../misc/error';
+import { _RestError as RestError } from '../misc/rest-error';
 
 /**
  * @file Helpers providing functionality useful in interaction
@@ -6,7 +6,7 @@ import { _RestError as RestError } from '../misc/error';
  */
 
 /**
- * Runs MongoDB query and processes any errors.
+ * Wraps a function that performa DB operations with some common logic.
  *
  * Any error that is not RestError is remapped to a RestError with
  * 500 status code.
@@ -14,14 +14,20 @@ import { _RestError as RestError } from '../misc/error';
  * @returns A promise that resolves with the value returned from the
  * invoked callback or rejects with a RestError.
  */
-export async function _processDatabaseOperation<T extends unknown[], R>(
-  errPrefix: string, fn: (...args: T) => Promise<R>, ...args: T): Promise<R> {
+export async function _wrapDatabaseOperation<R>(
+  errPrefix: string,
+  callback: () => Promise<R>,
+  trimDepth?: number): Promise<R> {
   try {
-    return await fn(...args);
+    return await callback();
   }
   catch (e) {
     if (e instanceof RestError) {
-      // Re-throw. This is a formatted error to be sent to the client.
+      if (trimDepth) {
+        // Validation error property names should be trimmed down
+        e.trimErrorPropNames(trimDepth);
+      }
+      // Re-throw
       throw e;
     }
     // Otherwise, an unexpected DB server error has occurred. Report an internal

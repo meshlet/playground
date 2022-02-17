@@ -2,8 +2,8 @@ import { Router } from 'express';
 import { Request, Response, NextFunction } from 'express-serve-static-core';
 import * as locations from '../controllers/location.controller';
 import * as reviews from '../controllers/review.controller';
-import { wrapExpressCallback, RestResponseFailureI } from '../../common/common.module';
-import { _RestError as RestError } from '../misc/error';
+import { getExpressCallbackThatStopsOnSuccess, RestResponseFailureI } from '../../common/common.module';
+import { _RestError as RestError } from '../misc/rest-error';
 
 /**
  * @file Contains route definitions for the Loc8r REST API
@@ -15,13 +15,13 @@ export const _router = Router();
  * The following routes implement CRUD for locations.
  */
 _router.route('/locations')
-  .get(wrapExpressCallback(locations._getLocationsByDistance))
-  .post(wrapExpressCallback(locations._createLocation));
+  .get(getExpressCallbackThatStopsOnSuccess(locations._getLocationsByDistance))
+  .post(getExpressCallbackThatStopsOnSuccess(locations._createLocation));
 
 _router.route('/locations/:locationid')
-  .get(wrapExpressCallback(locations._getLocation))
-  .put(wrapExpressCallback(locations._updateLocation))
-  .delete(wrapExpressCallback(locations._deleteLocation));
+  .get(getExpressCallbackThatStopsOnSuccess(locations._getLocation))
+  .put(getExpressCallbackThatStopsOnSuccess(locations._updateLocation))
+  .delete(getExpressCallbackThatStopsOnSuccess(locations._deleteLocation));
 
 /**
  * The following routes implement CRUD for reviews.
@@ -31,16 +31,27 @@ _router.route('/locations/:locationid')
  * getLocation controller in location-controller.ts.
  */
 _router.route('/locations/:locationid/reviews')
-  .post(wrapExpressCallback(reviews._createReview));
+  .post(getExpressCallbackThatStopsOnSuccess(reviews._createReview));
 
 _router.route('/locations/:locationid/reviews/:reviewid')
-  .get(wrapExpressCallback(reviews._getReview))
-  .put(wrapExpressCallback(reviews._updateReview))
-  .delete(wrapExpressCallback(reviews._deleteReview));
+  .get(getExpressCallbackThatStopsOnSuccess(reviews._getReview))
+  .put(getExpressCallbackThatStopsOnSuccess(reviews._updateReview))
+  .delete(getExpressCallbackThatStopsOnSuccess(reviews._deleteReview));
+
+/**
+ * Register 404 middleware for the REST API.
+ */
+// _router.use(/^(?=\/api\/)/, (_1: Request, _2: Response, next: NextFunction) => {
+_router.use((_1: Request, _2: Response, next: NextFunction) => {
+  next(new RestError(
+    404,
+    'An unknown resource has been requested by the client.'
+  ));
+});
 
 /**
  * Register error-handling middleware that handles any errors reported
- * by routes/controllers.
+ * by REST API routes.
  */
 _router.use((err: unknown, _: Request, res: Response<RestResponseFailureI>, next: NextFunction) => {
   if (res.headersSent) {
