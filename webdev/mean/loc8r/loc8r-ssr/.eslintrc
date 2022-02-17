@@ -1,0 +1,81 @@
+{
+  "extends": [
+    "standard",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ],
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "node": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "tsconfigRootDir": "src",
+    "project": ["./tsconfig-base.json"]
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "@babel"
+  ],
+  "ignorePatterns": ["*.js", "*.cjs", "dist/**/*"],
+  "rules": {
+    "semi": ["error", "always"],
+    "@babel/semi": "error",
+    "space-before-function-paren": ["error", "never"],
+    "indent": [
+      "error",
+      2,
+      {
+        "FunctionDeclaration": { "parameters": "first" },
+        "SwitchCase": 1
+      }
+    ],
+    "brace-style": [
+      "error",
+      "stroustrup",
+      { "allowSingleLine": true }
+    ],
+    "no-void": [
+      "error",
+      { "allowAsStatement": true }
+    ],
+    "@typescript-eslint/no-floating-promises": [
+      "error",
+      { "ignoreVoid": false }
+    ],
+    "@typescript-eslint/ban-ts-comment": [
+      "error",
+      { "ts-ignore": "allow-with-description", "minimumDescriptionLength": 10 }
+    ],
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/member-delimiter-style": [
+      "error",
+      {
+        "multiline": {
+          "delimiter": "comma",
+          "requireLast": false
+        },
+        "singleline": {
+          "delimiter": "comma",
+          "requireLast": false
+        },
+        "multilineDetection": "brackets",
+        "overrides": {
+          "interface": {
+            "multiline": {
+              "delimiter": "semi",
+              "requireLast": true
+            },
+            "singleline": {
+              "delimiter": "semi",
+              "requireLast": true
+            },
+          }
+        }
+      }
+    ]
+  }
+}

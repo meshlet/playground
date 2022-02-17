@@ -1,6 +1,5 @@
 const gulp = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
-const eslint = require('gulp-eslint');
 const filesExist = require('files-exist');
 const merge = require('merge-stream');
 const concat = require('gulp-concat');
@@ -9,7 +8,7 @@ const { spawn } = require('child_process');
 /**
  * @todo Compiled CSS and client-side Javascript should be minified in
  * production in order to reduce BW. Minifying server-side Javascript
- * is not equally important, but should be done anyways in producution.
+ * is not equally important, but should be done anyways in production.
  */
 
 /**
@@ -143,14 +142,28 @@ function cpStaticResources() {
 }
 
 /**
+ * Returns a gulp task that runs Eslint for the project.
+ */
+function buildEslintTask() {
+  return () => {
+    return exec(
+      process.execPath,
+      [
+        'node_modules/.bin/eslint',
+        '--cache',
+        '--cache-location', './.eslintcache',
+        '--ext', '.ts',
+        'src'
+      ]
+    );
+  }
+}
+
+/**
  * A task that runs ESLinter.
  */
-function runEslint() {
-  return gulp.src('./src/**/*.ts', { since: gulp.lastRun(runEslint) })
-    .pipe(eslint({ configFile: '.eslintrc.js' }))
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError());
-}
+gulp.task('lint', buildEslintTask());
+const runEslint = gulp.task('lint');
 
 /**
  * The default task runs SCSS->CSS, copy static resources to dist and ESLinter/
@@ -181,11 +194,6 @@ exports.watch = () => {
 
   // We want to monitor only some paths in case of static resources.
   gulp.watch(
-    ['./src/app-server/views/*.*', './src/public/images/*.*'],
+    ['./src/app-server/views/**/*.*', './src/public/images/**/*.*'],
     cpStaticResources);
 };
-
-/**
- * Export ESLinter task.
- */
-exports.lint = runEslint;
