@@ -1,10 +1,10 @@
 extends layout
 append content
-  if messages && messages.length > 0
+  if paragraphs && paragraphs.length > 0
     .row.banner
       .col-12
         span.page-heading #{pageHeader.title}
     .row
       .col-12.col-lg-8
-        each message in messages
-          p= messages
+        each paragraph in paragraphs
+          p= paragraph

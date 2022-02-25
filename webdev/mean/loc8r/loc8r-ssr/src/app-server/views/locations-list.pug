@@ -3,29 +3,28 @@ extends layout
 include _includes/common-mixins
 
 append content
-  if !error
-    .row.banner
-      .col-12
-        span.page-heading #{pageHeader.title}&nbsp;&nbsp;
-        span.page-tagline= pageHeader.tagline
-    .row
-      .col-12.col-md-8
-        if locations.length === 0
-          p No nearby venues have been found.
-        else
-          each location in locations
-            a.location-card(href=`/locations/${location._id}`)
-              .card-body
-                .card-title
-                  span.card-heading.d-block.d-sm-inline #{location.name}&nbsp;
-                  +outputRating(location.rating, 'h5')
-                  span.distance-badge.float-right
-                    +formatDistance(location.distance)
+  .row.banner
+    .col-12
+      span.page-heading #{pageHeader.title}&nbsp;&nbsp;
+      span.page-tagline= pageHeader.tagline
+  .row
+    .col-12.col-md-8
+      if locations.length === 0
+        p No nearby venues have been found.
+      else
+        each location in locations
+          a.location-card(href=`/locations/${location._id}`)
+            .card-body
+              .card-title
+                span.card-heading.d-block.d-sm-inline #{location.name}&nbsp;
+                +outputRating(location.rating, 'h5')
+                span.distance-badge.float-right
+                  +formatDistance(location.distance)
 
-                p.card-text #{location.address}
-                p.card-text
-                  each facility in location.facilities
-                    span.facility-badge #{facility}
+              p.card-text #{location.address}
+              p.card-text
+                each facility in location.facilities
+                  span.facility-badge #{facility}
 
-      .col-12.col-md-4.mt-2.mt-md-0
-        p= sidebar
+    .col-12.col-md-4.mt-2.mt-md-0
+      p= sidebar

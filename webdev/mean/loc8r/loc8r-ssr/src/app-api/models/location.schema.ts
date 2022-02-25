@@ -224,7 +224,7 @@ if (!Environment.ALLOW_MANUAL_UPDATE_OF_CREATED_ON_PATHS) {
     if (this.isNew) {
       this.createdOn = new Date(Date.now());
     }
-    else if (this.isModified('reviewer') || this.isModified('text') || this.isModified('rating')) {
+    else if (this.isDirectModified('reviewer') || this.isDirectModified('text') || this.isDirectModified('rating')) {
       this.createdOn = new Date(Date.now());
     }
     else {

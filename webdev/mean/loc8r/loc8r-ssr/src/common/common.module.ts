@@ -74,3 +74,5 @@ export {
   _ErrorBase as ErrorBase,
   _HttpError as HttpError
 } from './error';
+
+export { _registerCleanupTask as registerCleanupTask } from './proc-term-mngr';

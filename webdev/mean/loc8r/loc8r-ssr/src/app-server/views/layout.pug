@@ -1,12 +1,12 @@
 html
   head
     title= title
-    // Include the styles
+    //- Include the styles
     link(rel='stylesheet', href='/stylesheets/styles.css')
-    // Set viewport
+    //- Set viewport
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
   body
-    // The navbar
+    //- The navbar
     nav.navbar
       a.navbar-brand(href='/') Loc8r
       button.navbar-toggler(type='button' data-toggle='collapse' data-target='#siteNavbar'
@@ -14,29 +14,39 @@ html
         span.navbar-toggler-icon
       #siteNavbar.collapse.navbar-collapse
         div.navbar-nav
-          // `active` class is added only if current page corresponds to the <a> element
+          //- `active` class is added only if current page corresponds to the <a> element
           a.nav-item(href='/', class=activeMenuItem === 0 ? 'active' : '') Home
           a.nav-item(href='/about', class=activeMenuItem === 1 ? 'active' : '') About
 
     .container-lg.mt-2
-      // Main content
+      //- Main content
+      //- Expectation is that views will append to this block instead of replacing it
+      //- entirely. In this way, error and info messages are always rendered at the top
+      //- of the main content.
       block content
         .row
           .col-12
-            if error
-              .alert.alert-danger.alert-dismissible.fade.show
-                span.bold Failure!&nbsp;
-                span #{error.message}
-                button.close(data-dismiss='alert', aria-label='close')
-                  span(aria-hidden='true') &times;
+            if messages.error
+              each err in messages.error
+                .alert.alert-danger.alert-dismissible.fade.show
+                  span.bold Failure!&nbsp;
+                  span= err
+                  button.close(data-dismiss='alert', aria-label='close')
+                    span(aria-hidden='true') &times;
+            if messages.info
+              each msg in messages.info
+                .alert.alert-info.alert-dismissible.fade.show
+                  span= msg
+                  button.close(data-dismiss='alert', aria-label='close')
+                    span(aria-hidden='true') &times;
 
-      // Footer
+      //- Footer
       footer.mt-3
         .row
           .col-12
             span.small site design / logo &copy; 2021 Loc8r
 
-    // Include the global scripts accessible to entire app
+    //- Include the global scripts accessible to entire app
     script(src='/scripts/jquery.slim.min.js')
     script(src='/scripts/popper.min.js')
     script(src='/scripts/bootstrap.min.js')

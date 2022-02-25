@@ -20,7 +20,7 @@
     "@typescript-eslint",
     "@babel"
   ],
-  "ignorePatterns": ["*.js", "*.cjs", "dist/**/*"],
+  "ignorePatterns": ["*.js", "*.cjs", "dist/**/*", "src/@types/**/*"],
   "rules": {
     "semi": ["error", "always"],
     "@babel/semi": "error",

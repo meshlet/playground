@@ -4,6 +4,7 @@
     "outDir": "../../dist/common"
   },
   "include": [
-    "./**/*.ts"
+    "./**/*.ts",
+    "../@types"
   ]
 }

@@ -4,8 +4,6 @@ append content
     @todo The logic of checking for validation errors, adding .is-valid and is-invalid
     classes and adding .invalid-feedback div to the page should all be captured
     in mixins as it'll be reused accross all pages with forms in them.
-  - const formHasErrors = error && error.validationErr;
-  - const validationErr = formHasErrors ? error.validationErr : undefined;
   .row.banner
     .col-12
       span.page-heading Review #{locationName}
@@ -22,8 +20,8 @@ append content
           .col-sm-10
             -
               const reviewerClass = {
-                'is-valid': formHasErrors && validationErr.reviewer == null,
-                'is-invalid': formHasErrors && validationErr.reviewer
+                'is-valid': validationErr && validationErr.reviewer == null,
+                'is-invalid': validationErr && validationErr.reviewer
               };
             input#name.form-control(
               type='text'
@@ -32,7 +30,7 @@ append content
               value=reviewer
               class=reviewerClass)
 
-            if formHasErrors && validationErr.reviewer
+            if validationErr && validationErr.reviewer
               .invalid-feedback #{validationErr.reviewer}
         .form-row.mb-1
           .col-sm-2
@@ -40,8 +38,8 @@ append content
           .col-sm-10
             -
               const ratingClass = {
-                'is-valid': formHasErrors && validationErr.rating == null,
-                'is-invalid': formHasErrors && validationErr.rating
+                'is-valid': validationErr && validationErr.rating == null,
+                'is-invalid': validationErr && validationErr.rating
               };
             select#rating.custom-select(name='rating', class=ratingClass)
               option(selected=['2', '3', '4', '5'].indexOf(rating) === -1) 1
@@ -50,7 +48,7 @@ append content
               option(selected=rating === '4') 4
               option(selected=rating === '5') 5
             
-            if formHasErrors && validationErr.rating
+            if validationErr && validationErr.rating
               .invalid-feedback #{validationErr.rating}
         .form-row.mb-2
           .col-sm-2
@@ -58,8 +56,8 @@ append content
           div.col-sm-10
             -
               const textClass = {
-                'is-valid': formHasErrors && validationErr.text == null,
-                'is-invalid': formHasErrors && validationErr.text
+                'is-valid': validationErr && validationErr.text == null,
+                'is-invalid': validationErr && validationErr.text
               };
             textarea#review.form-control(
               rows='4'
@@ -68,7 +66,7 @@ append content
               value=text
               class=textClass)
             
-            if formHasErrors && validationErr.text
+            if validationErr && validationErr.text
               .invalid-feedback #{validationErr.text}
         .form-row
           .col-12.text-right

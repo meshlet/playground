@@ -8,7 +8,7 @@ import { _renderView as renderView } from '../misc/render-view';
 
 /** Defines what view locals are neccessary to render the about page. */
 interface AboutPageLocalsI extends ViewLocalsBaseI {
-  messages: Array<string>;
+  paragraphs: Array<string>;
 }
 
 /**
@@ -21,7 +21,7 @@ export function _about(_: Request, res: Response): void {
     pageHeader: {
       title: 'About'
     },
-    messages: [
+    paragraphs: [
       'Loc8r was created to help people find places to sit down and get a bit of work done.',
 
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eleifend fermentum nibh, et' +
@@ -46,28 +46,19 @@ export function _about(_: Request, res: Response): void {
       ' ultricies et, iaculis non ante.'
     ]
   };
-  renderView(res, 'messages', viewLocals);
-}
-
-/** @todo This interface won't be needed once session support and flash
- * memory is introduced. */
-interface ErrorPageViewLocalsI extends ViewLocalsBaseI {
-  error: { message: string };
+  renderView(res, 'text', viewLocals);
 }
 
 /**
  * The error page controller.
  *
- * @todo While the error is now set manually, once session support is
- * implemented it will be read from the session flash memory automatically
- * by the express-session module. When this is ready, remove the code
- * that sets error manually.
+ * @note The error message is stored in session flash and read-in/
+ * made available to the view automatically.
  */
 export function _error(_: Request, res: Response): void {
-  const viewLocals: ErrorPageViewLocalsI = {
+  const viewLocals: ViewLocalsBaseI = {
     title: 'Loc8r',
-    activeMenuItem: -1,
-    error: { message: 'An error has occurred.' }
+    activeMenuItem: -1
   };
-  renderView(res, 'messages', viewLocals);
+  renderView(res, 'text', viewLocals);
 }

@@ -3,65 +3,64 @@ extends layout
 include _includes/common-mixins
 
 append content
-  if !error
-    .row.banner
-      .col-12
-        span.page-heading= location.name
-    .row
-      .col-12.col-md-8
-        .row.align-items-md-end
-          .col-12.col-md-6
-            p
-              +outputRating(location.rating, 'h6')
-            p= location.address
-            .card
-              .card-body
-                .card-title
-                  span.card-heading Opening hours
-                each value, index in location.openingHours
-                  - const marginClass = {'mb-1': index < location.openingHours.length - 1};
-                  if value.closed
-                    .card-text(class=marginClass) #{value.dayRange}: closed
-                  else
-                    .card-text(class=marginClass) #{value.dayRange}: #{value.opening} - #{value.closing}
-            .card
-              .card-body
-                .card-title
-                  span.card-heading Facilities
-                p.card-text
-                  each facility in location.facilities
-                    span.facility-badge= facility
-          .col-12.col-md-6
-            .card
-              .card-body
-                .card-title
-                  span.card-heading Location map
-                .card-text
-                  - const coordinates = location.coords.latitude + ', ' + location.coords.longitude;
-                  img.img-fluid.rounded(src='https://maps.googleapis.com/maps/api/staticmap?center=' +
-                          coordinates + '&zoom=' + mapParams.zoom + '&size=' +
-                          mapParams.size + '&sensor=false&markers=' + coordinates + '&scale=' +
-                          mapParams.scale + '&key=' + mapParams.apiKey)
-        .row
-          .col-12
-            .review-block
-              .row
+  .row.banner
+    .col-12
+      span.page-heading= location.name
+  .row
+    .col-12.col-md-8
+      .row.align-items-md-end
+        .col-12.col-md-6
+          p
+            +outputRating(location.rating, 'h6')
+          p= location.address
+          .card
+            .card-body
+              .card-title
+                span.card-heading Opening hours
+              each value, index in location.openingHours
+                - const marginClass = {'mb-1': index < location.openingHours.length - 1};
+                if value.closed
+                  .card-text(class=marginClass) #{value.dayRange}: closed
+                else
+                  .card-text(class=marginClass) #{value.dayRange}: #{value.opening} - #{value.closing}
+          .card
+            .card-body
+              .card-title
+                span.card-heading Facilities
+              p.card-text
+                each facility in location.facilities
+                  span.facility-badge= facility
+        .col-12.col-md-6
+          .card
+            .card-body
+              .card-title
+                span.card-heading Location map
+              .card-text
+                - const coordinates = location.coords.latitude + ', ' + location.coords.longitude;
+                img.img-fluid.rounded(src='https://maps.googleapis.com/maps/api/staticmap?center=' +
+                        coordinates + '&zoom=' + mapParams.zoom + '&size=' +
+                        mapParams.size + '&sensor=false&markers=' + coordinates + '&scale=' +
+                        mapParams.scale + '&key=' + mapParams.apiKey)
+      .row
+        .col-12
+          .review-block
+            .row
+              .col-6
+                span.card-heading Customer reviews
+              .col-6.text-right
+                a.add-review-btn(href=`/locations/${location._id}/newreview?name=${location.name}`) Add Review
+
+            each review in location.reviews
+              .row.review-header
                 .col-6
-                  span.card-heading Customer reviews
+                  span #{review.reviewer},&nbsp;&nbsp;
+                  span
+                    +formatDate(review.createdOn)
                 .col-6.text-right
-                  a.add-review-btn(href=`/locations/${location._id}/newreview?name=${location.name}`) Add Review
+                  +outputRating(review.rating)
+              .row
+                p #{review.text}
 
-              each review in location.reviews
-                .row.review-header
-                  .col-6
-                    span #{review.reviewer},&nbsp;&nbsp;
-                    span
-                      +formatDate(review.createdOn)
-                  .col-6.text-right
-                    +outputRating(review.rating)
-                .row
-                  p #{review.text}
-
-      .col-12.col-md-4
-        p.bigger= `${location.name} ${sidebar.context}`
-        p= sidebar.callToAction
+    .col-12.col-md-4
+      p.bigger= `${location.name} ${sidebar.context}`
+      p= sidebar.callToAction

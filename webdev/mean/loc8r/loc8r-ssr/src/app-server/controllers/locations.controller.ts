@@ -75,11 +75,10 @@ export async function _locationsList(_: Request, res: Response<string>) {
       renderView(res, 'locations-list', viewLocals);
     },
     (error: RestErrorI) => {
-      /** @todo Set flash message. */
       throw new HttpRspErrorRedirect(
-        '/error',
+        restApiRes.statusCode >= 500 ? '/error' : '/',
         restApiRes.statusCode >= 500
-          ? 'Operation could not be completed due to an internal server error.'
+          ? 'Failed to obtain venues data due to an internal server error.'
           : error.message);
     });
 }
@@ -108,10 +107,9 @@ export async function _locationInfo(req: Request, res: Response<string>) {
   if (!req.params.locationid) {
     // It is a programming error to call this controller for a route without
     // the locationid parameter
-    /** @todo should set flash message. Perhaps flash can set by the server error middleware. */
     throw new HttpRspErrorRedirect(
       '/error',
-      'Operation could not be completed due to an internal server error.');
+      'Failed to navigate to the venue page due to an internal server error.');
   }
 
   // Fetch location from the REST server
@@ -142,9 +140,8 @@ export async function _locationInfo(req: Request, res: Response<string>) {
       renderView(res, 'location-info', viewLocals);
     },
     (error: RestErrorI) => {
-      /** @todo Set flash message. */
       throw new HttpRspErrorRedirect(
-        '/error',
+        restApiRes.statusCode >= 500 ? '/error' : '/',
         restApiRes.statusCode >= 500
           ? 'Failed to obtain venue data due to an internal server error.'
           : error.message);
@@ -163,16 +160,14 @@ export function _getNewReviewPage(req: Request, res: Response<string>) {
   if (!req.params.locationid) {
     // It is a programming error to call this controller for a route without
     // the locationid parameter
-    /** @todo should set flash message. Perhaps flash can set by the server error middleware. */
     throw new HttpRspErrorRedirect(
       '/error',
-      'Could not complete the request due to an internal server error.');
+      'Failed to navigate to the new review page due to an internal server error.');
   }
   if (typeof req.query.name !== 'string' || req.query.name.trim() === '') {
-    /** @todo Set flash message. */
     throw new HttpRspErrorRedirect(
-      '/error',
-      'Request failed due to malformed data received from the user agent.');
+      '/',
+      'Failed to navigate to the new review page due to malformed data received from the user agent.');
   }
 
   const viewLocals: NewReviewPageLocalsI = {
@@ -201,21 +196,18 @@ export async function _postNewReview(req: Request, res: Response<string>) {
   if (!req.params.locationid) {
     // It is a programming error to call this controller for a route without
     // the locationid parameter
-    /** @todo should set flash message. Perhaps flash can set by the server error middleware. */
     throw new HttpRspErrorRedirect(
       '/error',
       'Unable to create a new review due to an internal server error.');
   }
   if (typeof req.query.name !== 'string' || req.query.name.trim() === '') {
-    /** @todo Set flash message. */
     throw new HttpRspErrorRedirect(
-      '/error',
+      '/',
       'Unable to create a new review due to malformed data received from the user agent.');
   }
   if (!isRecord(req.body)) {
-    /** @todo Set flash message. */
     throw new HttpRspErrorRedirect(
-      '/error',
+      '/',
       'Unable to create a new review due to malformed data received from the user agent.');
   }
 
@@ -252,7 +244,7 @@ export async function _postNewReview(req: Request, res: Response<string>) {
       'CreateReview',
       () => {
         // Redirect to location's page
-        /** @todo set info flash msg. */
+        req.flash('info', 'Successfully added a new review.');
         res.status(302).redirect(`/locations/${req.params.locationid}`);
       },
       (error: RestErrorI) => {
@@ -266,7 +258,6 @@ export async function _postNewReview(req: Request, res: Response<string>) {
         }
         else {
           // Unexpected REST API internal server error
-          /** @todo should set flash message. Perhaps flash can set by the server error middleware. */
           throw new HttpRspErrorRedirect(
             '/error',
             'Unable to create a new review due to an internal server error.');

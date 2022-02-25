@@ -141,7 +141,6 @@ export function _processRestResponse(restApiRes: _RestClientRetTypeI,
                                      handleFailureRspCb: (error: RestErrorI) => void) {
   if (!isValidRestResponse(restApiRes.json)) {
     // Unexpected response received from the REST server
-    /** @todo should set flash message. Perhaps flash can set by the server error middleware. */
     throw new HttpRspErrorRedirect(
       '/error',
       'Operation could not be completed due to an internal server error.');
@@ -149,7 +148,6 @@ export function _processRestResponse(restApiRes: _RestClientRetTypeI,
   if (restApiRes.json.success) {
     if (restApiRes.json.body.type !== expectedSuccessRspType) {
       // Unexpected response type received from the REST server
-      /** @todo Set flash message. */
       throw new HttpRspErrorRedirect(
         '/error',
         'Operation could not be completed due to an internal server error.');

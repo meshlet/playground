@@ -1,9 +1,18 @@
 import express from 'express';
 import path from 'path';
 import logger from 'morgan';
-import { Environment, urlEncodedFormParser, jsonParser } from '../common/common.module';
+import {
+  Environment,
+  urlEncodedFormParser,
+  jsonParser,
+  registerCleanupTask
+} from '../common/common.module';
 import { _router as indexRouter } from './routes';
 import { initRestApi, restApiRouter } from '../app-api/app-api.module';
+import { _connectRedis as connectRedis } from './misc/redis-connector';
+import session from 'express-session';
+import getRedisStoreCtor from 'connect-redis';
+import flash from 'express-flash';
 
 /**
  * @file Defines the public API for the app-server module.
@@ -19,6 +28,9 @@ export function runAppServer() {
     // Wait for the REST API to initialize
     await initRestApi();
 
+    // Wait for Redis client to connect to the server
+    const redisClient = await connectRedis();
+
     // Create Express app instance
     const app = express();
 
@@ -32,6 +44,31 @@ export function runAppServer() {
     app.use(logger('dev'));
     app.use(express.static(path.join(__dirname, '..', 'public')));
 
+    // Obtain RedisStore constructor used to create a store instance
+    const RedisStore = getRedisStoreCtor(session);
+
+    // Setup express-session middleware used for session management
+    app.use(session({
+      cookie: {
+        httpOnly: true,
+        sameSite: 'strict'
+        /** @todo Uncomment once HTTPS is enabled */
+        // secure: true
+      },
+      resave: false,
+      saveUninitialized: false,
+      /** @todo Make ENVVAR */
+      secret: Environment.SESSION_SECRET,
+      store: new RedisStore({
+        client: redisClient,
+        ttl: 43200
+      })
+    }));
+
+    // Register express-flash middleware for persisting flash messages
+    // across requests
+    app.use(flash());
+
     // Setup HTTP request parsers
     app.use(urlEncodedFormParser);
     app.use(jsonParser);
@@ -42,13 +79,31 @@ export function runAppServer() {
 
     // Start the HTTP server
     const httpServer = app.listen(Environment.APP_SERVER_PORT, Environment.APP_SERVER_ADDRESS, () => {
-      console.log(`Server is listening on ${Environment.APP_SERVER_ADDRESS}:${Environment.APP_SERVER_PORT}`);
+      console.log(`HTTP server is listening on ${Environment.APP_SERVER_ADDRESS}:${Environment.APP_SERVER_PORT}`);
     });
 
-    // Listen for errors
+    // Register a clean-up task that closes the server upon process termination.
+    registerCleanupTask(() => {
+      return new Promise<void>((resolve, reject) => {
+        httpServer.close((err?: Error) => {
+          if (err) {
+            console.log('Failed to gracefully shutdown the HTTP server.');
+            reject(err);
+          }
+          else {
+            console.log('HTTP server is exiting gracefully.');
+            resolve();
+          }
+        });
+      });
+    });
+
+    // Listen for error events
     httpServer.on('error', (err: Error) => {
-      // Throw the error to reject the promise returned by the outer IIFE
-      throw err;
+      /** @note Is there anything better we can do here? Throwing crashes the app
+       * because exception gets picked up by Node's default 'uncaughtException'
+       * handler. */
+      console.log(`HTTP server reported an error: ${err.message}`);
     });
   })()
     .then(

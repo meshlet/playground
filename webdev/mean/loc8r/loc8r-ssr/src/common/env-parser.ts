@@ -197,21 +197,14 @@ class Environment {
   public DB_ADDRESS = '';
   public DB_PORT = -1;
   public DB_NAME = '';
+  public REDIS_DB_ADDRESS = '';
+  public REDIS_DB_PORT = -1;
+  public SESSION_SECRET = '';
   public GOOGLE_MAPS_API_KEY = '';
   public ALLOW_MANUAL_UPDATE_OF_CREATED_ON_PATHS = false;
 
   constructor(envConfig: EnvConfig) {
-    const envVarNames = [
-      'REST_SERVER_ADDRESS',
-      'REST_SERVER_PORT',
-      'APP_SERVER_ADDRESS',
-      'APP_SERVER_PORT',
-      'DB_ADDRESS',
-      'DB_PORT',
-      'DB_NAME',
-      'GOOGLE_MAPS_API_KEY',
-      'ALLOW_MANUAL_UPDATE_OF_CREATED_ON_PATHS'
-    ];
+    const envVarNames = Object.getOwnPropertyNames(envConfig);
     for (const envVarName of envVarNames) {
       const envConfigEntry = envConfig[envVarName];
       if (envConfigEntry == null) {
@@ -247,7 +240,7 @@ class Environment {
         }
       }
       else {
-        console.log(`Something went unexpectedly wrong while parsing ${envVarName} environment variable.`);
+        console.log(`Environment class is missing the ${envVarName} property, present in the environment configuration object.`);
         process.exit(-1);
       }
     }

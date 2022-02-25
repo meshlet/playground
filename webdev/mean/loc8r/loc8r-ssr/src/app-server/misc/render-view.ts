@@ -14,7 +14,6 @@ export function _renderView(
   httpResponse.render(viewName, viewLocalsObj, (err: Error | undefined, html: string) => {
     if (err != null) {
       // Page rendering failed unexpectedly
-      /** @todo set flash message. Can be set by error handling middleware. */
       console.log(err);
       throw new HttpRspErrorRedirect(
         '/error',

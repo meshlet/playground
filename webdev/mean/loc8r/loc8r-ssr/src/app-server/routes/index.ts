@@ -37,31 +37,33 @@ _router.get('/error', getExpressCallbackThatStopsOnSuccess(other._error));
  * routes get a chance to execute.
  */
 _router.use(/^(?!\/api)/, (req: Request, _2: Response<string>, next: NextFunction) => {
-  next(new HttpRspErrorRedirect('/', `The requested page could not be found: ${req.path}`));
+  console.log(`404: The requested page could not be found: ${req.path}`);
+  next(new HttpRspErrorRedirect('/', 'The requested page could not be found (404).'));
 });
 
 /**
  * Register error-handling middleware that handles any errors reported
  * by REST API routes.
  */
-_router.use((err: unknown, _: Request, res: Response<string>, next: NextFunction) => {
+_router.use((err: unknown, req: Request, res: Response<string>, next: NextFunction) => {
   if (res.headersSent) {
     return next(err);
   }
 
   if (err instanceof HttpRspErrorRender) {
-    console.log(`HttpRspErrorRender: ${err.viewLocals.error.message}`);
-    if (err.viewLocals.error.validationErr) {
-      console.log(err.viewLocals.error.validationErr);
+    console.log(`HttpRspErrorRender: ${err.message}`);
+    if (err.viewLocals.validationErr) {
+      console.log(err.viewLocals.validationErr);
     }
+    req.flash('error', err.message);
     res.render(
       err.view,
       err.viewLocals,
       (renderErr: Error | null, html: string) => {
         if (renderErr != null) {
           // This is a serious server bug
-          /** @todo Set flash message */
           console.log('Error middleware failed to render the view.');
+          req.flash('error', 'An internal server error has occurred');
           res.status(302).redirect('/error');
         }
         else {
@@ -70,14 +72,14 @@ _router.use((err: unknown, _: Request, res: Response<string>, next: NextFunction
       });
   }
   else if (err instanceof HttpRspErrorRedirect) {
-    /** @todo Set flash msg. */
     console.log(`HttpRspErrorRedirect: ${err.message}`);
+    req.flash('error', err.message);
     res.redirect(err.redirectUrl);
   }
   else {
     // This is an unknown and unprocessed internal server error.
-    /** @todo Set flash msg. */
     console.log('Unknown internal server error has occurred.');
+    req.flash('error', 'An internal server error has occurred.');
     res.status(302).redirect('/error');
   }
 });
