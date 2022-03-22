@@ -1,0 +1,249 @@
+@use "sass:color";
+
+/**
+ * Contains styles for all the components used in a project, such as
+ * buttons, navbars, cards etc.
+ */
+
+/**
+ * A base button style.
+ */
+.btn-base {
+  @extend .btn;
+  background-color: $secondary-bgcolor;
+  color: $primary-text-color;
+}
+.btn-base:hover {
+  background-color: color.scale($secondary-bgcolor, $lightness: -15%);
+  color: $primary-text-color;
+}
+
+/**
+ * Style the navbar.
+ *
+ * @note This will extend the Bootstrap's navbar class with all the style
+ * rules required by our own navbar.
+ *
+ * @note Navbar expands starting from the SM Bootstrap breakpoint.
+ */
+$navbar-font-size: 18px;
+
+.navbar {
+  @extend .navbar-dark;
+  @extend .sticky-top;
+  @extend .navbar-expand-sm;
+  @extend .py-0;
+  background-color: $secondary-bgcolor;
+  font-size: $navbar-font-size;
+  font-family: $bold-font-family;
+}
+
+/* Custom styling for the navbar-brand. */
+.navbar-brand {
+  font-family: $heading-font-family;
+  font-size: 25px;
+}
+
+/* Custom styling for the nav-item. The first navbar item has a bigger top margin
+   applied if navbar is collapsed. */
+.nav-item {
+  @extend .nav-link;
+}
+.nav-item:first-child {
+  @extend .mt-2;
+  @extend .mt-sm-0;
+}
+
+/**
+ * Styles for the cards.
+ */
+$card-bgcolor: hsla(180, 60%, 50%, 45%);
+
+/* The card style rules shared by all types of cards. */
+.card {
+  background-color: $card-bgcolor;
+  @extend .mb-1;
+}
+
+/* The specific styling applied to the location card. */
+.location-card {
+  @extend .card;
+  color: $primary-text-color;
+  text-decoration: none;
+}
+/* Override the hover styling rules as location card is a anchor */
+.location-card:hover {
+  color: $primary-text-color;
+  text-decoration: none;
+  @extend .shadow-lg;
+}
+
+/* Styling to be used by card headings. */
+.card-heading {
+  font-family: $heading-font-family;
+  @extend .h4;
+}
+
+/**
+ * The review component styles.
+ *
+ * @note While review block is not a Bootstrap card, it's design resembles
+ * that of a card in which content is organized as rows and columns.
+ */
+$review-header-bgcolor: hsla(0, 0%, 0%, 35%);
+$review-header-font-size: 90%;
+
+/* The top-level reviews container style. Bootstrap uses card-spacer-x to set card-body padding */
+.review-block {
+  background-color: $card-bgcolor;
+  @extend .mb-2;
+  padding-right: $card-spacer-x;
+  padding-left: $card-spacer-x;
+  @extend .pt-2;
+}
+
+/* Rows within the review-block don't need gutters and its items are vertically centered */
+.review-block > .row {
+  @extend .no-gutters;
+  @extend .align-items-center;
+  @extend .py-1;
+}
+.review-block > .row:first-child {
+  @extend .mt-2;
+  @extend .py-0;
+  @extend .mb-3;
+}
+
+/* Columns within the review block don't need horizontal padding */
+.review-block > .row > .col-6, .review-block > .row > .col-12 {
+  @extend .px-0;
+}
+
+/* Additional styling for the review header row. Note that this row uses negative
+   margin to cancel out the horizontal padding from the review-block parent and
+   applies its own horizontal padding. This is so that review header row bgcolor
+   will span entire width of the parent. */
+.review-header {
+  background-color: $review-header-bgcolor;
+  margin-left: -$card-spacer-x !important;
+  margin-right: -$card-spacer-x !important;
+  padding-left: $card-spacer-x;
+  padding-right: $card-spacer-x;
+  font-size: $review-header-font-size;
+}
+
+/* Additional styling for the review button style */
+.add-review-btn {
+  @extend .btn-base;
+  @extend .btn-sm;
+}
+
+/**
+ * The following defines styles for the badge used for displaying distance
+ * to a location.
+ */
+.distance-badge {
+  @extend .badge;
+  @extend .badge-pill;
+  background-color: $secondary-bgcolor;
+  width: 45px;
+  font-size: 85%;
+  font-weight: bold;
+}
+
+/**
+ * The following defines styles for the badge used for displaying a facility
+ * available at a location.
+ */
+.facility-badge {
+  @extend .badge;
+  background-color: hsl(45, 85%, 45%);
+  padding-top: 2px;
+  padding-bottom: 3px;
+  margin-right: 2px;
+  margin-top: 2px;
+  font-size: 90%;
+}
+
+/* The style rules for the stars used to display location's rating */
+.solid-star {
+  @extend .text-warning;
+  @extend .fa-star;
+  @extend .fas;
+}
+.empty-star {
+  @extend .text-warning;
+  @extend .fa-star;
+  @extend .far;
+}
+.half-star {
+  @extend .text-warning;
+  @extend .fa-star-half-alt;
+  @extend .fas;
+}
+
+/**
+ * A banner style for the page heading on any given page.
+ */
+.banner {
+  @extend .mb-4;
+}
+
+/* Page heading style */
+.page-heading {
+  font-family: $heading-font-family;
+  @extend .h2;
+}
+
+/* Page tagline style */
+.page-tagline {
+  font-family: $headings-font-family;
+  @extend .h3;
+  @extend .text-white-50;
+}
+
+/** Custom styling for the alert close buttons. */
+.alert-dismissible .close {
+  font-size: 2.2rem;
+  padding: 0.3rem 0.7rem;
+  font-family: $bold-font-family;
+}
+
+/** Styling for an element containing validation errors within a form. */
+.invalid-feedback {
+  font-size: 100%;
+  margin-top: 0px;
+  color: $error-color;
+}
+
+/**
+ * Override Bootstrap's border styling for form elements with is-valid
+ * class.
+ */
+.form-control.is-valid,
+select.form-control.is-valid,
+textarea.form-control.is-valid,
+.custom-select.is-valid {
+  border-color: $primary-bgcolor;
+}
+.form-control.is-valid:focus, .custom-select.is-valid:focus {
+  border-color: $primary-bgcolor;
+}
+
+/**
+ * Override Bootstrap's border styling for form elements with is-invalid
+ * class.
+ */
+.form-control.is-invalid,
+select.form-control.is-invalid,
+textarea.form-control.is-invalid,
+.custom-select.is-invalid {
+  border-width: 4px;
+  border-color: $error-color;
+  border-style: none none none solid;
+}
+.form-control.is-invalid:focus, .custom-select.is-invalid:focus {
+  border-width: 4px;
+  border-color: $error-color;
+  border-style: none none none solid;
+}

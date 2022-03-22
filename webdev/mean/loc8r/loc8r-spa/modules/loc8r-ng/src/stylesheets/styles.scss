@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+$enable-responsive-font-sizes:true;
+@import '~bootstrap/scss/bootstrap';
+
+// Import Font-Awesome SCSS
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+
+// Import the partials
+@import "base";
+@import "components";
