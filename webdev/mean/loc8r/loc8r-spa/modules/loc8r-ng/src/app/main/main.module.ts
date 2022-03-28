@@ -3,20 +3,23 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { MainComponent } from './main.component';
-import { DataAccessModule } from '../data-access/data-access.module';
+import { LocationsListComponent } from './locations-list.component';
+import { DataAccessLayerModule } from '../dal/dal.module';
 
 @NgModule({
   declarations: [
-    MainComponent
+    MainComponent,
+    LocationsListComponent
   ],
   imports: [
     BrowserModule,
     RouterModule,
     NgbModule,
-    DataAccessModule
+    DataAccessLayerModule
   ],
   exports: [
-    MainComponent
+    MainComponent,
+    LocationsListComponent
   ]
 })
 export class MainModule {}

@@ -1,3 +1,5 @@
+import { _ErrorBase } from './error';
+
 /**
  * @file Defines the public API for the common module.
  *
@@ -57,7 +59,7 @@ export {
   _SuccessRspUnionT as SuccessRspUnionT
 } from './rest-api-response';
 
-export {
-  _ErrorBase as ErrorBase,
-  _HttpError as HttpError
-} from './error';
+export { _ErrorBase as ErrorBase };
+// export {
+//   _ErrorBase as ErrorBase
+// } from './error';

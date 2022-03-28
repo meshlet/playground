@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { StaticDataSource } from '../data-access/static.datasource';
 
 /**
  * The main component of the user-facing part of the site.
@@ -10,8 +9,4 @@ import { StaticDataSource } from '../data-access/static.datasource';
 })
 export class MainComponent {
   public isMenuCollapsed = true;
-
-  constructor(private dataSource: StaticDataSource) {
-    console.log(this.dataSource.getData());
-  }
 }
