@@ -10,6 +10,16 @@
     "src/polyfills.ts"
   ],
   "include": [
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    /**
+     * @todo This is a hack to get scripts from loc8r-common module compiled
+     * into the loc8r-ng Angular app. Make loc8r-common an Angular library
+     * instead, which is then imported into the loc8r-ng app. Among other
+     * things, this will reduce the output binary size as only loc8r-common
+     * scripts actually used by loc8r-ng will be included in the output
+     * binary (as opposed to the current solution, where entirently of
+     * loc8r-common gets included).
+     */
+    "../loc8r-common/*.ts"
   ]
 }

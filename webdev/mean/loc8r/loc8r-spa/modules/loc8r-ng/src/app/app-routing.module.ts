@@ -12,6 +12,9 @@ const routes: Routes = [
       {
         path: 'locations',
         component: LocationsListComponent
+      },
+      {
+        path: '**', redirectTo: '/locations'
       }
     ]
   }

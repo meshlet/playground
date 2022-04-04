@@ -1,5 +1,41 @@
 <div class="row banner">
   <div class="col-12">
-    <p>A list of locations will be displayed here</p>
+    <span class="page-heading">
+      Loc8r
+    </span>&nbsp;&nbsp;
+    <span class="page-tagline">
+      Find places to work with WiFi near you!
+    </span>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-md-8">
+    <p *ngIf="locations.length === 0">No nearby venues have been found.</p>
+    <div *ngIf="locations.length > 0">
+      <a *ngFor="let location of locations" class="location-card"
+         [routerLink]="'/locations/' + location._id">
+        <div class="card-body">
+          <div class="card-title">
+            <span class="card-heading d-block d-sm-inline">{{ location.name }}</span>&nbsp;
+            <span class="distance-badge float-right">
+              {{ location.distance }}
+            </span>
+          </div>
+          <p class="card-text">{{ location.address }}</p>
+          <p class="card-text">
+            <span *ngFor="let facility of location.facilities" class="facility-badge">
+              {{ facility }}
+            </span>
+          </p>
+        </div> 
+      </a>
+    </div>
+  </div>
+  <div class="col-12 col-md-4 mt-2 mt-md-0">
+    <p>
+      Looking for wifi and a seat? Loc8r helps you find places to work when out
+      and about. Perhaps with coffee, cake or a pint? Let Loc8r help you find
+      the place you're looking for.
+    </p>
   </div>
 </div>

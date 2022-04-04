@@ -9,7 +9,7 @@ import {
   ReviewI
 } from 'loc8r-common/common.module';
 import { BaseDataSource } from './base.datasource';
-import { FrontendError, ErrorCode } from '../misc/bla';
+import { FrontendError, ErrorCode } from '../misc/error';
 
 /**
  * A static data source useful for development and testing.
