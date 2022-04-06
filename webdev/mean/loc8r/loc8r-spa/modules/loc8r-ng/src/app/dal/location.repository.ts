@@ -24,7 +24,11 @@ export class LocationRepository {
   constructor(@Inject(DATA_SOURCE_INJECT_TOKEN) private dataSource: BaseDataSource) {}
 
   getLocations(): Observable<GetLocationsRspI['locations']> {
-    return this.dataSource.getLocations();
+    return this.dataSource.getLocations(
+      '10.380589298808665',
+      '63.41638573651207',
+      10000
+    );
   }
 
   getLocation(locationid: string): Observable<GetOneLocationRspI['location']> {

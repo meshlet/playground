@@ -5,21 +5,29 @@ import { RouterModule } from '@angular/router';
 import { MainComponent } from './main.component';
 import { LocationsListComponent } from './locations-list.component';
 import { DataAccessLayerModule } from '../dal/dal.module';
+import { MiscModule } from '../misc/misc.module';
+import { LocationDetailsComponent } from './location-details.component';
+import { AboutComponent } from './about.component';
 
 @NgModule({
   declarations: [
     MainComponent,
-    LocationsListComponent
+    LocationsListComponent,
+    LocationDetailsComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
     RouterModule,
     NgbModule,
-    DataAccessLayerModule
+    DataAccessLayerModule,
+    MiscModule
   ],
   exports: [
     MainComponent,
-    LocationsListComponent
+    LocationsListComponent,
+    LocationDetailsComponent,
+    AboutComponent
   ]
 })
 export class MainModule {}

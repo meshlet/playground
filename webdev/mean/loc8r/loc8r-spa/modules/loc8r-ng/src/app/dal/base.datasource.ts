@@ -12,7 +12,7 @@ import {
  * Defines common interface implemented by data sources.
  */
 export interface BaseDataSource {
-  getLocations(): Observable<GetLocationsRspI['locations']>;
+  getLocations(longitude: string, latitude: string, maxDistance: number): Observable<GetLocationsRspI['locations']>;
   getOneLocation(locationid: string): Observable<GetOneLocationRspI['location']>;
   getOneReview(locationid: string, reviewid: string): Observable<GetOneReviewRspI['review']>;
   createReview(locationid: string, review: ReviewI): Observable<CreateReviewRspI['review']>;

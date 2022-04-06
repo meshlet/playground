@@ -11,25 +11,26 @@
 <div class="row">
   <div class="col-12 col-md-8">
     <p *ngIf="locations.length === 0">No nearby venues have been found.</p>
-    <div *ngIf="locations.length > 0">
-      <a *ngFor="let location of locations" class="location-card"
-         [routerLink]="'/locations/' + location._id">
-        <div class="card-body">
-          <div class="card-title">
-            <span class="card-heading d-block d-sm-inline">{{ location.name }}</span>&nbsp;
-            <span class="distance-badge float-right">
-              {{ location.distance }}
-            </span>
-          </div>
-          <p class="card-text">{{ location.address }}</p>
-          <p class="card-text">
-            <span *ngFor="let facility of location.facilities" class="facility-badge">
-              {{ facility }}
-            </span>
-          </p>
-        </div> 
-      </a>
-    </div>
+    <a *ngFor="let location of locations" class="location-card"
+       [routerLink]="'/locations/' + location._id">
+      <div class="card-body">
+        <div class="card-title">
+          <span class="card-heading d-block d-sm-inline">{{ location.name }}</span>&nbsp;
+          <span *appRenderRating="location.rating || 0; let starCssClass"
+                [class]="starCssClass + ' h5'">
+          </span>
+          <span class="distance-badge float-right">
+            {{ location.distance | appFormatDistance }}
+          </span>
+        </div>
+        <p class="card-text">{{ location.address }}</p>
+        <p class="card-text">
+          <span *ngFor="let facility of location.facilities" class="facility-badge">
+            {{ facility }}
+          </span>
+        </p>
+      </div> 
+    </a>
   </div>
   <div class="col-12 col-md-4 mt-2 mt-md-0">
     <p>
