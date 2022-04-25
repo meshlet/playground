@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  rest_api_address: 'localhost',
+  rest_api_port: 3000,
+  /* @warning Enter your own key here and DO NOT commit it */
+  google_maps_api_key: ''
 };
 
 /*

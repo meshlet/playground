@@ -210,10 +210,12 @@ $review-header-font-size: 90%;
 }
 
 /** Styling for an element containing validation errors within a form. */
-.invalid-feedback {
+.custom-invalid-feedback {
+  @extend .invalid-feedback;
   font-size: 100%;
   margin-top: 0px;
   color: $error-color;
+  display: block;
 }
 
 /**
@@ -224,10 +226,10 @@ $review-header-font-size: 90%;
 select.form-control.is-valid,
 textarea.form-control.is-valid,
 .custom-select.is-valid {
-  border-color: $primary-bgcolor;
+  border-style: none;
 }
 .form-control.is-valid:focus, .custom-select.is-valid:focus {
-  border-color: $primary-bgcolor;
+  border-style: none;
 }
 
 /**
@@ -246,4 +248,30 @@ textarea.form-control.is-invalid,
   border-width: 4px;
   border-color: $error-color;
   border-style: none none none solid;
+}
+
+/**
+ * All form controls that contain invalid values (.ng-invalid) and either
+ * have been edited (.ng-dirty) or have been set in/out of focus (.ng-touched)
+ * will get Bootstrap's .is-invalid styling. Additionally, all form controls
+ * that contain invalid values (.ng-invalid) whose parent form has been
+ * submitted unsuccessfuly (considering some inputs are invalid) as indicated
+ * by .ng-submitted, also get Bootstrap's .is-invalid styling. This covers the
+ * case where user submits the form without 'touching' any inputs.
+ *
+ * @todo Limit this rule to input, select and textarea elements (perhaps also
+ * .form-control and .custom-select Bootstrap classes).
+ */
+ .ng-dirty.ng-invalid, .ng-touched.ng-invalid, form.ng-submitted .ng-invalid {
+  @extend .is-invalid;
+}
+
+/**
+ * Similarly, all elements that are assigned to both .ng-dirty and .ng-valid
+ * classes extend the Bootstrap's .is-valid pseudo class.
+ *
+ * @todo It might be more user-friendly not to use .is-valid styling at all.
+ */
+.ng-dirty.ng-valid {
+  @extend .is-valid;
 }

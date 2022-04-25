@@ -1,7 +1,7 @@
 <div class="row banner">
   <div class="col-12">
     <span class="page-heading">
-      {{ location ? location.name : 'Venue information not yet available.' }}
+      {{ location ? location.name : 'Selected venue is being loaded...' }}
     </span>
   </div>
 </div>
@@ -59,14 +59,17 @@
               <span class="card-heading">Customer reviews</span>
             </div>
             <div class="col-6 text-right">
-              <a class="add-review-btn" [routerLink]="'/locations/' + location._id + '/newreview'">Add Review</a>
+              <a class="add-review-btn" [routerLink]="'/locations/' + location._id + '/newreview'"
+                 [queryParams]="{ name: location.name}">
+                Add Review
+              </a>
             </div>
           </div>
           <ng-template ngFor [ngForOf]="location.reviews" let-review>
             <div class="row review-header">
               <div class="col-6">
                 <span>{{ review.reviewer }},</span>&nbsp;&nbsp;
-                <span>{{ review.createdOn }}</span>
+                <span>{{ review.createdOn | date:'longDate' }}</span>
               </div>
               <div class="col-6 text-right">
                 <span *appRenderRating="review.rating || 0; let starCssClass" [class]="starCssClass"></span>

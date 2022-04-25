@@ -12,14 +12,12 @@ import { Directive, Input, OnChanges, SimpleChanges, TemplateRef, ViewContainerR
   selector: '[appRenderRating]'
 })
 export class OutputRatingDirective implements OnChanges {
-  // ESLint falsly complains about a useless ctor
-  // eslint-disable-next-line no-useless-constructor
   constructor(private container: ViewContainerRef,
               private template: TemplateRef<OutputRatingDirectiveContext>) {
   }
 
   /**
-   * Used to provided the rating to the component.
+   * Used to pass in rating to the directive.
    */
   @Input('appRenderRating')
   rating = 0;
@@ -28,7 +26,7 @@ export class OutputRatingDirective implements OnChanges {
     const ratingChange = changes.rating;
     if (ratingChange && typeof ratingChange.currentValue === 'number') {
       this.container.clear();
-      const ratingInt = Math.round(ratingChange.currentValue);
+      const ratingInt = Math.floor(ratingChange.currentValue);
       let i = 0;
       while (i < 5) {
         let starCssClass = 'empty-star';
@@ -50,7 +48,5 @@ export class OutputRatingDirective implements OnChanges {
 }
 
 class OutputRatingDirectiveContext {
-  // ESLint falsly complains about a useless ctor
-  // eslint-disable-next-line no-useless-constructor
   constructor(public $implicit: string) {}
 }

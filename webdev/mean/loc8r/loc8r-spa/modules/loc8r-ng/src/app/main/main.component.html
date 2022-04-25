@@ -7,11 +7,18 @@
   </button>
   <div id="siteNavbar" [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
     <div class="navbar-nav">
-      <a class="nav-item" routerLink="/locations" routerLinkActive="active">Home</a>
-      <a class="nav-item" routerLink="/about" routerLinkActive="active">About</a>
+      <a class="nav-item" routerLink="/locations" routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }">
+        Home
+      </a>
+      <a class="nav-item" routerLink="/about" routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }">
+        About
+      </a>
     </div>
   </div>
 </nav>
 <div class="container-lg mt-2">
+  <app-flash-message></app-flash-message>
   <router-outlet></router-outlet>
 </div>

@@ -255,7 +255,19 @@ export class StaticDataSource implements BaseDataSource {
 
       // Add the new review
       review._id = this.getNextId();
-      location.reviews.push(review);
+      review.createdOn = (new Date(Date.now())).toISOString();
+      location.reviews.push({
+        _id: review._id,
+        createdOn: review.createdOn,
+        reviewer: review.reviewer,
+        rating: review.rating,
+        text: review.text
+      });
+
+      // Update the location rating
+      location.rating = location.reviews.reduce((acc, currentValue) => {
+        return acc + currentValue.rating;
+      }, 0) / location.reviews.length;
 
       subscriber.next(review);
       subscriber.complete();

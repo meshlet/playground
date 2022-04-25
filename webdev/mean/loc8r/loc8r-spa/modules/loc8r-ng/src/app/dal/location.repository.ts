@@ -2,10 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   GetLocationsRspI,
-  GetOneLocationRspI,
-  GetOneReviewRspI,
-  CreateReviewRspI,
-  ReviewI
+  GetOneLocationRspI
 } from 'loc8r-common/common.module';
 import { DATA_SOURCE_INJECT_TOKEN, BaseDataSource } from './base.datasource';
 
@@ -19,11 +16,10 @@ import { DATA_SOURCE_INJECT_TOKEN, BaseDataSource } from './base.datasource';
  */
 @Injectable()
 export class LocationRepository {
-  // ESLint falsly complains about a useless ctor
-  // eslint-disable-next-line no-useless-constructor
   constructor(@Inject(DATA_SOURCE_INJECT_TOKEN) private dataSource: BaseDataSource) {}
 
   getLocations(): Observable<GetLocationsRspI['locations']> {
+    // @todo coordinates and max distance will be configurable
     return this.dataSource.getLocations(
       '10.380589298808665',
       '63.41638573651207',
@@ -33,13 +29,5 @@ export class LocationRepository {
 
   getLocation(locationid: string): Observable<GetOneLocationRspI['location']> {
     return this.dataSource.getOneLocation(locationid);
-  }
-
-  getReview(locationid: string, reviewid: string): Observable<GetOneReviewRspI['review']> {
-    return this.dataSource.getOneReview(locationid, reviewid);
-  }
-
-  createReview(locationid: string, review: ReviewI): Observable<CreateReviewRspI['review']> {
-    return this.dataSource.createReview(locationid, review);
   }
 }
