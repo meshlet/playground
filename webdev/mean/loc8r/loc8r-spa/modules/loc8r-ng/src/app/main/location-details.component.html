@@ -45,7 +45,7 @@
             </div>
             <div class="card-text">
               <img class="img-fluid rounded"
-                   [src]="'https://maps.googleapis.com/maps/api/staticmap?center=' + location.coords.latitude + ',' + location.coords.longitude + '&zoom=17&size=400x350&sensor=false&markers=' + location.coords.latitude + ',' + location.coords.longitude + '&scale=2&key=thisneedstobeavalidkey'">
+                   [src]="'https://maps.googleapis.com/maps/api/staticmap?center=' + location.coords.latitude + ',' + location.coords.longitude + '&zoom=17&size=400x350&sensor=false&markers=' + location.coords.latitude + ',' + location.coords.longitude + '&scale=2&key=' + getGoogleMapsKey()">
             </div>
           </div>
         </div>

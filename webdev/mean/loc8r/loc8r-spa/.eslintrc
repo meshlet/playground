@@ -6,15 +6,16 @@
   ],
   "env": {
     "browser": true,
-    "es2017": true
+    "es2017": true,
+    "commonjs": true,
+    "node": true
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 8,
     "tsconfigRootDir": ".",
     "project": [
-      "./modules/loc8r-common/tsconfig.json",
-      "./modules/loc8r-ng/tsconfig.app.json"
+      "./tsconfig-base.json"
     ]
   },
   "plugins": [

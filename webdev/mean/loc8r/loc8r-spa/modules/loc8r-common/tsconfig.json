@@ -1,7 +1,7 @@
 {
-  "extends": "../../tsconfig-base.json",
+  "extends": "../../tsconfig-commonjs-base.json",
   "compilerOptions": {
-    "outDir": "../../dist/common"
+    "outDir": "../../dist/loc8r-common"
   },
   "include": [
     "./**/*.ts"

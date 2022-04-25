@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig-commonjs-base",
+  "compilerOptions": {
+    "outDir": "../../dist/loc8r-restapi"
+  },
+  "include": [
+    "./**/*.ts"
+  ],
+  "references": [
+    { "path": "../loc8r-common" }
+  ]
+}

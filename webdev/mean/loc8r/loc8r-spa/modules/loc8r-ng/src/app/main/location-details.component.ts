@@ -4,6 +4,7 @@ import { GetOneLocationRspI } from 'loc8r-common/common.module';
 import { LocationRepository } from '../dal/location.repository';
 import { FrontendError } from '../misc/error';
 import { ReporterService, ReporterData } from '../misc/reporter.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-location-details',
@@ -42,5 +43,9 @@ export class LocationDetailsComponent {
               });
           });
     }
+  }
+
+  getGoogleMapsKey() {
+    return environment.google_maps_api_key;
   }
 }

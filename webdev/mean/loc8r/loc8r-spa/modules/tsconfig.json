@@ -1,0 +1,8 @@
+{
+  "files": [],
+  "include": [],
+  "references": [
+    { "path": "./loc8r-common" },
+    { "path": "./loc8r-restapi" }
+  ]
+}

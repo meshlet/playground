@@ -1,4 +1,26 @@
 {
   "name": "loc8r-common",
-  "private": true
+  "private": true,
+  "//": [
+    "The following makes sure that when Node enounters",
+    "require('loc8r-common'), it will load the common.module.js",
+    "script relative to this package.json file.",
+
+    "@todo: A better solution would be to compile each package",
+    "into its directory (e.g. loc8r-common TS gets compiled into",
+    "the loc8r-common/lib). Then, corresponding package.json uses",
+    "'main' and 'exports' properties to define what's visible to",
+    "to consumers. E.g. for loc8r-common package this could be:",
+
+    "'main': './lib/common.module.js'",
+    "'exports': {",
+    "  '.': './lib/common.module.js'",
+    "  './common.module': './lib/common.module.js'",
+
+    "In this way, both require('loc8r-common') / import {} from ('loc8r-common) and",
+    "require('loc8r-common/common.module') / import {} from ('loc8r-common/common.module)",
+    "will resolve to lib/common.module.js and importing any other script",
+    "from loc8r-common will cause ERR_PACKAGE_PATH_NOT_EXPORTED runtime error."
+  ],
+  "main": "../../dist/loc8r-common/common.module.js"
 }
