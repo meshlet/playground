@@ -1,0 +1,11 @@
+{
+  "/api": {
+    "//": [
+      "Webpack appends /api to the target producing in http://localhost:9999/api",
+      "making sure that any request to localhost:4200/api will get proxied to",
+      "this address instead. Only used for development to work around CORS."
+    ],
+    "target": "http://localhost:9999",
+    "secure": false
+  }
+}

@@ -4,8 +4,11 @@
 
 export const environment = {
   production: false,
-  rest_api_address: 'localhost',
-  rest_api_port: 3000,
+  /*
+   * @note A proxy config is used in development to proxy any request to /api to
+   * localhost:9999:/api
+   */
+  rest_api_base_url: '/api',
   /* @warning Enter your own key here and DO NOT commit it */
   google_maps_api_key: ''
 };

@@ -1,4 +1,5 @@
 import { _LocationI as LocationI, _ReviewI as ReviewI } from './rest-model-types';
+import { _isRecord as isRecord, _isRecordGeneric as isRecordGeneric } from './type-guards';
 
 /**
  * @file Defines TypeScript type for the REST API response.
@@ -164,3 +165,33 @@ export interface _RestResponseFailureI {
  * A union discriminated based on the success property.
  */
 export type _RestResponseT = _RestResponseSuccessI | _RestResponseFailureI;
+
+/**
+  * A type-guard that makes sure the response received from the
+  * REST server is as defined above.
+  */
+export function _isValidRestResponse(resBody: unknown): resBody is _RestResponseT {
+  if (isRecord(resBody)) {
+    if (resBody.success === true) {
+      return true;
+    }
+    else if (resBody.success === false) {
+      if (!isRecord(resBody.error)) {
+        // Malformed REST response
+        return false;
+      }
+      if (typeof resBody.error.message !== 'string') {
+        // Malformed REST response
+        return false;
+      }
+      if (resBody.error.validationErr &&
+          !isRecordGeneric(resBody.error.validationErr, 'string')) {
+        // Malformed REST response
+        return false;
+      }
+      return true;
+    }
+  }
+  // Malformed REST response
+  return false;
+}

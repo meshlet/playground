@@ -1,5 +1,3 @@
-import { _ErrorBase } from './error';
-
 /**
  * @file Defines the public API for the common module.
  *
@@ -56,10 +54,8 @@ export {
   _DeleteReviewRspI as DeleteReviewRspI,
   _SuccessRspTypeLiteralsT as SuccessRspTypeLiteralsT,
   _SuccessRspTypeLiteralToType as SuccessRspTypeLiteralToType,
-  _SuccessRspUnionT as SuccessRspUnionT
+  _SuccessRspUnionT as SuccessRspUnionT,
+  _isValidRestResponse as isValidRestResponse
 } from './rest-api-response';
 
-export { _ErrorBase as ErrorBase };
-// export {
-//   _ErrorBase as ErrorBase
-// } from './error';
+export { _ErrorBase as ErrorBase } from './error';

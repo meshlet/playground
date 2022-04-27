@@ -20,7 +20,8 @@
     "In this way, both require('loc8r-common') / import {} from ('loc8r-common) and",
     "require('loc8r-common/common.module') / import {} from ('loc8r-common/common.module)",
     "will resolve to lib/common.module.js and importing any other script",
-    "from loc8r-common will cause ERR_PACKAGE_PATH_NOT_EXPORTED runtime error."
+    "from loc8r-common will cause ERR_PACKAGE_PATH_NOT_EXPORTED runtime error",
+    "(https://nodejs.org/api/packages.html#subpath-exports)."
   ],
   "main": "../../dist/loc8r-common/common.module.js"
 }
