@@ -27,11 +27,13 @@
     "semi": ["error", "always"],
     "@babel/semi": "error",
     "space-before-function-paren": ["error", "never"],
-    "indent": [
+    "indent": "off",
+    "@typescript-eslint/indent": [
       "error",
       2,
       {
         "FunctionDeclaration": { "parameters": "first" },
+        "FunctionExpression": { "parameters": "first"},
         "SwitchCase": 1
       }
     ],

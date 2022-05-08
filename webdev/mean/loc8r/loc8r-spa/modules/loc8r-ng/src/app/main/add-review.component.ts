@@ -5,6 +5,7 @@ import { isRecord, ReviewI } from 'loc8r-common/common.module';
 import { ReviewRepository } from '../dal/review.repository';
 import { FrontendError } from '../misc/error';
 import { ReporterData, ReporterService } from '../misc/reporter.service';
+import { PageHeader } from './page-header.component';
 
 @Component({
   selector: 'app-add-review',
@@ -21,6 +22,7 @@ export class AddReviewComponent {
 
   private locationId = '';
   public locationName = '';
+  public pageHdr: PageHeader = { title: '' };
 
   constructor(private reviewRepo: ReviewRepository,
               private router: Router,
@@ -45,6 +47,7 @@ export class AddReviewComponent {
     else {
       this.locationName = activatedRoute.snapshot.queryParams.name;
       this.locationId = activatedRoute.snapshot.params.locationid;
+      this.pageHdr.title = `Review ${this.locationName}`;
     }
   }
 

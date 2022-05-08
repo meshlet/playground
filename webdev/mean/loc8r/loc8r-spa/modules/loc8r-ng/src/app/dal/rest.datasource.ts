@@ -64,7 +64,7 @@ function processRestResponse(
 export class RestDataSource implements BaseDataSource {
   constructor(private httpClient: HttpClient) {}
 
-  getLocations(longitude: string, latitude: string, maxDistance: number): Observable<GetLocationsRspI['locations']> {
+  getLocations(longitude: number, latitude: number, maxDistance: number): Observable<GetLocationsRspI['locations']> {
     return new Observable(subscriber => {
       this.httpClient.get<unknown>(
         `${environment.rest_api_base_url}/locations`,
@@ -194,7 +194,10 @@ export class RestDataSource implements BaseDataSource {
                 subscriber.complete();
               },
               (err: RestErrorI) => {
-                if (rsp.status < 500) {
+                if (rsp.status === 404) {
+                  subscriber.error(new FrontendError(ErrorCode.ResourceNotFound));
+                }
+                else if (rsp.status < 500) {
                   subscriber.error(new FrontendError(ErrorCode.BadRequest, err.message));
                 }
                 else {

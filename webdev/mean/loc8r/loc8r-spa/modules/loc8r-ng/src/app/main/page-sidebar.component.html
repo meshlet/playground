@@ -1,0 +1,8 @@
+<ng-template [ngIf]="sidebar != null">
+  <p class="bigger">
+    {{ sidebar.mainText }}
+  </p>
+  <p *ngIf="sidebar.subText != null">
+    {{ sidebar.subText }}
+  </p>
+</ng-template>

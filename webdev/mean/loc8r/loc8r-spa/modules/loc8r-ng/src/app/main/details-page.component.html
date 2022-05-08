@@ -1,0 +1,7 @@
+<div class="row banner">
+  <app-page-header [header]="pageHdr" class="col-12"></app-page-header>
+</div>
+<div *ngIf="location != null" class="row">
+  <app-location-details [location]="location" class="col-12 col-md-8"></app-location-details>
+  <app-page-sidebar [sidebar]="pageSidebar" class="col-12 col-md-4"></app-page-sidebar>
+</div>

@@ -18,12 +18,21 @@ import { DATA_SOURCE_INJECT_TOKEN, BaseDataSource } from './base.datasource';
 export class LocationRepository {
   constructor(@Inject(DATA_SOURCE_INJECT_TOKEN) private dataSource: BaseDataSource) {}
 
-  getLocations(): Observable<GetLocationsRspI['locations']> {
-    // @todo coordinates and max distance will be configurable
+  /**
+   * Position coordinates are expected to be obtained from the gelocation
+   * services or by other means (e.g. matching IP address to the approximate
+   * location). Default max distance from the user's position is 3000 meters.
+   */
+  getLocations(longitude: number, latitude: number, maxDistance = 2000): Observable<GetLocationsRspI['locations']> {
+    // return this.dataSource.getLocations(
+    //   '10.380589298808665',
+    //   '63.41638573651207',
+    //   10000
+    // );
     return this.dataSource.getLocations(
-      '10.380589298808665',
-      '63.41638573651207',
-      10000
+      longitude,
+      latitude,
+      maxDistance
     );
   }
 

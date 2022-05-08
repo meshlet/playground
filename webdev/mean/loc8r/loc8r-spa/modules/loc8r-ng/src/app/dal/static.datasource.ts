@@ -202,7 +202,7 @@ export class StaticDataSource implements BaseDataSource {
     return (this.idCounter++).toString();
   }
 
-  getLocations(longitude: string, latitude: string, maxDistance: number): Observable<GetLocationsRspI['locations']> {
+  getLocations(longitude: number, latitude: number, maxDistance: number): Observable<GetLocationsRspI['locations']> {
     void longitude;
     void latitude;
     void maxDistance;

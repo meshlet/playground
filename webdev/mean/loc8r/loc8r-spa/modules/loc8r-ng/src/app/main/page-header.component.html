@@ -1,0 +1,8 @@
+<ng-template [ngIf]="header != null">
+  <span class="page-heading">
+    {{ header.title }}
+  </span>&nbsp;&nbsp;
+  <span *ngIf="header.tagline" class="page-tagline">
+    {{ header.tagline }}
+  </span>
+</ng-template>

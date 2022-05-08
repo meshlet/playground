@@ -7,6 +7,10 @@ import { Directive, Input, OnChanges, SimpleChanges, TemplateRef, ViewContainerR
  * @note Directive user is responsible for setting the
  * host element's class to the value of the starCssClass
  * context variable provided by the directive.
+ *
+ * @todo Re-implement this as a component. It will most likely
+ * be better contained (e.g. user won't have to set CSS class
+ * themselves) that way.
  */
 @Directive({
   selector: '[appRenderRating]'

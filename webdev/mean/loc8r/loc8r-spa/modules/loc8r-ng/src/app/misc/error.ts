@@ -4,7 +4,11 @@ export const enum ErrorCode {
   InternalServerError,
   BadRequest,
   ResourceNotFound,
-  NetworkError
+  NetworkError,
+  GeolocationTimeout,
+  GeolocationPermissionDenied,
+  GeolocationPositionUnavailable,
+  GeolocationUnsupported
 }
 
 export class FrontendError extends ErrorBase {
@@ -26,11 +30,27 @@ export class FrontendError extends ErrorBase {
           break;
         }
         case ErrorCode.ResourceNotFound: {
-          this.message = 'The requested resource does not exist';
+          this.message = 'The page you requested does not exist.';
           break;
         }
         case ErrorCode.NetworkError: {
-          this.message = 'Request could not be completed due to a network error. Please ensure you are connected to the network';
+          this.message = 'The action has failed due to a network error. Please ensure you are connected to the network';
+          break;
+        }
+        case ErrorCode.GeolocationTimeout: {
+          this.message = 'We were unable to read your position. Have you allowed access to geolocation services?';
+          break;
+        }
+        case ErrorCode.GeolocationPermissionDenied: {
+          this.message = 'We were unable to read your position because you didn\'t grant access to geolocation services. In order to do so please refresh the page and agree to give access to your position.';
+          break;
+        }
+        case ErrorCode.GeolocationPositionUnavailable: {
+          this.message = 'We were unable to read your position. Please refresh the page and grant access to your position if prompted.';
+          break;
+        }
+        case ErrorCode.GeolocationUnsupported: {
+          this.message = 'We were unable to read your position because your browser does not support geolocation services.';
           break;
         }
         default: {

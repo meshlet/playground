@@ -1,98 +1,79 @@
-<div class="row banner">
-  <div class="col-12">
-    <span class="page-heading">
-      {{ location ? location.name : 'Selected venue is being loaded...' }}
-    </span>
-  </div>
-</div>
-<div *ngIf="location != null" class="row">
-  <div class="col-12 col-md-8">
-    <div class="row align-items-md-end">
-      <div class="col-12 col-md-6">
-        <p>
-          <span *appRenderRating="location.rating || 0; let starCssClass" [class]="starCssClass + ' h6'"></span>
-        </p>
-        <p>{{ location.address }}</p>
-        <div class="card">
-          <div class="card-body">
-            <div class="card-title">
-              <span class="card-heading">Opening hours</span>
-            </div>
-            <div *ngFor="let value of location.openingHours; let i = index"
-                 class="card-text" [class.mb-1]="i < location.openingHours.length - 1">
-              {{ value.dayRange + ': ' + (value.closed ? 'closed' : value.opening + ' - ' + value.closing) }}
-            </div>
+<ng-template [ngIf]="location != null">
+  <div class="row align-items-md-end">
+    <div class="col-12 col-md-6">
+      <p>
+        <span *appRenderRating="location.rating || 0; let starCssClass" [class]="starCssClass + ' h6'"></span>
+      </p>
+      <p>{{ location.address }}</p>
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title">
+            <span class="card-heading">Opening hours</span>
           </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <div class="card-title">
-              <span class="card-heading">Facilities</span>
-            </div>
-            <p class="card-text">
-              <span *ngFor="let facility of location.facilities" class="facility-badge">
-                {{ facility }}
-              </span>
-            </p>
+          <div *ngFor="let value of location.openingHours; let i = index"
+               class="card-text" [class.mb-1]="i < location.openingHours.length - 1">
+            {{ value.dayRange + ': ' + (value.closed ? 'closed' : value.opening + ' - ' + value.closing) }}
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <div class="card-title">
-              <span class="card-heading">Location map</span>
-            </div>
-            <div class="card-text">
-              <img class="img-fluid rounded"
-                   [src]="'https://maps.googleapis.com/maps/api/staticmap?center=' + location.coords.latitude + ',' + location.coords.longitude + '&zoom=17&size=400x350&sensor=false&markers=' + location.coords.latitude + ',' + location.coords.longitude + '&scale=2&key=' + getGoogleMapsKey()">
-            </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title">
+            <span class="card-heading">Facilities</span>
+          </div>
+          <p class="card-text">
+            <span *ngFor="let facility of location.facilities" class="facility-badge">
+              {{ facility }}
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title">
+            <span class="card-heading">Location map</span>
+          </div>
+          <div class="card-text">
+            <img class="img-fluid rounded"
+                 [src]="'https://maps.googleapis.com/maps/api/staticmap?center=' + location.coords.latitude + ',' + location.coords.longitude + '&zoom=17&size=400x350&sensor=false&markers=' + location.coords.latitude + ',' + location.coords.longitude + '&scale=2&key=' + getGoogleMapsKey()">
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="review-block">
-          <div class="row">
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="review-block">
+        <div class="row">
+          <div class="col-6">
+            <span class="card-heading">Customer reviews</span>
+          </div>
+          <div class="col-6 text-right">
+            <a class="add-review-btn" [routerLink]="'/locations/' + location._id + '/newreview'"
+               [queryParams]="{ name: location.name}">
+              Add Review
+            </a>
+          </div>
+        </div>
+        <ng-template ngFor [ngForOf]="location.reviews" let-review>
+          <div class="row review-header">
             <div class="col-6">
-              <span class="card-heading">Customer reviews</span>
+              <span>{{ review.reviewer }},</span>&nbsp;&nbsp;
+              <span>{{ review.createdOn | date:'longDate' }}</span>
             </div>
             <div class="col-6 text-right">
-              <a class="add-review-btn" [routerLink]="'/locations/' + location._id + '/newreview'"
-                 [queryParams]="{ name: location.name}">
-                Add Review
-              </a>
+              <span *appRenderRating="review.rating || 0; let starCssClass" [class]="starCssClass"></span>
             </div>
           </div>
-          <ng-template ngFor [ngForOf]="location.reviews" let-review>
-            <div class="row review-header">
-              <div class="col-6">
-                <span>{{ review.reviewer }},</span>&nbsp;&nbsp;
-                <span>{{ review.createdOn | date:'longDate' }}</span>
-              </div>
-              <div class="col-6 text-right">
-                <span *appRenderRating="review.rating || 0; let starCssClass" [class]="starCssClass"></span>
-              </div>
+          <div class="row">
+            <div class="col-12">
+              <p>{{ review.text }}</p>
             </div>
-            <div class="row">
-              <div class="col-12">
-                <p>{{ review.text }}</p>
-              </div>
-            </div>
-          </ng-template>
-        </div>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>
-  <div class="col-12 col-md-4">
-    <p class="bigger">
-      {{ location.name }} is on Loc8r because it has quality wifi
-      and space to sit down with your laptop and get some work done.
-    </p>
-    <p>
-      If you've been and you like it - or if you don't - please leave a review
-      to help people just like you.
-    </p>
-  </div>
-</div>
+</ng-template>

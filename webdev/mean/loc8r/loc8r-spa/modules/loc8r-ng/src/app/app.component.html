@@ -1,1 +1,31 @@
-<router-outlet></router-outlet>
+<nav class="navbar">
+  <a class="navbar-brand" [routerLink]="'locations'">Loc8r</a>
+  <button class="navbar-toggler" type="button" aria-controls="siteNavbar"
+          aria-expanded="false" aria-label="Toggle navigation"
+          (click)="isMenuCollapsed = !isMenuCollapsed">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div id="siteNavbar" [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
+    <div class="navbar-nav">
+      <a class="nav-item" routerLink="locations" routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }">
+        Home
+      </a>
+      <a class="nav-item" routerLink="about" routerLinkActive="active"
+         [routerLinkActiveOptions]="{ exact: true }">
+        About
+      </a>
+    </div>
+  </div>
+</nav>
+<div class="container-lg mt-2">
+  <div class="row">
+    <app-flash-message class="col-12"></app-flash-message>
+  </div>
+  <router-outlet></router-outlet>
+</div>
+<footer class="mt-3 text-center">
+  <span class="small">
+    site design / logo &copy; 2021 Loc8r
+  </span>
+</footer>

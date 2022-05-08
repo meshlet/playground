@@ -33,10 +33,10 @@ export interface _LocationI {
   facilities: Array<string>;
   coords: { longitude: number, latitude: number };
   openingHours: Array<{
-   dayRange: string,
-   opening?: string,
-   closing?: string,
-   closed: boolean
+    dayRange: string,
+    opening?: string,
+    closing?: string,
+    closed: boolean
   }>;
   reviews: Array<_ReviewI>;
   distance: number;
