@@ -1,7 +1,7 @@
 <nav class="navbar">
   <a class="navbar-brand" [routerLink]="'locations'">Loc8r</a>
   <button class="navbar-toggler" type="button" aria-controls="siteNavbar"
-          aria-expanded="false" aria-label="Toggle navigation"
+          [attr.aria-expanded]="!isMenuCollapsed" aria-label="Toggle navigation"
           (click)="isMenuCollapsed = !isMenuCollapsed">
     <span class="navbar-toggler-icon"></span>
   </button>

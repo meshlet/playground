@@ -1,12 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm, NgModel } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { isRecord, ReviewI } from 'loc8r-common/common.module';
 import { ReviewRepository } from '../dal/review.repository';
-import { FrontendError } from '../misc/error';
-import { ReporterData, ReporterService } from '../misc/reporter.service';
-import { PageHeader } from './page-header.component';
+import { ErrorCode, FrontendError } from '../misc/error';
 
+/**
+ * A component that encapsulates the functionality of adding
+ * a new review.
+ *
+ * @note Component is encapsulated with output properties used
+ * to signal different events (e.g. new review created). As such,
+ * the components needs to be integrated in the page by a higher-
+ * level parent component.
+ */
 @Component({
   selector: 'app-add-review',
   templateUrl: 'add-review.component.html'
@@ -20,36 +26,34 @@ export class AddReviewComponent {
     text: ''
   };
 
-  private locationId = '';
-  public locationName = '';
-  public pageHdr: PageHeader = { title: '' };
+  /**
+   * A location ID used by component when creating reviews.
+   */
+  @Input()
+  locationId = '';
 
-  constructor(private reviewRepo: ReviewRepository,
-              private router: Router,
-              private reporter: ReporterService,
-              activatedRoute: ActivatedRoute) {
-    if (typeof activatedRoute.snapshot.params.locationid !== 'string') {
-      console.error('Cannot create AddReviewComponent because `locationid` parameter is missing.');
-      this.router.navigateByUrl('/locations')
-        .catch(reason => {
-          // @todo What can we do?
-          console.error(reason);
-        });
-    }
-    else if (typeof activatedRoute.snapshot.queryParams.name !== 'string') {
-      console.error('Cannot activate AddReviewComponent because `name` query parameter is missing.');
-      this.router.navigateByUrl('/locations')
-        .catch(reason => {
-          // @todo What can we do?
-          console.error(reason);
-        });
-    }
-    else {
-      this.locationName = activatedRoute.snapshot.queryParams.name;
-      this.locationId = activatedRoute.snapshot.params.locationid;
-      this.pageHdr.title = `Review ${this.locationName}`;
-    }
-  }
+  /**
+   * Output property used to signal to subscribers that new
+   * review has been created.
+   */
+  @Output()
+  onReviewCreated = new EventEmitter<ReviewI>();
+
+  /**
+   * Output property used to signal to subscribers that user
+   * has pressed the Cancel button.
+   */
+  @Output()
+  onCancel = new EventEmitter<void>();
+
+  /**
+   * Output property used to signal to subscribers that new
+   * review couldn't be created due to an error.
+   */
+  @Output()
+  onError = new EventEmitter<FrontendError>();
+
+  constructor(private reviewRepo: ReviewRepository) {}
 
   public getFormControValidationMsg(ctrl: NgModel, fieldName = ''): string | undefined {
     if (ctrl.invalid && ctrl.errors) {
@@ -89,31 +93,32 @@ export class AddReviewComponent {
     return undefined;
   }
 
+  resetReview() {
+    this.review = {
+      _id: '',
+      createdOn: '',
+      rating: 1,
+      reviewer: '',
+      text: ''
+    };
+  }
+
   public submit(form: NgForm) {
     if (form.valid) {
       this.reviewRepo.createReview(this.locationId, this.review)
-        .subscribe(() => {
+        .subscribe(createdReview => {
           form.resetForm();
-          this.reporter.sendMessage(new ReporterData(
-            'You have added a new review.',
-            false,
-            { timeoutMs: 3000 }
-          ));
-          this.router.navigateByUrl(`/locations/${this.locationId}`)
-            .catch(reason => {
-              // @todo What can we do?
-              console.error(reason);
-            });
+          this.resetReview();
+          this.onReviewCreated.emit(createdReview);
         },
         err => {
           if (err instanceof FrontendError) {
-            this.reporter.sendMessage(new ReporterData(err.message, true));
+            this.onError.emit(err);
           }
           else {
-            this.reporter.sendMessage(new ReporterData(
-              'Review could not be added due to an error. Please try again.',
-              true
-            ));
+            this.onError.emit(new FrontendError(
+              ErrorCode.InternalServerError,
+              'Review could not be added due to an error. Please try again.'));
           }
         });
     }

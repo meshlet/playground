@@ -51,11 +51,17 @@
             <span class="card-heading">Customer reviews</span>
           </div>
           <div class="col-6 text-right">
-            <a class="add-review-btn" [routerLink]="'/locations/' + location._id + '/newreview'"
-               [queryParams]="{ name: location.name}">
+            <a class="review-btn" (click)="isAddReviewPaneCollapsed = !isAddReviewPaneCollapsed"
+               [attr.aria-expanded]="!isAddReviewPaneCollapsed" aria-controls="addReviewPane">
               Add Review
             </a>
           </div>
+        </div>
+        <div class="row mb-3" id="addReviewPane" [ngbCollapse]="isAddReviewPaneCollapsed">
+          <h6 class="heading-font-family col-12">Add your review</h6>
+          <app-add-review class="col-12" [locationId]="location._id" (onCancel)="isAddReviewPaneCollapsed = true"
+                          (onReviewCreated)="handleNewReview($event)" (onError)="handleNewReviewError($event)">
+          </app-add-review>
         </div>
         <ng-template ngFor [ngForOf]="location.reviews | orderBy:compareReviewsByDate" let-review>
           <div class="row review-header">

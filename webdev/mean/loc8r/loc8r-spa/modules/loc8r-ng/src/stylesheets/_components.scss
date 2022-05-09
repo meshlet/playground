@@ -19,6 +19,15 @@
 }
 
 /**
+ * A cancel button style.
+ */
+.cancel-btn {
+  @extend .btn;
+  @extend .btn-sm;
+  @extend .btn-light;
+}
+
+/**
  * Style the navbar.
  *
  * @note This will extend the Bootstrap's navbar class with all the style
@@ -133,7 +142,7 @@ $review-header-font-size: 90%;
 }
 
 /* Additional styling for the review button style */
-.add-review-btn {
+.review-btn {
   @extend .btn-base;
   @extend .btn-sm;
 }

@@ -18,10 +18,10 @@ import { PageSidebarComponent } from './page-sidebar.component';
  * Routing for the main module which is the root.
  */
 const routes = RouterModule.forRoot([
-  {
-    path: 'locations/:locationid/newreview',
-    component: AddReviewComponent
-  },
+  // {
+  //   path: 'locations/:locationid/newreview',
+  //   component: AddReviewComponent
+  // },
   {
     path: 'locations',
     component: HomePageComponent
