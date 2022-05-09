@@ -9,4 +9,6 @@
  * specific usecase guarantes that array elements will never change
  * (i.e. no additionas, removals or updates) consider using the
  * pure version of this pipe (orderby.pipe.ts).
+ *
+ * @todo Implement.
  */

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { GetOneLocationRspI } from 'loc8r-common/common.module';
+import { GetOneLocationRspI, ReviewI } from 'loc8r-common/common.module';
 import { environment } from '../../environments/environment';
 
 /**
@@ -21,5 +21,17 @@ export class LocationDetailsComponent {
 
   getGoogleMapsKey() {
     return environment.google_maps_api_key;
+  }
+
+  compareReviewsByDate(review1: ReviewI, review2: ReviewI): number {
+    if (review1.createdOn === review2.createdOn) {
+      return 0;
+    }
+
+    const date1 = new Date(review1.createdOn);
+    const date2 = new Date(review2.createdOn);
+
+    // More recent reviews 'come-before' (are considered lower-than) the older ones.
+    return date1 > date2 ? -1 : 1;
   }
 }

@@ -57,7 +57,7 @@
             </a>
           </div>
         </div>
-        <ng-template ngFor [ngForOf]="location.reviews" let-review>
+        <ng-template ngFor [ngForOf]="location.reviews | orderBy:compareReviewsByDate" let-review>
           <div class="row review-header">
             <div class="col-6">
               <span>{{ review.reviewer }},</span>&nbsp;&nbsp;
