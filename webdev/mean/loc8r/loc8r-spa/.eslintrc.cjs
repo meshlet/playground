@@ -1,4 +1,4 @@
-{
+module.exports = {
   "extends": [
     "standard",
     "plugin:@typescript-eslint/recommended",
@@ -10,13 +10,12 @@
     "commonjs": true,
     "node": true
   },
+  "root": true,
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 8,
-    "tsconfigRootDir": ".",
-    "project": [
-      "./tsconfig-base.json"
-    ]
+    "tsconfigRootDir": __dirname,
+    "project": ["./modules/loc8r-common/tsconfig.json", "./modules/loc8r-restapi/tsconfig.json"]
   },
   "plugins": [
     "@typescript-eslint",
@@ -27,8 +26,7 @@
     "semi": ["error", "always"],
     "@babel/semi": "error",
     "space-before-function-paren": ["error", "never"],
-    "indent": "off",
-    "@typescript-eslint/indent": [
+    "indent": [
       "error",
       2,
       {
