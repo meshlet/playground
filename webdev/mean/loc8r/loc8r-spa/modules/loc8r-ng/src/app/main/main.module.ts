@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomePageComponent } from './home-page.component';
 import { LocationsListComponent } from './locations-list.component';
 import { DataAccessLayerModule } from '../dal/dal.module';
@@ -13,31 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { AddReviewComponent } from './add-review.component';
 import { PageHeaderComponent } from './page-header.component';
 import { PageSidebarComponent } from './page-sidebar.component';
-
-/**
- * Routing for the main module which is the root.
- */
-const routes = RouterModule.forRoot([
-  // {
-  //   path: 'locations/:locationid/newreview',
-  //   component: AddReviewComponent
-  // },
-  {
-    path: 'locations',
-    component: HomePageComponent
-  },
-  {
-    path: 'locations/:locationid',
-    component: DetailsPageComponent
-  },
-  {
-    path: 'about',
-    component: AboutComponent
-  },
-  {
-    path: '**', redirectTo: '/locations'
-  }
-]);
+import { MainRoutingModule } from './main-routing.module';
 
 @NgModule({
   declarations: [
@@ -53,14 +29,12 @@ const routes = RouterModule.forRoot([
   imports: [
     BrowserModule,
     RouterModule,
+    MainRoutingModule,
     FormsModule,
-    routes,
     NgbModule,
     DataAccessLayerModule,
     MiscModule
   ],
-  exports: [
-    RouterModule
-  ]
+  exports: [RouterModule]
 })
 export class MainModule {}

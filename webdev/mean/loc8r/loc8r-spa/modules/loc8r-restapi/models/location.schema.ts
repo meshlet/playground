@@ -372,7 +372,7 @@ _locationSchema.static(
   function(
     value: Array<ToObjectParamValueT> | ToObjectParamValueT,
     desiredTypeStr: SuccessRspTypeLiteralsT)
-  : SuccessRspUnionT {
+    : SuccessRspUnionT {
     /** Map array of review documents into array of ReviewI objects. */
     function transformReviews(reviews?: Array<_ReviewDocI>): Array<ReviewI> {
       return reviews?.map<ReviewI>(review => {
