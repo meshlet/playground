@@ -70,6 +70,4 @@ export interface _BaseModelI<DocT, QueryHelpersT = _BaseQueryHelpersI, MethodsT 
    */
   toObject<T, SuccessRspTypeLiteralT extends SuccessRspTypeLiteralsT>(
     value: T, desiredTypeStr: SuccessRspTypeLiteralT): SuccessRspTypeLiteralToType<SuccessRspTypeLiteralT>;
-  // toObject<T, SuccessRspTypeLiteralT extends SucessRspTypeLiteralsT>(
-  //   value: Array<T>, desiredTypeStr: SuccessRspTypeLiteralT): SuccessRspTypeLiteralToType<SuccessRspTypeLiteralT>;
 }
