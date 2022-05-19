@@ -292,7 +292,7 @@ const _staticAssert: keyof _LocationDocI extends keyof LocationI ? true : never 
 void (_staticAssert);
 
 /**
- * Typescript interface that location model instance methods.
+ * Typescript interface for location model instance methods.
  */
 interface LocationMethodsI extends BaseMethodsI {
   setCoordinates: (this: HydratedDocument<_LocationDocI>, value: unknown) => void;
@@ -563,7 +563,7 @@ _locationSchema.method(
  * rating from the reviews at every save as well as remove the need to prevent
  * manual rating update.
  */
-_locationSchema.pre('save', function(this: mongoose.HydratedDocument<_LocationDocI>, next: (err?: CallbackError) => void) {
+_locationSchema.pre('save', function(this: HydratedDocument<_LocationDocI>, next: (err?: CallbackError) => void) {
   if (this.rating) {
     // Rating value is calculated and can't be updated manually
     delete this.rating;

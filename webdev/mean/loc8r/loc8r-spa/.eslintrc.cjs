@@ -15,7 +15,10 @@ module.exports = {
   "parserOptions": {
     "ecmaVersion": 8,
     "tsconfigRootDir": __dirname,
-    "project": ["./modules/loc8r-common/tsconfig.json", "./modules/loc8r-restapi/tsconfig.json", "./modules/loc8r-ng/tsconfig.app.json"]
+    "project": [
+      "./modules/loc8r-common/tsconfig.json",
+      "./modules/loc8r-restapi/tsconfig.json",
+      "./modules/loc8r-ng/tsconfig.eslint.json"]
   },
   "plugins": [
     "@typescript-eslint",

@@ -1,0 +1,12 @@
+/**
+ * Used by ESLint Typescript plugin to make sure all .ts
+ * files are included in the project (linting otherwise
+ * fails with 'The file must be included in at least one
+ * of the projects provided.').
+ */
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "./**/*.ts"
+  ]
+}

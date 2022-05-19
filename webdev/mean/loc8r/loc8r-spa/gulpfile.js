@@ -66,7 +66,7 @@ function buildEslintTask() {
         '--cache',
         '--cache-location', './.eslintcache',
         '--ext', '.ts',
-        'modules/loc8r-common', 'modules/loc8r-restapi'
+        'modules/loc8r-common', 'modules/loc8r-ng', 'modules/loc8r-restapi'
       ]
     );
   }
