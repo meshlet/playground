@@ -24,11 +24,6 @@ export class LocationRepository {
    * location). Default max distance from the user's position is 3000 meters.
    */
   getLocations(longitude: number, latitude: number, maxDistance = 2000): Observable<GetLocationsRspI['locations']> {
-    // return this.dataSource.getLocations(
-    //   '10.380589298808665',
-    //   '63.41638573651207',
-    //   10000
-    // );
     return this.dataSource.getLocations(
       longitude,
       latitude,

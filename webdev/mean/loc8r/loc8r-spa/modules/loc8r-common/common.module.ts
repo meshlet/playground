@@ -33,7 +33,8 @@ export {
 
 export {
   _ReviewI as ReviewI,
-  _LocationI as LocationI
+  _LocationI as LocationI,
+  _UserI as UserI
 } from './rest-model-types';
 
 export {
@@ -52,8 +53,16 @@ export {
   _CreateReviewRspI as CreateReviewRspI,
   _UpdateReviewRspI as UpdateReviewRspI,
   _DeleteReviewRspI as DeleteReviewRspI,
+  _CreateUserRspI as CreateUserRspI,
+  _LoginUserRspI as LoginUserRspI,
+  _LocationSuccessRspTypeLiteralsT as LocationSuccessRspTypeLiteralsT,
+  _UserSuccessRspTypeLiteralsT as UserSuccessRspTypeLiteralsT,
   _SuccessRspTypeLiteralsT as SuccessRspTypeLiteralsT,
+  _LocationSuccessRspTypeLiteralToType as LocationSuccessRspTypeLiteralToType,
+  _UserSuccessRspTypeLiteralToType as UserSuccessRspTypeLiteralToType,
   _SuccessRspTypeLiteralToType as SuccessRspTypeLiteralToType,
+  _LocationSuccessRspUnionT as LocationSuccessRspUnionT,
+  _UserSuccessRspUnionT as UserSuccessRspUnionT,
   _SuccessRspUnionT as SuccessRspUnionT,
   _isValidRestResponse as isValidRestResponse
 } from './rest-api-response';

@@ -1,5 +1,4 @@
 import { Model } from 'mongoose';
-import { SuccessRspTypeLiteralToType, SuccessRspTypeLiteralsT } from 'loc8r-common';
 
 /**
  * @file Base model interfaces that must be implemented by
@@ -59,15 +58,28 @@ export interface _BaseModelI<DocT, QueryHelpersT = _BaseQueryHelpersI, MethodsT 
    * This static gives model a chance to transform mongoose document
    * into the format that is sent in the body of a successful response.
    *
-   * Note that return type of toObject method resolves to a type
-   * that corresponds the the passed in REST body type literal
-   * (RestBodyTypeLiteralsT defined in common/rest-api-response.ts).
-   * It is up to the caller to decide what return type should be,
-   * depending on the use-case. For example, if a list of locations
-   * have been obtained from the DB, the invocation would be
-   * toObject(docs, 'GetLocations'), ensure that return type of
-   * the call is GetLocationsBodyI.
+   * Expectation is that derived classes will use *SuccessRspTypeLiteralsT
+   * types defined in loc8r-common/rest-api-response.ts to narrow down the
+   * possible values for the `desiredTypeStr` parameter. Furthermore,
+   * the *SuccessRspTypeLiteralToType types should be used to indicate
+   * the return type of the method to the caller which depends on the
+   * literal type of the `desiredTypeStr`. For instance, the user model
+   * might implements this method like this:
+   *
+   * toObject<T, SuccessRspTypeLiteralT extends UserSuccessRspTypeLiteralsT>(
+   *   value: T, desiredTypeStr: SuccessRspTypeLiteralT): UserSuccessRspTypeLiteralToType<SuccessRspTypeLiteralT>;
+   *
+   * whose desiredTypeStr parameter accepts only the user related success
+   * response type literals and when called like this:
+   *
+   * toObject(doc, 'CreateUser')
+   *
+   * indicates that return type must be CreateUserRspI. The method in
+   * this base interface has `desiredTypeStr` set to string and return type
+   * set to unknown to allow derived classes to use more specific types. The
+   * purpose of having this method defined in the base interface is to expose
+   * toObject method on all models which makes sure it is implemented for each
+   * of them.
    */
-  toObject<T, SuccessRspTypeLiteralT extends SuccessRspTypeLiteralsT>(
-    value: T, desiredTypeStr: SuccessRspTypeLiteralT): SuccessRspTypeLiteralToType<SuccessRspTypeLiteralT>;
+  toObject<T>(value: T, desiredTypeStr: string): unknown;
 }

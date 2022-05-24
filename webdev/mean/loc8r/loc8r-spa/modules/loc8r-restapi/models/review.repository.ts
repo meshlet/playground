@@ -63,7 +63,7 @@ export function _getReviewById(locationId: string, reviewId: string)
 }
 
 /**
- * An interface describing how to review received from the client should
+ * An interface describing how the review received from the client should
  * look like. Note that we don't want to force caller to check/cast types,
  * which is why all types are set to unknown. Type checks and casts are
  * done by model/mongoose.
@@ -77,7 +77,7 @@ export interface _ReviewExternal {
 /**
  * Creates a new review for the given location.
  *
- * @note Eventual validation errors are transformed by trimming property
+ * @note Reported validation errors are transformed by trimming property
  * names by two front segments.
  *
  * @returns Returns a promise that resolves with the Review object if the new review

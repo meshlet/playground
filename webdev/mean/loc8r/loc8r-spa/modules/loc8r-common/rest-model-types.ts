@@ -10,7 +10,7 @@
  * for given models.
  *
  * @note Field types here don't necessarily match types used in
- * mongoose schamas. This is because these interfaces define
+ * mongoose schemas. This is because these interfaces define
  * the format returned to the client and internally used data
  * will be converted into this form before data is sent.
  */
@@ -40,4 +40,12 @@ export interface _LocationI {
   }>;
   reviews: Array<_ReviewI>;
   distance: number;
+}
+
+/** Defines the shape of the user data model */
+export interface _UserI {
+  _id: string;
+  email: string;
+  firstname: string;
+  lastname: string;
 }

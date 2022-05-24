@@ -1,9 +1,9 @@
 import mongoose, { CallbackError, HydratedDocument } from 'mongoose';
 import {
   isRecord,
-  SuccessRspUnionT,
-  SuccessRspTypeLiteralToType,
-  SuccessRspTypeLiteralsT,
+  LocationSuccessRspUnionT,
+  LocationSuccessRspTypeLiteralsT,
+  LocationSuccessRspTypeLiteralToType,
   ExtractArrayElemT,
   LocationI,
   ReviewI,
@@ -278,7 +278,7 @@ const geoPointSchema = new mongoose.Schema<_GeoPointDocI, mongoose.Model<_GeoPoi
  * Typescript interface describing a single location.
  */
 export interface _LocationDocI {
-  _id: mongoose.Types.ObjectId | string;
+  _id: mongoose.Types.ObjectId;
   name: string;
   rating?: number;
   address: string;
@@ -299,20 +299,23 @@ interface LocationMethodsI extends BaseMethodsI {
 }
 
 /**
- * LocationModel interface type alias.
- *
- * @note Methods defined on this interface are LocationModel statics.
+ * Valid types for the _LocationModelI.toObject's value parameter.
  */
 type ToObjectParamValueT =
   (Partial<_LocationDocI> & { distance?: number }) |
   Array<Partial<_LocationDocI> & { distance?: number }> |
   (Partial<_ReviewDocI> & { locationName: _LocationDocI['name'] });
 
+/**
+ * LocationModel interface.
+ *
+ * @note Methods defined on this interface are LocationModel statics.
+ */
 export interface _LocationModelI extends BaseModelI<_LocationDocI, BaseQueryHelpersI, LocationMethodsI> {
   /** More info in BaseModelI interface docs. */
-  toObject<SucessRspTypeLiteralT extends SuccessRspTypeLiteralsT>(
-    value: ToObjectParamValueT, desiredTypeStr: SucessRspTypeLiteralT)
-  : SuccessRspTypeLiteralToType<SucessRspTypeLiteralT>;
+  toObject<LocationSucessRspTypeLiteralT extends LocationSuccessRspTypeLiteralsT>(
+    value: ToObjectParamValueT, desiredTypeStr: LocationSucessRspTypeLiteralT)
+  : LocationSuccessRspTypeLiteralToType<LocationSucessRspTypeLiteralT>;
 
   /** Converts { longitude, latitude } object into an array [longitude, latitude]. */
   coordsObjToCoordsArray(obj: unknown): Array<unknown>;
@@ -370,9 +373,9 @@ export const _locationSchema = new mongoose.Schema<_LocationDocI, _LocationModel
 _locationSchema.static(
   'toObject',
   function(
-    value: Array<ToObjectParamValueT> | ToObjectParamValueT,
-    desiredTypeStr: SuccessRspTypeLiteralsT)
-    : SuccessRspUnionT {
+    value: ToObjectParamValueT,
+    desiredTypeStr: LocationSuccessRspTypeLiteralsT)
+    : LocationSuccessRspUnionT {
     /** Map array of review documents into array of ReviewI objects. */
     function transformReviews(reviews?: Array<_ReviewDocI>): Array<ReviewI> {
       return reviews?.map<ReviewI>(review => {

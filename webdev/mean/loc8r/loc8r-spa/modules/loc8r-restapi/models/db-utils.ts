@@ -32,7 +32,6 @@ export async function _wrapDatabaseOperation<R>(
     }
     // Otherwise, an unexpected DB server error has occurred. Report an internal
     // server error.
-    // throw createError(500, `${errPrefix} due to an internal database server error.`);
     throw new RestError(500, `${errPrefix} due to an internal database server error.`);
   }
 }

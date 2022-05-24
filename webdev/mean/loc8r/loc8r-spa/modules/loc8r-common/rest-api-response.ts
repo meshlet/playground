@@ -1,4 +1,8 @@
-import { _LocationI as LocationI, _ReviewI as ReviewI } from './rest-model-types';
+import {
+  _LocationI as LocationI,
+  _ReviewI as ReviewI,
+  _UserI as UserI
+} from './rest-model-types';
 import { _isRecord as isRecord, _isRecordGeneric as isRecordGeneric } from './type-guards';
 
 /**
@@ -71,15 +75,35 @@ export interface _UpdateReviewRspI {
 
 /**
  * Body of a successfull response to a request to delete existing review.
+ *
+ * @note No other fields are sent besides the response type.
  */
 export interface _DeleteReviewRspI {
   type: 'DeleteReview';
 }
 
 /**
- * A discriminated union of all possible successfull response body types.
+ * Body of a successfull response to a request to create a new user.
  */
-export type _SuccessRspUnionT =
+export interface _CreateUserRspI {
+  type: 'CreateUser';
+  user: UserI;
+}
+
+/**
+ * Body of a successfull response to a login request.
+ *
+ * @todo Both JWT and logged-in user are sent as part of this response.
+ */
+export interface _LoginUserRspI {
+  type: 'LoginUser';
+}
+
+/**
+ * A discriminated union of all successfull response body types related
+ * to the location data.
+ */
+export type _LocationSuccessRspUnionT =
   _GetLocationsRspI |
   _GetOneLocationRspI |
   _CreateLocationRspI |
@@ -91,15 +115,40 @@ export type _SuccessRspUnionT =
   _DeleteReviewRspI;
 
 /**
+ * A discriminated union of all successfull response body types related
+ * to the user data.
+ */
+export type _UserSuccessRspUnionT =
+  _CreateUserRspI |
+  _LoginUserRspI;
+
+/**
+ * A discriminated union of all possible successfull response body types.
+ */
+export type _SuccessRspUnionT =
+  _LocationSuccessRspUnionT |
+  _UserSuccessRspUnionT;
+
+/**
+ * A union of all possible values for _LocationSuccessRspUnionT.type property.
+ */
+export type _LocationSuccessRspTypeLiteralsT = _LocationSuccessRspUnionT['type'];
+
+/**
+ * A union of all possible values for _UserSuccessRspUnionT.type property.
+ */
+export type _UserSuccessRspTypeLiteralsT = _UserSuccessRspUnionT['type'];
+
+/**
  * A union of all possible values for _SuccessRspUnionT.type property.
  */
 export type _SuccessRspTypeLiteralsT = _SuccessRspUnionT['type'];
 
 /**
- * A helper that maps response body type string literal into the body
- * type.
+ * A helper that maps _LocationSuccessRspUnionT.type literals into the
+ * body type.
  */
-export type _SuccessRspTypeLiteralToType<T> =
+export type _LocationSuccessRspTypeLiteralToType<T> =
   T extends 'GetLocations' ? _GetLocationsRspI :
   T extends 'GetOneLocation' ? _GetOneLocationRspI :
   T extends 'CreateLocation' ? _CreateLocationRspI :
@@ -109,6 +158,24 @@ export type _SuccessRspTypeLiteralToType<T> =
   T extends 'CreateReview' ? _CreateReviewRspI :
   T extends 'UpdateReview' ? _UpdateReviewRspI :
   T extends 'DeleteReview' ? _DeleteReviewRspI :
+  never;
+
+/**
+ * A helper that maps _UserSuccessRspUnionT.type literals into the
+ * body type.
+ */
+export type _UserSuccessRspTypeLiteralToType<T> =
+  T extends 'CreateUser' ? _CreateUserRspI :
+  T extends 'LoginUser' ? _LoginUserRspI :
+  never;
+
+/**
+ * A helper that maps all possible response body type string literals into the body
+ * type.
+ */
+export type _SuccessRspTypeLiteralToType<T> =
+  T extends _LocationSuccessRspTypeLiteralsT ? _LocationSuccessRspTypeLiteralToType<T> :
+  T extends _UserSuccessRspTypeLiteralsT ? _UserSuccessRspTypeLiteralToType<T> :
   never;
 
 /**

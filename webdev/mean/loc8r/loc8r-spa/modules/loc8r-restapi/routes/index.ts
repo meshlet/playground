@@ -42,7 +42,6 @@ _router.route('/locations/:locationid/reviews/:reviewid')
 /**
  * Register 404 middleware for the REST API.
  */
-// _router.use(/^(?=\/api\/)/, (_1: Request, _2: Response, next: NextFunction) => {
 _router.use((_1: Request, _2: Response, next: NextFunction) => {
   next(new RestError(
     404,

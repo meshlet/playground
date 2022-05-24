@@ -4,6 +4,11 @@ import {
   _LocationModelI as LocationModelI,
   _LocationDocI as LocationDocI
 } from './location.schema';
+import {
+  _userSchema as userSchema,
+  _UserModelI as UserModelI,
+  _UserDocI as UserDocI
+} from './user.schema';
 import { _configureMongoose as configureMongoose } from '../misc/mongoose-config';
 
 /**
@@ -22,6 +27,7 @@ export { _LocationDocI, _ReviewDocI } from './location.schema';
  * @note Compile new schemas here.
  */
 export const _LocationModel = model<LocationDocI, LocationModelI>('Location', locationSchema);
+export const _UserModel = model<UserDocI, UserModelI>('User', userSchema);
 
 /**
  * Export a function that initializes all mongoose models in the
@@ -42,7 +48,8 @@ export async function _initMongooseModels() {
      * @note Init other models here.
      */
     await Promise.all([
-      _LocationModel.init()
+      _LocationModel.init(),
+      _UserModel.init()
     ]);
   }
   catch (e) {
