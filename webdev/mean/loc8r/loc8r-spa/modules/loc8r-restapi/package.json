@@ -8,7 +8,7 @@
     "watch": "gulp watch",
     "start": "ENV_CONFIG_FILE=.env.config node -r dotenv/config.js ../../dist/loc8r-restapi/app.js",
     "debug": "ENV_CONFIG_FILE=.env.config node --inspect-brk -r dotenv/config.js ../../dist/loc8r-restapi/app.js",
-    "nodemon": "ENV_CONFIG_FILE=.env.config nodemon --delay 3 -r dotenv/config.js -w ../../dist/ -w .env -w env-configs/ -e js",
+    "nodemon": "ENV_CONFIG_FILE=.env.config nodemon --delay 3 -r dotenv/config.js -w ../../dist/ -w .env -w env-configs/ -e js ../../dist/loc8r-restapi/app.js",
     "build-start-watch": "npm run build && run-p nodemon watch",
     "clean": "rimraf ../../dist/loc8r-restapi && rimraf ../../dist/loc8r-common",
     "populate-db": "npm run build && ENV_CONFIG_FILE=.db-setup.env.config node dist/app-api/db-setup/populate-db.js",

@@ -63,6 +63,7 @@ function buildEslintTask() {
       process.execPath,
       [
         'node_modules/.bin/eslint',
+        '--config', './.eslintrc.cjs',
         '--cache',
         '--cache-location', './.eslintcache',
         '--ext', '.ts',

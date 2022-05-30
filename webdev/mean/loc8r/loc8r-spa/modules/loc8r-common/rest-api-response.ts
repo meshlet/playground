@@ -93,11 +93,10 @@ export interface _CreateUserRspI {
 /**
  * Body of a successfull response to a login request.
  *
- * @todo Both JWT and logged-in user are sent as part of this response.
+ * @note UserI object is included as the JWT payload.
  */
 export interface _LoginUserRspI {
   type: 'LoginUser';
-  user: UserI;
   jwt: string;
 }
 
