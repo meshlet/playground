@@ -24,7 +24,7 @@ module.exports = {
     "@typescript-eslint",
     "@babel"
   ],
-  "ignorePatterns": ["*.js", "*.cjs"],
+  "ignorePatterns": ["*.js", "*.cjs", "*.d.ts"],
   "rules": {
     "semi": ["error", "always"],
     "@babel/semi": "error",

@@ -65,6 +65,7 @@ function parseEnvConfig(): EnvConfig {
 
     const json = JSON.parse(fs.readFileSync(envConfigPath, { encoding: 'utf-8' })) as unknown | undefined;
     if (json == null || !isRecord(json)) {
+      console.log('An error has occurred when parsing the environment configuration file.');
       process.exit(-1);
     }
 
@@ -194,6 +195,7 @@ class Environment {
   public DB_PORT = -1;
   public DB_NAME = '';
   public ALLOW_MANUAL_UPDATE_OF_CREATED_ON_PATHS = false;
+  public JWT_SECRET = '';
 
   constructor(envConfig: EnvConfig) {
     const envVarNames = Object.getOwnPropertyNames(envConfig);

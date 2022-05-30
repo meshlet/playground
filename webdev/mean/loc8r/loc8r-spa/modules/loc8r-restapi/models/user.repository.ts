@@ -61,13 +61,25 @@ export function _createNewUser<T>(user: Exact<T, _UserExternal>): Promise<UserI>
 /**
  * Checks whether user with given email and passwords exists.
  */
-export function _userWithEmailAndPasswordExists(email: string, password: string): Promise<boolean> {
+export function _findUserWithEmailAndPassword(email: string, password: string): Promise<UserI | null> {
   return wrapDatabaseOperation(
     'User info could not be read',
     async() => {
-      return await UserModel
-        .findOne({ email: email, password: password })
-        .lean()
-        .exec() != null;
+      const user = await UserModel
+        .findOne({ email: email })
+        .exec();
+
+      if (user == null) {
+        return null;
+      }
+
+      return (await user.verifyPassword(password))
+        ? {
+          _id: user._id.toString(),
+          email: user.email,
+          firstname: user.firstname,
+          lastname: user.lastname
+        }
+        : null;
     });
 }

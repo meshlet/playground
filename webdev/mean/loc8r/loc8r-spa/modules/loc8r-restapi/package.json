@@ -38,7 +38,7 @@
     "@types/jsonwebtoken": "^8.5.8",
     "@types/morgan": "^1.9.3",
     "@types/passport": "^1.0.7",
-    "@types/passport-local": "^1.0.34",
+    "@types/passport-strategy": "^0.2.35",
     "@types/validator": "^13.7.2"
   }
 }

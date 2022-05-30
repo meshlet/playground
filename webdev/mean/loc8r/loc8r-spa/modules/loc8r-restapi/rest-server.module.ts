@@ -10,6 +10,8 @@ import { _registerCleanupTask as registerCleanupTask } from './misc/proc-term-mn
 import { _router as restApiRouter } from './routes';
 import { _openDefaultConnection as openDefaultConnection } from './models/db';
 import { _initMongooseModels as initMongooseModels } from './models/models';
+import { setupPassport } from './misc/passport-setup';
+import passport from 'passport';
 
 /**
  * @file Defines the public API for the app-server module.
@@ -34,12 +36,20 @@ export function runAppServer() {
     // Configure the app instance
     app.set('query parser', 'simple');
 
+    // Setup passport
+    setupPassport();
+
     app.use(logger('dev'));
     app.use(express.static(path.join(__dirname, '..', 'public')));
 
-    // Setup HTTP request parsers
+    // Setup middleware for both parsing both JSON and URL encoded
+    // HTTP bodies.
     app.use(urlEncodedFormParser);
     app.use(jsonParser);
+
+    // Add passport middleware. Note that passport.session middleware is NOT
+    // added because server doesn't have session support.
+    app.use(passport.initialize());
 
     // Setup the REST API router
     app.use('/api', restApiRouter);

@@ -97,6 +97,8 @@ export interface _CreateUserRspI {
  */
 export interface _LoginUserRspI {
   type: 'LoginUser';
+  user: UserI;
+  jwt: string;
 }
 
 /**
