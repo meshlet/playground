@@ -1,4 +1,4 @@
-import { Request, Response } from 'express-serve-static-core';
+import { Request, Response, Handler } from 'express-serve-static-core';
 import * as userRepository from '../models/user.repository';
 import { _RestError as RestError } from '../misc/rest-error';
 import { _generateJwt as generateJwt } from '../misc/auth';
@@ -37,16 +37,16 @@ export async function _createUser(req: Request,
       if (req.body[prop]) {
         bodyObj[prop] = req.body[prop];
       }
-      res
-        .status(201)
-        .json({
-          success: true,
-          body: {
-            type: 'CreateUser',
-            user: await userRepository._createNewUser(bodyObj)
-          }
-        });
     }
+    res
+      .status(201)
+      .json({
+        success: true,
+        body: {
+          type: 'CreateUser',
+          user: await userRepository._createNewUser(bodyObj)
+        }
+      });
   }
   else {
     throw new RestError(
@@ -91,7 +91,12 @@ export function _loginUser(req: Request,
             validationError));
       }
 
-      passport.authenticate('local', async(err: unknown, user?: UserI) => {
+      /**
+       * @todo Type casting to express.Handler is needed due to a bug in
+       * passport type declarations, where authenticate returns any instead
+       * of express.Handler.
+       */
+      (passport.authenticate('local', async(err: unknown, user?: UserI) => {
         if (err) {
           // This is an internal server error
           return reject(
@@ -100,11 +105,11 @@ export function _loginUser(req: Request,
               'Failed to login the user due to an internal server error. Please try again.'));
         }
         if (!user) {
-          // Internal server error
+          // User couldn't be authenticated
           return reject(
             new RestError(
-              500,
-              'Failed to login the user due to an internal server error. Please try again.'));
+              401,
+              'Provided email and/or password are incorrect. Please make sure you provided correct details and try again.'));
         }
 
         // Generate JWT token for the authenticated user
@@ -129,7 +134,8 @@ export function _loginUser(req: Request,
               500,
               'Failed to login the user due to an internal server error. Please try again.'));
         }
-      });
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      }) as Handler)(req, res, function() {});
     }
     else {
       reject(

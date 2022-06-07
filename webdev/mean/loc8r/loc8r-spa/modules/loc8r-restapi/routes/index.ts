@@ -58,6 +58,10 @@ _router.post('/login', getExpressCallbackThatStopsOnSuccess(users._loginUser));
 
 /**
  * Register 404 middleware for the REST API.
+ *
+ * @todo Both 404 and error middleware needs to be registered at the Express
+ * app instance level. At the moment, Express' default response is sent if
+ * clients requests an unknown resourse whose URL doesn't start with /api.
  */
 _router.use((_1: Request, _2: Response, next: NextFunction) => {
   next(new RestError(

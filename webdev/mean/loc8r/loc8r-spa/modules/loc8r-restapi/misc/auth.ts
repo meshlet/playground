@@ -27,7 +27,7 @@ import { _Env as Env } from './env-parser';
 export const enum _JwtError {
   TokenGenerationFailed, /** failed to generate JWT (must be treated as internal server error) */
   TokenExpired, /** The JWT has experied and is no longer valid */
-  TokenMalformed, /** JWT's header, payload or signature is malformed */
+  TokenInvalid, /** JWT's header, payload or signature is malformed */
   TokenPayloadMalformed, /** JWT's payload is malformed and couldn't be parsed */
   TokenSignatureRequired, /** JWT's signature is missing */
   TokenSignatureInvalid, /** JWT's signature does not match the secret used to encrypt it. */
@@ -44,6 +44,9 @@ export const enum _JwtError {
  *
  * Promise returned by the function either resolves with the
  * JWT string or fails with _JwtError.
+ *
+ * @todo Function should accept an object of any type in order
+ * to make it generic.
  */
 export function _generateJwt(user: UserI): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -67,24 +70,35 @@ export function _generateJwt(user: UserI): Promise<string> {
   });
 }
 
+const tokenPrefix = 'Bearer ';
+
 /**
  * Verifies the JTW token string and attempts to extract the user object.
+ *
+ * @todo This function needs to accept a parser callback that would
+ * be used to parse payload into an object of given type. This is to
+ * make the function generic.
  */
 export function _verifyJwt(token: string): Promise<UserI> {
   return new Promise((resolve, reject) => {
+    if (!token.startsWith(tokenPrefix)) {
+      return reject(_JwtError.TokenInvalid);
+    }
+    console.log(token.substring(tokenPrefix.length));
     jwt.verify(
-      token,
+      token.substring(tokenPrefix.length),
       Env.JWT_SECRET,
       (err: jwt.VerifyErrors | null, payload: jwt.JwtPayload | string | undefined) => {
         let tokenError: _JwtError = _JwtError.TokenErrorUnknown;
         if (err) {
+          console.log(err);
           switch (err.name) {
             case 'TokenExpiredError':
               tokenError = _JwtError.TokenExpired;
               break;
             case 'JsonWebTokenError':
-              if (err.message === 'jwt malformed') {
-                tokenError = _JwtError.TokenMalformed;
+              if (err.message === 'invalid token' || err.message === 'jwt malformed') {
+                tokenError = _JwtError.TokenInvalid;
               }
               else if (err.message === 'jwt signature is required') {
                 tokenError = _JwtError.TokenSignatureRequired;
@@ -104,9 +118,6 @@ export function _verifyJwt(token: string): Promise<UserI> {
               else if (err.message.includes('[OPTIONS SUBJECT]')) {
                 tokenError = _JwtError.TokenSubjectInvalid;
               }
-              else {
-                tokenError = _JwtError.TokenErrorUnknown;
-              }
               break;
             case 'NotBeforeError':
               tokenError = _JwtError.TokenNotBefore;
@@ -115,16 +126,8 @@ export function _verifyJwt(token: string): Promise<UserI> {
               tokenError = _JwtError.TokenErrorUnknown;
           }
         }
-        else if (typeof payload === 'string') {
-          try {
-            const payloadObj = JSON.parse(payload) as unknown;
-            if (isUserObject(payloadObj)) {
-              return resolve(payloadObj);
-            }
-          }
-          catch {
-          }
-          tokenError = _JwtError.TokenPayloadMalformed;
+        else if (isUserObject(payload)) {
+          return resolve(payload);
         }
         else {
           tokenError = _JwtError.TokenPayloadMalformed;
