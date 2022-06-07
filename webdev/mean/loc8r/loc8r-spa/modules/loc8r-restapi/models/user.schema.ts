@@ -8,11 +8,6 @@ import {
   _BaseMethodsI as BaseMethodsI,
   _BaseQueryHelpersI as BaseQueryHelpersI
 } from './schema-base';
-// import {
-//   UserSuccessRspUnionT,
-//   UserSuccessRspTypeLiteralsT,
-//   UserSuccessRspTypeLiteralToType
-// } from 'loc8r-common';
 
 /**
  * Password validation rules.
@@ -54,18 +49,6 @@ interface UserMethods extends BaseMethodsI {
   verifyPassword(this: HydratedDocument<_UserDocI>, passwordGuess: string): Promise<boolean>;
 }
 
-/**
- * Valid types for the _UserModelI.toObject's value parameter.
- */
-//  type ToObjectParamValueT =
-//   Partial<_UserDocI> | Array<Partial<_UserDocI>>;
-
-// export interface _UserModelI extends BaseModelI<_UserDocI, BaseQueryHelpersI, UserMethods> {
-//   /** More info in BaseModelI interface docs. */
-//   toObject<UserSuccessRspTypeLiteralT extends UserSuccessRspTypeLiteralsT>(
-//     value: ToObjectParamValueT, desiredTypeStr: UserSuccessRspTypeLiteralT)
-//   : UserSuccessRspTypeLiteralToType<UserSuccessRspTypeLiteralT>;
-// }
 export type _UserModelI = BaseModelI<_UserDocI, BaseQueryHelpersI, UserMethods>
 
 export const _userSchema = new mongoose.Schema<_UserDocI, _UserModelI>(
@@ -146,49 +129,3 @@ _userSchema.method(
      */
     return compare(passwordGuess, this.password);
   });
-
-/**
- * Implement static toObject method that transforms document(s) (lean
- * or hydrated) into an object to be sent to the client.
- *
- * More details in the brief for toObject static in schema-base.ts.
- */
-// _userSchema.static(
-//   'toObject',
-//   function(
-//     value: ToObjectParamValueT, desiredTypeStr: UserSuccessRspTypeLiteralsT)
-//     : UserSuccessRspUnionT {
-//     switch (desiredTypeStr) {
-//       case 'CreateUser':
-//       {
-//         if (Array.isArray(value)) {
-//           break;
-//         }
-//         return {
-//           type: desiredTypeStr,
-//           user: {
-//             _id: value._id?.toString() || '',
-//             email: value.email || '',
-//             firstname: value.firstname || '',
-//             lastname: value.lastname || ''
-//           }
-//         };
-//       }
-//       case 'LoginUser':
-//       {
-//         if (Array.isArray(value)) {
-//           break;
-//         }
-//         return {
-//           type: desiredTypeStr
-//         };
-//       }
-//       default:
-//       {
-//         const _exhaustiveCheck: never = desiredTypeStr;
-//         void (_exhaustiveCheck);
-//         break;
-//       }
-//     }
-//     throw new RestError(500, 'Unexpected server error has occured.');
-//   });

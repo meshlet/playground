@@ -1,3 +1,4 @@
+import { _isRecord as isRecord } from './type-guards';
 /**
  * @file Defines interfaces/types for each of the data models
  * exposed by the REST API. In case of a successful response,
@@ -48,4 +49,15 @@ export interface _UserI {
   email: string;
   firstname: string;
   lastname: string;
+}
+
+/** A type guard that checks whether a value has UserI type */
+export function _isUserObject(value: unknown): value is _UserI {
+  if (isRecord(value)) {
+    return typeof value._id === 'string' &&
+      typeof value.email === 'string' &&
+      typeof value.firstname === 'string' &&
+      typeof value.lastname === 'string';
+  }
+  return false;
 }

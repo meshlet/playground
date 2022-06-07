@@ -41,9 +41,10 @@ export function _isValid12HourClock(value: string): boolean {
  * don't have to worry about capturing asynchronous errors and
  * passing them to the next function.
  *
- * The callback to be wrapped must report errors by throwing exceptions,
- * regardless of whether it performs a synchronous or an asynchronous
- * action (returns a Promise).
+ * The callback to be wrapped must report errors by throwing exceptions
+ * in case it's synchronous. For asynchrounous callbacks the errors
+ * are reported by rejecting the promise (either by throwing an exception
+ * or by calling the reject callback directly).
  *
  * @note callNextOnSuccess parameter can be used to control whether
  * or not next() is called on success. Most route handlers will not

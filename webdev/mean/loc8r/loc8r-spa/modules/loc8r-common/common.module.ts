@@ -34,7 +34,8 @@ export {
 export {
   _ReviewI as ReviewI,
   _LocationI as LocationI,
-  _UserI as UserI
+  _UserI as UserI,
+  _isUserObject as isUserObject
 } from './rest-model-types';
 
 export {

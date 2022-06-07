@@ -45,7 +45,7 @@ export function _createNewUser<T>(user: Exact<T, _UserExternal>): Promise<UserI>
       if (existingUser) {
         throw new RestError(
           403,
-          'This email address is already taken.');
+          'A profile with this email address already exists.');
       }
 
       const newUser = await new UserModel(user).save();

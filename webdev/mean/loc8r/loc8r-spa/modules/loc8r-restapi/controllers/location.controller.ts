@@ -111,7 +111,7 @@ export async function _getLocation(req: Request,
 /**
  * Controller for the POST /locations route.
  *
- * Creates a new location. The request body should have the following fields:
+ * Creates a new location. The request body should contain the following fields:
  *
  * name: string
  * address: string

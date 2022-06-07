@@ -28,6 +28,11 @@ class HttpError extends ErrorBase {
 export class _RestError extends HttpError implements RestErrorI {
   public validationErr?: ValidationErrorT;
 
+  constructor(statusCode: number, message?: string, validationErr?: ValidationErrorT) {
+    super(statusCode, message);
+    this.validationErr = validationErr;
+  }
+
   /**
    * Trims validation error property names from the start by depth segments.
    *

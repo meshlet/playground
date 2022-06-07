@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
-import { UserI } from 'loc8r-common';
+import { UserI, isUserObject } from 'loc8r-common';
 import { _Env as Env } from './env-parser';
-import { _RestError as RestError } from './rest-error';
 
 /**
  * @file Authentication helpers.
@@ -23,22 +22,28 @@ import { _RestError as RestError } from './rest-error';
  */
 
 /**
- * Possible errors reported by functions exported by this module.
+ * Errors that might occur when generating or verifying JWTs.
  */
 export const enum _JwtError {
-  TokenGenerationFailed,
-  TokenExpired,
-  TokenInvalidSignature,
-  TokenRequiredSignature,
-  TokenMalformed,
-  TokenErrorOther
+  TokenGenerationFailed, /** failed to generate JWT (must be treated as internal server error) */
+  TokenExpired, /** The JWT has experied and is no longer valid */
+  TokenMalformed, /** JWT's header, payload or signature is malformed */
+  TokenPayloadMalformed, /** JWT's payload is malformed and couldn't be parsed */
+  TokenSignatureRequired, /** JWT's signature is missing */
+  TokenSignatureInvalid, /** JWT's signature does not match the secret used to encrypt it. */
+  TokenAudienceInvalid, /** JWT's audience claim is invalid */
+  TokenIssuerInvalid, /** JWT's issuer claim is invalid */
+  TokenIdInvalid, /** JWT's ID claim is invalid */
+  TokenSubjectInvalid, /** JWT's subject claim is invalid */
+  TokenNotBefore, /** Current time is before the JWT's nbf claim. */
+  TokenErrorUnknown /** An unknown error has occurred (must be treated as internal server error) */
 }
 
 /**
  * Generates a JWT token for a given user object.
  *
  * Promise returned by the function either resolves with the
- * JWT string or fails with a RestError.
+ * JWT string or fails with _JwtError.
  */
 export function _generateJwt(user: UserI): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -50,12 +55,11 @@ export function _generateJwt(user: UserI): Promise<string> {
       },
       (err, token) => {
         if (err) {
-          // We don't ever expect token generation to fail. Report 500 server error.
-          return reject(new RestError(500));
+          return reject(_JwtError.TokenGenerationFailed);
         }
         if (token === undefined) {
           // This would indicate a bug in jsonwebtoken library
-          return reject(new RestError(500));
+          return reject(_JwtError.TokenGenerationFailed);
         }
         // Resolve promise with the generated token
         resolve(token);
@@ -66,17 +70,68 @@ export function _generateJwt(user: UserI): Promise<string> {
 /**
  * Verifies the JTW token string and attempts to extract the user object.
  */
-// export function _verifyJwt(token: string): Promise<UserI> {
-//   return new Promise((resolve, reject) => {
-//     jwt.verify(
-//       token,
-//       Env.JWT_SECRET,
-//       (err: jwt.VerifyErrors | null, payload: jwt.JwtPayload | string | undefined) => {
-//         if (err) {
-//           switch (err.name) {
-//             case 'TokenExpiredError':
-//           }
-//         }
-//       });
-//   });
-// }
+export function _verifyJwt(token: string): Promise<UserI> {
+  return new Promise((resolve, reject) => {
+    jwt.verify(
+      token,
+      Env.JWT_SECRET,
+      (err: jwt.VerifyErrors | null, payload: jwt.JwtPayload | string | undefined) => {
+        let tokenError: _JwtError = _JwtError.TokenErrorUnknown;
+        if (err) {
+          switch (err.name) {
+            case 'TokenExpiredError':
+              tokenError = _JwtError.TokenExpired;
+              break;
+            case 'JsonWebTokenError':
+              if (err.message === 'jwt malformed') {
+                tokenError = _JwtError.TokenMalformed;
+              }
+              else if (err.message === 'jwt signature is required') {
+                tokenError = _JwtError.TokenSignatureRequired;
+              }
+              else if (err.message === 'invalid signature') {
+                tokenError = _JwtError.TokenSignatureInvalid;
+              }
+              else if (err.message.includes('[OPTIONS AUDIENCE]')) {
+                tokenError = _JwtError.TokenAudienceInvalid;
+              }
+              else if (err.message.includes('[OPTIONS ISSUER]')) {
+                tokenError = _JwtError.TokenIssuerInvalid;
+              }
+              else if (err.message.includes('[OPTIONS JWT ID]')) {
+                tokenError = _JwtError.TokenIdInvalid;
+              }
+              else if (err.message.includes('[OPTIONS SUBJECT]')) {
+                tokenError = _JwtError.TokenSubjectInvalid;
+              }
+              else {
+                tokenError = _JwtError.TokenErrorUnknown;
+              }
+              break;
+            case 'NotBeforeError':
+              tokenError = _JwtError.TokenNotBefore;
+              break;
+            default:
+              tokenError = _JwtError.TokenErrorUnknown;
+          }
+        }
+        else if (typeof payload === 'string') {
+          try {
+            const payloadObj = JSON.parse(payload) as unknown;
+            if (isUserObject(payloadObj)) {
+              return resolve(payloadObj);
+            }
+          }
+          catch {
+          }
+          tokenError = _JwtError.TokenPayloadMalformed;
+        }
+        else {
+          tokenError = _JwtError.TokenPayloadMalformed;
+        }
+
+        // Reject the promise
+        reject(tokenError);
+      });
+  });
+}

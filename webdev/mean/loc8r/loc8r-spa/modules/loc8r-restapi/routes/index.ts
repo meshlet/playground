@@ -2,12 +2,21 @@ import { Router } from 'express';
 import { Request, Response, NextFunction } from 'express-serve-static-core';
 import * as locations from '../controllers/location.controller';
 import * as reviews from '../controllers/review.controller';
+import * as users from '../controllers/user.controller';
 import { RestResponseFailureI } from 'loc8r-common';
 import { _RestError as RestError } from '../misc/rest-error';
-import { _getExpressCallbackThatStopsOnSuccess as getExpressCallbackThatStopsOnSuccess } from '../misc/server-helpers';
+import { isAuthenticatedMiddleware } from '../misc/auth-middleware';
+import {
+  _getExpressCallbackThatStopsOnSuccess as getExpressCallbackThatStopsOnSuccess,
+  _getExpressCallbackThatContinuesOnSuccess as getExpressCallbackThatContinuesOnSuccess
+} from '../misc/server-helpers';
 
 /**
- * @file Contains route definitions for the Loc8r REST API
+ * @file Contains route definitions for the Loc8r REST API.
+ *
+ * @todo Many of the routes need to be protected so that only
+ * logged in users can access them. Moreover, many routes should
+ * only be accessible to users with admin priviliges.
  */
 
 export const _router = Router();
@@ -32,12 +41,20 @@ _router.route('/locations/:locationid')
  * getLocation controller in location-controller.ts.
  */
 _router.route('/locations/:locationid/reviews')
-  .post(getExpressCallbackThatStopsOnSuccess(reviews._createReview));
+  .post(
+    getExpressCallbackThatContinuesOnSuccess(isAuthenticatedMiddleware),
+    getExpressCallbackThatStopsOnSuccess(reviews._createReview));
 
 _router.route('/locations/:locationid/reviews/:reviewid')
   .get(getExpressCallbackThatStopsOnSuccess(reviews._getReview))
   .put(getExpressCallbackThatStopsOnSuccess(reviews._updateReview))
   .delete(getExpressCallbackThatStopsOnSuccess(reviews._deleteReview));
+
+/**
+ * Register controllers for the user related routes.
+ */
+_router.post('/users', getExpressCallbackThatStopsOnSuccess(users._createUser));
+_router.post('/login', getExpressCallbackThatStopsOnSuccess(users._loginUser));
 
 /**
  * Register 404 middleware for the REST API.
