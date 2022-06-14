@@ -17,7 +17,7 @@ import {
  */
 
 /**
- * Controller for the POST /users route.
+ * Controller for the POST /signup route.
  *
  * Creates a new user. The request body should contain the following fields:
  *
@@ -28,8 +28,8 @@ import {
  *
  * Any other fields present in the request body are ignored.
  */
-export async function _createUser(req: Request,
-                                  res: Response<RestResponseSuccessGenericI<CreateUserRspI>>) {
+export async function _signup(req: Request,
+                              res: Response<RestResponseSuccessGenericI<CreateUserRspI>>) {
   if (isRecord(req.body)) {
     const props: Array<keyof userRepository._UserExternal> = ['email', 'password', 'firstname', 'lastname'];
     const bodyObj: userRepository._UserExternal = {};
@@ -67,8 +67,8 @@ export async function _createUser(req: Request,
  * email: string
  * password: string
  */
-export function _loginUser(req: Request,
-                           res: Response<RestResponseSuccessGenericI<LoginUserRspI>>)
+export function _login(req: Request,
+                       res: Response<RestResponseSuccessGenericI<LoginUserRspI>>)
   : Promise<void> {
   return new Promise((resolve, reject) => {
     if (isRecord(req.body)) {
@@ -112,7 +112,8 @@ export function _loginUser(req: Request,
               'Provided email and/or password are incorrect. Please make sure you provided correct details and try again.'));
         }
 
-        // Generate JWT token for the authenticated user
+        // Send response including the created user object as well as JWT
+        // whose payload is set to user's email address
         try {
           res
             .status(200)
@@ -120,7 +121,8 @@ export function _loginUser(req: Request,
               success: true,
               body: {
                 type: 'LoginUser',
-                jwt: await generateJwt(user)
+                user: user,
+                jwt: await generateJwt({ email: user.email })
               }
             });
 

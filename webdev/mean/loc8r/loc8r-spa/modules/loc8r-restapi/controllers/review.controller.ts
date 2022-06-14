@@ -1,5 +1,6 @@
 import { Request, Response } from 'express-serve-static-core';
 import * as reviewRepository from '../models/review.repository';
+import * as userRepository from '../models/user.repository';
 import {
   isRecord,
   RestResponseSuccessGenericI,
@@ -42,7 +43,6 @@ export async function _getReview(req: Request,
  * Adds a new review for the given locationid. The request body can contain
  * the following fields:
  *
- * reviewer: string,
  * rating: number,
  * text: string
  */
@@ -53,21 +53,40 @@ export async function _createReview(req: Request,
     // the locationid parameter
     throw new RestError(
       500,
-      'Failed to create a new venue review due to an internal server error.');
+      'Failed to create a review due to an internal server error.');
+  }
+  else if (!req.user) {
+    // It is a programming error to call this controller if user hasn't been
+    // authenticated, during which req.user is also initialized
+    throw new RestError(
+      500,
+      'Failed to create a review due to an internal server error.');
   }
   else if (!isRecord(req.body)) {
     throw new RestError(
       400,
-      'Failed to create a new venue review due to malformed data in request body.');
+      'Failed to create a review due to malformed data in request body.');
   }
 
-  const props: Array<keyof reviewRepository._ReviewExternal> = ['reviewer', 'rating', 'text'];
+  const props: Array<keyof reviewRepository._ReviewExternal> = ['rating', 'text'];
   const bodyObj: reviewRepository._ReviewExternal = {};
   for (const prop of props) {
     if (req.body[prop] != null) {
       bodyObj[prop] = req.body[prop];
     }
   }
+
+  const user = await userRepository._findUserWithEmail(req.user.email);
+  if (!user) {
+    throw new RestError(
+      404,
+      'Failed to create a new review because the user account does not exist.');
+  }
+
+  // reviewer field is a combination of logged in user's first and last name
+  bodyObj.reviewer = user.firstname + ' ' + user.lastname;
+
+  // Create the new review entry
   res
     .status(201)
     .json({
@@ -81,7 +100,6 @@ export async function _createReview(req: Request,
  *
  * Updates an existing review. The request body can contain the following fields:
  *
- * reviewer: string,
  * rating: number,
  * text: string
  */
@@ -92,15 +110,15 @@ export async function _updateReview(req: Request,
     // the locationid or reviewid parameters
     throw new RestError(
       500,
-      'Failed to update venue review due to an internal server error.');
+      'Failed to update the review due to an internal server error.');
   }
   else if (!isRecord(req.body)) {
     throw new RestError(
       400,
-      'Failed to update venue review due to malformed data in request body.');
+      'Failed to update the review due to malformed data in request body.');
   }
 
-  const props: Array<keyof reviewRepository._ReviewExternal> = ['reviewer', 'rating', 'text'];
+  const props: Array<keyof reviewRepository._ReviewExternal> = ['rating', 'text'];
   const bodyObj: reviewRepository._ReviewExternal = {};
   for (const prop of props) {
     if (req.body[prop] != null) {
@@ -129,7 +147,7 @@ export async function _deleteReview(req: Request, res: Response<RestResponseSucc
     // the locationid or reviewid parameters
     throw new RestError(
       500,
-      'Failed to delete the venue review due to an internal server error.');
+      'Failed to delete the review due to an internal server error.');
   }
   res
     .status(204)

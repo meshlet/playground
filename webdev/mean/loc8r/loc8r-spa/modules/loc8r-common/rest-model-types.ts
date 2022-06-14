@@ -46,6 +46,7 @@ export interface _LocationI {
 /** Defines the shape of the user data model */
 export interface _UserI {
   _id: string;
+  password?: string;
   email: string;
   firstname: string;
   lastname: string;

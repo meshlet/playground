@@ -93,10 +93,16 @@ export interface _CreateUserRspI {
 /**
  * Body of a successfull response to a login request.
  *
- * @note UserI object is included as the JWT payload.
+ * @note UserI object is provided as a separate property of this
+ * response and not as part of JWT payload. This is done because
+ * server only uses email address when decoding JWT sent by the
+ * client, ignoring all other fields. Hence, sending a JWT with
+ * entire UserI object from client to server on each request
+ * (after user is authenticated) would be a waste.
  */
 export interface _LoginUserRspI {
   type: 'LoginUser';
+  user: UserI;
   jwt: string;
 }
 

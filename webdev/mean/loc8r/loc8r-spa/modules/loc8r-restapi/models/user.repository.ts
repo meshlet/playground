@@ -59,7 +59,30 @@ export function _createNewUser<T>(user: Exact<T, _UserExternal>): Promise<UserI>
 }
 
 /**
- * Checks whether user with given email and passwords exists.
+ * Find the user with given email address.
+ */
+export function _findUserWithEmail(email: string): Promise<UserI | null> {
+  return wrapDatabaseOperation(
+    'User info could not be read',
+    async() => {
+      const user = await UserModel
+        .findOne({ email: email })
+        .lean()
+        .exec();
+
+      return user == null
+        ? null
+        : {
+          _id: user._id.toString(),
+          email: user.email,
+          firstname: user.firstname,
+          lastname: user.lastname
+        };
+    });
+}
+
+/**
+ * Find the user with given email and passwords.
  */
 export function _findUserWithEmailAndPassword(email: string, password: string): Promise<UserI | null> {
   return wrapDatabaseOperation(

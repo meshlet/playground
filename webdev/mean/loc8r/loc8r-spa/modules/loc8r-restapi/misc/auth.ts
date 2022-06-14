@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import { UserI, isUserObject } from 'loc8r-common';
 import { _Env as Env } from './env-parser';
 
 /**
@@ -40,18 +39,15 @@ export const enum _JwtError {
 }
 
 /**
- * Generates a JWT token for a given user object.
+ * Generates a JWT token with given value as its payload.
  *
  * Promise returned by the function either resolves with the
  * JWT string or fails with _JwtError.
- *
- * @todo Function should accept an object of any type in order
- * to make it generic.
  */
-export function _generateJwt(user: UserI): Promise<string> {
+export function _generateJwt(value: object): Promise<string> {
   return new Promise((resolve, reject) => {
     jwt.sign(
-      user,
+      value,
       Env.JWT_SECRET,
       {
         expiresIn: '1h'
@@ -74,24 +70,19 @@ const tokenPrefix = 'Bearer ';
 
 /**
  * Verifies the JTW token string and attempts to extract the user object.
- *
- * @todo This function needs to accept a parser callback that would
- * be used to parse payload into an object of given type. This is to
- * make the function generic.
  */
-export function _verifyJwt(token: string): Promise<UserI> {
+export function _verifyJwt<T>(token: string, checkPayloadType: (value: unknown) => value is T): Promise<T> {
   return new Promise((resolve, reject) => {
     if (!token.startsWith(tokenPrefix)) {
       return reject(_JwtError.TokenInvalid);
     }
-    console.log(token.substring(tokenPrefix.length));
+
     jwt.verify(
       token.substring(tokenPrefix.length),
       Env.JWT_SECRET,
       (err: jwt.VerifyErrors | null, payload: jwt.JwtPayload | string | undefined) => {
         let tokenError: _JwtError = _JwtError.TokenErrorUnknown;
         if (err) {
-          console.log(err);
           switch (err.name) {
             case 'TokenExpiredError':
               tokenError = _JwtError.TokenExpired;
@@ -126,7 +117,7 @@ export function _verifyJwt(token: string): Promise<UserI> {
               tokenError = _JwtError.TokenErrorUnknown;
           }
         }
-        else if (isUserObject(payload)) {
+        else if (checkPayloadType(payload)) {
           return resolve(payload);
         }
         else {

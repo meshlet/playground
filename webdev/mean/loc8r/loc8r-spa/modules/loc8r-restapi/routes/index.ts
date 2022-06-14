@@ -2,13 +2,12 @@ import { Router } from 'express';
 import { Request, Response, NextFunction } from 'express-serve-static-core';
 import * as locations from '../controllers/location.controller';
 import * as reviews from '../controllers/review.controller';
-import * as users from '../controllers/user.controller';
+import * as auth from '../controllers/auth.controller';
 import { RestResponseFailureI } from 'loc8r-common';
 import { _RestError as RestError } from '../misc/rest-error';
 import { isAuthenticatedMiddleware } from '../misc/auth-middleware';
 import {
-  _getExpressCallbackThatStopsOnSuccess as getExpressCallbackThatStopsOnSuccess,
-  _getExpressCallbackThatContinuesOnSuccess as getExpressCallbackThatContinuesOnSuccess
+  _getExpressCallbackThatStopsOnSuccess as getExpressCallbackThatStopsOnSuccess
 } from '../misc/server-helpers';
 
 /**
@@ -42,19 +41,23 @@ _router.route('/locations/:locationid')
  */
 _router.route('/locations/:locationid/reviews')
   .post(
-    getExpressCallbackThatContinuesOnSuccess(isAuthenticatedMiddleware),
+    isAuthenticatedMiddleware,
     getExpressCallbackThatStopsOnSuccess(reviews._createReview));
 
 _router.route('/locations/:locationid/reviews/:reviewid')
   .get(getExpressCallbackThatStopsOnSuccess(reviews._getReview))
-  .put(getExpressCallbackThatStopsOnSuccess(reviews._updateReview))
-  .delete(getExpressCallbackThatStopsOnSuccess(reviews._deleteReview));
+  .put(
+    isAuthenticatedMiddleware,
+    getExpressCallbackThatStopsOnSuccess(reviews._updateReview))
+  .delete(
+    isAuthenticatedMiddleware,
+    getExpressCallbackThatStopsOnSuccess(reviews._deleteReview));
 
 /**
  * Register controllers for the user related routes.
  */
-_router.post('/users', getExpressCallbackThatStopsOnSuccess(users._createUser));
-_router.post('/login', getExpressCallbackThatStopsOnSuccess(users._loginUser));
+_router.post('/signup', getExpressCallbackThatStopsOnSuccess(auth._signup));
+_router.post('/login', getExpressCallbackThatStopsOnSuccess(auth._login));
 
 /**
  * Register 404 middleware for the REST API.

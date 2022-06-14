@@ -1,6 +1,10 @@
 import { Request } from 'express-serve-static-core';
 import { _verifyJwt as verifyJwt, _JwtError as JwtError } from './auth';
 import { _RestError as RestError } from '../misc/rest-error';
+import { isRecord } from 'loc8r-common';
+import {
+  _getExpressCallbackThatContinuesOnSuccess as getExpressCallbackThatContinuesOnSuccess
+} from '../misc/server-helpers';
 
 /**
  * Middleware that ensures user is authenticated.
@@ -9,14 +13,19 @@ import { _RestError as RestError } from '../misc/rest-error';
  * The function extracts the JWT from the request's authorization
  * header and checks whether it's valid. If not an error is thrown.
  *
- * @note getExpressCallbackThatContinuesOnSuccess should be used
- * to wrap this function with Express-friendly error handling logic.
+ * @note The exported function is a wrapper that handles errors and
+ * calls Express next method both in case of success (i.e. no errors)
+ * or failure (exception thrown).
  */
-export async function isAuthenticatedMiddleware(req: Request) {
+export const isAuthenticatedMiddleware = getExpressCallbackThatContinuesOnSuccess(async(req: Request) => {
   const token = req.headers.authorization;
   if (token) {
     try {
-      await verifyJwt(token);
+      req.user = await verifyJwt(
+        token,
+        (value: unknown): value is { email: string } => {
+          return isRecord(value) && 'email' in value;
+        });
     }
     catch (err) {
       switch (err) {
@@ -40,4 +49,4 @@ export async function isAuthenticatedMiddleware(req: Request) {
       401,
       'User is not logged in.');
   }
-}
+});
