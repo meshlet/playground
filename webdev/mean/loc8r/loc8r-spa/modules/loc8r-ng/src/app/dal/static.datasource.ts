@@ -6,7 +6,10 @@ import {
   GetOneLocationRspI,
   GetOneReviewRspI,
   CreateReviewRspI,
-  ReviewI
+  CreateUserRspI,
+  LoginUserRspI,
+  ReviewI,
+  UserI
 } from 'loc8r-common/common.module';
 import { BaseDataSource } from './base.datasource';
 import { FrontendError, ErrorCode } from '../misc/error';
@@ -272,5 +275,21 @@ export class StaticDataSource implements BaseDataSource {
       subscriber.next(review);
       subscriber.complete();
     });
+  }
+
+  /**
+   * @todo Implement.
+   */
+  createUser(user: UserI): Observable<CreateUserRspI['user']> {
+    void user;
+    throw new FrontendError(ErrorCode.InternalServerError);
+  }
+
+  /**
+   * @todo Implement.
+   */
+  loginUser(user: UserI): Observable<{ user: LoginUserRspI['user'], jwt: LoginUserRspI['jwt']}> {
+    void user;
+    throw new FrontendError(ErrorCode.InternalServerError);
   }
 }

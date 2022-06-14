@@ -14,6 +14,8 @@ import { AddReviewComponent } from './add-review.component';
 import { PageHeaderComponent } from './page-header.component';
 import { PageSidebarComponent } from './page-sidebar.component';
 import { MainRoutingModule } from './main-routing.module';
+import { SignInComponent } from './signin.component';
+import { SignUpComponent } from './signup.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { MainRoutingModule } from './main-routing.module';
     LocationsListComponent,
     LocationDetailsComponent,
     AboutComponent,
-    AddReviewComponent
+    AddReviewComponent,
+    SignInComponent,
+    SignUpComponent
   ],
   imports: [
     BrowserModule,

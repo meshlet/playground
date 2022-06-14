@@ -5,7 +5,10 @@ import {
   GetOneLocationRspI,
   GetOneReviewRspI,
   CreateReviewRspI,
-  ReviewI
+  CreateUserRspI,
+  LoginUserRspI,
+  ReviewI,
+  UserI
 } from 'loc8r-common/common.module';
 
 /**
@@ -16,6 +19,8 @@ export interface BaseDataSource {
   getOneLocation(locationid: string): Observable<GetOneLocationRspI['location']>;
   getOneReview(locationid: string, reviewid: string): Observable<GetOneReviewRspI['review']>;
   createReview(locationid: string, review: ReviewI): Observable<CreateReviewRspI['review']>;
+  createUser(user: UserI): Observable<CreateUserRspI['user']>;
+  loginUser(user: UserI): Observable<{ user: LoginUserRspI['user'], jwt: LoginUserRspI['jwt']}>;
 }
 
 /**

@@ -1,0 +1,51 @@
+<div class="row banner">
+  <app-page-header [header]="pageHdr" class="col-12"></app-page-header>
+</div>
+<div class="row">
+  <form novalidate #form="ngForm" (ngSubmit)="submit(form)" class="col-12">
+    <div class="form-row mb-2">
+      <div class="col">
+        Not a member? Please&nbsp;
+        <a class="in-text-link" routerLink="/signup">register</a>&nbsp;
+        first.
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col">
+        <label class="col-form-label" for="email">
+          Email
+        </label>
+      </div>
+    </div>
+    <div class="form-row mb-1">
+      <div class="col-sm-7">
+        <input id="email" class="form-control" type="email" name="email" placeholder="Enter your email address..."
+                [(ngModel)]="user.email" #email="ngModel" required minlength="1" maxlength="200">
+        <!-- <span *ngIf="reviewer.invalid && (reviewer.dirty || reviewer.touched || form.submitted)" class="custom-invalid-feedback">
+          {{ getFormControValidationMsg(reviewer, 'Reviewer\'s name') }}
+        </span> -->
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col">
+        <label class="col-form-label" for="password">
+          Password
+        </label>
+      </div>
+    </div>
+    <div class="form-row mb-3">
+      <div class="col-sm-7">
+        <input id="password" class="form-control" type="password" name="password" placeholder="Enter password..."
+                [(ngModel)]="user.password" #password="ngModel" required>
+        <!-- <span *ngIf="reviewer.invalid && (reviewer.dirty || reviewer.touched || form.submitted)" class="custom-invalid-feedback">
+          {{ getFormControValidationMsg(reviewer, 'Reviewer\'s name') }}
+        </span> -->
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-12">
+        <input class="btn-base" type="submit" value="Sign in" [disabled]="form.submitted && form.invalid">
+      </div>
+    </div>
+  </form>
+</div>

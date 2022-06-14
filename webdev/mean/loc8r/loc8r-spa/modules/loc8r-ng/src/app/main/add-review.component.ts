@@ -80,7 +80,7 @@ export class AddReviewComponent {
             }
             break;
           }
-          case 'patter': {
+          case 'pattern': {
             return `${fieldName} contains invalid characters.`;
           }
           default: {

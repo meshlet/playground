@@ -5,6 +5,8 @@ export const enum ErrorCode {
   BadRequest,
   ResourceNotFound,
   NetworkError,
+  Unauthenticated,
+  Forbidden,
   GeolocationTimeout,
   GeolocationPermissionDenied,
   GeolocationPositionUnavailable,
@@ -26,7 +28,7 @@ export class FrontendError extends ErrorBase {
           break;
         }
         case ErrorCode.BadRequest: {
-          this.message = 'Request could not be completed to invalid user agent request.';
+          this.message = 'Request could not be completed to invalid or incomplete data provided by the user.';
           break;
         }
         case ErrorCode.ResourceNotFound: {
@@ -34,7 +36,15 @@ export class FrontendError extends ErrorBase {
           break;
         }
         case ErrorCode.NetworkError: {
-          this.message = 'The action has failed due to a network error. Please ensure you are connected to the network';
+          this.message = 'The action has failed due to a network error. Please ensure you are connected to the network.';
+          break;
+        }
+        case ErrorCode.Unauthenticated: {
+          this.message = 'You must log in to be able to perform this action.';
+          break;
+        }
+        case ErrorCode.Forbidden: {
+          this.message = 'The server has refused to perform the requested action.';
           break;
         }
         case ErrorCode.GeolocationTimeout: {

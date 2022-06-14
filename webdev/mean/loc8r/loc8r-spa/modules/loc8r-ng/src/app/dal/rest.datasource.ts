@@ -5,7 +5,10 @@ import {
   GetOneLocationRspI,
   GetOneReviewRspI,
   CreateReviewRspI,
+  CreateUserRspI,
+  LoginUserRspI,
   ReviewI,
+  UserI,
   isValidRestResponse,
   SuccessRspTypeLiteralsT,
   SuccessRspTypeLiteralToType,
@@ -194,7 +197,10 @@ export class RestDataSource implements BaseDataSource {
                 subscriber.complete();
               },
               (err: RestErrorI) => {
-                if (rsp.status === 404) {
+                if (rsp.status === 401) {
+                  subscriber.error(new FrontendError(ErrorCode.Unauthenticated, err.message));
+                }
+                else if (rsp.status === 404) {
                   subscriber.error(new FrontendError(ErrorCode.ResourceNotFound));
                 }
                 else if (rsp.status < 500) {
@@ -206,7 +212,88 @@ export class RestDataSource implements BaseDataSource {
               });
           }
           catch (exception) {
-            // This can only happen in case of network issues.
+            subscriber.error(exception);
+          }
+        },
+        err => {
+          // This can only fail due to a network error.
+          console.log(err);
+          subscriber.error(new FrontendError(ErrorCode.NetworkError));
+        });
+    });
+  }
+
+  createUser(user: UserI): Observable<CreateUserRspI['user']> {
+    return new Observable(subscriber => {
+      this.httpClient.post(
+        `${environment.rest_api_base_url}/signup`,
+        user,
+        {
+          observe: 'response'
+        })
+        .subscribe(rsp => {
+          try {
+            processRestResponse(
+              rsp,
+              'CreateUser',
+              (json: CreateUserRspI) => {
+                subscriber.next(json.user);
+                subscriber.complete();
+              },
+              (err: RestErrorI) => {
+                if (rsp.status === 403) {
+                  subscriber.error(new FrontendError(ErrorCode.Forbidden, err.message));
+                }
+                else if (rsp.status < 500) {
+                  subscriber.error(new FrontendError(ErrorCode.BadRequest, err.message));
+                }
+                else {
+                  subscriber.error(new FrontendError(ErrorCode.InternalServerError));
+                }
+              });
+          }
+          catch (exception) {
+            subscriber.error(exception);
+          }
+        },
+        err => {
+          // This can only fail due to a network error.
+          console.log(err);
+          subscriber.error(new FrontendError(ErrorCode.NetworkError));
+        });
+    });
+  }
+
+  loginUser(user: UserI): Observable<{ user: LoginUserRspI['user'], jwt: LoginUserRspI['jwt']}> {
+    return new Observable(subscriber => {
+      this.httpClient.post(
+        `${environment.rest_api_base_url}/login`,
+        user,
+        {
+          observe: 'response'
+        })
+        .subscribe(rsp => {
+          try {
+            processRestResponse(
+              rsp,
+              'LoginUser',
+              (json: LoginUserRspI) => {
+                subscriber.next({ user: json.user, jwt: json.jwt });
+                subscriber.complete();
+              },
+              (err: RestErrorI) => {
+                if (rsp.status === 401) {
+                  subscriber.error(new FrontendError(ErrorCode.Unauthenticated, err.message));
+                }
+                else if (rsp.status < 500) {
+                  subscriber.error(new FrontendError(ErrorCode.BadRequest, err.message));
+                }
+                else {
+                  subscriber.error(new FrontendError(ErrorCode.InternalServerError));
+                }
+              });
+          }
+          catch (exception) {
             subscriber.error(exception);
           }
         },

@@ -6,6 +6,19 @@
  */
 
 /**
+ * Style used for links within the text in the page body.
+ */
+.in-text-link {
+  text-decoration: none;
+  color: $primary-text-color;
+  @extend .bold;
+}
+.in-text-link:hover {
+  text-decoration: underline;
+  color: $primary-text-color;
+}
+
+/**
  * A base button style.
  */
 .btn-base {
@@ -42,6 +55,7 @@ $navbar-font-size: 18px;
   @extend .sticky-top;
   @extend .navbar-expand-sm;
   @extend .py-0;
+  @extend .px-sm-4;
   background-color: $secondary-bgcolor;
   font-size: $navbar-font-size;
   font-family: $bold-font-family;

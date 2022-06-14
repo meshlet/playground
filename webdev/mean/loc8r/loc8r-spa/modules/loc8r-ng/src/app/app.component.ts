@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from './misc/auth.service';
 
 /**
  * The root component containing the navigation menu as well
@@ -11,4 +12,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public isMenuCollapsed = true;
+
+  constructor(public authService: AuthService) {}
+
+  getCurrentUser(): string {
+    const currUser = this.authService.getCurrentUser();
+    return this.authService.isAuthenticated() && currUser
+      ? `${currUser.firstname}`
+      : '';
+  }
 }
