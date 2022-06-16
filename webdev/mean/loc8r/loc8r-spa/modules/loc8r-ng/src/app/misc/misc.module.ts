@@ -6,10 +6,11 @@ import { FormatDistancePipe } from './format-distance.pipe';
 import { GeolocationService } from './geolocation.service';
 import { OrderByPipe } from './orderby.pipe';
 import { OutputRatingDirective } from './output-rating.directive';
+import { PasswordValidatorDirective } from './password-validator.directive';
 import { ReporterService } from './reporter.service';
 
 @NgModule({
-  declarations: [OutputRatingDirective, FormatDistancePipe, FlashMessageComponent, OrderByPipe],
+  declarations: [OutputRatingDirective, FormatDistancePipe, FlashMessageComponent, OrderByPipe, PasswordValidatorDirective],
   providers: [ReporterService, GeolocationService],
   imports: [BrowserModule, NgbModule],
   exports: [OutputRatingDirective, FormatDistancePipe, FlashMessageComponent, OrderByPipe]

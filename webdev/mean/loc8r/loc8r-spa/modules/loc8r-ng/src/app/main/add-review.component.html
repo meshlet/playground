@@ -10,7 +10,7 @@
               [(ngModel)]="review.reviewer" #reviewer="ngModel" required minlength="1" maxlength="50"
               pattern="^[a-zA-Z0-9]+[ a-zA-Z0-9]*$">
       <span *ngIf="reviewer.invalid && (reviewer.dirty || reviewer.touched || form.submitted)" class="custom-invalid-feedback">
-        {{ getFormControValidationMsg(reviewer, 'Reviewer\'s name') }}
+        {{ getFormCtrlError(reviewer, 'Reviewer\'s name') }}
       </span>
     </div>
   </div>
@@ -39,7 +39,7 @@
       <textarea id="text" class="form-control" rows="4" name="text" required minlength="1" maxlength="1000"
                 placeholder="Your review goes here..." [(ngModel)]="review.text" #reviewText="ngModel"></textarea>
       <span *ngIf="reviewText.invalid && (reviewText.dirty || reviewText.touched || form.submitted)" class="custom-invalid-feedback">
-        {{ getFormControValidationMsg(reviewText, 'Review text') }}
+        {{ getFormCtrlError(reviewText, 'Review text') }}
       </span>
     </div>
   </div>

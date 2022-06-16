@@ -1,8 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { NgForm, NgModel } from '@angular/forms';
-import { isRecord, ReviewI } from 'loc8r-common/common.module';
+import { NgForm } from '@angular/forms';
+import { ReviewI } from 'loc8r-common/common.module';
 import { ReviewRepository } from '../dal/review.repository';
 import { ErrorCode, FrontendError } from '../misc/error';
+import { FormErrors } from '../misc/form-errors';
 
 /**
  * A component that encapsulates the functionality of adding
@@ -17,7 +18,7 @@ import { ErrorCode, FrontendError } from '../misc/error';
   selector: 'app-add-review',
   templateUrl: 'add-review.component.html'
 })
-export class AddReviewComponent {
+export class AddReviewComponent extends FormErrors {
   public review: ReviewI = {
     _id: '',
     createdOn: '',
@@ -53,44 +54,8 @@ export class AddReviewComponent {
   @Output()
   onError = new EventEmitter<FrontendError>();
 
-  constructor(private reviewRepo: ReviewRepository) {}
-
-  public getFormControValidationMsg(ctrl: NgModel, fieldName = ''): string | undefined {
-    if (ctrl.invalid && ctrl.errors) {
-      if (fieldName === '' && ctrl.path.length > 0) {
-        fieldName = ctrl.path[ctrl.path.length - 1];
-      }
-
-      for (const prop in ctrl.errors) {
-        switch (prop) {
-          case 'required': {
-            return `${fieldName} must be provided.`;
-          }
-          case 'minlength': {
-            const minLength = ctrl.errors.minlength as unknown;
-            if (isRecord(minLength) && (typeof minLength.requiredLength === 'string' || typeof minLength.requiredLength === 'number')) {
-              return `${fieldName} must be at least ${minLength.requiredLength} characters.`;
-            }
-            break;
-          }
-          case 'maxlength': {
-            const maxLength = ctrl.errors.maxlength as unknown;
-            if (isRecord(maxLength) && (typeof maxLength.requiredLength === 'string' || typeof maxLength.requiredLength === 'number')) {
-              return `${fieldName} must not be at longer than ${maxLength.requiredLength} characters.`;
-            }
-            break;
-          }
-          case 'pattern': {
-            return `${fieldName} contains invalid characters.`;
-          }
-          default: {
-            console.warn(`${prop} validator property is not handled.`);
-            return `${fieldName} field value is invalid.`;
-          }
-        }
-      }
-    }
-    return undefined;
+  constructor(private reviewRepo: ReviewRepository) {
+    super();
   }
 
   resetReview() {
