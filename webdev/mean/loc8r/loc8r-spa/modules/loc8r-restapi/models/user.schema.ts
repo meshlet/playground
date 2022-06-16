@@ -15,15 +15,17 @@ import {
  * @todo Consider banning easily breakable passwords. Use
  * https://github.com/danielmiessler/SecLists/tree/aad07fff50ca37af2926de4d07ff670bf3416fbc/Passwords
  * as a starting point.
+ *
+ * @todo Requirements should be that password must have at least one non-alphanumeric symbol.
  */
 const passwordValidatorSchema = new PasswordValidator();
 passwordValidatorSchema
   .is().min(10)
-  .is().max(100)
   .has().uppercase()
   .has().lowercase()
   .has().digits()
-  .has().not().spaces();
+  .has().not().spaces()
+  .has().symbols();
 
 /**
  * The TS interface for the User type.
