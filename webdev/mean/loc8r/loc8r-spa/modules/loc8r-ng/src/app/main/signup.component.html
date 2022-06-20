@@ -20,10 +20,10 @@
     <div class="form-row mb-1">
       <div class="col-sm-7">
         <input id="email" class="form-control" type="email" name="email" placeholder="Your email address..."
-                [(ngModel)]="user.email" #email="ngModel" required minlength="1" maxlength="200">
-        <!-- <span *ngIf="reviewer.invalid && (reviewer.dirty || reviewer.touched || form.submitted)" class="custom-invalid-feedback">
-          {{ getFormControValidationMsg(reviewer, 'Reviewer\'s name') }}
-        </span> -->
+                [(ngModel)]="user.email" #email="ngModel" required minlength="1" maxlength="200" appEmailValidator>
+        <span *ngIf="email.invalid && (email.dirty || email.touched || form.submitted)" class="custom-invalid-feedback">
+          {{ getFormCtrlError(email, 'Email') }}
+        </span>
       </div>
     </div>
     <div class="form-row">
@@ -37,9 +37,9 @@
       <div class="col-sm-7">
         <input id="firstname" class="form-control" type="text" name="firstname" placeholder="Your first name..."
                 [(ngModel)]="user.firstname" #firstname="ngModel" required minlength="1" maxlength="150">
-        <!-- <span *ngIf="reviewer.invalid && (reviewer.dirty || reviewer.touched || form.submitted)" class="custom-invalid-feedback">
-          {{ getFormControValidationMsg(reviewer, 'Reviewer\'s name') }}
-        </span> -->
+        <span *ngIf="firstname.invalid && (firstname.dirty || firstname.touched || form.submitted)" class="custom-invalid-feedback">
+          {{ getFormCtrlError(firstname, 'First name') }}
+        </span>
       </div>
     </div>
     <div class="form-row">
@@ -53,9 +53,9 @@
       <div class="col-sm-7">
         <input id="lastname" class="form-control" type="text" name="lastname" placeholder="Your last name..."
                 [(ngModel)]="user.lastname" #lastname="ngModel" required minlength="1" maxlength="150">
-        <!-- <span *ngIf="reviewer.invalid && (reviewer.dirty || reviewer.touched || form.submitted)" class="custom-invalid-feedback">
-          {{ getFormControValidationMsg(reviewer, 'Reviewer\'s name') }}
-        </span> -->
+        <span *ngIf="lastname.invalid && (lastname.dirty || lastname.touched || form.submitted)" class="custom-invalid-feedback">
+          {{ getFormCtrlError(lastname, 'Last name') }}
+        </span>
       </div>
     </div>
     <div class="form-row">
@@ -68,10 +68,10 @@
     <div class="form-row mb-1">
       <div class="col-sm-7">
         <input id="password" class="form-control" type="password" name="password" placeholder="Choose a password..."
-                [(ngModel)]="user.password" #password="ngModel" required>
-        <!-- <span *ngIf="reviewer.invalid && (reviewer.dirty || reviewer.touched || form.submitted)" class="custom-invalid-feedback">
-          {{ getFormControValidationMsg(reviewer, 'Reviewer\'s name') }}
-        </span> -->
+                [(ngModel)]="user.password" #password="ngModel" required appPasswordValidator>
+        <span *ngIf="password.invalid && (password.dirty || password.touched || form.submitted)" class="custom-invalid-feedback">
+          {{ getFormCtrlError(password, 'Password') }}
+        </span>
       </div>
     </div>
     <div class="form-row">
@@ -84,10 +84,11 @@
     <div class="form-row mb-3">
       <div class="col-sm-7">
         <input id="confirmPassword" class="form-control" type="password" name="confirmPassword" placeholder="Type the password again..."
-                [(ngModel)]="password2" #confirmPassword="ngModel" required>
-        <!-- <span *ngIf="reviewer.invalid && (reviewer.dirty || reviewer.touched || form.submitted)" class="custom-invalid-feedback">
-          {{ getFormControValidationMsg(reviewer, 'Reviewer\'s name') }}
-        </span> -->
+                [(ngModel)]="password2" #confirmPassword="ngModel" [appEqualToValidator]="password.control"
+                [class.is-invalid]="confirmPassword.invalid">
+        <span *ngIf="confirmPassword.invalid" class="custom-invalid-feedback">
+          The entered value does not match the password entered in the previous field.
+        </span>
       </div>
     </div>
     <div class="form-row">

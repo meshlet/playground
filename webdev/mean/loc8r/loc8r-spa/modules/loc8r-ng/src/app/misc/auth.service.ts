@@ -67,7 +67,7 @@ export class AuthService {
   }
 
   /**
-   * Saves new auth data to local storage and updates the cached copy.
+   * Saves new auth data to local storage and updates the local cache.
    */
   private saveAuthData(jwt: string, user: UserI) {
     localStorage.setItem(AuthService.LS_JWT_KEY, jwt);
@@ -141,8 +141,8 @@ export class AuthService {
   /**
    * Logs out the user.
    *
-   * @note Removes authentication data from local storage and resets
-   * the cached copy.
+   * @note Removes authentication data from local storage and clears
+   * the local cache.
    */
   logout() {
     localStorage.removeItem(AuthService.LS_JWT_KEY);

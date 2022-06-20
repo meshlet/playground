@@ -20,6 +20,10 @@ passwordValidatorSchema
 
 /**
  * Directive implementing password validation.
+ *
+ * @todo Consider moving this into a dedicated validator NgModule.
+ * Directive should then also have an input property where one can
+ * provide a callback used to actually validate the password.
  */
 @Directive({
   selector: '[appPasswordValidator][formControlName],[appPasswordValidator][formControl],[appPasswordValidator][ngModel]',

@@ -38,11 +38,14 @@ export class FormErrors {
             return `${fieldName} contains invalid characters.`;
           }
           case 'password': {
-            return `${fieldName} is not a valid password. Password must be at least 10 characters long, have at least uppercase and lowercase letter, have at least one digit, have at least one symbol character and must not contain whitespace characters`;
+            return `${fieldName} must be at least 10 characters long, have at least uppercase and lowercase letter, at least one digit and symbol character and must not contain whitespace characters.`;
+          }
+          case 'email': {
+            return 'Please provide a valid email address.';
           }
           default: {
             console.warn(`${prop} validator property is not handled.`);
-            return `${fieldName} field value is invalid.`;
+            return `${fieldName} contains an invalid value.`;
           }
         }
       }
