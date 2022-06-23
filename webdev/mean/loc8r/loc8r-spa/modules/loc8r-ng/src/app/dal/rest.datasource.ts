@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import {
   GetLocationsRspI,
   GetOneLocationRspI,
@@ -248,13 +248,16 @@ export class RestDataSource implements BaseDataSource {
     });
   }
 
-  createReview(locationid: string, review: ReviewI): Observable<CreateReviewRspI['review']> {
+  createReview(locationid: string, review: ReviewI, jwt: string): Observable<CreateReviewRspI['review']> {
     return new Observable(subscriber => {
       this.httpClient.post(
         `${environment.rest_api_base_url}/locations/${locationid}/reviews`,
         review,
         {
-          observe: 'response'
+          observe: 'response',
+          headers: new HttpHeaders({
+            Authorization: `Bearer ${jwt}`
+          })
         })
         .subscribe(
           rsp => {

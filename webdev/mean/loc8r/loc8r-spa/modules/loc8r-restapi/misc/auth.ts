@@ -43,9 +43,13 @@ export const enum _JwtError {
  *
  * Promise returned by the function either resolves with the
  * JWT string or fails with _JwtError.
+ *
+ * @todo Function can accept token duration (as npmjs.com/ms string)
+ * as a second optional parameter.
  */
 export function _generateJwt(value: object): Promise<string> {
   return new Promise((resolve, reject) => {
+    console.log(Date.now() / 1000);
     jwt.sign(
       value,
       Env.JWT_SECRET,

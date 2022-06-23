@@ -1,38 +1,48 @@
-<nav class="navbar">
-  <a class="navbar-brand" [routerLink]="'locations'">Loc8r</a>
-  <button class="navbar-toggler" type="button" aria-controls="siteNavbar"
-          [attr.aria-expanded]="!isMenuCollapsed" aria-label="Toggle navigation"
-          (click)="isMenuCollapsed = !isMenuCollapsed">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div id="siteNavbar" [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
-    <div class="navbar-nav mr-sm-auto">
-      <a class="nav-item" routerLink="locations" routerLinkActive="active"
-         [routerLinkActiveOptions]="{ exact: true }">
-        Home
-      </a>
-      <a class="nav-item" routerLink="about" routerLinkActive="active"
-         [routerLinkActiveOptions]="{ exact: true }">
-        About
-      </a>
-    </div>
-    <div class="navbar-nav">
-      <span *ngIf="authService.isAuthenticated(); else elseBlock">
-        Hello, {{ getCurrentUser() }}
-      </span>
-      <ng-template #elseBlock>
-        <a class="nav-item" routerLink="signin" routerLinkActive="active"
+<div class="sticky-top">
+  <nav class="navbar">
+    <a class="navbar-brand" [routerLink]="'locations'">Loc8r</a>
+    <button class="navbar-toggler" type="button" aria-controls="siteNavbar"
+            [attr.aria-expanded]="!isMenuCollapsed" aria-label="Toggle navigation"
+            (click)="isMenuCollapsed = !isMenuCollapsed">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="siteNavbar" [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
+      <div class="navbar-nav mr-sm-auto">
+        <a class="nav-item" routerLink="locations" routerLinkActive="active"
            [routerLinkActiveOptions]="{ exact: true }">
-          Sign in
+          Home
         </a>
-      </ng-template>
+        <a class="nav-item" routerLink="about" routerLinkActive="active"
+           [routerLinkActiveOptions]="{ exact: true }">
+          About
+        </a>
+      </div>
+      <div class="navbar-nav">
+        <div ngbDropdown *ngIf="authService.isAuthenticated(); else elseBlock">
+          <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown" role="button"
+             aria-haspopup="true" aria-expanded="false">
+             Hello {{ getCurrentUser() }}
+          </a>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="nav-dropdown-item" ngbDropdownItem (click)="authService.logout()">Sign out</a>
+          </div>
+        </div>
+        <ng-template #elseBlock>
+          <a class="nav-item" routerLink="signin" routerLinkActive="active"
+             [routerLinkActiveOptions]="{ exact: true }">
+            Sign in
+          </a>
+        </ng-template>
+      </div>
+    </div>
+  </nav>
+  <div class="container-lg mt-2">
+    <div class="row">
+      <app-flash-message class="col-12"></app-flash-message>
     </div>
   </div>
-</nav>
-<div class="container-lg mt-2">
-  <div class="row">
-    <app-flash-message class="col-12"></app-flash-message>
-  </div>
+</div>
+<div class="container-lg">
   <router-outlet></router-outlet>
 </div>
 <footer class="mt-3 text-center">

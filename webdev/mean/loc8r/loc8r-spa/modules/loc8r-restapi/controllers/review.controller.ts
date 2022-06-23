@@ -68,6 +68,7 @@ export async function _createReview(req: Request,
       'Failed to create a review due to malformed data in request body.');
   }
 
+  console.log(req.body);
   const props: Array<keyof reviewRepository._ReviewExternal> = ['rating', 'text'];
   const bodyObj: reviewRepository._ReviewExternal = {};
   for (const prop of props) {

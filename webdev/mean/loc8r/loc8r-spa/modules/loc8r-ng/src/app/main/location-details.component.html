@@ -51,10 +51,16 @@
             <span class="card-heading">Customer reviews</span>
           </div>
           <div class="col-6 text-right">
-            <a class="review-btn" (click)="isAddReviewPaneCollapsed = !isAddReviewPaneCollapsed"
+            <a *ngIf="auth.isAuthenticated(); else elseBlock" class="review-btn"
+               (click)="isAddReviewPaneCollapsed = !isAddReviewPaneCollapsed"
                [attr.aria-expanded]="!isAddReviewPaneCollapsed" aria-controls="addReviewPane">
               Add Review
             </a>
+            <ng-template #elseBlock>
+              <a class="review-btn" routerLink="/signin">
+                Sign in to post review
+              </a>
+            </ng-template>
           </div>
         </div>
         <div class="row mb-3" id="addReviewPane" [ngbCollapse]="isAddReviewPaneCollapsed">

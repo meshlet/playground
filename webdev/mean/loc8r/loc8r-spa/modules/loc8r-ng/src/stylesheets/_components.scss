@@ -52,7 +52,6 @@ $navbar-font-size: 18px;
 
 .navbar {
   @extend .navbar-dark;
-  @extend .sticky-top;
   @extend .navbar-expand-sm;
   @extend .py-0;
   @extend .px-sm-4;
@@ -75,6 +74,14 @@ $navbar-font-size: 18px;
 .nav-item:first-child {
   @extend .mt-2;
   @extend .mt-sm-0;
+}
+
+/* Styling used by dropdown menu items in navbar dropdowns. */
+.nav-dropdown-item {
+  font-family: $primary-font-family;
+}
+.nav-dropdown-item:hover {
+  font-family: $bold-font-family;
 }
 
 /**

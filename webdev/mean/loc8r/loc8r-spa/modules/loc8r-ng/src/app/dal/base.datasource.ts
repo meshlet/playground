@@ -18,7 +18,7 @@ export interface BaseDataSource {
   getLocations(longitude: number, latitude: number, maxDistance: number): Observable<GetLocationsRspI['locations']>;
   getOneLocation(locationid: string): Observable<GetOneLocationRspI['location']>;
   getOneReview(locationid: string, reviewid: string): Observable<GetOneReviewRspI['review']>;
-  createReview(locationid: string, review: ReviewI): Observable<CreateReviewRspI['review']>;
+  createReview(locationid: string, review: ReviewI, jwt: string): Observable<CreateReviewRspI['review']>;
   createUser(user: UserI): Observable<CreateUserRspI['user']>;
   loginUser(user: UserI): Observable<{ user: LoginUserRspI['user'], jwt: LoginUserRspI['jwt']}>;
 }

@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { GetOneLocationRspI, ReviewI } from 'loc8r-common/common.module';
 import { environment } from '../../environments/environment';
+import { AuthService } from '../misc/auth.service';
 import { FrontendError } from '../misc/error';
 import { ReporterData, ReporterService } from '../misc/reporter.service';
 
@@ -12,7 +13,7 @@ import { ReporterData, ReporterService } from '../misc/reporter.service';
   templateUrl: 'location-details.component.html'
 })
 export class LocationDetailsComponent {
-  constructor(private reporter: ReporterService) {}
+  constructor(private reporter: ReporterService, public auth: AuthService) {}
 
   // @todo Implement the Required property decorator as explained in
   // https://stackoverflow.com/questions/35528395/make-directive-input-required

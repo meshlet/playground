@@ -1,21 +1,6 @@
 <form novalidate #form="ngForm" (ngSubmit)="submit(form)">
   <div class="form-row mb-1">
     <div class="col-sm-2">
-      <label class="col-form-label" for="reviewer">
-        Name
-      </label>
-    </div>
-    <div class="col-sm-10">
-      <input id="reviewer" class="form-control" type="text" name="reviewer" placeholder="Your name..."
-              [(ngModel)]="review.reviewer" #reviewer="ngModel" required minlength="1" maxlength="50"
-              pattern="^[a-zA-Z0-9]+[ a-zA-Z0-9]*$">
-      <span *ngIf="reviewer.invalid && (reviewer.dirty || reviewer.touched || form.submitted)" class="custom-invalid-feedback">
-        {{ getFormCtrlError(reviewer, 'Reviewer\'s name') }}
-      </span>
-    </div>
-  </div>
-  <div class="form-row mb-1">
-    <div class="col-sm-2">
       <label class="col-form-label" for="rating">
         Rating
       </label>
