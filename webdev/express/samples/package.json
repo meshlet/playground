@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/dbajgoric/toptalprep#readme",
   "devDependencies": {
-    "mocha": "^7.1.1",
+    "mocha": "^10.2.0",
     "perf_hooks": "0.0.1"
   },
   "dependencies": {
